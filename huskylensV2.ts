@@ -7,91 +7,392 @@ namespace huskylensV2 {
     // MakeCode global types are automatically injected, these declarations are only to suppress IDE warnings
     // These declarations are not needed in the actual MakeCode compilation environment
     // ==================== Low-level Communication Code ====================
-    export const I2CADDR = 0x50;
-    export const COMMAND_KNOCK = 0x20
-    export const COMMAND_GET_RESULT = 0x21
-    export const COMMAND_GET_INFO = 0x22
-    export const COMMAND_GET_RESULT_BY_ID = 0x23
-    export const COMMAND_GET_BLOCKS_BY_ID = 0x24
-    export const COMMAND_GET_ARROWS_BY_ID = 0x25
-    export const COMMAND_GET_SENSOR_LIST = 0x26
-    export const COMMAND_GET_RESULT_BY_INDEX = 0x27
-    export const COMMAND_GET_BLOCKS_BY_INDEX = 0x28
-    export const COMMAND_GET_ARROWS_BY_INDEX = 0x29
+    export const enum Macro {
+        I2CADDR = 0x50,
+        // ===================== Commands ====================
+        COMMAND_KNOCK = 0x00,
+        COMMAND_GET_RESULT = 0x01,
+        COMMAND_GET_INFO = 0x02,
+        COMMAND_GET_RESULT_BY_ID = 0x03,
+        COMMAND_GET_BLOCKS_BY_ID = 0x04,
+        COMMAND_GET_ARROWS_BY_ID = 0x05,
+        // RFU 0x06 - 0x09
+        COMMAND_SET_ALGORITHM = 0x0A,
+        COMMAND_SET_NAME_BY_ID = 0x0B,
+        COMMAND_SET_MULTI_ALGORITHM = 0x0C,
+        COMMAND_SET_MULTI_ALGORITHM_RATIO = 0x0D,
+        COMMAND_SET_ALGO_PARAMS = 0x0E,
+        COMMAND_UPDATE_ALGORITHM_PARAMS = 0x0F,
+        // RFU 0x0F - 0x19
+        COMMAND_RETURN_ARGS = 0x1A,
+        COMMAND_RETURN_INFO = 0x1B,
+        COMMAND_RETURN_BLOCK = 0x1C,
+        COMMAND_RETURN_ARROW = 0x1D,
+        // RFU 0x1E - 0x1F
+        COMMAND_ACTION_TAKE_PHOTO = 0x20,
+        COMMAND_ACTION_TAKE_SCREENSHOT = 0x21,
+        COMMAND_ACTION_LEARN = 0x22,
+        COMMAND_ACTION_FORGET = 0x23,
+        COMMAND_ACTION_SAVE_KNOWLEDGES = 0x24,
+        COMMAND_ACTION_LOAD_KNOWLEDGES = 0x25,
+        COMMAND_ACTION_DRAW_RECT = 0x26,
+        COMMAND_ACTION_CLEAR_RECT = 0x27,
+        COMMAND_ACTION_DRAW_TEXT = 0x28,
+        COMMAND_ACTION_CLEAR_TEXT = 0x29,
+        COMMAND_ACTION_PLAY_MUSIC = 0x2A,
+        COMMAND_EXIT = 0x2B,
+        COMMAND_ACTION_LEARN_BLOCK = 0x2C,
+        COMMAND_ACTION_DRAW_UNIQUE_RECT = 0x2D,
+        COMMAND_ACTION_START_RECORDING = 0x2E,
+        COMMAND_ACTION_STOP_RECORDING = 0x2F,
+        // RFU 0x30 - 0x3F
 
-    export const COMMAND_SET_ALGORITHM = 0x30
-    export const COMMAND_SET_NAME_BY_ID = 0x31
-    export const COMMAND_SET_MULTI_ALGORITHM = 0x32
-    export const COMMAND_SET_MULTI_ALGORITHM_RATIO = 0x33
-    export const COMMAND_SET_LEARN_BLOCK_POSITION = 0x34
+        // ===================== Memory Layout ====================
+        FRAME_BUFFER_SIZE = 128,
+        MAX_RESULT_NUM = 6,
+        CMD_BUFFER_SIZE = 32,
+        ALGORITHM_COUNT = 1,
+        CUSTOM_ALGORITHM_COUNT = 1,
+        // ===================== LCD Screen ====================
+        LCD_WIDTH = 640,
+        LCD_HEIGHT = 480,
+        //===================== Packet Head ====================
+        HEADER_0_INDEX = 0,
+        HEADER_1_INDEX = 1,
+        COMMAND_INDEX = 2,
+        ALGO_INDEX = 3,
+        CONTENT_SIZE_INDEX = 4,
+        CONTENT_INDEX = 5,
+        PROTOCOL_SIZE = 6,
+        //===================== Time out ====================
+        TIMEOUT = 2000 
+    }
 
-    export const COMMAND_RETURN_OK = 0x40
-    export const COMMAND_RETURN_ERROR = 0x41
-    export const COMMAND_RETURN_INFO = 0x42
-    export const COMMAND_RETURN_BLOCK = 0x43
-    export const COMMAND_RETURN_ARROW = 0x44
-    export const COMMAND_RETURN_SENSOR_LIST = 0x45
+    // ==================== Algorithm selection enum ====================
+    export enum Algorithm {
+        //% blockHidden=true
+        ALGORITHM_ANY = 0,                      // 0
+        //% block="Face recognition"
+        ALGORITHM_FACE_RECOGNITION = 1,         // 1
+        //% block="Object recognition"
+        ALGORITHM_OBJECT_RECOGNITION = 3,       // 3
+        //% block="Object tracking"
+        ALGORITHM_OBJECT_TRACKING = 2,          // 2
+        //% block="Color recognition"
+        ALGORITHM_COLOR_RECOGNITION = 5,        // 5
+        //% block="Object classification"
+        ALGORITHM_OBJECT_CLASSIFICATION = 15,   // 15
+        //% block="Self-learning classification"
+        ALGORITHM_SELF_LEARNING_CLASSIFICATION = 7, // 7
+        //% block="Instance Segmentation"
+        ALGORITHM_SEGMENT = 20,                 // 20
+        //% block="Hand recognition"
+        ALGORITHM_HAND_RECOGNITION = 14,        // 14
+        //% block="Pose recognition"
+        ALGORITHM_POSE_RECOGNITION = 13,        // 13
+        //% block="License plate recognition"
+        ALGORITHM_LICENSE_RECOGNITION = 9,      // 9
+        //% block="OCR recognition"
+        ALGORITHM_OCR_RECOGNITION = 8,          // 8
+        //% block="Line tracking"
+        ALGORITHM_LINE_TRACKING = 4,            // 4
+        //% block="Face Emotion Recognition"
+        ALGORITHM_EMOTION_RECOGNITION = 12,     // 12
+        //% block="Tag recognition"
+        ALGORITHM_TAG_RECOGNITION = 6,          // 6
+        //% block="QR code recognition"
+        ALGORITHM_QRCODE_RECOGNITION = 10,      // 10
+        //% block="Barcode recognition"
+        ALGORITHM_BARCODE_RECOGNITION = 11,     // 11
+        //% blockHidden=true
+        ALGORITHM_BLINK_RECOGNITION = 16,       // 16
+        //% blockHidden=true
+        ALGORITHM_GAZE_RECOGNITION = 17,        // 17
+        //% blockHidden=true
+        ALGORITHM_FACE_ORIENTATION = 18,        // 18
+        //% blockHidden=true
+        ALGORITHM_FALLDOWN_RECOGNITION = 19,    // 19
+        //% blockHidden=true
+        ALGORITHM_FACE_ACTION_RECOGNITION = 21, // 21
+        //% blockHidden=true
+        ALGORITHM_CUSTOM0 = 22,                 // 22
+        //% blockHidden=true
+        ALGORITHM_CUSTOM1 = 23,                 // 23
+        //% blockHidden=true
+        ALGORITHM_CUSTOM2 = 24,                 // 24
+        //% blockHidden=true
+        ALGORITHM_BUILTIN_COUNT = 25,           // 25
+        //% blockHidden=true
+        ALGORITHM_CUSTOM_BEGIN = 128,           // 128
+    }
 
-    export const COMMAND_ACTION_TAKE_PHOTO = 0x50
-    export const COMMAND_ACTION_TAKE_SCREENSHOT = 0x51
-    export const COMMAND_ACTION_LEARN = 0x52
-    export const COMMAND_ACTION_FORGOT = 0x53
 
-    export const COMMAND_ACTION_SAVE_KNOWLEDGES = 0x54
-    export const COMMAND_ACTION_LOAD_KNOWLEDGES = 0x55
+    // Face properties (with ID)
+    export enum FaceProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Left Eye X"
+        LeftEyeX,
+        //% block="Left Eye Y"
+        LeftEyeY,
+        //% block="Right Eye X"
+        RightEyeX,
+        //% block="Right Eye Y"
+        RightEyeY,
+        //% block="Left Mouth X"
+        LeftMouthX,
+        //% block="Left Mouth Y"
+        LeftMouthY,
+        //% block="Right Mouth X"
+        RightMouthX,
+        //% block="Right Mouth Y"
+        RightMouthY,
+        //% block="Nose X"
+        NoseX,
+        //% block="Nose Y"
+        NoseY,
+    }
 
-    export const COMMAND_ACTION_DRAW_RECT = 0x56
-    export const COMMAND_ACTION_CLEAN_RECT = 0x57
-    export const COMMAND_ACTION_DRAW_TEXT = 0x58
-    export const COMMAND_ACTION_CLEAR_TEXT = 0x59
-    export const COMMAND_ACTION_PLAY_MUSIC = 0x5A
+    // Face properties (without ID)
+    export enum FacePropertyID {
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Left Eye X"
+        LeftEyeX,
+        //% block="Left Eye Y"
+        LeftEyeY,
+        //% block="Right Eye X"
+        RightEyeX,
+        //% block="Right Eye Y"
+        RightEyeY,
+        //% block="Left Mouth X"
+        LeftMouthX,
+        //% block="Left Mouth Y"
+        LeftMouthY,
+        //% block="Right Mouth X"
+        RightMouthX,
+        //% block="Right Mouth Y"
+        RightMouthY,
+        //% block="Nose X"
+        NoseX,
+        //% block="Nose Y"
+        NoseY,
+    }
 
-    export const ALGORITHM_ANY = 0
-    export const ALGORITHM_FACE_RECOGNITION = 1
-    export const ALGORITHM_OBJECT_TRACKING = 2
-    export const ALGORITHM_OBJECT_RECOGNITION = 3
-    export const ALGORITHM_LINE_TRACKING = 4
-    export const ALGORITHM_COLOR_RECOGNITION = 5
-    export const ALGORITHM_TAG_RECOGNITION = 6
-    export const ALGORITHM_SELF_LEARNING_CLASSIFICATION = 7
-    export const ALGORITHM_OCR_RECOGNITION = 8
-    export const ALGORITHM_LICENSE_RECOGNITION = 9
-    export const ALGORITHM_QRCODE_RECOGNITION = 10
-    export const ALGORITHM_BARCODE_RECOGNITION = 11
-    export const ALGORITHM_EMOTION_RECOGNITION = 12
-    export const ALGORITHM_POSE_RECOGNITION = 13
-    export const ALGORITHM_HAND_RECOGNITION = 14
-    export const ALGORITHM_OBJECT_CLASSIFICATION = 15
-    export const ALGORITHM_BLINK_RECOGNITION = 16
-    export const ALGORITHM_GAZE_RECOGNITION = 17
-    export const ALGORITHM_FACE_ORIENTATION = 18
-    export const ALGORITHM_FALLDOWN_RECOGNITION = 19
-    export const ALGORITHM_SEGMENT = 20
-    export const ALGORITHM_FACE_ACTION_RECOGNITION = 21
-    export const ALGORITHM_CUSTOM0 = 22
-    export const ALGORITHM_CUSTOM1 = 23
-    export const ALGORITHM_CUSTOM2 = 24
-    export const ALGORITHM_BUILTIN_COUNT = 25
-    export const ALGORITHM_CUSTOM_BEGIN = 128
+    // Object properties (with ID)
+    export enum ObjectProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+    }
 
-    export const FRAME_BUFFER_SIZE = 128
-    export const MAX_RESULT_NUM = 6
-    export const CMD_BUFFER_SIZE = 32
-    export const LCD_WIDTH = 640
-    export const LCD_HEIGHT = 480
+    // Object properties (without ID)
+    export enum ObjectPropertyID {
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+    }
 
-    export const HEADER_0_INDEX = 0
-    export const HEADER_1_INDEX = 1
-    export const COMMAND_INDEX = 2
-    export const ALGO_INDEX = 3
-    export const CONTENT_SIZE_INDEX = 4
-    export const CONTENT_INDEX = 5
-    export const PROTOCOL_SIZE = 6
+    // Color properties (with ID)
+    export enum ColorProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+    }
 
-    export const ALGORITHM_COUNT = ALGORITHM_BUILTIN_COUNT
-    export const CUSTOM_ALGORITHM_COUNT = 3
+    // Color properties (without ID)
+    export enum ColorPropertyID {
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+    }
 
-    export const timeOutDuration = 2000
+    // Instance properties (with ID)
+    export enum InstanceProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+    }
+
+    // Instance properties (without ID)
+    export enum InstancePropertyID {
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+    }
+
+    // Helper export function: Convert Algorithm enum to algorithm ID
+    export function algorithmToID(alg: Algorithm): number {
+        return alg as number;
+    }
+
+    // Helper export function: Get FaceResult property value
+    export function getFacePropertyValue(result: ResultVariant, prop: FaceProperty): any {
+        if (!result) return 0;
+        if (result instanceof FaceResult) {
+            const fr = result as FaceResult;
+            switch (prop) {
+                case FaceProperty.ID: return fr.ID;
+                case FaceProperty.Name: return fr.name; // Return name length or existence flag
+                case FaceProperty.XCenter: return fr.xCenter;
+                case FaceProperty.YCenter: return fr.yCenter;
+                case FaceProperty.Width: return fr.width;
+                case FaceProperty.Height: return fr.height;
+                case FaceProperty.LeftEyeX: return fr.leye_x;
+                case FaceProperty.LeftEyeY: return fr.leye_y;
+                case FaceProperty.RightEyeX: return fr.reye_x;
+                case FaceProperty.RightEyeY: return fr.reye_y;
+                case FaceProperty.LeftMouthX: return fr.lmouth_x;
+                case FaceProperty.LeftMouthY: return fr.lmouth_y;
+                case FaceProperty.RightMouthX: return fr.rmouth_x;
+                case FaceProperty.RightMouthY: return fr.rmouth_y;
+                case FaceProperty.NoseX: return fr.nose_x;
+                case FaceProperty.NoseY: return fr.nose_y;
+                default: return 0;
+            }
+        }
+        // Regular Result also supports basic properties
+        const res = result as Result;
+        switch (prop) {
+            case FaceProperty.ID: return res.ID;
+            case FaceProperty.Name: return res.name; // Return name string
+            case FaceProperty.XCenter: return res.xCenter;
+            case FaceProperty.YCenter: return res.yCenter;
+            case FaceProperty.Width: return res.width;
+            case FaceProperty.Height: return res.height;
+            default: return 0;
+        }
+    }
+
+    export function getFacePropertyValueID(result: ResultVariant, prop: FacePropertyID): any {
+        if (!result) return 0;
+        if (result instanceof FaceResult) {
+            const fr = result as FaceResult;
+            switch (prop) {
+                case FacePropertyID.Name: return fr.name;
+                case FacePropertyID.XCenter: return fr.xCenter;
+                case FacePropertyID.YCenter: return fr.yCenter;
+                case FacePropertyID.Width: return fr.width;
+                case FacePropertyID.Height: return fr.height;
+                case FacePropertyID.LeftEyeX: return fr.leye_x;
+                case FacePropertyID.LeftEyeY: return fr.leye_y;
+                case FacePropertyID.RightEyeX: return fr.reye_x;
+                case FacePropertyID.RightEyeY: return fr.reye_y;
+                case FacePropertyID.LeftMouthX: return fr.lmouth_x;
+                case FacePropertyID.LeftMouthY: return fr.lmouth_y;
+                case FacePropertyID.RightMouthX: return fr.rmouth_x;
+                case FacePropertyID.RightMouthY: return fr.rmouth_y;
+                case FacePropertyID.NoseX: return fr.nose_x;
+                case FacePropertyID.NoseY: return fr.nose_y;
+                default: return 0;
+            }
+        }
+        const res = result as Result;
+        switch (prop) {
+            case FacePropertyID.Name: return res.name;
+            case FacePropertyID.XCenter: return res.xCenter;
+            case FacePropertyID.YCenter: return res.yCenter;
+            case FacePropertyID.Width: return res.width;
+            case FacePropertyID.Height: return res.height;
+            default: return 0;
+        }
+    }
+
+    export function getObjectPropertyValue(result: ResultVariant, prop: ObjectProperty): any {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case ObjectProperty.ID: return res.ID;
+            case ObjectProperty.Name: return res.name.length > 0 ? res.name : "";
+            case ObjectProperty.XCenter: return res.xCenter;
+            case ObjectProperty.YCenter: return res.yCenter;
+            case ObjectProperty.Width: return res.width;
+            case ObjectProperty.Height: return res.height;
+            default: return 0;
+        }
+    }
+
+    export function getObjectPropertyValueID(result: ResultVariant, prop: ObjectPropertyID): any {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case ObjectPropertyID.Name: return res.name.length > 0 ? res.name : "";
+            case ObjectPropertyID.XCenter: return res.xCenter;
+            case ObjectPropertyID.YCenter: return res.yCenter;
+            case ObjectPropertyID.Width: return res.width;
+            case ObjectPropertyID.Height: return res.height;
+            default: return 0;
+        }
+    }
+
+
+
 
     export  function checksum(buf: Buffer): number {
         let sum = 0;
@@ -106,7 +407,7 @@ namespace huskylensV2 {
         head55: number;
         headaa: number;
         cmd: number;
-        algo_id: number;
+        algo_id: number; 
         data_length: number;
         data: Buffer;
         name?: string;
@@ -589,12 +890,12 @@ namespace huskylensV2 {
         }
     }
 
-    let retry = 3
+
     let maxID: number[] = [];
     for (let i = 0; i < ALGORITHM_COUNT; i++) {
         maxID.push(0);
     }
-    let timeOutTimer = 0
+    
     // Use loop to initialize array to ensure ES5 compatibility
     let i2c_cached_data: number[] = []
     let receive_buffer: number[] = [];
@@ -602,10 +903,10 @@ namespace huskylensV2 {
         receive_buffer.push(0);
     }
     let receive_index = 0
-
+    let timeOutTimer = 0
     export function timerBegin() { timeOutTimer = control.millis(); }
     export function timerAvailable(): boolean {
-        return (control.millis() - timeOutTimer > timeOutDuration);
+        return (control.millis() - timeOutTimer > Macro.TIMEOUT);
     }
 
     // Helper function: Convert number to hexadecimal string (ES5 compatible)
@@ -722,14 +1023,14 @@ namespace huskylensV2 {
         dataBuf[0] = 1;
         const pkt = PacketHead.fromFields({
             cmd: COMMAND_KNOCK,
-            algo_id: ALGORITHM_ANY,
+            algo_id: Algorithm.ALGORITHM_ANY,
             data: dataBuf,
         });
 
         for (let i = 0; i < 3; i++) {
             protocolWrite(pkt);
             basic.pause(100);
-            if (wait(COMMAND_KNOCK, COMMAND_RETURN_OK)) {
+            if (wait(COMMAND_KNOCK, COMMAND_RETURN_ARGS )) {
                 return true;
             }
         }
@@ -741,14 +1042,14 @@ namespace huskylensV2 {
         dataBuf[0] = algo;
         const pkt = PacketHead.fromFields({
             cmd: COMMAND_SET_ALGORITHM,
-            algo_id: ALGORITHM_ANY,
+            algo_id: Algorithm.ALGORITHM_ANY,
             data: dataBuf,
         });
 
         for (let i = 0; i < 3; i++) {
             protocolWrite(pkt);
             basic.pause(100);
-            if (wait(COMMAND_SET_ALGORITHM, COMMAND_RETURN_OK)) {
+            if (wait(COMMAND_SET_ALGORITHM, COMMAND_RETURN_ARGS )) {
                 return true;
             }
         }
@@ -763,14 +1064,14 @@ namespace huskylensV2 {
             result[i][j] = null;
         }
     }
-    let customId: number[] = [ALGORITHM_ANY, ALGORITHM_ANY, ALGORITHM_ANY];
+    let customId: number[] = [Algorithm.ALGORITHM_ANY, Algorithm.ALGORITHM_ANY, Algorithm.ALGORITHM_ANY];
 
     export function toRealID(id: number): number {
         let algo = id;
-        if (id >= ALGORITHM_CUSTOM_BEGIN) {
+        if (id >= Algorithm.ALGORITHM_CUSTOM_BEGIN) {
             for (let i = 0; i < CUSTOM_ALGORITHM_COUNT; i++)
                 if (customId[i] == algo) {
-                    algo = (ALGORITHM_CUSTOM0 + i);
+                    algo = (Algorithm.ALGORITHM_CUSTOM0 + i);
                     break;
                 }
         }
@@ -802,6 +1103,7 @@ namespace huskylensV2 {
 
     export function getResultInternal(algo: number): number {
         const dataBuf = Buffer.create(0);
+        let retry = 3
         let pkt = PacketHead.fromFields({
             cmd: COMMAND_GET_RESULT,
             algo_id: algo,
@@ -844,11 +1146,11 @@ namespace huskylensV2 {
                     buf[j] = receive_buffer[j];
                 }
                 let dataBuf = buf.slice(5, buf.length - 1);
-                if (algo == ALGORITHM_FACE_RECOGNITION) {
+                if (algo == Algorithm.ALGORITHM_FACE_RECOGNITION) {
                     result[algo][i] = new FaceResult(dataBuf);
-                } else if (algo == ALGORITHM_HAND_RECOGNITION) {
+                } else if (algo == Algorithm.ALGORITHM_HAND_RECOGNITION) {
                     result[algo][i] = new HandResult(dataBuf);
-                } else if (algo == ALGORITHM_POSE_RECOGNITION) {
+                } else if (algo == Algorithm.ALGORITHM_POSE_RECOGNITION) {
                     result[algo][i] = new PoseResult(dataBuf);
                 } else {
                     result[algo][i] = new Result(dataBuf);
