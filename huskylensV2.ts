@@ -892,14 +892,14 @@ namespace huskylensV2 {
 
 
     let maxID: number[] = [];
-    for (let i = 0; i < ALGORITHM_COUNT; i++) {
+    for (let i = 0; i < Macro.ALGORITHM_COUNT; i++) {
         maxID.push(0);
     }
     
     // Use loop to initialize array to ensure ES5 compatibility
     let i2c_cached_data: number[] = []
     let receive_buffer: number[] = [];
-    for (let i = 0; i < FRAME_BUFFER_SIZE; i++) {
+    for (let i = 0; i < Macro.FRAME_BUFFER_SIZE; i++) {
         receive_buffer.push(0);
     }
     let receive_index = 0
@@ -921,7 +921,7 @@ namespace huskylensV2 {
     }
 
     export function protocolAvailable(): boolean {
-        let response = pins.i2cReadBuffer(I2CADDR, 32);
+        let response = pins.i2cReadBuffer(Macro.I2CADDR, 32);
         if (response.length > 0) {
             // console.log("protocolAvailable: Received " + response.length + " bytes");
             // Print received raw data
@@ -944,36 +944,36 @@ namespace huskylensV2 {
     export function husky_lens_protocol_receive(data: number): boolean {
         //console.log("receive_index=" + receive_index + "  data=0x" + toHex(data));
         switch (receive_index) {
-            case HEADER_0_INDEX:
+            case Macro.HEADER_0_INDEX:
                 if (data != 0x55) {
                     receive_index = 0;
                     return false;
                 }
-                receive_buffer[HEADER_0_INDEX] = 0x55;
+                receive_buffer[Macro.HEADER_0_INDEX] = 0x55;
                 break;
-            case HEADER_1_INDEX:
+            case Macro.HEADER_1_INDEX:
                 if (data != 0xaa) {
                     receive_index = 0;
                     return false;
                 }
-                receive_buffer[HEADER_1_INDEX] = 0xaa;
+                receive_buffer[Macro.HEADER_1_INDEX] = 0xaa;
                 break;
-            case COMMAND_INDEX:
-                receive_buffer[COMMAND_INDEX] = data;
+            case Macro.COMMAND_INDEX:
+                receive_buffer[Macro.COMMAND_INDEX] = data;
                 break;
-            case ALGO_INDEX:
-                receive_buffer[ALGO_INDEX] = data;
+            case Macro.ALGO_INDEX:
+                receive_buffer[Macro.ALGO_INDEX] = data;
                 break;
-            case CONTENT_SIZE_INDEX:
-                if (receive_index >= FRAME_BUFFER_SIZE - PROTOCOL_SIZE) {
+            case Macro.CONTENT_SIZE_INDEX:
+                if (receive_index >= Macro.FRAME_BUFFER_SIZE - Macro.PROTOCOL_SIZE) {
                     receive_index = 0;
                     return false;
                 }
-                receive_buffer[CONTENT_SIZE_INDEX] = data;
+                receive_buffer[Macro.CONTENT_SIZE_INDEX] = data;
                 break;
             default:
                 receive_buffer[receive_index] = data;
-                let expectedLen = receive_buffer[CONTENT_SIZE_INDEX] + CONTENT_INDEX;
+                let expectedLen = receive_buffer[Macro.CONTENT_SIZE_INDEX] + Macro.CONTENT_INDEX;
                 if (receive_index == expectedLen) {
                     receive_index = 0;
                     return validateCheckSum();
@@ -985,7 +985,7 @@ namespace huskylensV2 {
     }
 
     export function validateCheckSum(): boolean {
-        let stackSumIndex = receive_buffer[CONTENT_SIZE_INDEX] + CONTENT_INDEX;
+        let stackSumIndex = receive_buffer[Macro.CONTENT_SIZE_INDEX] + Macro.CONTENT_INDEX;
         let sum = 0;
         let i;
         for (i = 0; i < stackSumIndex; i++) {
@@ -1002,7 +1002,7 @@ namespace huskylensV2 {
         timerBegin();
         while (!timerAvailable()) {
             if (protocolAvailable()) {
-                let receivedCmd = receive_buffer[COMMAND_INDEX];
+                let receivedCmd = receive_buffer[Macro.COMMAND_INDEX];
                 if (command === receivedCmd) {
                     return true;
                 } else {
@@ -1015,14 +1015,14 @@ namespace huskylensV2 {
     }
 
     export function protocolWrite(buffer: Buffer) {
-        pins.i2cWriteBuffer(I2CADDR, buffer);
+        pins.i2cWriteBuffer(Macro.I2CADDR, buffer);
     }
 
     export function beginInternal(): boolean {
         const dataBuf = Buffer.create(10);
         dataBuf[0] = 1;
         const pkt = PacketHead.fromFields({
-            cmd: COMMAND_KNOCK,
+            cmd: Macro.COMMAND_KNOCK,
             algo_id: Algorithm.ALGORITHM_ANY,
             data: dataBuf,
         });
@@ -1030,7 +1030,7 @@ namespace huskylensV2 {
         for (let i = 0; i < 3; i++) {
             protocolWrite(pkt);
             basic.pause(100);
-            if (wait(COMMAND_KNOCK, COMMAND_RETURN_ARGS )) {
+            if (wait(Macro.COMMAND_KNOCK, Macro.COMMAND_RETURN_ARGS )) {
                 return true;
             }
         }
@@ -1041,7 +1041,7 @@ namespace huskylensV2 {
         const dataBuf = Buffer.create(10);
         dataBuf[0] = algo;
         const pkt = PacketHead.fromFields({
-            cmd: COMMAND_SET_ALGORITHM,
+            cmd: Macro.COMMAND_SET_ALGORITHM,
             algo_id: Algorithm.ALGORITHM_ANY,
             data: dataBuf,
         });
@@ -1049,7 +1049,7 @@ namespace huskylensV2 {
         for (let i = 0; i < 3; i++) {
             protocolWrite(pkt);
             basic.pause(100);
-            if (wait(COMMAND_SET_ALGORITHM, COMMAND_RETURN_ARGS )) {
+            if (wait(Macro.COMMAND_SET_ALGORITHM, Macro.COMMAND_RETURN_ARGS )) {
                 return true;
             }
         }
@@ -1058,9 +1058,9 @@ namespace huskylensV2 {
 
     export type ResultVariant = Result | FaceResult | HandResult | PoseResult | null;
     let result: ResultVariant[][] = [];
-    for (let i = 0; i < ALGORITHM_COUNT; i++) {
+    for (let i = 0; i < Macro.ALGORITHM_COUNT; i++) {
         result[i] = [];
-        for (let j = 0; j < MAX_RESULT_NUM; j++) {
+        for (let j = 0; j < Macro.MAX_RESULT_NUM; j++) {
             result[i][j] = null;
         }
     }
@@ -1069,7 +1069,7 @@ namespace huskylensV2 {
     export function toRealID(id: number): number {
         let algo = id;
         if (id >= Algorithm.ALGORITHM_CUSTOM_BEGIN) {
-            for (let i = 0; i < CUSTOM_ALGORITHM_COUNT; i++)
+            for (let i = 0; i < Macro.CUSTOM_ALGORITHM_COUNT; i++)
                 if (customId[i] == algo) {
                     algo = (Algorithm.ALGORITHM_CUSTOM0 + i);
                     break;
@@ -1082,7 +1082,7 @@ namespace huskylensV2 {
         let ret = false;
         algo = toRealID(algo);
 
-        for (let i = 0; i < MAX_RESULT_NUM; i++) {
+        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r != null) {
                 const res = r as Result;
@@ -1105,7 +1105,7 @@ namespace huskylensV2 {
         const dataBuf = Buffer.create(0);
         let retry = 3
         let pkt = PacketHead.fromFields({
-            cmd: COMMAND_GET_RESULT,
+            cmd: Macro.COMMAND_GET_RESULT,
             algo_id: algo,
             data: dataBuf,
         });
@@ -1114,23 +1114,23 @@ namespace huskylensV2 {
         let _count = 0
         let info = new PacketData(Buffer.create(10));
         algo = toRealID(algo);
-        for (i = 0; i < MAX_RESULT_NUM; i++) {
+        for (i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             result[algo][i] = null;
         }
         for (i = 0; i < retry; i++) {
             protocolWrite(pkt)
-            if (wait(COMMAND_GET_RESULT, COMMAND_RETURN_INFO)) {
+            if (wait(Macro.COMMAND_GET_RESULT, Macro.COMMAND_RETURN_INFO)) {
                 let buf = Buffer.create(receive_buffer.length);
                 for (let j = 0; j < receive_buffer.length; j++) {
                     buf[j] = receive_buffer[j];
                 }
                 info = new PacketData(buf.slice(5, buf.length - 1));
                 maxID[algo] = info.maxID;
-                if (info.total_results > MAX_RESULT_NUM) {
-                    info.total_results = MAX_RESULT_NUM;
+                if (info.total_results > Macro.MAX_RESULT_NUM) {
+                    info.total_results = Macro.MAX_RESULT_NUM;
                 }
-                if (info.total_blocks > MAX_RESULT_NUM) {
-                    info.total_blocks = MAX_RESULT_NUM;
+                if (info.total_blocks > Macro.MAX_RESULT_NUM) {
+                    info.total_blocks = Macro.MAX_RESULT_NUM;
                 }
                 break;
             }
@@ -1139,7 +1139,7 @@ namespace huskylensV2 {
             return -1;
         }
         for (i = 0; i < info.total_blocks; i++) {
-            if (wait(0, COMMAND_RETURN_BLOCK)) {
+            if (wait(0, Macro.COMMAND_RETURN_BLOCK)) {
                 _count++;
                 let buf = Buffer.create(receive_buffer.length);
                 for (let j = 0; j < receive_buffer.length; j++) {
@@ -1158,7 +1158,7 @@ namespace huskylensV2 {
             }
         }
         for (i = info.total_blocks; i < info.total_results; i++) {
-            if (wait(0, COMMAND_RETURN_ARROW)) {
+            if (wait(0, Macro.COMMAND_RETURN_ARROW)) {
                 _count++;
                 let buf = Buffer.create(receive_buffer.length);
                 for (let j = 0; j < receive_buffer.length; j++) {
@@ -1174,12 +1174,12 @@ namespace huskylensV2 {
         algo = toRealID(algo);
         let centerIndex = -1;
         let minLen = 999999999;
-        for (let i = 0; i < MAX_RESULT_NUM; i++) {
+        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r) {
                 const res = r as Result;
-                const len = (res.xCenter - LCD_WIDTH / 2) ** 2 +
-                    (res.yCenter - LCD_HEIGHT / 2) ** 2;
+                const len = (res.xCenter - Macro.LCD_WIDTH / 2) ** 2 +
+                    (res.yCenter - Macro.LCD_HEIGHT / 2) ** 2;
                 if (len < minLen) {
                     minLen = len;
                     centerIndex = i;
@@ -1195,7 +1195,7 @@ namespace huskylensV2 {
     export function getCachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
         algo = toRealID(algo);
 
-        if (index >= MAX_RESULT_NUM) {
+        if (index >= Macro.MAX_RESULT_NUM) {
             return null;
         }
         return result[algo][index];
@@ -1204,7 +1204,7 @@ namespace huskylensV2 {
     export function getCachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
         algo = toRealID(algo);
 
-        for (let i = 0; i < MAX_RESULT_NUM; i++) {
+        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r == null) {
                 continue;
@@ -1221,7 +1221,7 @@ namespace huskylensV2 {
         let count = 0;
         algo = toRealID(algo);
 
-        for (let i = 0; i < MAX_RESULT_NUM; i++) {
+        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             if (result[algo][i] != null) {
                 count++;
             }
@@ -1238,7 +1238,7 @@ namespace huskylensV2 {
         let count = 0;
         algo = toRealID(algo);
 
-        for (let i = 0; i < MAX_RESULT_NUM; i++) {
+        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r) {
                 const res = r as Result;
@@ -1254,7 +1254,7 @@ namespace huskylensV2 {
         let rlt: ResultVariant | null = null;
         let _index = 0;
         algo = toRealID(algo);
-        for (let i = 0; i < MAX_RESULT_NUM; i++) {
+        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r) {
                 const res = r as Result;
@@ -1285,7 +1285,7 @@ namespace huskylensV2 {
         let count = 0;
         algo = toRealID(algo);
 
-        for (let i = 0; i < MAX_RESULT_NUM; i++) {
+        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             if (result[algo][i] != null) {
                 count++;
             }
@@ -1298,7 +1298,7 @@ namespace huskylensV2 {
         index++;
         algo = toRealID(algo);
 
-        for (let i = 1; i < MAX_RESULT_NUM; i++) {
+        for (let i = 1; i < Macro.MAX_RESULT_NUM; i++) {
             if (result[algo][i] != null) {
                 if (i == index) {
                     rlt = result[algo][i];

@@ -33,7 +33,7 @@ namespace huskylensV2 {
     //% weight=198
     //% group="Face Recognition"
     export function getResultFaceRecogtion(): void {
-        getResultInternal(ALGORITHM_FACE_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
     }
 
     /**
@@ -44,7 +44,7 @@ namespace huskylensV2 {
     //% weight=197
     //% group="Face Recognition"
     export function availableFaceRecogtion(): boolean {
-        return availableInternal(ALGORITHM_FACE_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
     }
 
     /**
@@ -55,7 +55,7 @@ namespace huskylensV2 {
     //% weight=196
     //% group="Face Recognition"
     export function getCachedCenterResult(alg: FaceProperty): any {
-        const r = getCachedCenterResultInternal(ALGORITHM_FACE_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
         return getFacePropertyValue(r, alg);
     }
 
@@ -66,7 +66,7 @@ namespace huskylensV2 {
     //% weight=195
     //% group="Face Recognition"
     export function getCachedResultNumFace(): number {
-        return getCachedResultNumInternal(ALGORITHM_FACE_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
     }
 
     /**
@@ -79,7 +79,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Face Recognition"
     export function getCachedResultFaceProperty(index: number, alg: FaceProperty): any {
-        const r = getCachedResultByIndexInternal(ALGORITHM_FACE_RECOGNITION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index - 1);
         return getFacePropertyValue(r, alg);
     }
 
@@ -90,7 +90,7 @@ namespace huskylensV2 {
     //% weight=193
     //% group="Face Recognition"
     export function getNumLearnedFaceIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_FACE_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
     }
 
     /**
@@ -102,7 +102,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Face Recognition"
     export function faceIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_FACE_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index);
         return r != null;
     }
 
@@ -115,7 +115,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Face Recognition"
     export function getNumFaceByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_FACE_RECOGNITION, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index);
     }
 
     /**
@@ -128,7 +128,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Face Recognition"
     export function getFacePropertyByID(index: number, alg: FacePropertyID): any {
-        const r = getCachedResultByIDInternal(ALGORITHM_FACE_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index);
         return getFacePropertyValueID(r, alg);
     }
 
@@ -144,7 +144,7 @@ namespace huskylensV2 {
     //% n.min=1 n.defl=1
     //% group="Face Recognition"
     export function getFacePropertyByIDNth(id: number, n: number, alg: FacePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_FACE_RECOGNITION, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, id, n - 1);
         return getFacePropertyValueID(r, alg);
     }
 
@@ -154,7 +154,7 @@ namespace huskylensV2 {
     //% weight=188
     //% group="Object Recognition"
     export function getResultObjectRecogtion(): void {
-        getResultInternal(ALGORITHM_OBJECT_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION);
     }
 
     /** Whether object detected */
@@ -162,7 +162,7 @@ namespace huskylensV2 {
     //% weight=187
     //% group="Object Recognition"
     export function availableObjectRecogtion(): boolean {
-        return availableInternal(ALGORITHM_OBJECT_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION);
     }
 
     /** Object property nearest to center */
@@ -170,7 +170,7 @@ namespace huskylensV2 {
     //% weight=186
     //% group="Object Recognition"
     export function getCachedCenterObjectResult(alg: ObjectProperty): number {
-        const r = getCachedCenterResultInternal(ALGORITHM_OBJECT_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION);
         return getObjectPropertyValue(r, alg);
     }
 
@@ -179,7 +179,7 @@ namespace huskylensV2 {
     //% weight=185
     //% group="Object Recognition"
     export function getCachedResultNumObject(): number {
-        return getCachedResultNumInternal(ALGORITHM_OBJECT_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION);
     }
 
     /** Property of Nth object */
@@ -188,7 +188,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Object Recognition"
     export function getCachedResultObjectProperty(index: number, alg: ObjectProperty): number {
-        const r = getCachedResultByIndexInternal(ALGORITHM_OBJECT_RECOGNITION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION, index - 1);
         return getObjectPropertyValue(r, alg);
     }
 
@@ -197,7 +197,7 @@ namespace huskylensV2 {
     //% weight=183
     //% group="Object Recognition"
     export function getNumLearnedObjectIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_OBJECT_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION);
     }
 
     /** Whether object with specified ID exists */
@@ -206,7 +206,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Object Recognition"
     export function objectIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_OBJECT_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION, index);
         return r != null;
     }
 
@@ -216,7 +216,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Object Recognition"
     export function getNumObjectByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_OBJECT_RECOGNITION, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION, index);
     }
 
     /** Property of object with specified ID */
@@ -225,7 +225,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Object Recognition"
     export function getObjectPropertyByID(index: number, alg: ObjectPropertyID): number {
-        const r = getCachedResultByIDInternal(ALGORITHM_OBJECT_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION, index);
         return getObjectPropertyValueID(r, alg);
     }
 
@@ -236,7 +236,7 @@ namespace huskylensV2 {
     //% n.min=1 n.defl=1
     //% group="Object Recognition"
     export function getObjectPropertyByIDNth(id: number, n: number, alg: ObjectPropertyID): number {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_OBJECT_RECOGNITION, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION, id, n - 1);
         return getObjectPropertyValueID(r, alg);
     }
 
@@ -246,7 +246,7 @@ namespace huskylensV2 {
     //% weight=178
     //% group="Object Tracking"
     export function getResultObjectTracking(): void {
-        getResultInternal(ALGORITHM_OBJECT_TRACKING);
+        getResultInternal(Algorithm.ALGORITHM_OBJECT_TRACKING);
     }
 
     /** Whether tracked object detected */
@@ -254,7 +254,7 @@ namespace huskylensV2 {
     //% weight=177
     //% group="Object Tracking"
     export function availableObjectTracking(): boolean {
-        return availableInternal(ALGORITHM_OBJECT_TRACKING);
+        return availableInternal(Algorithm.ALGORITHM_OBJECT_TRACKING);
     }
 
     /** Property of tracked object */
@@ -262,7 +262,7 @@ namespace huskylensV2 {
     //% weight=176
     //% group="Object Tracking"
     export function getCachedObjectTrackingResult(alg: ObjectProperty): number {
-        const r = getCachedCenterResultInternal(ALGORITHM_OBJECT_TRACKING);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_OBJECT_TRACKING);
         return getObjectPropertyValue(r, alg);
     }
 
@@ -280,7 +280,7 @@ namespace huskylensV2 {
     //% weight=175
     //% group="Color Recognition"
     export function getResultColorRecogtion(): void {
-        getResultInternal(ALGORITHM_COLOR_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION);
     }
 
     /** Whether color block detected */
@@ -288,7 +288,7 @@ namespace huskylensV2 {
     //% weight=174
     //% group="Color Recognition"
     export function availableColorRecogtion(): boolean {
-        return availableInternal(ALGORITHM_COLOR_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION);
     }
 
     /** Color block property nearest to center */
@@ -296,7 +296,7 @@ namespace huskylensV2 {
     //% weight=173
     //% group="Color Recognition"
     export function getCachedCenterColorResult(alg: ColorProperty): number {
-        const r = getCachedCenterResultInternal(ALGORITHM_COLOR_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION);
         return getColorPropertyValue(r, alg);
     }
 
@@ -305,7 +305,7 @@ namespace huskylensV2 {
     //% weight=172
     //% group="Color Recognition"
     export function getCachedResultNumColor(): number {
-        return getCachedResultNumInternal(ALGORITHM_COLOR_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION);
     }
 
     /** Property of Nth color block */
@@ -314,7 +314,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Color Recognition"
     export function getCachedResultColorProperty(index: number, alg: ColorProperty): number {
-        const r = getCachedResultByIndexInternal(ALGORITHM_COLOR_RECOGNITION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION, index - 1);
         return getColorPropertyValue(r, alg);
     }
 
@@ -323,7 +323,7 @@ namespace huskylensV2 {
     //% weight=170
     //% group="Color Recognition"
     export function getNumLearnedColorIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_COLOR_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION);
     }
 
     /** Whether color block with specified ID exists */
@@ -332,7 +332,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Color Recognition"
     export function colorIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_COLOR_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION, index);
         return r != null;
     }
 
@@ -342,7 +342,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Color Recognition"
     export function getNumColorByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_COLOR_RECOGNITION, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION, index);
     }
 
     /** Property of color block with specified ID */
@@ -351,7 +351,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Color Recognition"
     export function getColorPropertyByID(index: number, alg: ColorPropertyID): number {
-        const r = getCachedResultByIDInternal(ALGORITHM_COLOR_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION, index);
         return getColorPropertyValueID(r, alg);
     }
 
@@ -362,7 +362,7 @@ namespace huskylensV2 {
     //% n.min=1 n.defl=1
     //% group="Color Recognition"
     export function getColorPropertyByIDNth(id: number, n: number, alg: ColorPropertyID): number {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_COLOR_RECOGNITION, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_COLOR_RECOGNITION, id, n - 1);
         return getColorPropertyValueID(r, alg);
     }
 
@@ -391,14 +391,14 @@ namespace huskylensV2 {
     //% weight=4
     //% group="Object Classification"
     export function getResultObjectClassification(): void {
-        getResultInternal(ALGORITHM_OBJECT_CLASSIFICATION);
+        getResultInternal(Algorithm.ALGORITHM_OBJECT_CLASSIFICATION);
     }
     /** Whether classified object detected */
     //% block="classified object detected?"
     //% weight=3
     //% group="Object Classification"
     export function availableObjectClassification(): boolean {
-        return availableInternal(ALGORITHM_OBJECT_CLASSIFICATION);
+        return availableInternal(Algorithm.ALGORITHM_OBJECT_CLASSIFICATION);
     }
 
     /** Total number of detected classified objects */
@@ -406,7 +406,7 @@ namespace huskylensV2 {
     //% weight=2
     //% group="Object Classification"
     export function getCachedResultNumObjectClassification(): number {
-        return getCachedResultNumInternal(ALGORITHM_OBJECT_CLASSIFICATION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_OBJECT_CLASSIFICATION);
     }
 
     /** Property of Nth classified object */
@@ -415,7 +415,7 @@ namespace huskylensV2 {
     //% num.min=1 num.defl=1
     //% group="Object Classification"
     export function getCachedObjectClassificationResult(num: number, alg: ObjectClassificationProperty): any {
-        const r = getCachedResultByIndexInternal(ALGORITHM_OBJECT_CLASSIFICATION, num - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_OBJECT_CLASSIFICATION, num - 1);
         return getObjectClassificationPropertyValue(r, alg);
     }
 
@@ -445,7 +445,7 @@ namespace huskylensV2 {
     //% weight=162
     //% group="Self-learning Classification"
     export function getResultSelfLearningClassification(): void {
-        getResultInternal(ALGORITHM_SELF_LEARNING_CLASSIFICATION);
+        getResultInternal(Algorithm.ALGORITHM_SELF_LEARNING_CLASSIFICATION);
     }
 
     /** Whether self-learning classification detected */
@@ -453,7 +453,7 @@ namespace huskylensV2 {
     //% weight=161
     //% group="Self-learning Classification"
     export function availableSelfLearningClassification(): boolean {
-        return availableInternal(ALGORITHM_SELF_LEARNING_CLASSIFICATION);
+        return availableInternal(Algorithm.ALGORITHM_SELF_LEARNING_CLASSIFICATION);
     }
 
     /** Property of self-learning classification */
@@ -461,7 +461,7 @@ namespace huskylensV2 {
     //% weight=160
     //% group="Self-learning Classification"
     export function getCachedSelfLearningClassificationResult(alg: SelfLearningClassificationProperty): any {
-        const r = getCachedCenterResultInternal(ALGORITHM_SELF_LEARNING_CLASSIFICATION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_SELF_LEARNING_CLASSIFICATION);
         return getSelfLearningClassificationPropertyValue(r, alg);
     }
 
@@ -479,7 +479,7 @@ namespace huskylensV2 {
     //% weight=159
     //% group="Instance Segmentation"
     export function getResultInstanceRecogtion(): void {
-        getResultInternal(ALGORITHM_SEGMENT);
+        getResultInternal(Algorithm.ALGORITHM_SEGMENT);
     }
 
     /** Whether instance detected */
@@ -487,7 +487,7 @@ namespace huskylensV2 {
     //% weight=158
     //% group="Instance Segmentation"
     export function availableInstanceRecogtion(): boolean {
-        return availableInternal(ALGORITHM_SEGMENT);
+        return availableInternal(Algorithm.ALGORITHM_SEGMENT);
     }
 
     /** Instance property nearest to center */
@@ -495,7 +495,7 @@ namespace huskylensV2 {
     //% weight=157
     //% group="Instance Segmentation"
     export function getCachedCenterInstanceResult(alg: InstanceProperty): number {
-        const r = getCachedCenterResultInternal(ALGORITHM_SEGMENT);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_SEGMENT);
         return getInstancePropertyValue(r, alg);
     }
 
@@ -504,7 +504,7 @@ namespace huskylensV2 {
     //% weight=156
     //% group="Instance Segmentation"
     export function getCachedResultNumInstance(): number {
-        return getCachedResultNumInternal(ALGORITHM_SEGMENT);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_SEGMENT);
     }
 
     /** Property of Nth instance */
@@ -513,7 +513,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Instance Segmentation"
     export function getCachedResultInstanceProperty(index: number, alg: InstanceProperty): number {
-        const r = getCachedResultByIndexInternal(ALGORITHM_SEGMENT, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_SEGMENT, index - 1);
         return getInstancePropertyValue(r, alg);
     }
 
@@ -522,7 +522,7 @@ namespace huskylensV2 {
     //% weight=154
     //% group="Instance Segmentation"
     export function getNumLearnedInstanceIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_SEGMENT);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_SEGMENT);
     }
 
     /** Whether instance with specified ID exists */
@@ -531,7 +531,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Instance Segmentation"
     export function instanceIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_SEGMENT, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_SEGMENT, index);
         return r != null;
     }
 
@@ -541,7 +541,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Instance Segmentation"
     export function getNumInstanceByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_SEGMENT, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_SEGMENT, index);
     }
 
     /** Property of instance with specified ID */
@@ -550,7 +550,7 @@ namespace huskylensV2 {
     //% index.min=1 index.defl=1
     //% group="Instance Segmentation"
     export function getInstancePropertyByID(index: number, alg: InstancePropertyID): number {
-        const r = getCachedResultByIDInternal(ALGORITHM_SEGMENT, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_SEGMENT, index);
         return getInstancePropertyValueID(r, alg);
     }
 
@@ -561,7 +561,7 @@ namespace huskylensV2 {
     //% n.min=1 n.defl=1
     //% group="Instance Segmentation"
     export function getInstancePropertyByIDNth(id: number, n: number, alg: InstancePropertyID): number {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_SEGMENT, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_SEGMENT, id, n - 1);
         return getInstancePropertyValueID(r, alg);
     }
 
