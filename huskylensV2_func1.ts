@@ -1,7 +1,7 @@
 /**
  * Custom graphic block
  */
-//% weight=100 color=#0fbc11 icon="\uf067" block="HuskylensV1"
+//% weight=100 color=#0fbc11 icon="\uf067" block="HuskylensV2"
 //% groups='["Communication","Algorithm Switch","Face Recognition","Object Recognition","Object Tracking","Color Recognition","Object Classification","Self-learning Classification","Instance Segmentation","Hand Recognition","Pose Recognition","License Plate Recognition","Optical Char Recognition","Line Tracking","Face Emotion Recognition","Tag Recognition","QR Code Recognition","Barcode Recognition"]'
 namespace huskylensV2 {
     // ================= Block =================

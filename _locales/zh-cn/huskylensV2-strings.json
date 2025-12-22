@@ -376,6 +376,25 @@
   "{id:group}Tag Recognition": "标签识别",
   "{id:group}QR Code Recognition": "二维码识别",
   "{id:group}Barcode Recognition": "条形码识别",
-  "{id:group}Custom Model": "自训练模型"
+  "{id:group}Custom Model": "自训练模型",
+  "{id:subcategory}Communication": "通信方式",
+  "{id:subcategory}Algorithm Switch": "算法切换",
+  "{id:subcategory}Face Recognition": "人脸识别",
+  "{id:subcategory}Object Recognition": "物体识别",
+  "{id:subcategory}Object Tracking": "物体追踪",
+  "{id:subcategory}Object Classification": "物体分类",
+  "{id:subcategory}Self-learning Classification": "自学习分类",
+  "{id:subcategory}Line Tracking": "巡线",
+  "{id:subcategory}Color Recognition": "颜色识别",
+  "{id:subcategory}Instance Segmentation": "实例分割",
+  "{id:subcategory}Hand Recognition": "手势识别",
+  "{id:subcategory}Pose Recognition": "姿态识别",
+  "{id:subcategory}License Plate Recognition": "车牌识别",
+  "{id:subcategory}Optical Char Recognition": "光学字符识别",
+  "{id:subcategory}Face Emotion Recognition": "表情识别",
+  "{id:subcategory}Tag Recognition": "标签识别",
+  "{id:subcategory}QR Code Recognition": "二维码识别",
+  "{id:subcategory}Barcode Recognition": "条形码识别",
+  "{id:subcategory}Custom Model": "自训练模型"
 }
 
