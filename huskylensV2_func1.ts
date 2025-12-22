@@ -35,6 +35,7 @@ namespace huskylensV2 {
     //% block="get face recognition result"
     //% weight=198
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function getResultFaceRecogtion(): void {
         getResultInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
     }
@@ -46,6 +47,7 @@ namespace huskylensV2 {
     //% block="available face recogtion"
     //% weight=197
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function availableFaceRecogtion(): boolean {
         return availableInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
     }
@@ -57,6 +59,7 @@ namespace huskylensV2 {
     //% block="face nearest to center %alg"
     //% weight=196
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function getCachedCenterResult(alg: FaceProperty): any {
         const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
         return getFacePropertyValue(r, alg);
@@ -68,6 +71,7 @@ namespace huskylensV2 {
     //% block="number of detected faces"
     //% weight=195
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function getCachedResultNumFace(): number {
         return getCachedResultNumInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
     }
@@ -81,6 +85,7 @@ namespace huskylensV2 {
     //% weight=194
     //% index.min=1 index.defl=1
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function getCachedResultFaceProperty(index: number, alg: FaceProperty): any {
         const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index - 1);
         return getFacePropertyValue(r, alg);
@@ -92,6 +97,7 @@ namespace huskylensV2 {
     //% block="number of learned face IDs"
     //% weight=193
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function getNumLearnedFaceIDs(): number {
         return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_FACE_RECOGNITION);
     }
@@ -104,6 +110,7 @@ namespace huskylensV2 {
     //% weight=192
     //% index.min=1 index.defl=1
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function faceIdExists(index: number): boolean {
         const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index);
         return r != null;
@@ -117,6 +124,7 @@ namespace huskylensV2 {
     //% weight=191
     //% index.min=1 index.defl=1
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function getNumFaceByID(index: number): number {
         return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index);
     }
@@ -130,6 +138,7 @@ namespace huskylensV2 {
     //% weight=190
     //% index.min=1 index.defl=1
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function getFacePropertyByID(index: number, alg: FacePropertyID): any {
         const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index);
         return getFacePropertyValueID(r, alg);
@@ -146,6 +155,7 @@ namespace huskylensV2 {
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% group="Face Recognition"
+    //% subcategory="Face Recognition"
     export function getFacePropertyByIDNth(id: number, n: number, alg: FacePropertyID): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, id, n - 1);
         return getFacePropertyValueID(r, alg);

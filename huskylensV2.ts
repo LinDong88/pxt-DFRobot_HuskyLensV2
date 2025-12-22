@@ -10,7 +10,7 @@ namespace huskylensV2 {
     export const enum Macro {
         I2CADDR = 0x50,
         // ===================== Commands ====================
-        COMMAND_knock = 0x00,
+        COMMAND_KNOCK = 0x00,
         COMMAND_GET_RESULT = 0x01,
         COMMAND_GET_INFO = 0x02,
         COMMAND_GET_RESULT_BY_ID = 0x03,
@@ -142,7 +142,7 @@ namespace huskylensV2 {
                 }
             }
 
-            const cs = checksum(buf.slice(0, PacketHead.HEADER_SIZE + total_length - 1));
+            const cs = PacketHead.checksum(buf.slice(0, PacketHead.HEADER_SIZE + total_length - 1));
             buf[total_length - 1] = cs;
 
             return buf;
@@ -159,7 +159,7 @@ namespace huskylensV2 {
                 buf[5 + i] = this.data[i];
             }
 
-            const cs = checksum(buf);
+            const cs = PacketHead.checksum(buf);
             return cs === this.cs;
         }
     }
