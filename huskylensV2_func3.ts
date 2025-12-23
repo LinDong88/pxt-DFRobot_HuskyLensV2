@@ -75,7 +75,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function getResultPlateRecogtion(): void {
-        getResultInternal(ALGORITHM_LICENSE_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
     }
 
     /** Whether license plate detected */
@@ -84,7 +84,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function availablePlateRecogtion(): boolean {
-        return availableInternal(ALGORITHM_LICENSE_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
     }
 
     /** 靠近中心的车牌属性 */
@@ -93,7 +93,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function getCachedCenterPlateResult(alg: PlateProperty): any {
-        const r = getCachedCenterResultInternal(ALGORITHM_LICENSE_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
         return getPlatePropertyValue(r, alg);
     }
 
@@ -103,7 +103,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function getCachedResultNumPlate(): number {
-        return getCachedResultNumInternal(ALGORITHM_LICENSE_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
     }
 
     /** 第N个车牌的属性 */
@@ -113,7 +113,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function getCachedResultPlateProperty(index: number, alg: PlateProperty): any {
-        const r = getCachedResultByIndexInternal(ALGORITHM_LICENSE_RECOGNITION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index - 1);
         return getPlatePropertyValue(r, alg);
     }
 
@@ -123,7 +123,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function getNumLearnedPlateIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_LICENSE_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
     }
 
     /** 指定ID的车牌是否存在 */
@@ -133,7 +133,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function plateIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_LICENSE_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
         return r != null;
     }
 
@@ -144,7 +144,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function getNumPlateByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_LICENSE_RECOGNITION, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
     }
 
     /** 指定ID的车牌属性 */
@@ -154,7 +154,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function getPlatePropertyByID(index: number, alg: PlatePropertyID): any {
-        const r = getCachedResultByIDInternal(ALGORITHM_LICENSE_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
         return getPlatePropertyValueID(r, alg);
     }
 
@@ -166,7 +166,7 @@ namespace huskylensV2 {
     //% group="License Plate Recognition"
     //% subcategory="License Plate Recognition"
     export function getPlatePropertyByIDNth(id: number, n: number, alg: PlatePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_LICENSE_RECOGNITION, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, id, n - 1);
         return getPlatePropertyValueID(r, alg);
     }
 
@@ -242,7 +242,7 @@ namespace huskylensV2 {
     //% group="Optical Char Recognition"
     //% subcategory="Optical Char Recognition"
     export function getResultTextRecogtion(): void {
-        getResultInternal(ALGORITHM_OCR_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
     }
 
     /** 是否检测到文字区域 */
@@ -251,7 +251,7 @@ namespace huskylensV2 {
     //% group="Optical Char Recognition"
     //% subcategory="Optical Char Recognition"
     export function availableTextRecogtion(): boolean {
-        return availableInternal(ALGORITHM_OCR_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
     }
 
     /** 靠近中心的文字区域属性 */
@@ -260,7 +260,7 @@ namespace huskylensV2 {
     //% group="Optical Char Recognition"
     //% subcategory="Optical Char Recognition"
     export function getCachedCenterTextResult(alg: TextProperty): any {
-        const r = getCachedCenterResultInternal(ALGORITHM_OCR_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
         return getTextPropertyValue(r, alg);
     }
 
@@ -270,7 +270,7 @@ namespace huskylensV2 {
     //% group="Optical Char Recognition"
     //% subcategory="Optical Char Recognition"
     export function getNumLearnedTextIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_OCR_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
     }
 
     /** 指定ID的文字区域是否存在 */
@@ -280,7 +280,7 @@ namespace huskylensV2 {
     //% group="Optical Char Recognition"
     //% subcategory="Optical Char Recognition"
     export function textIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_OCR_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OCR_RECOGNITION, index);
         return r != null;
     }
 
@@ -291,7 +291,7 @@ namespace huskylensV2 {
     //% group="Optical Char Recognition"
     //% subcategory="Optical Char Recognition"
     export function getTextPropertyByID(index: number, alg: TextPropertyID): any {
-        const r = getCachedResultByIDInternal(ALGORITHM_OCR_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OCR_RECOGNITION, index);
         return getTextPropertyValueID(r, alg);
     }
 
@@ -332,7 +332,7 @@ namespace huskylensV2 {
     //% group="Line Tracking"
     //% subcategory="Line Tracking"
     export function getResultLineTracking(): void {
-        getResultInternal(ALGORITHM_LINE_TRACKING);
+        getResultInternal(Algorithm.ALGORITHM_LINE_TRACKING);
     }
 
     /** 是否检测到路线 */
@@ -341,7 +341,7 @@ namespace huskylensV2 {
     //% group="Line Tracking"
     //% subcategory="Line Tracking"
     export function availableLineTracking(): boolean {
-        return availableInternal(ALGORITHM_LINE_TRACKING);
+        return availableInternal(Algorithm.ALGORITHM_LINE_TRACKING);
     }
 
     /** 当前路线的属性 */
@@ -350,7 +350,7 @@ namespace huskylensV2 {
     //% group="Line Tracking"
     //% subcategory="Line Tracking"
     export function getCachedLineTrackingResult(alg: LineTrackingProperty): number {
-        const r = getCurrentBranchInternal(ALGORITHM_LINE_TRACKING);
+        const r = getCurrentBranchInternal(Algorithm.ALGORITHM_LINE_TRACKING);
         return getLineTrackingPropertyValue(r, alg);
     }
 
@@ -360,7 +360,7 @@ namespace huskylensV2 {
     //% group="Line Tracking"
     //% subcategory="Line Tracking"
     export function getLineTrackingBranchCount(): number {
-        return getUpcomingBranchCountInternal(ALGORITHM_LINE_TRACKING);
+        return getUpcomingBranchCountInternal(Algorithm.ALGORITHM_LINE_TRACKING);
     }
 
     /** 逆时针第index条分支路线的属性 */
@@ -370,11 +370,15 @@ namespace huskylensV2 {
     //% group="Line Tracking"
     //% subcategory="Line Tracking"
     export function getLineTrackingBranchProperty(index: number, alg: LineTrackingProperty): number {
-        const r = getBranchInternal(ALGORITHM_LINE_TRACKING, index - 1);
+        const r = getBranchInternal(Algorithm.ALGORITHM_LINE_TRACKING, index - 1);
         return getLineTrackingPropertyValue(r, alg);
     }
 
     // ======================================================== Face Emotion Recognition ==============================================
+    function getEmotionPropertyValue(result: ResultVariant, prop: EmotionProperty): number {
+        return getObjectPropertyValue(result, prop as any);
+    }
+
     function getEmotionPropertyValueID(result: ResultVariant, prop: EmotionPropertyID): number {
         return getObjectPropertyValueID(result, prop as any);
     }
@@ -412,7 +416,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function getResultEmotionRecogtion(): void {
-        getResultInternal(ALGORITHM_EMOTION_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
     }
 
     //% block="Whether emotion detected"
@@ -420,7 +424,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function availableEmotionRecogtion(): boolean {
-        return availableInternal(ALGORITHM_EMOTION_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
     }
 
     //% block="Emotion near center %alg"
@@ -428,7 +432,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function getCachedCenterEmotionResult(alg: EmotionProperty): number {
-        const r = getCachedCenterResultInternal(ALGORITHM_EMOTION_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
         return getEmotionPropertyValue(r, alg);
     }
 
@@ -437,7 +441,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function getCachedResultNumEmotion(): number {
-        return getCachedResultNumInternal(ALGORITHM_EMOTION_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
     }
 
     //% block="Emotion %index %alg"
@@ -446,7 +450,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function getCachedResultEmotionProperty(index: number, alg: EmotionProperty): number {
-        const r = getCachedResultByIndexInternal(ALGORITHM_EMOTION_RECOGNITION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index - 1);
         return getEmotionPropertyValue(r, alg);
     }
 
@@ -455,7 +459,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function getNumLearnedEmotionIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_EMOTION_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
     }
 
     //% block="Does emotion ID %index exist?"
@@ -464,7 +468,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function emotionIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_EMOTION_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
         return r != null;
     }
 
@@ -474,7 +478,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function getNumEmotionByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_EMOTION_RECOGNITION, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
     }
 
     //% block="Emotion ID %index %alg"
@@ -483,7 +487,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function getEmotionPropertyByID(index: number, alg: EmotionPropertyID): number {
-        const r = getCachedResultByIDInternal(ALGORITHM_EMOTION_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
         return getEmotionPropertyValueID(r, alg);
     }
 
@@ -494,7 +498,7 @@ namespace huskylensV2 {
     //% group="Face Emotion Recognition"
     //% subcategory="Face Emotion Recognition"
     export function getEmotionPropertyByIDNth(id: number, n: number, alg: EmotionPropertyID): number {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_EMOTION_RECOGNITION, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, id, n - 1);
         return getEmotionPropertyValueID(r, alg);
     }
 
@@ -565,7 +569,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function getResultTagRecogtion(): void {
-        getResultInternal(ALGORITHM_TAG_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
     }
 
     //% block="Whether tag detected"
@@ -573,7 +577,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function availableTagRecogtion(): boolean {
-        return availableInternal(ALGORITHM_TAG_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
     }
 
     //% block="Tag near center %alg"
@@ -581,7 +585,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function getCachedCenterTagResult(alg: TagProperty): any {
-        const r = getCachedCenterResultInternal(ALGORITHM_TAG_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
         return getTagPropertyValue(r, alg);
     }
 
@@ -590,7 +594,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function getCachedResultNumTag(): number {
-        return getCachedResultNumInternal(ALGORITHM_TAG_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
     }
 
     //% block="Tag %index %alg"
@@ -599,7 +603,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function getCachedResultTagProperty(index: number, alg: TagProperty): any {
-        const r = getCachedResultByIndexInternal(ALGORITHM_TAG_RECOGNITION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index - 1);
         return getTagPropertyValue(r, alg);
     }
 
@@ -608,7 +612,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function getNumLearnedTagIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_TAG_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
     }
 
     //% block="Does tag ID %index exist?"
@@ -617,7 +621,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function tagIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_TAG_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
         return r != null;
     }
 
@@ -627,7 +631,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function getNumTagByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_TAG_RECOGNITION, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
     }
 
     //% block="Tag ID %index %alg"
@@ -636,7 +640,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function getTagPropertyByID(index: number, alg: TagPropertyID): any {
-        const r = getCachedResultByIDInternal(ALGORITHM_TAG_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
         return getTagPropertyValueID(r, alg);
     }
 
@@ -647,7 +651,7 @@ namespace huskylensV2 {
     //% group="Tag Recognition"
     //% subcategory="Tag Recognition"
     export function getTagPropertyByIDNth(id: number, n: number, alg: TagPropertyID): any {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_TAG_RECOGNITION, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, id, n - 1);
         return getTagPropertyValueID(r, alg);
     }
 
@@ -718,7 +722,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function getResultQRCodeRecogtion(): void {
-        getResultInternal(ALGORITHM_QRCODE_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
     }
 
     //% block="Whether QR code detected"
@@ -726,7 +730,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function availableQRCodeRecogtion(): boolean {
-        return availableInternal(ALGORITHM_QRCODE_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
     }
 
     //% block="QR code near center %alg"
@@ -734,7 +738,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function getCachedCenterQRCodeResult(alg: QRCodeProperty): any {
-        const r = getCachedCenterResultInternal(ALGORITHM_QRCODE_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
         return getQRCodePropertyValue(r, alg);
     }
 
@@ -743,7 +747,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function getCachedResultNumQRCode(): number {
-        return getCachedResultNumInternal(ALGORITHM_QRCODE_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
     }
 
     //% block="QR code %index %alg"
@@ -752,7 +756,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function getCachedResultQRCodeProperty(index: number, alg: QRCodeProperty): any {
-        const r = getCachedResultByIndexInternal(ALGORITHM_QRCODE_RECOGNITION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index - 1);
         return getQRCodePropertyValue(r, alg);
     }
 
@@ -761,7 +765,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function getNumLearnedQRCodeIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_QRCODE_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
     }
 
     //% block="Does QR code ID %index exist?"
@@ -770,7 +774,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function qrcodeIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_QRCODE_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
         return r != null;
     }
 
@@ -780,7 +784,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function getNumQRCodeByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_QRCODE_RECOGNITION, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
     }
 
     //% block="QR code ID %index %alg"
@@ -789,7 +793,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function getQRCodePropertyByID(index: number, alg: QRCodePropertyID): any {
-        const r = getCachedResultByIDInternal(ALGORITHM_QRCODE_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
         return getQRCodePropertyValueID(r, alg);
     }
 
@@ -800,7 +804,7 @@ namespace huskylensV2 {
     //% group="QR Code Recognition"
     //% subcategory="QR Code Recognition"
     export function getQRCodePropertyByIDNth(id: number, n: number, alg: QRCodePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_QRCODE_RECOGNITION, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, id, n - 1);
         return getQRCodePropertyValueID(r, alg);
     }
 
@@ -871,7 +875,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function getResultBarcodeRecogtion(): void {
-        getResultInternal(ALGORITHM_BARCODE_RECOGNITION);
+        getResultInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
     }
 
     //% block="Whether barcode detected"
@@ -879,7 +883,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function availableBarcodeRecogtion(): boolean {
-        return availableInternal(ALGORITHM_BARCODE_RECOGNITION);
+        return availableInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
     }
 
     //% block="Barcode near center %alg"
@@ -887,7 +891,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function getCachedCenterBarcodeResult(alg: BarcodeProperty): any {
-        const r = getCachedCenterResultInternal(ALGORITHM_BARCODE_RECOGNITION);
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
         return getBarcodePropertyValue(r, alg);
     }
 
@@ -896,7 +900,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function getCachedResultNumBarcode(): number {
-        return getCachedResultNumInternal(ALGORITHM_BARCODE_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
     }
 
     //% block="Barcode %index %alg"
@@ -905,7 +909,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function getCachedResultBarcodeProperty(index: number, alg: BarcodeProperty): any {
-        const r = getCachedResultByIndexInternal(ALGORITHM_BARCODE_RECOGNITION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index - 1);
         return getBarcodePropertyValue(r, alg);
     }
 
@@ -914,7 +918,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function getNumLearnedBarcodeIDs(): number {
-        return getCachedResultLearnedNumInternal(ALGORITHM_BARCODE_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
     }
 
     //% block="Does barcode ID %index exist?"
@@ -923,7 +927,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function barcodeIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(ALGORITHM_BARCODE_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
         return r != null;
     }
 
@@ -933,7 +937,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function getNumBarcodeByID(index: number): number {
-        return getCachedResultNumByIDInternal(ALGORITHM_BARCODE_RECOGNITION, index);
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
     }
 
     //% block="Barcode ID %index %alg"
@@ -942,7 +946,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function getBarcodePropertyByID(index: number, alg: BarcodePropertyID): any {
-        const r = getCachedResultByIDInternal(ALGORITHM_BARCODE_RECOGNITION, index);
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
         return getBarcodePropertyValueID(r, alg);
     }
 
@@ -953,7 +957,7 @@ namespace huskylensV2 {
     //% group="Barcode Recognition"
     //% subcategory="Barcode Recognition"
     export function getBarcodePropertyByIDNth(id: number, n: number, alg: BarcodePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(ALGORITHM_BARCODE_RECOGNITION, id, n - 1);
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, id, n - 1);
         return getBarcodePropertyValueID(r, alg);
     }
 
@@ -1015,7 +1019,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function switchCustomModelAlgorithm(algorithmId: number): void {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         switchAlgorithmInternal(algoId);
     }
 
@@ -1027,7 +1031,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function getResultCustomModel(algorithmId: number): void {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         getResultInternal(algoId);
     }
 
@@ -1039,7 +1043,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function availableCustomModel(algorithmId: number): boolean {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         return availableInternal(algoId);
     }
 
@@ -1051,7 +1055,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function getCachedCenterCustomModelResult(algorithmId: number, alg1: CustomModelProperty): number {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         const r = getCachedCenterResultInternal(algoId);
         return getCustomModelPropertyValue(r, alg1);
     }
@@ -1064,7 +1068,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function getCachedResultNumCustomModel(algorithmId: number): number {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         return getCachedResultNumInternal(algoId);
     }
 
@@ -1077,7 +1081,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function getCachedResultCustomModelProperty(algorithmId: number, num: number, alg1: CustomModelProperty): number {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         const r = getCachedResultByIndexInternal(algoId, num - 1);
         return getCustomModelPropertyValue(r, alg1);
     }
@@ -1090,7 +1094,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function getNumLearnedCustomModelIDs(algorithmId: number): number {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         return getCachedResultLearnedNumInternal(algoId);
     }
 
@@ -1103,7 +1107,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function customModelIdExists(algorithmId: number, targetId: number): boolean {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         const r = getCachedResultByIDInternal(algoId, targetId);
         return r != null;
     }
@@ -1117,7 +1121,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function getNumCustomModelByID(algorithmId: number, targetId: number): number {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         return getCachedResultNumByIDInternal(algoId, targetId);
     }
 
@@ -1130,7 +1134,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function getCustomModelPropertyByID(algorithmId: number, targetId: number, alg2: CustomModelPropertyID): number {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         const r = getCachedResultByIDInternal(algoId, targetId);
         return getCustomModelPropertyValueID(r, alg2);
     }
@@ -1146,7 +1150,7 @@ namespace huskylensV2 {
     //% group="Custom Model"
     //% subcategory="Custom Model"
     export function getCustomModelPropertyByIDNth(algorithmId: number, targetId: number, num: number, alg2: CustomModelPropertyID): number {
-        const algoId = ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
         const r = getCachedIndexResultByIDInternal(algoId, targetId, num - 1);
         return getCustomModelPropertyValueID(r, alg2);
     }
