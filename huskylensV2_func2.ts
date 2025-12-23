@@ -322,6 +322,7 @@ namespace huskylensV2 {
     //% block="get Hand Recognition result"
     //% weight=149
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function getResultGestureRecogtion(): void {
         getResultInternal(ALGORITHM_HAND_RECOGNITION);
     }
@@ -330,6 +331,7 @@ namespace huskylensV2 {
     //% block="gesture detected?"
     //% weight=148
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function availableGestureRecogtion(): boolean {
         return availableInternal(ALGORITHM_HAND_RECOGNITION);
     }
@@ -338,6 +340,7 @@ namespace huskylensV2 {
     //% block="gesture nearest to center %alg"
     //% weight=147
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function getCachedCenterGestureResult(alg: GestureProperty): any {
         const r = getCachedCenterResultInternal(ALGORITHM_HAND_RECOGNITION);
         return getGesturePropertyValue(r, alg);
@@ -347,6 +350,7 @@ namespace huskylensV2 {
     //% block="number of detected gestures"
     //% weight=146
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function getCachedResultNumGesture(): number {
         return getCachedResultNumInternal(ALGORITHM_HAND_RECOGNITION);
     }
@@ -356,6 +360,7 @@ namespace huskylensV2 {
     //% weight=145
     //% index.min=1 index.defl=1
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function getCachedResultGestureProperty(index: number, alg: GestureProperty): any {
         const r = getCachedResultByIndexInternal(ALGORITHM_HAND_RECOGNITION, index - 1);
         return getGesturePropertyValue(r, alg);
@@ -365,6 +370,7 @@ namespace huskylensV2 {
     //% block="number of learned gesture IDs"
     //% weight=144
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function getNumLearnedGestureIDs(): number {
         return getCachedResultLearnedNumInternal(ALGORITHM_HAND_RECOGNITION);
     }
@@ -374,6 +380,7 @@ namespace huskylensV2 {
     //% weight=143
     //% index.min=1 index.defl=1
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function gestureIdExists(index: number): boolean {
         const r = getCachedResultByIDInternal(ALGORITHM_HAND_RECOGNITION, index);
         return r != null;
@@ -384,6 +391,7 @@ namespace huskylensV2 {
     //% weight=142
     //% index.min=1 index.defl=1
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function getNumGestureByID(index: number): number {
         return getCachedResultNumByIDInternal(ALGORITHM_HAND_RECOGNITION, index);
     }
@@ -393,6 +401,7 @@ namespace huskylensV2 {
     //% weight=141
     //% index.min=1 index.defl=1
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function getGesturePropertyByID(index: number, alg: GesturePropertyID): any {
         const r = getCachedResultByIDInternal(ALGORITHM_HAND_RECOGNITION, index);
         return getGesturePropertyValueID(r, alg);
@@ -404,12 +413,13 @@ namespace huskylensV2 {
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
     export function getGesturePropertyByIDNth(id: number, n: number, alg: GesturePropertyID): any {
         const r = getCachedIndexResultByIDInternal(ALGORITHM_HAND_RECOGNITION, id, n - 1);
         return getGesturePropertyValueID(r, alg);
     }
 
-    // ================= Pose Recognition (Human Pose) =================
+    // ================================================================ Pose Recognition (Human Pose) ========================
     function getPosePropertyValue(result: ResultVariant, prop: PoseProperty): any {
         if (!result) return 0;
         if (result instanceof PoseResult) {
@@ -681,6 +691,7 @@ namespace huskylensV2 {
     //% block="get pose recognition result"
     //% weight=139
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function getResultPoseRecogtion(): void {
         getResultInternal(ALGORITHM_POSE_RECOGNITION);
     }
@@ -689,6 +700,7 @@ namespace huskylensV2 {
     //% block="pose detected?"
     //% weight=138
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function availablePoseRecogtion(): boolean {
         return availableInternal(ALGORITHM_POSE_RECOGNITION);
     }
@@ -697,6 +709,7 @@ namespace huskylensV2 {
     //% block="pose nearest to center %alg"
     //% weight=137
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function getCachedCenterPoseResult(alg: PoseProperty): any {
         const r = getCachedCenterResultInternal(ALGORITHM_POSE_RECOGNITION);
         return getPosePropertyValue(r, alg);
@@ -706,6 +719,7 @@ namespace huskylensV2 {
     //% block="number of detected poses"
     //% weight=136
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function getCachedResultNumPose(): number {
         return getCachedResultNumInternal(ALGORITHM_POSE_RECOGNITION);
     }
@@ -715,6 +729,7 @@ namespace huskylensV2 {
     //% weight=135
     //% index.min=1 index.defl=1
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function getCachedResultPoseProperty(index: number, alg: PoseProperty): any {
         const r = getCachedResultByIndexInternal(ALGORITHM_POSE_RECOGNITION, index - 1);
         return getPosePropertyValue(r, alg);
@@ -724,6 +739,7 @@ namespace huskylensV2 {
     //% block="number of learned pose IDs"
     //% weight=134
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function getNumLearnedPoseIDs(): number {
         return getCachedResultLearnedNumInternal(ALGORITHM_POSE_RECOGNITION);
     }
@@ -733,6 +749,7 @@ namespace huskylensV2 {
     //% weight=133
     //% index.min=1 index.defl=1
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function poseIdExists(index: number): boolean {
         const r = getCachedResultByIDInternal(ALGORITHM_POSE_RECOGNITION, index);
         return r != null;
@@ -743,6 +760,7 @@ namespace huskylensV2 {
     //% weight=132
     //% index.min=1 index.defl=1
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function getNumPoseByID(index: number): number {
         return getCachedResultNumByIDInternal(ALGORITHM_POSE_RECOGNITION, index);
     }
@@ -752,6 +770,7 @@ namespace huskylensV2 {
     //% weight=131
     //% index.min=1 index.defl=1
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function getPosePropertyByID(index: number, alg: PosePropertyID): any {
         const r = getCachedResultByIDInternal(ALGORITHM_POSE_RECOGNITION, index);
         return getPosePropertyValueID(r, alg);
@@ -763,6 +782,7 @@ namespace huskylensV2 {
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
     export function getPosePropertyByIDNth(id: number, n: number, alg: PosePropertyID): any {
         const r = getCachedIndexResultByIDInternal(ALGORITHM_POSE_RECOGNITION, id, n - 1);
         return getPosePropertyValueID(r, alg);

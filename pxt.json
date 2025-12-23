@@ -19,8 +19,8 @@
         "_locales/en/huskylensV2-jsdoc-strings.json",
         "huskylensV2.ts",
         "huskylensV2_func1.ts",
-        "huskylensV2_func1.ts",
-        "huskylensV2_func1.ts"
+        "huskylensV2_func2.ts",
+        "huskylensV2_func3.ts"
     ],
     "testFiles": [
         "test.ts"
