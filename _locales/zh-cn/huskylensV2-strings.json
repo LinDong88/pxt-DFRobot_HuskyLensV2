@@ -377,6 +377,7 @@
   "{id:group}QR Code Recognition": "二维码识别",
   "{id:group}Barcode Recognition": "条形码识别",
   "{id:group}Custom Model": "自训练模型",
+  
   "{id:subcategory}Communication": "通信方式",
   "{id:subcategory}Algorithm Switch": "算法切换",
   "{id:subcategory}Face Recognition": "人脸识别",

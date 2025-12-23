@@ -629,7 +629,7 @@ namespace huskylensV2 {
         }
     }
 
-    // =========================================================== Object Recognition ===============================================
+    // ====================================================== Object Recognition ===============================================
 
     /** Get one-time object recognition result and cache it */
     //% block="get object recognition result"
@@ -732,12 +732,12 @@ namespace huskylensV2 {
         return getObjectPropertyValueID(r, alg);
     }
 
-    // ================= Object Tracking =================
+    // =============================================================== Object Tracking ========================================
     /** Request one-time object tracking data and store in result */
     //% block="get object tracking result"
     //% weight=178
     //% group="Object Tracking"
-    //% subcategory="Object Recognition"
+    //% subcategory="Object Tracking"
     export function getResultObjectTracking(): void {
         getResultInternal(Algorithm.ALGORITHM_OBJECT_TRACKING);
     }
@@ -746,7 +746,7 @@ namespace huskylensV2 {
     //% block="tracked object detected?"
     //% weight=177
     //% group="Object Tracking"
-    //% subcategory="Object Recognition"
+    //% subcategory="Object Tracking"
     export function availableObjectTracking(): boolean {
         return availableInternal(Algorithm.ALGORITHM_OBJECT_TRACKING);
     }
@@ -755,7 +755,7 @@ namespace huskylensV2 {
     //% block="tracked object %alg"
     //% weight=176
     //% group="Object Tracking"
-    //% subcategory="Object Recognition"
+    //% subcategory="Object Tracking"
     export function getCachedObjectTrackingResult(alg: ObjectProperty): number {
         const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_OBJECT_TRACKING);
         return getObjectPropertyValue(r, alg);
@@ -895,7 +895,7 @@ namespace huskylensV2 {
     //% block="get object classification result"
     //% weight=4
     //% group="Object Classification"
-    //% subcategory="Color Recognition"
+    //% subcategory="Object Classification"
     export function getResultObjectClassification(): void {
         getResultInternal(Algorithm.ALGORITHM_OBJECT_CLASSIFICATION);
     }
@@ -903,7 +903,7 @@ namespace huskylensV2 {
     //% block="classified object detected?"
     //% weight=3
     //% group="Object Classification"
-    //% subcategory="Color Recognition"
+    //% subcategory="Object Classification"
     export function availableObjectClassification(): boolean {
         return availableInternal(Algorithm.ALGORITHM_OBJECT_CLASSIFICATION);
     }
@@ -912,7 +912,7 @@ namespace huskylensV2 {
     //% block="number of detected classified objects"
     //% weight=2
     //% group="Object Classification"
-    //% subcategory="Color Recognition"
+    //% subcategory="Object Classification"
     export function getCachedResultNumObjectClassification(): number {
         return getCachedResultNumInternal(Algorithm.ALGORITHM_OBJECT_CLASSIFICATION);
     }
@@ -922,7 +922,7 @@ namespace huskylensV2 {
     //% weight=1
     //% num.min=1 num.defl=1
     //% group="Object Classification"
-    //% subcategory="Color Recognition"
+    //% subcategory="Object Classification"
     export function getCachedObjectClassificationResult(num: number, alg: ObjectClassificationProperty): any {
         const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_OBJECT_CLASSIFICATION, num - 1);
         return getObjectClassificationPropertyValue(r, alg);
