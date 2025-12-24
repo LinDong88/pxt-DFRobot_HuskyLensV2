@@ -2,7 +2,7 @@
   "huskylensV2|block": "HUSKYLENS 2",
   "{id:category}huskylensV2": "HUSKYLENS 2",
 
-    "huskylensV2.I2CInit|block": "HUSKYLENS 2 初始化I2C通讯直到成功",
+  "huskylensV2.I2CInit|block": "HUSKYLENS 2 初始化I2C通讯直到成功",
   "huskylensV2.switchAlgorithm|block": "HUSKYLENS 2 切换算法 %alg 直到成功",
   "huskylensV2.getResultFaceRecogtion|block": "获取一次人脸识别结果",
   "huskylensV2.availableFaceRecogtion|block": "检测到人脸？",
@@ -377,7 +377,7 @@
   "{id:group}QR Code Recognition": "二维码识别",
   "{id:group}Barcode Recognition": "条形码识别",
   "{id:group}Custom Model": "自训练模型",
-  
+
   "{id:subcategory}Communication": "通信方式",
   "{id:subcategory}Algorithm Switch": "算法切换",
   "{id:subcategory}Face Recognition": "人脸识别",
