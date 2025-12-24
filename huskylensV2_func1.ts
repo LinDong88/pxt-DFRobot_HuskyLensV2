@@ -12,7 +12,28 @@ namespace huskylensV2 {
     //%block="initialize via I2C until success"
     //% group="Communication"
     export function I2CInit(): void {
-        beginInternal();
+        let res = beginInternal();
+        while (!res) {
+            basic.showLeds(`
+                # . . . #
+                . # . # .
+                . . # . .
+                . # . # .
+                # . . . #
+                `, 10)
+            basic.pause(500)
+            res = beginInternal();
+            basic.clearScreen()
+        }
+        basic.showLeds(`
+                . . . . .
+                . . . . #
+                . . . # .
+                # . # . .
+                . # . . .
+                `, 10)
+        basic.pause(500)
+        basic.clearScreen()
     }
 
     /**

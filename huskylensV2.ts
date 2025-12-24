@@ -557,7 +557,7 @@ namespace huskylensV2 {
             data: dataBuf,
         });
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 20; i++) {
             protocolWrite(pkt);
             basic.pause(100);
             if (wait(Macro.COMMAND_KNOCK, Macro.COMMAND_RETURN_ARGS )) {
