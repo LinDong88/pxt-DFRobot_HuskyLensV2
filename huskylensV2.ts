@@ -12,7 +12,7 @@ namespace huskylensV2 {
         // ===================== Commands ====================
         COMMAND_KNOCK = 0x00,
         COMMAND_GET_RESULT = 0x01,
-        COMMAND_GET_INFO = 0x02,
+        COMMAND_GET_ALGO_PARAM  = 0x02,
         COMMAND_GET_RESULT_BY_ID = 0x03,
         COMMAND_GET_BLOCKS_BY_ID = 0x04,
         COMMAND_GET_ARROWS_BY_ID = 0x05,
@@ -610,8 +610,8 @@ namespace huskylensV2 {
 
     export function availableInternal(algo: number): boolean {
         let ret = false;
-        algo = toRealID(algo);
-
+        // algo = toRealID(algo);
+        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r != null) {
@@ -627,7 +627,8 @@ namespace huskylensV2 {
     }
 
     export function getCachedResultMaxID(algo: number): number {
-        algo = toRealID(algo);
+        // algo = toRealID(algo);
+        algo = 0;
         return maxID[algo] || 0;
     }
 
@@ -643,7 +644,8 @@ namespace huskylensV2 {
         let i = 0
         let _count = 0
         let info = new PacketData(Buffer.create(10));
-        algo = toRealID(algo);
+        // algo = toRealID(algo);
+        algo = 0;
         for (i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             result[algo][i] = null;
         }
@@ -676,24 +678,24 @@ namespace huskylensV2 {
                     buf[j] = receive_buffer[j];
                 }
                 let dataBuf = buf.slice(5, buf.length - 1);
-                if (algo == Algorithm.ALGORITHM_FACE_RECOGNITION) {
-                    result[algo][i] = new FaceResult(dataBuf);
-                } else if (algo == Algorithm.ALGORITHM_HAND_RECOGNITION) {
-                    result[algo][i] = new HandResult(dataBuf);
-                } else if (algo == Algorithm.ALGORITHM_POSE_RECOGNITION) {
-                    result[algo][i] = new PoseResult(dataBuf);
-                } else {
+                // if (algo == Algorithm.ALGORITHM_FACE_RECOGNITION) {
+                //     result[algo][i] = new FaceResult(dataBuf);
+                // } else if (algo == Algorithm.ALGORITHM_HAND_RECOGNITION) {
+                //     result[algo][i] = new HandResult(dataBuf);
+                // } else if (algo == Algorithm.ALGORITHM_POSE_RECOGNITION) {
+                //     result[algo][i] = new PoseResult(dataBuf);
+                // } else {
                     result[algo][i] = new Result(dataBuf);
-                }
+                // }
             }
         }
         for (i = info.total_blocks; i < info.total_results; i++) {
             if (wait(0, Macro.COMMAND_RETURN_ARROW)) {
                 _count++;
                 let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
+                // for (let j = 0; j < receive_buffer.length; j++) {
+                //     buf[j] = receive_buffer[j];
+                // }
                 result[algo][i] = new Result(buf.slice(5, buf.length - 1));
             }
         }
@@ -701,7 +703,8 @@ namespace huskylensV2 {
     }
 
     export function getCachedCenterResultInternal(algo: number): ResultVariant | null {
-        algo = toRealID(algo);
+        // algo = toRealID(algo);
+        algo = 0;
         let centerIndex = -1;
         let minLen = 999999999;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
@@ -723,8 +726,8 @@ namespace huskylensV2 {
     }
 
     export function getCachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
-        algo = toRealID(algo);
-
+        // algo = toRealID(algo);
+        algo = 0;
         if (index >= Macro.MAX_RESULT_NUM) {
             return null;
         }
@@ -732,8 +735,8 @@ namespace huskylensV2 {
     }
 
     export function getCachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
-        algo = toRealID(algo);
-
+        // algo = toRealID(algo);
+        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r == null) {
@@ -749,8 +752,8 @@ namespace huskylensV2 {
 
     export function getCachedResultNumInternal(algo: number): number {
         let count = 0;
-        algo = toRealID(algo);
-
+        // algo = toRealID(algo);
+        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             if (result[algo][i] != null) {
                 count++;
@@ -760,14 +763,15 @@ namespace huskylensV2 {
     }
 
     export function getCachedResultLearnedNumInternal(algo: number): number {
-        algo = toRealID(algo);
+        // algo = toRealID(algo);
+        algo = 0;
         return getCachedResultMaxID(algo);
     }
 
     export function getCachedResultNumByIDInternal(algo: number, ID: number): number {
         let count = 0;
-        algo = toRealID(algo);
-
+        // algo = toRealID(algo);
+        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r) {
@@ -783,7 +787,8 @@ namespace huskylensV2 {
     export function getCachedIndexResultByIDInternal(algo: number, ID: number, index: number): ResultVariant | null {
         let rlt: ResultVariant | null = null;
         let _index = 0;
-        algo = toRealID(algo);
+        // algo = toRealID(algo);
+        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[algo][i];
             if (r) {
@@ -800,8 +805,8 @@ namespace huskylensV2 {
     }
 
     export function getCurrentBranchInternal(algo: number): ResultVariant | null {
-        algo = toRealID(algo);
-
+        // algo = toRealID(algo);
+        algo = 0;
         const item = result[algo] && result[algo][0];
 
         if (item && item.level === 1) {
@@ -813,8 +818,8 @@ namespace huskylensV2 {
 
     export function getUpcomingBranchCountInternal(algo: number): number {
         let count = 0;
-        algo = toRealID(algo);
-
+        // algo = toRealID(algo);
+        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             if (result[algo][i] != null) {
                 count++;
@@ -826,8 +831,8 @@ namespace huskylensV2 {
     export function getBranchInternal(algo: number, index: number): ResultVariant | null {
         let rlt: ResultVariant | null = null;
         index++;
-        algo = toRealID(algo);
-
+        // algo = toRealID(algo);
+        algo = 0;
         for (let i = 1; i < Macro.MAX_RESULT_NUM; i++) {
             if (result[algo][i] != null) {
                 if (i == index) {
