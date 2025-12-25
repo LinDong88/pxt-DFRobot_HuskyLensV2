@@ -178,6 +178,7 @@ namespace huskylensV2 {
             return new PacketData(buffer);
         }
 
+        // 第一个union - uint8_t类型
         get ID() { return this.buffer[0] }
         set ID(v: number) { this.buffer[0] = v & 0xff; }
 
@@ -187,27 +188,39 @@ namespace huskylensV2 {
         get rfu0() { return this.buffer[0] }
         set rfu0(v: number) { this.buffer[0] = v & 0xff; }
 
+        get resolution() { return this.buffer[0] }  // 新增：分辨率
+        set resolution(v: number) { this.buffer[0] = v & 0xff; }
+
         get boardType() { return this.buffer[0] }
         set boardType(v: number) { this.buffer[0] = v & 0xff; }
-
-        get totalSensors() { return this.buffer[0] }
-        set totalSensors(v: number) { this.buffer[0] = v & 0xff; }
 
         get multiAlgoNum() { return this.buffer[0] }
         set multiAlgoNum(v: number) { this.buffer[0] = v & 0xff; }
 
+        // 删除了 totalSensors 属性
+
+        // 第二个union - int8_t类型
         get rfu1() { return this.buffer[1]; }
         set rfu1(v: number) { this.buffer[1] = v & 0xff; }
 
         get level() { return this.buffer[1]; }
         set level(v: number) { this.buffer[1] = v & 0xff; }
 
+        get mediaType() { return this.buffer[1]; }  // 新增：媒体类型
+        set mediaType(v: number) { this.buffer[1] = v & 0xff; }
+
+        get retValue() { return this.buffer[1]; }  // 新增：返回值
+        set retValue(v: number) { this.buffer[1] = v & 0xff; }
+
+        get lineWidth() { return this.buffer[1]; }  // 新增：线宽
+        set lineWidth(v: number) { this.buffer[1] = v & 0xff; }
+
         get confidence() { return this.buffer[1]; }
         set confidence(v: number) { this.buffer[1] = v & 0xff; }
 
-        get currSensorIndex() { return this.buffer[1]; }
-        set currSensorIndex(v: number) { this.buffer[1] = v & 0xff; }
+        // 删除了 currSensorIndex 属性
 
+        // 第三个union - int16_t类型（使用buffer[2]和buffer[3]）
         get first() { return this.buffer[2] + this.buffer[3] * 256; }
         set first(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
@@ -217,18 +230,20 @@ namespace huskylensV2 {
         get xTarget() { return this.buffer[2] + this.buffer[3] * 256; }
         set xTarget(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
+        get duration() { return this.buffer[2] + this.buffer[3] * 256; }  // 新增：持续时间
+        set duration(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+
         get algorithmType() { return this.buffer[2] + this.buffer[3] * 256; }
         set algorithmType(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
         get classID() { return this.buffer[2] + this.buffer[3] * 256; }
         set classID(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        get sensor0ID() { return this.buffer[2] + this.buffer[3] * 256; }
-        set sensor0ID(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
-
-        get total_results() { return this.buffer[2] + this.buffer[3] * 256; }
+        // 删除了 sensor0ID 属性
+        get total_results() { return this.buffer[2] + this.buffer[3] * 256; }  // 保留：总结果数
         set total_results(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
+        // 第四个union - int16_t类型（使用buffer[4]和buffer[5]）
         get second() { return this.buffer[4] + this.buffer[5] * 256; }
         set second(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
@@ -238,12 +253,14 @@ namespace huskylensV2 {
         get yTarget() { return this.buffer[4] + this.buffer[5] * 256; }
         set yTarget(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        get sensor1ID() { return this.buffer[4] + this.buffer[5] * 256; }
-        set sensor1ID(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
-
+        // 删除了 sensor1ID 属性
         get total_results_learned() { return this.buffer[4] + this.buffer[5] * 256; }
         set total_results_learned(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
+        get yaw() { return this.buffer[4] + this.buffer[5] * 256; }  // 新增：偏航角
+        set yaw(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
+
+        // 第五个union - int16_t类型（使用buffer[6]和buffer[7]）
         get third() { return this.buffer[6] + this.buffer[7] * 256; }
         set third(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
@@ -253,12 +270,17 @@ namespace huskylensV2 {
         get angle() { return this.buffer[6] + this.buffer[7] * 256; }
         set angle(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        get sensor2ID() { return this.buffer[6] + this.buffer[7] * 256; }
-        set sensor2ID(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
+        get azimuth() { return this.buffer[6] + this.buffer[7] * 256; }  // 新增：方位角
+        set azimuth(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
+        // 删除了 sensor2ID 属性
         get total_blocks() { return this.buffer[6] + this.buffer[7] * 256; }
         set total_blocks(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
+        get roll() { return this.buffer[6] + this.buffer[7] * 256; }  // 新增：横滚角
+        set roll(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
+
+        // 第六个union - int16_t类型（使用buffer[8]和buffer[9]）
         get fourth() { return this.buffer[8] + this.buffer[9] * 256; }
         set fourth(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
 
@@ -270,6 +292,9 @@ namespace huskylensV2 {
 
         get total_blocks_learned() { return this.buffer[8] + this.buffer[9] * 256; }
         set total_blocks_learned(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
+
+        get pitch() { return this.buffer[8] + this.buffer[9] * 256; }  // 新增：俯仰角
+        set pitch(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
 
         get payload() {
             return this.buffer.slice(10);
@@ -658,9 +683,9 @@ namespace huskylensV2 {
                 }
                 info = new PacketData(buf.slice(5, buf.length - 1));
                 maxID[algo] = info.maxID;
-                if (info.total_results > Macro.MAX_RESULT_NUM) {
-                    info.total_results = Macro.MAX_RESULT_NUM;
-                }
+                // if (info.total_results > Macro.MAX_RESULT_NUM) {
+                //     info.total_results = Macro.MAX_RESULT_NUM;
+                // }
                 if (info.total_blocks > Macro.MAX_RESULT_NUM) {
                     info.total_blocks = Macro.MAX_RESULT_NUM;
                 }

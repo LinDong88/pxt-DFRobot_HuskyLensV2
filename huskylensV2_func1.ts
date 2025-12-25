@@ -212,9 +212,9 @@ namespace huskylensV2 {
         //% block="Face Emotion Recognition"
         ALGORITHM_EMOTION_RECOGNITION = 13,     // 13
 
-        //% blockHidden=true
+        //% block="Gaze recognition"
         ALGORITHM_GAZE_RECOGNITION = 14,            // 14
-        //% blockHidden=true
+        //% block="Face Orientation"
         ALGORITHM_FACE_ORIENTATION = 15,             // 15
          //% block="Tag recognition"
         ALGORITHM_TAG_RECOGNITION = 16,              // 16
@@ -222,7 +222,7 @@ namespace huskylensV2 {
         ALGORITHM_BARCODE_RECOGNITION = 17,        // 17
         //% block="QR code recognition"
         ALGORITHM_QRCODE_RECOGNITION = 18,       // 18
-        //% blockHidden=true
+        //% block="Fall detection property"
         ALGORITHM_FALLDOWN_RECOGNITION = 19,        // 19
 
         //% blockHidden=true

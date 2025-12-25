@@ -189,11 +189,12 @@
   "huskylensV2.Algorithm.ALGORITHM_HAND_RECOGNITION|block": "手势识别",
   "huskylensV2.Algorithm.ALGORITHM_OBJECT_CLASSIFICATION|block": "物体分类",
   "huskylensV2.Algorithm.ALGORITHM_BLINK_RECOGNITION|block": "眨眼识别",
-  "huskylensV2.Algorithm.ALGORITHM_GAZE_RECOGNITION|block": "视线识别",
-  "huskylensV2.Algorithm.ALGORITHM_FACE_ORIENTATION|block": "人脸朝向",
-  "huskylensV2.Algorithm.ALGORITHM_FALLDOWN_RECOGNITION|block": "跌倒识别",
+  "huskylensV2.Algorithm.ALGORITHM_GAZE_RECOGNITION|block": "注视方向检测",
+  "huskylensV2.Algorithm.ALGORITHM_FACE_ORIENTATION|block": "人脸朝向检测",
+  "huskylensV2.Algorithm.ALGORITHM_FALLDOWN_RECOGNITION|block": "跌倒检测",
   "huskylensV2.Algorithm.ALGORITHM_SEGMENT|block": "实例分割",
   "huskylensV2.Algorithm.ALGORITHM_FACE_ACTION_RECOGNITION|block": "人脸动作识别",
+
   "huskylensV2.Algorithm.ALGORITHM_CUSTOM0|block": "自定义0",
   "huskylensV2.Algorithm.ALGORITHM_CUSTOM1|block": "自定义1",
   "huskylensV2.Algorithm.ALGORITHM_CUSTOM2|block": "自定义2",
@@ -360,23 +361,7 @@
 
   "{id:group}Communication": "通信方式",
   "{id:group}Algorithm Switch": "算法切换",
-  "{id:group}Face Recognition": "人脸识别",
-  "{id:group}Object Recognition": "物体识别",
-  "{id:group}Object Tracking": "物体追踪",
-  "{id:group}Object Classification": "物体分类",
-  "{id:group}Self-learning Classification": "自学习分类",
-  "{id:group}Line Tracking": "巡线",
-  "{id:group}Color Recognition": "颜色识别",
-  "{id:group}Instance Segmentation": "实例分割",
-  "{id:group}Hand Recognition": "手势识别",
-  "{id:group}Pose Recognition": "姿态识别",
-  "{id:group}License Plate Recognition": "车牌识别",
-  "{id:group}Optical Char Recognition": "光学字符识别",
-  "{id:group}Face Emotion Recognition": "表情识别",
-  "{id:group}Tag Recognition": "标签识别",
-  "{id:group}QR Code Recognition": "二维码识别",
-  "{id:group}Barcode Recognition": "条形码识别",
-  "{id:group}Custom Model": "自训练模型",
+
 
   "{id:subcategory}Communication": "通信方式",
   "{id:subcategory}Algorithm Switch": "算法切换",
@@ -396,6 +381,79 @@
   "{id:subcategory}Tag Recognition": "标签识别",
   "{id:subcategory}QR Code Recognition": "二维码识别",
   "{id:subcategory}Barcode Recognition": "条形码识别",
-  "{id:subcategory}Custom Model": "自训练模型"
+  "{id:subcategory}Custom Model": "自训练模型",
+  "{id:subcategory}Fall Detection": "跌倒检测",
+  "{id:subcategory}Face Orientation Recognition": "人脸朝向检测",
+  "{id:subcategory}Gaze Direction Detection":"注视方向检测",
+
+
+  "huskylensV2.requestFallDetectionData|block": "请求一次跌倒检测数据 存入结果",
+  "huskylensV2.fallDetected|block": "检测到跌倒？",
+  "huskylensV2.nearestFallDetection|block": "靠近中心的跌倒检测 %alg",
+  "huskylensV2.totalFallDetections|block": "检测到的跌倒检测总数",
+  "huskylensV2.fallDetectionProperty|block": "第 %index 个跌倒检测的 %alg",
+
+
+  "huskylensV2.FallDetectionProperty.ID|block": "ID",
+  "huskylensV2.FallDetectionProperty.Name|block": "名称",
+  "huskylensV2.FallDetectionProperty.XCenter|block": "X中心",
+  "huskylensV2.FallDetectionProperty.YCenter|block": "Y中心",
+  "huskylensV2.FallDetectionProperty.Width|block": "宽度",
+  "huskylensV2.FallDetectionProperty.Height|block": "高度",
+  
+  "huskylensV2.FallDetectionPropertyID.Name|block": "名称",
+  "huskylensV2.FallDetectionPropertyID.XCenter|block": "X中心",
+  "huskylensV2.FallDetectionPropertyID.YCenter|block": "Y中心",
+  "huskylensV2.FallDetectionPropertyID.Width|block": "宽度",
+  "huskylensV2.FallDetectionPropertyID.Height|block": "高度",
+ 
+
+  "huskylensV2.FaceOrientationProperty.ID|block": "ID",
+  "huskylensV2.FaceOrientationProperty.Name|block": "名称",
+  "huskylensV2.FaceOrientationProperty.Yaw|block": "偏航角",
+  "huskylensV2.FaceOrientationProperty.Pitch|block": "俯仰角",
+  "huskylensV2.FaceOrientationProperty.Roll|block": "横滚角",
+  
+  "huskylensV2.FaceOrientationPropertyID.Name|block": "名称",
+  "huskylensV2.FaceOrientationPropertyID.Yaw|block": "偏航角",
+  "huskylensV2.FaceOrientationPropertyID.Pitch|block": "俯仰角",
+  "huskylensV2.FaceOrientationPropertyID.Roll|block": "横滚角",
+  
+  "huskylensV2.requestFaceOrientationData|block": "请求一次人脸朝向数据 存入结果",
+  "huskylensV2.faceOrientationDetected|block": "检测到人脸朝向？",
+  "huskylensV2.nearestFaceOrientation|block": "靠近中心的人脸朝向 %alg",
+  "huskylensV2.totalFaceOrientations|block": "检测到的人脸朝向总数",
+  "huskylensV2.totalLearnedFaceOrientations|block": "已学习的人脸朝向ID总数",
+  "huskylensV2.faceOrientationProperty|block": "第 %index 个人脸朝向的 %alg",
+  "huskylensV2.faceOrientationIDExists|block": "ID %id 的人脸朝向存在？",
+  "huskylensV2.totalFaceOrientationsWithID|block": "ID %id 的人脸朝向总数",
+  "huskylensV2.faceOrientationWithID|block": "ID %id 的人脸朝向 %alg",
+  "huskylensV2.faceOrientationWithIDProperty|block": "ID %id 的第 %index 个人脸朝向的 %alg",
+
+  "huskylensV2.Eye_GAZE_PROPERTY.ID|block": "ID",
+  "huskylensV2.Eye_GAZE_PROPERTY.Name|block": "名称",
+  "huskylensV2.Eye_GAZE_PROPERTY.Angle|block": "投影角度",
+  "huskylensV2.Eye_GAZE_PROPERTY.Length|block": "投影长度",
+  "huskylensV2.Eye_GAZE_PROPERTY.Pitch|block": "俯仰角",
+  "huskylensV2.Eye_GAZE_PROPERTY.Yaw|block": "偏航角",
+  
+  "huskylensV2.Eye_GAZE_PROPERTY_ID.Name|block": "名称",
+  "huskylensV2.Eye_GAZE_PROPERTY_ID.Angle|block": "投影角度",
+  "huskylensV2.Eye_GAZE_PROPERTY_ID.Length|block": "投影长度",
+  "huskylensV2.Eye_GAZE_PROPERTY_ID.Pitch|block": "俯仰角",
+  "huskylensV2.Eye_GAZE_PROPERTY_ID.Yaw|block": "偏航角",
+
+  "huskylensV2.requestEyeGazeData|block": "请求一次注视方向数据 存入结果",
+  "huskylensV2.eyeGazeDetected|block": "检测到注视方向？",
+  "huskylensV2.nearestEyeGaze|block": "靠近中心的注视方向 %alg",
+  "huskylensV2.totalEyeGazes|block": "检测到的注视方向总数",
+  "huskylensV2.totalLearnedEyeGazes|block": "已学习的注视方向ID总数",
+  "huskylensV2.eyeGazeProperty|block": "第 %index 个注视方向的 %alg",
+  "huskylensV2.gazeIDExists|block": "ID %id 的注视方向存在？",
+  "huskylensV2.totalEyeGazesWithID|block": "ID %id 的注视方向总数",
+  "huskylensV2.gazeWithID|block": "ID %id 的注视方向 %alg",
+  "huskylensV2.gazeWithIDProperty|block": "ID %id 的第 %index 个注视方向的 %alg"
+
+
 }
 
