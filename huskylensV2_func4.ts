@@ -451,4 +451,42 @@ namespace huskylensV2 {
         return getEyeGazePropertyValue(r, alg);
     }
 
+    //% block="play Music %name  %number"
+    //% name.shadow="text"
+    //% name.defl="music.mp3"
+    //% weight=119
+    //% volume.min=0 volume.max=100 volume.defl=50
+    //% subcategory="multimedia"
+    export function playMusic(name: string = "music.mp3", volume: number = 50): void {
+        _playMusic(name, volume);
+    }
+
+    let photoName: string = "";
+    //% block="takePhoto"
+    //% weight=118
+    //% subcategory="multimedia"
+    export function takePhoto(): void {
+       photoName = _takePhoto(eResolution_t.RESOLUTION_1280x720);
+    }
+    //% block="getStoredPhotoName"
+    //% weight=117
+    //% subcategory="multimedia"
+    export function getStoredPhotoName(): string {
+        return photoName;
+    }
+
+    let screenshotName: string = "";
+    //% block="takeScreenshot"
+    //% weight=116
+    //% subcategory="multimedia"
+    export function takeScreenshot(): void {
+        screenshotName = _takeScreenshot();
+    }
+    //% block="getStoredScreenshotName"
+    //% weight=115
+    //% subcategory="multimedia"
+    export function getStoredScreenshotName(): string {
+        return screenshotName;
+    }
+
 }

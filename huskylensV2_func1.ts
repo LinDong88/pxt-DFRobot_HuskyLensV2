@@ -44,7 +44,11 @@ namespace huskylensV2 {
     //% weight=199
     //% group="Algorithm Switch"
     export function switchAlgorithm(alg: Algorithm): void {
-        switchAlgorithmInternal(algorithmToID(alg));
+        let s = switchAlgorithmInternal(algorithmToID(alg));
+        while (!s) { 
+            basic.pause(1000)
+            s = switchAlgorithmInternal(algorithmToID(alg));
+        }
     }
 
     // ========================================================== Face recognition ==================================================

@@ -12,7 +12,7 @@ namespace huskylensV2 {
         // ===================== Commands ====================
         COMMAND_KNOCK = 0x00,
         COMMAND_GET_RESULT = 0x01,
-        COMMAND_GET_ALGO_PARAM  = 0x02,
+        COMMAND_GET_ALGO_PARAM = 0x02,
         COMMAND_GET_RESULT_BY_ID = 0x03,
         COMMAND_GET_BLOCKS_BY_ID = 0x04,
         COMMAND_GET_ARROWS_BY_ID = 0x05,
@@ -65,7 +65,7 @@ namespace huskylensV2 {
         CONTENT_INDEX = 5,
         PROTOCOL_SIZE = 6,
         //===================== Time out ====================
-        TIMEOUT = 2000 
+        TIMEOUT = 2000
     }
 
     class PacketHead {
@@ -74,7 +74,7 @@ namespace huskylensV2 {
         head55: number;
         headaa: number;
         cmd: number;
-        algo_id: number; 
+        algo_id: number;
         data_length: number;
         data: Buffer;
         name?: string;
@@ -450,7 +450,7 @@ namespace huskylensV2 {
     for (let i = 0; i < Macro.ALGORITHM_COUNT; i++) {
         maxID.push(0);
     }
-    
+
     // Use loop to initialize array to ensure ES5 compatibility
     let i2c_cached_data: number[] = []
     let receive_buffer: number[] = [];
@@ -555,6 +555,7 @@ namespace huskylensV2 {
     function wait(cmd: number, command: number): boolean {
         //console.log("wait: Waiting for command 0x" + toHex(command));
         timerBegin();
+        // receive_buffer[Macro.COMMAND_INDEX] = Algorithm.ALGORITHM_ANY;
         while (!timerAvailable()) {
             if (protocolAvailable()) {
                 let receivedCmd = receive_buffer[Macro.COMMAND_INDEX];
@@ -585,7 +586,7 @@ namespace huskylensV2 {
         for (let i = 0; i < 20; i++) {
             protocolWrite(pkt);
             basic.pause(100);
-            if (wait(Macro.COMMAND_KNOCK, Macro.COMMAND_RETURN_ARGS )) {
+            if (wait(Macro.COMMAND_KNOCK, Macro.COMMAND_RETURN_ARGS)) {
                 return true;
             }
         }
@@ -604,7 +605,7 @@ namespace huskylensV2 {
         for (let i = 0; i < 3; i++) {
             protocolWrite(pkt);
             basic.pause(100);
-            if (wait(Macro.COMMAND_SET_ALGORITHM, Macro.COMMAND_RETURN_ARGS )) {
+            if (wait(Macro.COMMAND_SET_ALGORITHM, Macro.COMMAND_RETURN_ARGS)) {
                 return true;
             }
         }
@@ -710,7 +711,7 @@ namespace huskylensV2 {
                 // } else if (algo == Algorithm.ALGORITHM_POSE_RECOGNITION) {
                 //     result[algo][i] = new PoseResult(dataBuf);
                 // } else {
-                    result[algo][i] = new Result(dataBuf);
+                result[algo][i] = new Result(dataBuf);
                 // }
             }
         }
@@ -867,6 +868,133 @@ namespace huskylensV2 {
             }
         }
         return rlt;
+    }
+    
+    export function _playMusic(name: string, volume: number = 50): boolean {
+        if (volume < 0) volume = 0;
+        if (volume > 100) volume = 100;
+
+        // 创建命令包
+        const dataBuf = Buffer.create(10);
+        dataBuf[0] = 0;  // 保留字节
+        dataBuf[1] = 0;  // 保留字节
+        // 设置音量（16位整数）
+        dataBuf[2] = volume & 0xFF;
+        dataBuf[3] = (volume >> 8) & 0xFF;
+        // 添加6个零字节
+        for (let i = 4; i < 10; i++) {
+            dataBuf[i] = 0;
+        }
+
+        // 创建包头，包含字符串数据
+        const nameBuf = Buffer.fromUTF8(name);
+        const totalBuf = Buffer.create(11 + nameBuf.length); // 10字节数据 + 1字节长度 + 名称长度
+        for (let i = 0; i < 10; i++) {
+            totalBuf[i] = dataBuf[i];
+        }
+        totalBuf[10] = nameBuf.length; // 名称长度
+        for (let i = 0; i < nameBuf.length; i++) {
+            totalBuf[11 + i] = nameBuf[i];
+        }
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_PLAY_MUSIC,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: totalBuf,
+        });
+
+        // 发送命令并等待响应
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_PLAY_MUSIC, Macro.COMMAND_RETURN_ARGS)) {
+                // 检查返回值
+                const responsePacket = new PacketData(Buffer.create(10));
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                if (packetData.retValue === 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    export const enum eResolution_t {
+        RESOLUTION_DEFAULT = 0,
+        RESOLUTION_640x480 = 1,
+        RESOLUTION_1280x720 = 2,
+        RESOLUTION_1920x1080 = 3,
+    };
+    export function _takePhoto(resolution: number): string {
+        const dataBuf = Buffer.create(10);
+        dataBuf[0] = resolution;  // 设置分辨率
+        // 添加9个零字节
+        for (let i = 1; i < 10; i++) {
+            dataBuf[i] = 0;
+        }
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_TAKE_PHOTO,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_TAKE_PHOTO, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+
+                if (packetData.retValue !== 0) {
+                    return "";
+                }
+
+                // 从payload中提取字符串
+                return bufferToString(packetData.payload);
+            }
+        }
+
+        return "";
+    }
+    export function _takeScreenshot(): string {
+        const dataBuf = Buffer.create(0);
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_TAKE_SCREENSHOT,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_TAKE_SCREENSHOT, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+
+                if (packetData.retValue !== 0) {
+                    return "";
+                }
+
+                // 从payload中提取字符串
+                return bufferToString(packetData.payload);
+            }
+        }
+
+        return "";
     }
 }
 
