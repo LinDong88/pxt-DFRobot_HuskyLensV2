@@ -20,7 +20,8 @@
         "huskylensV2.ts",
         "huskylensV2_func1.ts",
         "huskylensV2_func2.ts",
-        "huskylensV2_func3.ts"
+        "huskylensV2_func3.ts",
+        "huskylensV2_func4.ts"
     ],
     "testFiles": [
         "test.ts"
