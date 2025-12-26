@@ -443,9 +443,6 @@ namespace huskylensV2 {
         }
     }
 
-
-
-
     let maxID: number[] = [];
     for (let i = 0; i < Macro.ALGORITHM_COUNT; i++) {
         maxID.push(0);
@@ -704,24 +701,13 @@ namespace huskylensV2 {
                     buf[j] = receive_buffer[j];
                 }
                 let dataBuf = buf.slice(5, buf.length - 1);
-                // if (algo == Algorithm.ALGORITHM_FACE_RECOGNITION) {
-                //     result[algo][i] = new FaceResult(dataBuf);
-                // } else if (algo == Algorithm.ALGORITHM_HAND_RECOGNITION) {
-                //     result[algo][i] = new HandResult(dataBuf);
-                // } else if (algo == Algorithm.ALGORITHM_POSE_RECOGNITION) {
-                //     result[algo][i] = new PoseResult(dataBuf);
-                // } else {
                 result[algo][i] = new Result(dataBuf);
-                // }
             }
         }
         for (i = info.total_blocks; i < info.total_results; i++) {
             if (wait(0, Macro.COMMAND_RETURN_ARROW)) {
                 _count++;
                 let buf = Buffer.create(receive_buffer.length);
-                // for (let j = 0; j < receive_buffer.length; j++) {
-                //     buf[j] = receive_buffer[j];
-                // }
                 result[algo][i] = new Result(buf.slice(5, buf.length - 1));
             }
         }
@@ -869,7 +855,6 @@ namespace huskylensV2 {
         }
         return rlt;
     }
-
 
     //---------------------------------------------------------------multimedia----------------------------------------
     //% block="play music %name at volume %volume"
@@ -1296,6 +1281,318 @@ namespace huskylensV2 {
         return (red << 16) + (green << 8) + blue;
     }
 
-}
+    //************************************* Learning /Forgetting   ********************************* */
+    
+    // 学习相关功能 - 新增block实现
+    //% block="获取学习的ID"
+    //% weight=100
+    //% subcategory="Learning /Forgetting"
+    export function getLearnedID(): number {
+        return maxID[0] || 0;
+    }
 
-    // ==================== End of Low-level Communication Code ====================
+    /**
+     * 学习画面中心的目标
+     * @param ALGORITHMCENTER 算法类型
+     */
+    //% block="内置模型%ALGORITHMCENTER学习画面中心目标"
+    //% weight=95
+    //% subcategory="Learning /Forgetting"
+    //% ALGORITHMCENTER.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
+    export function learnObjectAtCenter(ALGORITHMCENTER: Algorithm): void {
+        const dataBuf = Buffer.create(10);
+        dataBuf[0] = ALGORITHMCENTER;
+        for (let i = 1; i < 10; i++) {
+            dataBuf[i] = 0;
+        }
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_LEARN,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        protocolWrite(pkt);
+        basic.pause(100);
+        
+        if (wait(Macro.COMMAND_ACTION_LEARN, Macro.COMMAND_RETURN_ARGS)) {
+            let buf = Buffer.create(receive_buffer.length);
+            for (let j = 0; j < receive_buffer.length; j++) {
+                buf[j] = receive_buffer[j];
+            }
+            const packetData = new PacketData(buf.slice(5, buf.length - 1));
+            // return packetData.first; // 返回学习到的ID
+            return ;
+        }
+        
+        return ;
+    }
+
+    /**
+     * 学习画面中心的目标（自训练模型）
+     * @param ALGORITHMCENTER 算法类型
+     */
+    //% block="自训练模型%ALGORITHMCENTER学习画面中心目标"
+    //% weight=94
+    //% subcategory="Learning /Forgetting"
+    //% ALGORITHMCENTER.defl=128
+    export function learnObjectAtCenterNUM(ALGORITHMCENTER: number): void {
+        const dataBuf = Buffer.create(10);
+        dataBuf[0] = ALGORITHMCENTER;
+        for (let i = 1; i < 10; i++) {
+            dataBuf[i] = 0;
+        }
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_LEARN,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        protocolWrite(pkt);
+        basic.pause(100);
+        
+        if (wait(Macro.COMMAND_ACTION_LEARN, Macro.COMMAND_RETURN_ARGS)) {
+            let buf = Buffer.create(receive_buffer.length);
+            for (let j = 0; j < receive_buffer.length; j++) {
+                buf[j] = receive_buffer[j];
+            }
+            const packetData = new PacketData(buf.slice(5, buf.length - 1));
+            // return packetData.first; // 返回学习到的ID
+            return ;
+        }
+        
+        return ;
+    }
+
+    /**
+     * 学习指定区域内的目标
+     * @param ALGORITHMBOX 算法类型
+     * @param X X坐标
+     * @param Y Y坐标
+     * @param W 宽度
+     * @param H 高度
+     */
+    //% block="内置模型%ALGORITHMBOX学习指定框内目标 起点X%X 起点Y%Y 宽%W 高%H"
+    //% weight=90
+    //% subcategory="Learning /Forgetting"
+    //% ALGORITHMBOX.defl=128
+    //% X.min=0 X.max=640
+    //% Y.min=0 Y.max=480
+    //% W.min=10 W.max=100
+    //% H.min=10 H.max=100
+    export function learnObjectInBox(ALGORITHMBOX: number, X: number, Y: number, W: number, H: number): void {
+        const dataBuf = Buffer.create(10);
+        dataBuf[0] = 0;   // reserved
+        dataBuf[1] = 0;   // reserved
+        dataBuf[2] = X & 0xFF;
+        dataBuf[3] = (X >> 8) & 0xFF;
+        dataBuf[4] = Y & 0xFF;
+        dataBuf[5] = (Y >> 8) & 0xFF;
+        dataBuf[6] = W & 0xFF;
+        dataBuf[7] = (W >> 8) & 0xFF;
+        dataBuf[8] = H & 0xFF;
+        dataBuf[9] = (H >> 8) & 0xFF;
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_LEARN_BLOCK,
+            algo_id: ALGORITHMBOX,
+            data: dataBuf,
+        });
+
+        protocolWrite(pkt);
+        basic.pause(100);
+        
+        if (wait(Macro.COMMAND_ACTION_LEARN_BLOCK, Macro.COMMAND_RETURN_ARGS)) {
+            let buf = Buffer.create(receive_buffer.length);
+            for (let j = 0; j < receive_buffer.length; j++) {
+                buf[j] = receive_buffer[j];
+            }
+            const packetData = new PacketData(buf.slice(5, buf.length - 1));
+            // return packetData.first; // 返回学习到的ID
+            return;
+        }
+        
+        return ;
+    }
+
+    /**
+     * 学习指定区域内的目标（自训练模型）
+     * @param ALGORITHMBOX 算法类型
+     * @param X X坐标
+     * @param Y Y坐标
+     * @param W 宽度
+     * @param H 高度
+     */
+    //% block="自训练模型%ALGORITHMBOX学习指定框内目标 起点X%X 起点Y%Y 宽%W 高%H"
+    //% weight=89
+    //% subcategory="Learning /Forgetting"
+    //% ALGORITHMBOX.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
+    //% X.min=0 X.max=640
+    //% Y.min=0 Y.max=480
+    //% W.min=10 W.max=100
+    //% H.min=10 H.max=100
+    export function learnObjectInBoxNUM(ALGORITHMBOX: Algorithm, X: number, Y: number, W: number, H: number): void {
+        const dataBuf = Buffer.create(10);
+        dataBuf[0] = 0;   // reserved
+        dataBuf[1] = 0;   // reserved
+        dataBuf[2] = X & 0xFF;
+        dataBuf[3] = (X >> 8) & 0xFF;
+        dataBuf[4] = Y & 0xFF;
+        dataBuf[5] = (Y >> 8) & 0xFF;
+        dataBuf[6] = W & 0xFF;
+        dataBuf[7] = (W >> 8) & 0xFF;
+        dataBuf[8] = H & 0xFF;
+        dataBuf[9] = (H >> 8) & 0xFF;
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_LEARN_BLOCK,
+            algo_id: ALGORITHMBOX,
+            data: dataBuf,
+        });
+
+        protocolWrite(pkt);
+        basic.pause(100);
+        
+        if (wait(Macro.COMMAND_ACTION_LEARN_BLOCK, Macro.COMMAND_RETURN_ARGS)) {
+            let buf = Buffer.create(receive_buffer.length);
+            for (let j = 0; j < receive_buffer.length; j++) {
+                buf[j] = receive_buffer[j];
+            }
+            const packetData = new PacketData(buf.slice(5, buf.length - 1));
+            return ; // 返回学习到的ID
+        }
+        
+        return ;
+    }
+
+    /**
+     * 设置ID的名称（内置模型）
+     * @param ALGORITHMNAME 算法类型
+     * @param ID 目标ID
+     * @param NAME 名称
+     */
+    //% block="设置内置模型%ALGORITHMNAME ID%ID的名字为%NAME"
+    //% weight=70
+    //% subcategory="Learning /Forgetting"
+    //% ALGORITHMNAME.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
+    //% ID.min=1 ID.max=100 ID.
+    //% NAME.defl="Object"
+    export function setNameOfID(ALGORITHMNAME: Algorithm, ID: number, NAME: string): void {
+        // 创建包含ID和名称的Buffer
+        const nameBuf = Buffer.fromUTF8(NAME);
+        const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10字节 + 1字节长度 + 名称
+        
+        dataBuf[0] = ID; // ID
+        // 填充剩余9个字节为0
+        for (let i = 1; i < 10; i++) {
+            dataBuf[i] = 0;
+        }
+        // 名称长度
+        dataBuf[10] = nameBuf.length;
+        // 名称内容
+        for (let i = 0; i < nameBuf.length; i++) {
+            dataBuf[11 + i] = nameBuf[i];
+        }
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_SET_NAME_BY_ID,
+            algo_id: ALGORITHMNAME,
+            data: dataBuf,
+        });
+
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_SET_NAME_BY_ID, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                return ;
+            }
+        }
+        
+        return ;
+    }
+
+
+    /**
+     * 遗忘所有学习的ID（内置模型）
+     * @param ALGORITHMFORGET 算法类型
+     */
+    //% block="遗忘内置模型%ALGORITHMFORGET全部ID"
+    //% weight=80
+    //% subcategory="Learning /Forgetting"
+    //% ALGORITHMFORGET.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
+    export function forgetAllIDs(ALGORITHMFORGET: Algorithm): void {
+        const dataBuf = Buffer.create(10);
+        dataBuf[0] = ALGORITHMFORGET;
+        for (let i = 1; i < 10; i++) {
+            dataBuf[i] = 0;
+        }
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_FORGET,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_FORGET, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                return ;
+            }
+        }
+        
+        return ;
+    }
+
+    /**
+     * 遗忘所有学习的ID（自训练模型）
+     * @param ALGORITHMFORGET 算法类型
+     */
+    //% block="遗忘自训练模型%ALGORITHMFORGET全部ID"
+    //% weight=79
+    //% subcategory="Learning /Forgetting"
+    //% ALGORITHMFORGET.defl=128
+    export function forgetAllIDsNUM(ALGORITHMFORGET: number): void {
+        const dataBuf = Buffer.create(10);
+        dataBuf[0] = ALGORITHMFORGET;
+        for (let i = 1; i < 10; i++) {
+            dataBuf[i] = 0;
+        }
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_FORGET,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_FORGET, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                return ;
+            }
+        }
+        
+        return ;
+    }
+
+}

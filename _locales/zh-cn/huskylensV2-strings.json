@@ -387,6 +387,8 @@
   "{id:subcategory}Gaze Direction Detection":"注视方向检测",
   "{id:subcategory}Screen Display": "屏幕显示",
   "{id:subcategory}multimedia": "多媒体",
+  "{id:subcategory}Learning /Forgetting": "学习/遗忘ID",
+  
   
 
 
@@ -467,7 +469,18 @@
   "huskylensV2.takePhoto|block": "拍照",
   "huskylensV2.takeScreenshot|block": "截屏",
   "huskylensV2.getStoredScreenshotName|block": "截屏照片名",
-  "huskylensV2.getStoredPhotoName|block": "拍摄照片名"
+  "huskylensV2.getStoredPhotoName|block": "拍摄照片名",
+
+  "HuskylensV2.learningForgettingID|block": "学习/遗忘 ID",
+  "HuskylensV2.learnObjectAtCenter|block": "内置模型[ALGORITHMCENTER]学习画面中心目标",
+  "HuskylensV2.learnObjectAtCenterNUM|block": "自训练模型[ALGORITHMCENTER]学习画面中心目标",
+  "HuskylensV2.learnObjectInBox|block": "内置模型[ALGORITHMBOX]学习指定框内目标 起点X[X]起点Y[Y]宽[W]高[H]",
+  "HuskylensV2.learnObjectInBoxNUM|block": "自训练模型[ALGORITHMBOX]学习指定框内目标 起点X[X]起点Y[Y]宽[W]高[H]",
+  "HuskylensV2.getLearnedID|block": "获取学习的ID",
+  "HuskylensV2.setNameOfID|block": "设置内置模型[ALGORITHMNAME]ID[ID]的名字为[NAME]",
+  "HuskylensV2.setNameOfIDNUM|block": "设置自训练模型[ALGORITHMNAME]ID[ID]的名字为[NAME]",
+  "HuskylensV2.forgetAllIDs|block": "遗忘内置模型[ALGORITHMFORGET]全部ID",
+  "HuskylensV2.forgetAllIDsNUM|block": "遗忘自训练模型[ALGORITHMFORGET]全部ID"
 
 
 }
