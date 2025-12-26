@@ -1282,26 +1282,21 @@ namespace huskylensV2 {
     }
 
     //************************************* Learning /Forgetting   ********************************* */
-    
-    // 学习相关功能 - 新增block实现
-    //% block="获取学习的ID"
+
+    //% block="Get learned ID"
     //% weight=100
     //% subcategory="Learning /Forgetting"
     export function getLearnedID(): number {
         return maxID[0] || 0;
     }
 
-    /**
-     * 学习画面中心的目标
-     * @param ALGORITHMCENTER 算法类型
-     */
-    //% block="内置模型%ALGORITHMCENTER学习画面中心目标"
+    //% block="Built-in model %alg learn target at center of screen"
     //% weight=95
     //% subcategory="Learning /Forgetting"
-    //% ALGORITHMCENTER.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
-    export function learnObjectAtCenter(ALGORITHMCENTER: Algorithm): void {
+    //% alg.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
+    export function learnObjectAtCenter(alg: Algorithm): void {
         const dataBuf = Buffer.create(10);
-        dataBuf[0] = ALGORITHMCENTER;
+        dataBuf[0] = alg;
         for (let i = 1; i < 10; i++) {
             dataBuf[i] = 0;
         }
@@ -1328,17 +1323,13 @@ namespace huskylensV2 {
         return ;
     }
 
-    /**
-     * 学习画面中心的目标（自训练模型）
-     * @param ALGORITHMCENTER 算法类型
-     */
-    //% block="自训练模型%ALGORITHMCENTER学习画面中心目标"
+    //% block="Built-in model %alg learn target at center of screen"
     //% weight=94
     //% subcategory="Learning /Forgetting"
-    //% ALGORITHMCENTER.defl=128
-    export function learnObjectAtCenterNUM(ALGORITHMCENTER: number): void {
+    //% alg.defl=128
+    export function learnObjectAtCenterNUM(alg: number): void {
         const dataBuf = Buffer.create(10);
-        dataBuf[0] = ALGORITHMCENTER;
+        dataBuf[0] = alg;
         for (let i = 1; i < 10; i++) {
             dataBuf[i] = 0;
         }
@@ -1365,23 +1356,15 @@ namespace huskylensV2 {
         return ;
     }
 
-    /**
-     * 学习指定区域内的目标
-     * @param ALGORITHMBOX 算法类型
-     * @param X X坐标
-     * @param Y Y坐标
-     * @param W 宽度
-     * @param H 高度
-     */
-    //% block="内置模型%ALGORITHMBOX学习指定框内目标 起点X%X 起点Y%Y 宽%W 高%H"
+    //% block="Built-in model %alg learn target in specified box X%X Y%Y W%W H%H"
     //% weight=90
     //% subcategory="Learning /Forgetting"
-    //% ALGORITHMBOX.defl=128
+    //% alg.defl=128
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
-    export function learnObjectInBox(ALGORITHMBOX: number, X: number, Y: number, W: number, H: number): void {
+    export function learnObjectInBox(alg: number, X: number, Y: number, W: number, H: number): void {
         const dataBuf = Buffer.create(10);
         dataBuf[0] = 0;   // reserved
         dataBuf[1] = 0;   // reserved
@@ -1396,7 +1379,7 @@ namespace huskylensV2 {
 
         const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_ACTION_LEARN_BLOCK,
-            algo_id: ALGORITHMBOX,
+            algo_id: alg,
             data: dataBuf,
         });
 
@@ -1416,23 +1399,15 @@ namespace huskylensV2 {
         return ;
     }
 
-    /**
-     * 学习指定区域内的目标（自训练模型）
-     * @param ALGORITHMBOX 算法类型
-     * @param X X坐标
-     * @param Y Y坐标
-     * @param W 宽度
-     * @param H 高度
-     */
-    //% block="自训练模型%ALGORITHMBOX学习指定框内目标 起点X%X 起点Y%Y 宽%W 高%H"
+    //% block="Self-trained model %alg learn target in specified box X%X Y%Y W%W H%H"
     //% weight=89
     //% subcategory="Learning /Forgetting"
-    //% ALGORITHMBOX.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
+    //% alg.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
-    export function learnObjectInBoxNUM(ALGORITHMBOX: Algorithm, X: number, Y: number, W: number, H: number): void {
+    export function learnObjectInBoxNUM(alg: Algorithm, X: number, Y: number, W: number, H: number): void {
         const dataBuf = Buffer.create(10);
         dataBuf[0] = 0;   // reserved
         dataBuf[1] = 0;   // reserved
@@ -1447,7 +1422,7 @@ namespace huskylensV2 {
 
         const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_ACTION_LEARN_BLOCK,
-            algo_id: ALGORITHMBOX,
+            algo_id: alg,
             data: dataBuf,
         });
 
@@ -1466,24 +1441,18 @@ namespace huskylensV2 {
         return ;
     }
 
-    /**
-     * 设置ID的名称（内置模型）
-     * @param ALGORITHMNAME 算法类型
-     * @param ID 目标ID
-     * @param NAME 名称
-     */
-    //% block="设置内置模型%ALGORITHMNAME ID%ID的名字为%NAME"
+    //% block="Set built-in model %alg id%id name to %name"
     //% weight=70
     //% subcategory="Learning /Forgetting"
-    //% ALGORITHMNAME.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
-    //% ID.min=1 ID.max=100 ID.
-    //% NAME.defl="Object"
-    export function setNameOfID(ALGORITHMNAME: Algorithm, ID: number, NAME: string): void {
+    //% alg.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
+    //% id.min=1 id.max=100 id.defl=1
+    //% name.defl="Object"
+    export function setNameOfID(alg: Algorithm, id: number, name: string): void {
         // 创建包含ID和名称的Buffer
-        const nameBuf = Buffer.fromUTF8(NAME);
+        const nameBuf = Buffer.fromUTF8(name);
         const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10字节 + 1字节长度 + 名称
         
-        dataBuf[0] = ID; // ID
+        dataBuf[0] = id; // id
         // 填充剩余9个字节为0
         for (let i = 1; i < 10; i++) {
             dataBuf[i] = 0;
@@ -1497,7 +1466,7 @@ namespace huskylensV2 {
 
         const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_SET_NAME_BY_ID,
-            algo_id: ALGORITHMNAME,
+            algo_id: alg,
             data: dataBuf,
         });
 
@@ -1518,18 +1487,13 @@ namespace huskylensV2 {
         return ;
     }
 
-
-    /**
-     * 遗忘所有学习的ID（内置模型）
-     * @param ALGORITHMFORGET 算法类型
-     */
-    //% block="遗忘内置模型%ALGORITHMFORGET全部ID"
+    //% block="Forget built-in model %alg all IDs"
     //% weight=80
     //% subcategory="Learning /Forgetting"
-    //% ALGORITHMFORGET.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
-    export function forgetAllIDs(ALGORITHMFORGET: Algorithm): void {
+    //% alg.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
+    export function forgetAllIDs(alg: Algorithm): void {
         const dataBuf = Buffer.create(10);
-        dataBuf[0] = ALGORITHMFORGET;
+        dataBuf[0] = alg;
         for (let i = 1; i < 10; i++) {
             dataBuf[i] = 0;
         }
@@ -1557,17 +1521,13 @@ namespace huskylensV2 {
         return ;
     }
 
-    /**
-     * 遗忘所有学习的ID（自训练模型）
-     * @param ALGORITHMFORGET 算法类型
-     */
-    //% block="遗忘自训练模型%ALGORITHMFORGET全部ID"
+    //% block="Forget self-trained model %alg all IDs"
     //% weight=79
     //% subcategory="Learning /Forgetting"
-    //% ALGORITHMFORGET.defl=128
-    export function forgetAllIDsNUM(ALGORITHMFORGET: number): void {
+    //% alg.defl=128
+    export function forgetAllIDsNUM(alg: number): void {
         const dataBuf = Buffer.create(10);
-        dataBuf[0] = ALGORITHMFORGET;
+        dataBuf[0] = alg;
         for (let i = 1; i < 10; i++) {
             dataBuf[i] = 0;
         }
