@@ -869,7 +869,15 @@ namespace huskylensV2 {
         }
         return rlt;
     }
-    
+
+
+    //-------------------------------------------------multimedia-----------------------------------
+    //% block="play Music %name  %number"
+    //% name.shadow="text"
+    //% name.defl="music.mp3"
+    //% weight=119
+    //% volume.min=0 volume.max=100 volume.defl=50
+    //% subcategory="multimedia"
     export function _playMusic(name: string, volume: number = 50): boolean {
         if (volume < 0) volume = 0;
         if (volume > 100) volume = 100;
@@ -924,15 +932,14 @@ namespace huskylensV2 {
 
         return false;
     }
-    export const enum eResolution_t {
-        RESOLUTION_DEFAULT = 0,
-        RESOLUTION_640x480 = 1,
-        RESOLUTION_1280x720 = 2,
-        RESOLUTION_1920x1080 = 3,
-    };
-    export function _takePhoto(resolution: number): string {
+
+    let photoName: string = "";
+    //% block="takePhoto"
+    //% weight=118
+    //% subcategory="multimedia"
+    export function _takePhoto(void): string {
         const dataBuf = Buffer.create(10);
-        dataBuf[0] = resolution;  // 设置分辨率
+        dataBuf[0] = 2;  // 设置分辨率2： RESOLUTION_1280x720 
         // 添加9个零字节
         for (let i = 1; i < 10; i++) {
             dataBuf[i] = 0;
@@ -966,6 +973,10 @@ namespace huskylensV2 {
 
         return "";
     }
+    let screenshotName: string = "";
+    //% block="takeScreenshot"
+    //% weight=116
+    //% subcategory="multimedia"
     export function _takeScreenshot(): string {
         const dataBuf = Buffer.create(0);
         const pkt = PacketHead.fromFields({
@@ -997,7 +1008,21 @@ namespace huskylensV2 {
         return "";
     }
 
+    //% block="getStoredScreenshotName"
+    //% weight=115
+    //% subcategory="multimedia"
+    export function getStoredScreenshotName(): string {
+        return screenshotName;
+    }
 
+    //% block="getStoredPhotoName"
+    //% weight=117
+    //% subcategory="multimedia"
+    export function getStoredPhotoName(): string {
+        return photoName;
+    }
+
+    //-------------------------------------------------Screen Display-----------------------------------
     /**
      * 绘制或更新指示框
      * @param color 框的颜色
@@ -1057,12 +1082,11 @@ namespace huskylensV2 {
                 }
                 const packetData = new PacketData(buf.slice(5, buf.length - 1));
                 if (packetData.retValue === 0) {
-                    return true;
+                    return ;
                 }
             }
         }
-
-        return false;
+        return ;
     }
 
     /**
@@ -1124,12 +1148,11 @@ namespace huskylensV2 {
                 }
                 const packetData = new PacketData(buf.slice(5, buf.length - 1));
                 if (packetData.retValue === 0) {
-                    return true;
+                    return ;
                 }
             }
         }
-
-        return false;
+        return ;
     }
 
     /**
@@ -1201,12 +1224,12 @@ namespace huskylensV2 {
                 }
                 const packetData = new PacketData(buf.slice(5, buf.length - 1));
                 if (packetData.retValue === 0) {
-                    return true;
+                    return ;
                 }
             }
         }
 
-        return false;
+        return ;
     }
 
     /**
@@ -1235,12 +1258,12 @@ namespace huskylensV2 {
                 }
                 const packetData = new PacketData(buf.slice(5, buf.length - 1));
                 if (packetData.retValue === 0) {
-                    return true;
+                    return ;
                 }
             }
         }
 
-        return false;
+        return ;
     }
 
     /**
@@ -1269,12 +1292,12 @@ namespace huskylensV2 {
                 }
                 const packetData = new PacketData(buf.slice(5, buf.length - 1));
                 if (packetData.retValue === 0) {
-                    return true;
+                    return ;
                 }
             }
         }
 
-        return false;
+        return ;
     }
 
     /**
