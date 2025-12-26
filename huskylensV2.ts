@@ -604,7 +604,7 @@ namespace huskylensV2 {
 
         for (let i = 0; i < 3; i++) {
             protocolWrite(pkt);
-            basic.pause(100);
+            basic.pause(1000);
             if (wait(Macro.COMMAND_SET_ALGORITHM, Macro.COMMAND_RETURN_ARGS)) {
                 return true;
             }
@@ -878,7 +878,7 @@ namespace huskylensV2 {
     //% weight=119
     //% volume.min=0 volume.max=100 volume.defl=50
     //% subcategory="multimedia"
-    export function playMusic(name: string, volume: number = 50): boolean {
+    export function playMusic(name: string, volume: number ): void {
         if (volume < 0) volume = 0;
         if (volume > 100) volume = 100;
 
@@ -1142,7 +1142,7 @@ namespace huskylensV2 {
     //% subcategory="Screen Display"
     //% weight=91
     //% color.min=0 color.max=16777215
-    //% fontSize.min=8 fontSize.max=128
+    //% fontSize.min=8 fontSize.max=48
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
     export function showText(color: number, fontSize: number, x: number, y: number, content: string): void {
