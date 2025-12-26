@@ -441,21 +441,32 @@ namespace huskylensV2 {
     
     // Number property enum
     export const enum NumProperty {
-        xCenter ,
-        yCenter ,
+        //% block="xCenter"
+        xCenter,
+        //% block="yCenter"
+        yCenter,
+        //% block="width"
         width,
+        //% block="height"
         height,
-        name ,
+        //% block="name"
+        name 
     }
 
     // Number property enum including strings
     export const enum NumPropertyWithStr {
+        //% block="ID"
         ID ,
-        xCenter ,
-        yCenter ,
-        width ,
-        height ,
-        name ,
+        //% block="xCenter"
+        xCenter,
+        //% block="yCenter"
+        yCenter,
+        //% block="width"
+        width,
+        //% block="height"
+        height,
+        //% block="name"
+        name 
     }
 
     // ==================== Self-trained model function blocks ====================
