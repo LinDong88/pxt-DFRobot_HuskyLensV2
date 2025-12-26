@@ -385,6 +385,7 @@
   "{id:subcategory}Fall Detection": "跌倒检测",
   "{id:subcategory}Face Orientation Recognition": "人脸朝向检测",
   "{id:subcategory}Gaze Direction Detection":"注视方向检测",
+  "{id:subcategory}Screen Display": "屏幕显示",
 
 
   "huskylensV2.requestFallDetectionData|block": "请求一次跌倒检测数据 存入结果",
@@ -452,7 +453,13 @@
   "huskylensV2.gazeIDExists|block": "ID %id 的注视方向存在？",
   "huskylensV2.totalEyeGazesWithID|block": "ID %id 的注视方向总数",
   "huskylensV2.gazeWithID|block": "ID %id 的注视方向 %alg",
-  "huskylensV2.gazeWithIDProperty|block": "ID %id 的第 %index 个注视方向的 %alg"
+  "huskylensV2.gazeWithIDProperty|block": "ID %id 的第 %index 个注视方向的 %alg",
+  "huskylensV2.drawBox|block": "绘制或更新指示框 颜色%color 线宽%lineWidth x%x y%y 宽%w 高%h",
+  "huskylensV2.drawNewBox|block": "绘制新矩形框 颜色%color 线宽%lineWidth x%x y%y 宽%w 高%h",
+  "huskylensV2.showText|block": "显示文字 颜色%color 字体大小%fontSize x%x y%y 内容%content",
+  "huskylensV2.clearText|block": "清除文字",
+  "huskylensV2.clearBoxes|block": "清除指示框和矩形框",
+  "huskylensV2.setRGB|block": "设置颜色 红%red 绿%green 蓝%blue"
 
 
 }

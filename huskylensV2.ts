@@ -996,6 +996,328 @@ namespace huskylensV2 {
 
         return "";
     }
+
+    // 添加颜色枚举
+    // export const enum ScreenColor {
+    //     //% block="Red"
+    //     Red = 0xFF0000,
+    //     //% block="Green"
+    //     Green = 0x00FF00,
+    //     //% block="Blue"
+    //     Blue = 0x0000FF,
+    //     //% block="Yellow"
+    //     Yellow = 0xFFFF00,
+    //     //% block="Purple"
+    //     Purple = 0xFF00FF,
+    //     //% block="Cyan"
+    //     Cyan = 0x00FFFF,
+    //     //% block="White"
+    //     White = 0xFFFFFF,
+    //     //% block="Black"
+    //     Black = 0x000000
+    // }
+
+    /**
+     * 绘制或更新指示框
+     * @param color 框的颜色
+     * @param lineWidth 线宽
+     * @param x 起点X坐标
+     * @param y 起点Y坐标
+     * @param w 宽度
+     * @param h 高度
+     */
+    //% block="Draw or update indicator box Color%color Line width%lineWidth x%x y%y width%w height%h"
+    //% subcategory="Screen Display"
+    //% weight=90
+    //% color.min=0 color.max=16777215
+    //% lineWidth.min=1 lineWidth.max=10
+    //% x.min=0 x.max=640
+    //% y.min=0 y.max=480
+    //% w.min=1 w.max=640
+    //% h.min=1 h.max=480
+    export function drawBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): boolean {
+        const dataBuf = Buffer.create(16);
+        dataBuf[0] = 0;  // 保留字节
+        dataBuf[1] = lineWidth;  // 线宽
+        
+        // 设置坐标和尺寸 (int16_t)
+        dataBuf[2] = x & 0xFF;
+        dataBuf[3] = (x >> 8) & 0xFF;
+        dataBuf[4] = y & 0xFF;
+        dataBuf[5] = (y >> 8) & 0xFF;
+        dataBuf[6] = w & 0xFF;
+        dataBuf[7] = (w >> 8) & 0xFF;
+        dataBuf[8] = h & 0xFF;
+        dataBuf[9] = (h >> 8) & 0xFF;
+        dataBuf[10] = 0;  // 保留
+        dataBuf[11] = 0;  // 保留
+        
+        // 设置颜色 (int32_t)
+        dataBuf[12] = color & 0xFF;
+        dataBuf[13] = (color >> 8) & 0xFF;
+        dataBuf[14] = (color >> 16) & 0xFF;
+        dataBuf[15] = (color >> 24) & 0xFF;
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_DRAW_RECT,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        // 发送命令并等待响应
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_DRAW_RECT, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                if (packetData.retValue === 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 绘制新矩形框
+     * @param color 框的颜色
+     * @param lineWidth 线宽
+     * @param x 起点X坐标
+     * @param y 起点Y坐标
+     * @param w 宽度
+     * @param h 高度
+     */
+    //% block="Draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
+    //% subcategory="Screen Display"
+    //% weight=89
+    //% color.min=0 color.max=16777215
+    //% lineWidth.min=1 lineWidth.max=10
+    //% x.min=0 x.max=640
+    //% y.min=0 y.max=480
+    //% w.min=1 w.max=640
+    //% h.min=1 h.max=480
+    export function drawNewBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): boolean {
+        const dataBuf = Buffer.create(16);
+        dataBuf[0] = 0;  // 保留字节
+        dataBuf[1] = lineWidth;  // 线宽
+        
+        // 设置坐标和尺寸 (int16_t)
+        dataBuf[2] = x & 0xFF;
+        dataBuf[3] = (x >> 8) & 0xFF;
+        dataBuf[4] = y & 0xFF;
+        dataBuf[5] = (y >> 8) & 0xFF;
+        dataBuf[6] = w & 0xFF;
+        dataBuf[7] = (w >> 8) & 0xFF;
+        dataBuf[8] = h & 0xFF;
+        dataBuf[9] = (h >> 8) & 0xFF;
+        dataBuf[10] = 0;  // 保留
+        dataBuf[11] = 0;  // 保留
+        
+        // 设置颜色 (int32_t)
+        dataBuf[12] = color & 0xFF;
+        dataBuf[13] = (color >> 8) & 0xFF;
+        dataBuf[14] = (color >> 16) & 0xFF;
+        dataBuf[15] = (color >> 24) & 0xFF;
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        // 发送命令并等待响应
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                if (packetData.retValue === 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 显示文字
+     * @param color 文字颜色
+     * @param fontSize 字体大小
+     * @param x 起点X坐标
+     * @param y 起点Y坐标
+     * @param content 文字内容
+     */
+    //% block="Display text color%color fontSize%fontSize x%x y%y content%content"
+    //% subcategory="Screen Display"
+    //% weight=91
+    //% color.min=0 color.max=16777215
+    //% fontSize.min=8 fontSize.max=24
+    //% x.min=0 x.max=640
+    //% y.min=0 y.max=480
+    export function showText(color: number, fontSize: number, x: number, y: number, content: string): boolean {
+        const textBuf = Buffer.fromUTF8(content);
+        const dataBuf = Buffer.create(15 + textBuf.length);
+        
+        dataBuf[0] = 0;  // 保留字节
+        dataBuf[1] = fontSize;  // 字体大小
+        
+        // 设置坐标 (int16_t)
+        dataBuf[2] = x & 0xFF;
+        dataBuf[3] = (x >> 8) & 0xFF;
+        dataBuf[4] = y & 0xFF;
+        dataBuf[5] = (y >> 8) & 0xFF;
+        
+        // 保留字段
+        dataBuf[6] = 0;  // 保留
+        dataBuf[7] = 0;  // 保留
+        dataBuf[8] = 0;  // 保留
+        dataBuf[9] = 0;  // 保留
+        
+        // 文字长度
+        dataBuf[10] = textBuf.length;
+        
+        // 文字内容
+        for (let i = 0; i < textBuf.length; i++) {
+            dataBuf[11 + i] = textBuf[i];
+        }
+        
+        // 结束符和颜色
+        dataBuf[11 + textBuf.length] = 0;  // 结束符
+        
+        // 设置颜色 (int32_t)
+        dataBuf[12 + textBuf.length] = color & 0xFF;
+        dataBuf[13 + textBuf.length] = (color >> 8) & 0xFF;
+        dataBuf[14 + textBuf.length] = (color >> 16) & 0xFF;
+        dataBuf[15 + textBuf.length] = (color >> 24) & 0xFF;
+
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_DRAW_TEXT,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        // 发送命令并等待响应
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_DRAW_TEXT, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                if (packetData.retValue === 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Clear text
+     */
+    //% block="Clear text"
+    //% subcategory="Screen Display"
+    //% weight=88
+    export function clearText(): boolean {
+        const dataBuf = Buffer.create(0);
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_CLEAR_TEXT,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        // 发送命令并等待响应
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_CLEAR_TEXT, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                if (packetData.retValue === 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Clear indicator boxes and rectangles
+     */
+    //% block="Clear indicator boxes and rectangles"
+    //% subcategory="Screen Display"
+    //% weight=87
+    export function clearBoxes(): boolean {
+        const dataBuf = Buffer.create(0);
+        const pkt = PacketHead.fromFields({
+            cmd: Macro.COMMAND_ACTION_CLEAR_RECT,
+            algo_id: Algorithm.ALGORITHM_ANY,
+            data: dataBuf,
+        });
+
+        // 发送命令并等待响应
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+            protocolWrite(pkt);
+            basic.pause(100);
+            if (wait(Macro.COMMAND_ACTION_CLEAR_RECT, Macro.COMMAND_RETURN_ARGS)) {
+                let buf = Buffer.create(receive_buffer.length);
+                for (let j = 0; j < receive_buffer.length; j++) {
+                    buf[j] = receive_buffer[j];
+                }
+                const packetData = new PacketData(buf.slice(5, buf.length - 1));
+                if (packetData.retValue === 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 设置RGB颜色值
+     * @param red 红色值
+     * @param green 绿色值
+     * @param blue 蓝色值
+     */
+    //% block="set color red%red green%green blue%blue"
+    //% subcategory="Screen Display"
+    //% weight=86
+    //% red.min=0 red.max=255
+    //% green.min=0 green.max=255
+    //% blue.min=0 blue.max=255
+    export function setRGB(red: number, green: number, blue: number): number {
+        // 限制输入值在0-255范围内
+        red = Math.max(0, Math.min(255, red));
+        green = Math.max(0, Math.min(255, green));
+        blue = Math.max(0, Math.min(255, blue));
+        
+        // 将RGB值组合成一个32位整数 (0x00RRGGBB)
+        return (red << 16) + (green << 8) + blue;
+    }
+
 }
 
     // ==================== End of Low-level Communication Code ====================
