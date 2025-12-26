@@ -997,25 +997,6 @@ namespace huskylensV2 {
         return "";
     }
 
-    // 添加颜色枚举
-    // export const enum ScreenColor {
-    //     //% block="Red"
-    //     Red = 0xFF0000,
-    //     //% block="Green"
-    //     Green = 0x00FF00,
-    //     //% block="Blue"
-    //     Blue = 0x0000FF,
-    //     //% block="Yellow"
-    //     Yellow = 0xFFFF00,
-    //     //% block="Purple"
-    //     Purple = 0xFF00FF,
-    //     //% block="Cyan"
-    //     Cyan = 0x00FFFF,
-    //     //% block="White"
-    //     White = 0xFFFFFF,
-    //     //% block="Black"
-    //     Black = 0x000000
-    // }
 
     /**
      * 绘制或更新指示框
@@ -1035,7 +1016,7 @@ namespace huskylensV2 {
     //% y.min=0 y.max=480
     //% w.min=1 w.max=640
     //% h.min=1 h.max=480
-    export function drawBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): boolean {
+    export function drawBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
         const dataBuf = Buffer.create(16);
         dataBuf[0] = 0;  // 保留字节
         dataBuf[1] = lineWidth;  // 线宽
@@ -1102,7 +1083,7 @@ namespace huskylensV2 {
     //% y.min=0 y.max=480
     //% w.min=1 w.max=640
     //% h.min=1 h.max=480
-    export function drawNewBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): boolean {
+    export function drawNewBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
         const dataBuf = Buffer.create(16);
         dataBuf[0] = 0;  // 保留字节
         dataBuf[1] = lineWidth;  // 线宽
@@ -1166,7 +1147,7 @@ namespace huskylensV2 {
     //% fontSize.min=8 fontSize.max=24
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
-    export function showText(color: number, fontSize: number, x: number, y: number, content: string): boolean {
+    export function showText(color: number, fontSize: number, x: number, y: number, content: string): void {
         const textBuf = Buffer.fromUTF8(content);
         const dataBuf = Buffer.create(15 + textBuf.length);
         
@@ -1234,7 +1215,7 @@ namespace huskylensV2 {
     //% block="Clear text"
     //% subcategory="Screen Display"
     //% weight=88
-    export function clearText(): boolean {
+    export function clearText(): void {
         const dataBuf = Buffer.create(0);
         const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_ACTION_CLEAR_TEXT,
@@ -1268,7 +1249,7 @@ namespace huskylensV2 {
     //% block="Clear indicator boxes and rectangles"
     //% subcategory="Screen Display"
     //% weight=87
-    export function clearBoxes(): boolean {
+    export function clearBoxes(): void {
         const dataBuf = Buffer.create(0);
         const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_ACTION_CLEAR_RECT,

@@ -386,6 +386,8 @@
   "{id:subcategory}Face Orientation Recognition": "人脸朝向检测",
   "{id:subcategory}Gaze Direction Detection":"注视方向检测",
   "{id:subcategory}Screen Display": "屏幕显示",
+  "{id:subcategory}multimedia": "多媒体",
+  
 
 
   "huskylensV2.requestFallDetectionData|block": "请求一次跌倒检测数据 存入结果",
