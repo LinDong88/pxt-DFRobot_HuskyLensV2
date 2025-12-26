@@ -388,9 +388,8 @@
   "{id:subcategory}Screen Display": "屏幕显示",
   "{id:subcategory}multimedia": "多媒体",
   "{id:subcategory}Learning /Forgetting": "学习/遗忘ID",
+  "{id:subcategory}Self-training": "自训练模型(目标检测)",
   
-  
-
 
   "huskylensV2.requestFallDetectionData|block": "请求一次跌倒检测数据 存入结果",
   "huskylensV2.fallDetected|block": "检测到跌倒？",
@@ -471,16 +470,27 @@
   "huskylensV2.getStoredScreenshotName|block": "截屏照片名",
   "huskylensV2.getStoredPhotoName|block": "拍摄照片名",
 
-  "HuskylensV2.learningForgettingID|block": "学习/遗忘 ID",
-  "HuskylensV2.learnObjectAtCenter|block": "内置模型 %alg 学习画面中心目标",
-  "HuskylensV2.learnObjectAtCenterNUM|block": "自训练模型 %alg 学习画面中心目标",
-  "HuskylensV2.learnObjectInBox|block": "内置模型 %alg 学习指定框内目标 起点X%X 起点Y%Y 宽%W 高%H",
-  "HuskylensV2.learnObjectInBoxNUM|block": "自训练模型 %alg 学习指定框内目标 起点X%X 起点Y%Y 宽%W 高%H",
-  "HuskylensV2.getLearnedID|block": "获取学习的ID",
-  "HuskylensV2.setNameOfID|block": "设置内置模型 %alg ID %id的名字为 %name",
-  "HuskylensV2.setNameOfIDNUM|block": "设置自训练模型 %alg ID %id的名字为 %name",
-  "HuskylensV2.forgetAllIDs|block": "遗忘内置模型 %alg 全部ID",
-  "HuskylensV2.forgetAllIDsNUM|block": "遗忘自训练模型 %alg 全部ID"
+  "huskylensV2.getLearnedID|block": "获取学习的ID",
+  "huskylensV2.learnObjectAtCenter|block": "内置模型 %alg 学习画面中心目标",
+  "huskylensV2.learnObjectAtCenterNUM|block": "自训练模型 %alg 学习画面中心目标",
+  "huskylensV2.learnObjectInBox|block": "内置模型 %alg 学习指定框内目标 起点X%X 起点Y%Y 宽%W 高%H",
+  "huskylensV2.learnObjectInBoxNUM|block": "自训练模型 %alg 学习指定框内目标 起点X%X 起点Y%Y 宽%W 高%H",
+  "huskylensV2.setNameOfID|block": "设置内置模型 %alg ID %id的名字为 %name",
+  "huskylensV2.setNameOfIDNUM|block": "设置自训练模型 %alg ID %id的名字为 %name",
+  "huskylensV2.forgetAllIDs|block": "遗忘内置模型 %alg 全部ID",
+  "huskylensV2.forgetAllIDsNUM|block": "遗忘自训练模型 %alg 全部ID",
+
+  "huskylensV2.selfTrainedModelswitchAlgorithm|block": "HUSKYLENS 2切换到自训练模型, 模型ID%num",
+  "huskylensV2.requestData|block": "模型ID %num 请求一次数据 存入结果",
+  "huskylensV2.Detected|block": "模型ID %num 检测到目标？",
+  "huskylensV2.nearest|block": "模型ID %num 靠近中心的目标 %alg",
+  "huskylensV2.total|block": "模型ID %num 检测到的目标总数",
+  "huskylensV2.totalLearned|block": "模型ID %num 已学习的目标ID总数",
+  "huskylensV2.Property|block": "模型ID %num 第 %index 个目标的 %alg",
+  "huskylensV2.IDExists|block": "模型ID %num ID %id 的目标存在？",
+  "huskylensV2.totalWithID|block": "模型ID %num ID %id 的目标总数",
+  "huskylensV2.WithID|block": "模型ID %num ID %id 的目标 %alg",
+  "huskylensV2.WithIDProperty|block": "模型ID %num ID %id 的第%index个目标的%alg"
 
 
 }
