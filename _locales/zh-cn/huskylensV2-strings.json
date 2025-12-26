@@ -461,7 +461,13 @@
   "huskylensV2.showText|block": "显示文字 颜色%color 字体大小%fontSize x%x y%y 内容%content",
   "huskylensV2.clearText|block": "清除文字",
   "huskylensV2.clearBoxes|block": "清除指示框和矩形框",
-  "huskylensV2.setRGB|block": "设置颜色 红%red 绿%green 蓝%blue"
+  "huskylensV2.setRGB|block": "设置颜色 红%red 绿%green 蓝%blue",
+
+  "huskylensV2.playMusic|block": "播放音乐 %name 音量 %volume",
+  "huskylensV2.takePhoto|block": "拍照",
+  "huskylensV2.takeScreenshot|block": "截屏",
+  "huskylensV2.getStoredScreenshotName|block": "截屏照片名",
+  "huskylensV2.getStoredPhotoName|block": "拍摄照片名"
 
 
 }

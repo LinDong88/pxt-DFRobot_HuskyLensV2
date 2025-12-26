@@ -871,14 +871,14 @@ namespace huskylensV2 {
     }
 
 
-    //-------------------------------------------------multimedia-----------------------------------
-    //% block="play Music %name  %number"
+    //---------------------------------------------------------------multimedia----------------------------------------
+    //% block="play music %name at volume %volume"
     //% name.shadow="text"
     //% name.defl="music.mp3"
     //% weight=119
     //% volume.min=0 volume.max=100 volume.defl=50
     //% subcategory="multimedia"
-    export function _playMusic(name: string, volume: number = 50): boolean {
+    export function playMusic(name: string, volume: number = 50): boolean {
         if (volume < 0) volume = 0;
         if (volume > 100) volume = 100;
 
@@ -934,10 +934,10 @@ namespace huskylensV2 {
     }
 
     let photoName: string = "";
-    //% block="takePhoto"
+    //% block="take Photo"
     //% weight=118
     //% subcategory="multimedia"
-    export function _takePhoto(void): string {
+    export function takePhoto(): void {
         const dataBuf = Buffer.create(10);
         dataBuf[0] = 2;  // 设置分辨率2： RESOLUTION_1280x720 
         // 添加9个零字节
@@ -963,21 +963,23 @@ namespace huskylensV2 {
                 const packetData = new PacketData(buf.slice(5, buf.length - 1));
 
                 if (packetData.retValue !== 0) {
-                    return "";
+                    return ;
                 }
 
                 // 从payload中提取字符串
-                return bufferToString(packetData.payload);
+                // return bufferToString(packetData.payload);
+                photoName = bufferToString(packetData.payload);
+                
             }
         }
 
-        return "";
+        return ;
     }
     let screenshotName: string = "";
-    //% block="takeScreenshot"
+    //% block="Take a screenshot"
     //% weight=116
     //% subcategory="multimedia"
-    export function _takeScreenshot(): string {
+    export function takeScreenshot(): void {
         const dataBuf = Buffer.create(0);
         const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_ACTION_TAKE_SCREENSHOT,
@@ -997,25 +999,24 @@ namespace huskylensV2 {
                 const packetData = new PacketData(buf.slice(5, buf.length - 1));
 
                 if (packetData.retValue !== 0) {
-                    return "";
+                    return ;
                 }
-
                 // 从payload中提取字符串
-                return bufferToString(packetData.payload);
+                // return bufferToString(packetData.payload);
+                screenshotName = bufferToString(packetData.payload);
             }
         }
-
-        return "";
+        return ;
     }
 
-    //% block="getStoredScreenshotName"
+    //% block="Obtain the name of the saved screenshot"
     //% weight=115
     //% subcategory="multimedia"
     export function getStoredScreenshotName(): string {
         return screenshotName;
     }
 
-    //% block="getStoredPhotoName"
+    //% block="Obtain the names of the stored photos"
     //% weight=117
     //% subcategory="multimedia"
     export function getStoredPhotoName(): string {
@@ -1023,15 +1024,6 @@ namespace huskylensV2 {
     }
 
     //-------------------------------------------------Screen Display-----------------------------------
-    /**
-     * 绘制或更新指示框
-     * @param color 框的颜色
-     * @param lineWidth 线宽
-     * @param x 起点X坐标
-     * @param y 起点Y坐标
-     * @param w 宽度
-     * @param h 高度
-     */
     //% block="Draw or update indicator box Color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="Screen Display"
     //% weight=90
@@ -1089,15 +1081,6 @@ namespace huskylensV2 {
         return ;
     }
 
-    /**
-     * 绘制新矩形框
-     * @param color 框的颜色
-     * @param lineWidth 线宽
-     * @param x 起点X坐标
-     * @param y 起点Y坐标
-     * @param w 宽度
-     * @param h 高度
-     */
     //% block="Draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="Screen Display"
     //% weight=89
@@ -1155,19 +1138,11 @@ namespace huskylensV2 {
         return ;
     }
 
-    /**
-     * 显示文字
-     * @param color 文字颜色
-     * @param fontSize 字体大小
-     * @param x 起点X坐标
-     * @param y 起点Y坐标
-     * @param content 文字内容
-     */
     //% block="Display text color%color fontSize%fontSize x%x y%y content%content"
     //% subcategory="Screen Display"
     //% weight=91
     //% color.min=0 color.max=16777215
-    //% fontSize.min=8 fontSize.max=24
+    //% fontSize.min=8 fontSize.max=128
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
     export function showText(color: number, fontSize: number, x: number, y: number, content: string): void {
@@ -1300,12 +1275,6 @@ namespace huskylensV2 {
         return ;
     }
 
-    /**
-     * 设置RGB颜色值
-     * @param red 红色值
-     * @param green 绿色值
-     * @param blue 蓝色值
-     */
     //% block="set color red%red green%green blue%blue"
     //% subcategory="Screen Display"
     //% weight=86
@@ -1313,12 +1282,9 @@ namespace huskylensV2 {
     //% green.min=0 green.max=255
     //% blue.min=0 blue.max=255
     export function setRGB(red: number, green: number, blue: number): number {
-        // 限制输入值在0-255范围内
         red = Math.max(0, Math.min(255, red));
         green = Math.max(0, Math.min(255, green));
         blue = Math.max(0, Math.min(255, blue));
-        
-        // 将RGB值组合成一个32位整数 (0x00RRGGBB)
         return (red << 16) + (green << 8) + blue;
     }
 
