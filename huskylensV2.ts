@@ -925,12 +925,12 @@ namespace huskylensV2 {
                 }
                 const packetData = new PacketData(buf.slice(5, buf.length - 1));
                 if (packetData.retValue === 0) {
-                    return true;
+                    return ;
                 }
             }
         }
 
-        return false;
+        return ;
     }
 
     let photoName: string = "";
@@ -1027,7 +1027,7 @@ namespace huskylensV2 {
     //% block="Draw or update indicator box Color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="Screen Display"
     //% weight=90
-    //% color.min=0 color.max=16777215
+    //% color.min=0 
     //% lineWidth.min=1 lineWidth.max=10
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
@@ -1084,7 +1084,7 @@ namespace huskylensV2 {
     //% block="Draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="Screen Display"
     //% weight=89
-    //% color.min=0 color.max=16777215
+    //% color.min=0 
     //% lineWidth.min=1 lineWidth.max=10
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
@@ -1137,17 +1137,26 @@ namespace huskylensV2 {
         }
         return ;
     }
-
+    export const enum fontSize {
+        FONT_20 =20,
+        FONT_24 =24,
+        FONT_26 =26,
+        FONT_27 =27,
+        FONT_28 =28,
+        FONT_32 =32,
+        FONT_36 =36,
+        FONT_40 =40,
+        FONT_48 =48,
+    }
     //% block="Display text color%color fontSize%fontSize x%x y%y content%content"
     //% subcategory="Screen Display"
     //% weight=91
-    //% color.min=0 color.max=16777215
-    //% fontSize.min=8 fontSize.max=48
+    //% color.min=0
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
-    export function showText(color: number, fontSize: number, x: number, y: number, content: string): void {
+    export function showText(color: number, fontSize: fontSize, x: number, y: number, content: string): void {
         const textBuf = Buffer.fromUTF8(content);
-        const dataBuf = Buffer.create(15 + textBuf.length);
+        const dataBuf = Buffer.create(20 + textBuf.length);
         
         dataBuf[0] = 0;  // 保留字节
         dataBuf[1] = fontSize;  // 字体大小
@@ -1206,7 +1215,6 @@ namespace huskylensV2 {
 
         return ;
     }
-
     /**
      * Clear text
      */
