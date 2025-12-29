@@ -5,38 +5,9 @@
 //% groups='["Communication","Algorithm Switch","Face Recognition","Object Recognition","Object Tracking","Color Recognition","Object Classification","Self-learning Classification","Instance Segmentation","Hand Recognition","Pose Recognition","License Plate Recognition","Optical Char Recognition","Line Tracking","Face Emotion Recognition","Tag Recognition","QR Code Recognition","Barcode Recognition"]'
 namespace huskylensV2 {
 
-    // ======================================================= License Plate Recognition ======================================
-    function getPlatePropertyValue(result: ResultVariant, prop: PlateProperty): any {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case PlateProperty.ID: return res.ID;
-            case PlateProperty.Name: return res.name.length > 0 ? res.name : "";
-            case PlateProperty.Content: return res.content.length > 0 ? res.content : "";
-            case PlateProperty.XCenter: return res.xCenter;
-            case PlateProperty.YCenter: return res.yCenter;
-            case PlateProperty.Width: return res.width;
-            case PlateProperty.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    function getPlatePropertyValueID(result: ResultVariant, prop: PlatePropertyID): any {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case PlatePropertyID.Name: return res.name.length > 0 ? res.name : "";
-            case PlatePropertyID.Content: return res.content.length > 0 ? res.content : "";
-            case PlatePropertyID.XCenter: return res.xCenter;
-            case PlatePropertyID.YCenter: return res.yCenter;
-            case PlatePropertyID.Width: return res.width;
-            case PlatePropertyID.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    // 车牌属性（含ID）
-    export enum PlateProperty {
+    // ================================================== Fall Detection ========================================
+    // Fall Detection Properties (Include ID)
+    export enum FallDetectionProperty {
         //% block="ID"
         ID,
         //% block="Name"
@@ -49,1109 +20,618 @@ namespace huskylensV2 {
         Width,
         //% block="Height"
         Height,
-        //% block="Content"
-        Content,
+    }
+    /**
+     * Get Fall Detection Property Value (Include ID)
+     * @param result Result object
+     * @param prop Fall detection property
+     */
+    export function getFallDetectionPropertyValue(result: ResultVariant, prop: FallDetectionProperty): any {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case FallDetectionProperty.ID: return res.ID;
+            case FallDetectionProperty.Name: return res.name.length > 0 ? res.name : "";
+            case FallDetectionProperty.XCenter: return res.xCenter;
+            case FallDetectionProperty.YCenter: return res.yCenter;
+            case FallDetectionProperty.Width: return res.width;
+            case FallDetectionProperty.Height: return res.height;
+            default: return 0;
+        }
     }
 
-    // 车牌属性（不含ID）
-    export enum PlatePropertyID {
+
+    /**
+     * Request fall detection data and store in results
+     */
+    //% block="Request fall detection data and store in results"
+    //% weight=149
+    //% subcategory="Fall Detection"
+    export function requestFallDetectionData(): void {
+        getResultInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
+    }
+
+    /**
+     * Is fall detected?
+     */
+    //% block="Is fall detected?"
+    //% weight=148
+    //% subcategory="Fall Detection"
+    export function fallDetected(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
+    }
+
+    /**
+     * Closest fall detection %alg
+     * @param alg Fall detection property
+     */
+    //% block="Closest fall detection %alg"
+    //% weight=147
+    //% subcategory="Fall Detection"
+    export function nearestFallDetection(alg: FallDetectionProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
+        return getFallDetectionPropertyValue(r, alg);
+    }
+
+    /**
+     * Total number of fall detections
+     */
+    //% block="Total number of fall detections"
+    //% weight=146
+    //% subcategory="Fall Detection"
+    export function totalFallDetections(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
+    }
+
+    /**
+     * %alg of the [INDEX]th fall detection
+     * @param index Index (1-based)
+     * @param alg Fall detection property
+     */
+
+    //% block=" the %index th fall detection %alg"
+    //% weight=145
+    //% index.min=1 index.defl=1
+    //% subcategory="Fall Detection"
+    export function fallDetectionProperty(index: number, alg: FallDetectionProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION, index - 1);
+        return getFallDetectionPropertyValue(r, alg);
+    }
+
+    // ================================ Face Orientation Detection Related Enums ==================================================
+    // Face Orientation Detection Properties
+    export enum FaceOrientationProperty {
+        //% block="ID"
+        ID = 0,
         //% block="Name"
         Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
+        //% block="Yaw Angle"
+        Yaw,
+        //% block="Pitch Angle"
+        Pitch,
+        //% block="Roll Angle"
+        Roll,
+    }
+    // Face Orientation Detection Properties
+    export enum FaceOrientationPropertyID {
+        //% block="Name"
+        Name = 1,
+        //% block="Yaw Angle"
+        Yaw,
+        //% block="Pitch Angle"
+        Pitch,
+        //% block="Roll Angle"
+        Roll,
+    }
+    // ================================= Face Orientation Detection Property Get Function ===========================================
+
+
+    /**
+     * Get Face Orientation Detection Property Value (Include ID)
+     * @param result Result object
+     * @param prop Face orientation detection property
+     */
+    export function getFaceOrientationPropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        const res = result as Result;
+        const p = prop | 0; // Ensure it's an integer
+        switch (prop) {
+            case FaceOrientationProperty.ID: return res.ID || 0;
+            case FaceOrientationProperty.Name: return res.name || "";
+            case FaceOrientationProperty.Yaw: return res.yaw || 0;
+            case FaceOrientationProperty.Pitch: return res.pitch || 0;
+            case FaceOrientationProperty.Roll: return res.roll || 0;
+            default: return 0;
+        }
+    }
+    /**
+     * Request face orientation data and store in results
+     */
+    //% block="Request face orientation data and store in results"
+    //% weight=139
+    //% subcategory="Face Orientation Recognition"
+    export function requestFaceOrientationData(): void {
+        getResultInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
     }
 
-    /** Get one-time license plate recognition result and cache it */
-    //% block="get license plate recognition result"
-    //% weight=129
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function getResultPlateRecogtion(): void {
-        getResultInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
+    /**
+     * Is face orientation detected?
+     */
+    //% block="Is face orientation detected?"
+    //% weight=138
+    //% subcategory="Face Orientation Recognition"
+    export function faceOrientationDetected(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
     }
 
-    /** Whether license plate detected */
-    //% block="license plate detected?"
-    //% weight=128
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function availablePlateRecogtion(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
+    /**
+     * Closest face orientation %alg
+     * @param alg Face orientation detection property
+     */
+    //% block="Closest face orientation %alg"
+    //% weight=137
+    //% subcategory="Face Orientation Recognition"
+    export function nearestFaceOrientation(alg: FaceOrientationProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
+        return getFaceOrientationPropertyValue(r, alg);
     }
 
-    /** 靠近中心的车牌属性 */
-    //% block="Plate near center %alg"
-    //% weight=127
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function getCachedCenterPlateResult(alg: PlateProperty): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
-        return getPlatePropertyValue(r, alg);
+    /**
+     * Total number of face orientations detected
+     */
+    //% block="Total number of face orientations detected"
+    //% weight=136
+    //% subcategory="Face Orientation Recognition"
+    export function totalFaceOrientations(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
     }
 
-    /** 检测到的车牌总数 */
-    //% block="Number of detected plates"
-    //% weight=126
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function getCachedResultNumPlate(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
+    /**
+     * Total number of learned face orientation IDs
+     */
+    //% block="Total number of learned face orientation IDs"
+    //% weight=135
+    //% subcategory="Face Orientation Recognition"
+    export function totalLearnedFaceOrientations(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
     }
 
-    /** 第N个车牌的属性 */
-    //% block="Plate %index %alg"
-    //% weight=125
+    /**
+     * %alg of the [INDEX]th face orientation
+     * @param index Index (1-based)
+     * @param alg Face orientation detection property
+     */
+    //% block="the %index th face orientation %alg"
+    //% weight=134
     //% index.min=1 index.defl=1
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function getCachedResultPlateProperty(index: number, alg: PlateProperty): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index - 1);
-        return getPlatePropertyValue(r, alg);
+    //% subcategory="Face Orientation Recognition"
+    export function faceOrientationProperty(index: number, alg: FaceOrientationProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, index - 1);
+        return getFaceOrientationPropertyValue(r, alg);
     }
 
-    /** 已学习的车牌ID总数 */
-    //% block="Number of learned plate IDs"
-    //% weight=124
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function getNumLearnedPlateIDs(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
-    }
-
-    /** 指定ID的车牌是否存在 */
-    //% block="Does plate ID %index exist?"
-    //% weight=123
-    //% index.min=1 index.defl=1
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function plateIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
+    /**
+     * Does face orientation with ID %id exist?
+     * @param id Face orientation ID
+     */
+    //% block="Does face orientation with ID %id exist?"
+    //% weight=133
+    //% id.min=1 id.defl=1
+    //% subcategory="Face Orientation Recognition"
+    export function faceOrientationIDExists(id: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, id);
         return r != null;
     }
 
-    /** 指定ID的车牌数量 */
-    //% block="Number of plates with ID %index"
+    /**
+     * Total number of face orientations with ID %id
+     * @param id Face orientation ID
+     */
+    //% block="Total number of face orientations with ID %id"
+    //% weight=132
+    //% id.min=1 id.defl=1
+    //% subcategory="Face Orientation Recognition"
+    export function totalFaceOrientationsWithID(id: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, id);
+    }
+
+    /**
+     * %alg of face orientation with ID %id
+     * @param id Face orientation ID
+     * @param alg Face orientation detection property (excluding ID)
+     */
+    //% block="ID %id face orientation %alg"
+    //% weight=131
+    //% id.min=1 id.defl=1
+    //% subcategory="Face Orientation Recognition"
+    export function faceOrientationWithID(id: number, alg: FaceOrientationPropertyID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, id);
+        return getFaceOrientationPropertyValue(r, alg);
+    }
+
+    /**
+     * %alg of the [INDEX]th face orientation with ID %id
+     * @param id Face orientation ID
+     * @param index Which one (1-based)
+     * @param alg Face orientation detection property (excluding ID)
+     */
+    //% block="ID %id of the %index th face orientation %alg "
+    //% weight=130
+    //% id.min=1 id.defl=1
+    //% index.min=1 index.defl=1
+
+    //% subcategory="Face Orientation Recognition"
+    export function faceOrientationWithIDProperty(id: number, index: number, alg: FaceOrientationPropertyID): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, id, index - 1);
+        return getFaceOrientationPropertyValue(r, alg);
+    }
+
+    // ==================================== Gaze Direction Detection Related Enums ===============================
+    // Gaze Direction Detection Properties (Include ID)
+    export enum Eye_GAZE_PROPERTY {
+        //% block="ID"
+        ID = 0,
+        //% block="Name"
+        Name,
+        //% block="Projected Angle"
+        Angle,
+        //% block="Projected Length"
+        Length,
+        //% block="Pitch Angle"
+        Pitch,
+        //% block="Yaw Angle"
+        Yaw
+    }
+
+    // Gaze Direction Detection Properties (excluding ID)
+    export enum Eye_GAZE_PROPERTY_ID {
+        //% block="Name"
+        Name = 1,
+        //% block="Projected Angle"
+        Angle,
+        //% block="Projected Length"
+        Length,
+        //% block="Pitch Angle"
+        Pitch,
+        //% block="Yaw Angle"
+        Yaw
+    }
+    /**
+     * Get Gaze Direction Detection Property Value (Include ID)
+     * @param result Result object
+     * @param prop Gaze direction detection property
+     */
+    export function getEyeGazePropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case Eye_GAZE_PROPERTY.ID: return res.ID;
+            case Eye_GAZE_PROPERTY.Name: return res.name || "";
+            case Eye_GAZE_PROPERTY.Angle: return res.angle;        // Projected angle
+            case Eye_GAZE_PROPERTY.Length: return res.length;      // Projected length
+            case Eye_GAZE_PROPERTY.Pitch: return res.pitch;        // Pitch angle
+            case Eye_GAZE_PROPERTY.Yaw: return res.yaw;           // Yaw angle
+            default: return 0;
+        }
+    }
+
+    /**
+     * Request gaze direction data and store in results
+     */
+    //% block="Request gaze direction data and store in results"
+    //% weight=129
+    //% subcategory="Gaze Direction Detection"
+    export function requestEyeGazeData(): void {
+        getResultInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+    }
+
+    /**
+     * Is gaze direction detected?
+     */
+    //% block="Is gaze direction detected?"
+    //% weight=128
+    //% subcategory="Gaze Direction Detection"
+    export function eyeGazeDetected(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+    }
+
+    /**
+     * Closest gaze direction %alg
+     * @param alg Gaze direction detection property
+     */
+    //% block="Closest gaze direction %alg"
+    //% weight=127
+    //% subcategory="Gaze Direction Detection"
+    export function nearestEyeGaze(alg: Eye_GAZE_PROPERTY): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+        return getEyeGazePropertyValue(r, alg);
+    }
+
+    /**
+     * Total number of gaze directions detected
+     */
+    //% block="Total number of gaze directions detected"
+    //% weight=126
+    //% subcategory="Gaze Direction Detection"
+    export function totalEyeGazes(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+    }
+
+    /**
+     * Total number of learned gaze direction IDs
+     */
+    //% block="Total number of learned gaze direction IDs"
+    //% weight=125
+    //% subcategory="Gaze Direction Detection"
+    export function totalLearnedEyeGazes(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+    }
+
+    /**
+     * %alg of the [INDEX]th gaze direction
+     * @param index Index (1-based)
+     * @param alg Gaze direction detection property
+     */
+    //% block="the %index th gaze direction %alg"
+    //% weight=124
+    //% index.min=1 index.defl=1
+    //% subcategory="Gaze Direction Detection"
+    export function eyeGazeProperty(index: number, alg: Eye_GAZE_PROPERTY): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, index - 1);
+        return getEyeGazePropertyValue(r, alg);
+    }
+
+    /**
+     * Does gaze direction with ID %id exist?
+     * @param id Gaze direction ID
+     */
+    //% block="Does gaze direction with ID %id exist?"
+    //% weight=123
+    //% id.min=1 id.defl=1
+    //% subcategory="Gaze Direction Detection"
+    export function gazeIDExists(id: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, id);
+        return r != null;
+    }
+
+    /**
+     * Total number of gaze directions with ID %id
+     * @param id Gaze direction ID
+     */
+    //% block="Total number of gaze directions with ID %id"
     //% weight=122
-    //% index.min=1 index.defl=1
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function getNumPlateByID(index: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
+    //% id.min=1 id.defl=1
+    //% subcategory="Gaze Direction Detection"
+    export function totalEyeGazesWithID(id: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, id);
     }
 
-    /** 指定ID的车牌属性 */
-    //% block="Plate ID %index %alg"
+    /**
+     * %alg of gaze direction with ID %id
+     * @param id Gaze direction ID
+     * @param alg Gaze direction detection property (excluding ID)
+     */
+    //% block="ID %id gaze direction %alg "
     //% weight=121
-    //% index.min=1 index.defl=1
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function getPlatePropertyByID(index: number, alg: PlatePropertyID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
-        return getPlatePropertyValueID(r, alg);
+    //% id.min=1 id.defl=1
+    //% subcategory="Gaze Direction Detection"
+    export function gazeWithID(id: number, alg: Eye_GAZE_PROPERTY_ID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, id);
+        return getEyeGazePropertyValue(r, alg);
     }
 
-    /** 指定ID第N个车牌的属性 */
-    //% block="Plate ID %id No.%n %alg"
+    /**
+     * %alg of the [INDEX]th gaze direction with ID %id
+     * @param id Gaze direction ID
+     * @param index Which one (1-based)
+     * @param alg Gaze direction detection property (excluding ID)
+     */
+    //% block="ID %id of the %index th gaze direction %alg"
     //% weight=120
     //% id.min=1 id.defl=1
-    //% n.min=1 n.defl=1
-    //% group="License Plate Recognition"
-    //% subcategory="License Plate Recognition"
-    export function getPlatePropertyByIDNth(id: number, n: number, alg: PlatePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, id, n - 1);
-        return getPlatePropertyValueID(r, alg);
+    //% index.min=1 index.defl=1
+    //% subcategory="Gaze Direction Detection"
+    export function gazeWithIDProperty(id: number, index: number, alg: Eye_GAZE_PROPERTY_ID): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, id, index - 1);
+        return getEyeGazePropertyValue(r, alg);
     }
 
-    // ========================================================== Optical Char Recognition ==============================================
-    function getTextPropertyValue(result: ResultVariant, prop: TextProperty): any {
-        if (!result) return 0;
-        const res = result as Result;
 
-        switch (prop) {
-            case TextProperty.ID: return res.ID;
-            case TextProperty.Name: return res.name.length > 0 ? res.name : "";
-            case TextProperty.Content: return res.content.length > 0 ? res.content : "";
-            case TextProperty.XCenter: return res.xCenter;
-            case TextProperty.YCenter: return res.yCenter;
-            case TextProperty.Width: return res.width;
-            case TextProperty.Height: return res.height;
-            default: return 0;
-        }
+    // ==================================== Self-trained model related enums ========================================
+    
+    // Number property enum
+    export const enum NumProperty {
+        //% block="xCenter"
+        xCenter,
+        //% block="yCenter"
+        yCenter,
+        //% block="width"
+        width,
+        //% block="height"
+        height,
+        //% block="name"
+        name 
     }
 
-    function getTextPropertyValueID(result: ResultVariant, prop: TextPropertyID): any {
-        if (!result) return 0;
-        const res = result as Result;
-
-        switch (prop) {
-            case TextPropertyID.Name: return res.name.length > 0 ? res.name : "";
-            case TextPropertyID.Content: return res.content.length > 0 ? res.content : "";
-            case TextPropertyID.XCenter: return res.xCenter;
-            case TextPropertyID.YCenter: return res.yCenter;
-            case TextPropertyID.Width: return res.width;
-            case TextPropertyID.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    // 文字属性（含ID）
-    export enum TextProperty {
+    // Number property enum including strings
+    export const enum NumPropertyWithStr {
         //% block="ID"
-        ID,
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
+        ID ,
+        //% block="xCenter"
+        xCenter,
+        //% block="yCenter"
+        yCenter,
+        //% block="width"
+        width,
+        //% block="height"
+        height,
+        //% block="name"
+        name 
     }
 
-    // 文字属性（不含ID）
-    export enum TextPropertyID {
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
-    }
-
-    /** 获取一次文字识别结果并缓存 */
-    //% block="Get Optical Char Recognition result"
+    // ==================== Self-trained model function blocks ====================
+    
+    //% block="HUSKYLENS 2 switch to custom-trained model, model ID%num"
     //% weight=119
-    //% group="Optical Char Recognition"
-    //% subcategory="Optical Char Recognition"
-    export function getResultTextRecogtion(): void {
-        getResultInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    export function selfTrainedModelswitchAlgorithm(num: number): void {
+        // Switch to self-trained model
+        switchAlgorithmInternal(num);
+        basic.pause(5000); // Wait 5 seconds for model loading
     }
 
-    /** 是否检测到文字区域 */
-    //% block="Whether text region detected"
+    //% block="Model ID%num request data and save to results"
     //% weight=118
-    //% group="Optical Char Recognition"
-    //% subcategory="Optical Char Recognition"
-    export function availableTextRecogtion(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    export function requestData(num: number): void {
+        // Request data and save to result cache
+        getResultInternal(num);
     }
 
-    /** 靠近中心的文字区域属性 */
-    //% block="Text region near center %alg"
+    //% block="Model ID%num target detected?"
     //% weight=117
-    //% group="Optical Char Recognition"
-    //% subcategory="Optical Char Recognition"
-    export function getCachedCenterTextResult(alg: TextProperty): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
-        return getTextPropertyValue(r, alg);
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    export function Detected(num: number): boolean {
+        return availableInternal(num);
     }
 
-    /** 已学习的文字区域ID总数 */
-    //% block="Number of learned text region IDs"
+    //% block="Model ID%num target closest to center%alg"
+    //% weight=116
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    //% alg.defl=NumPropertyWithStr.ID
+    export function nearest(num: number, alg: NumPropertyWithStr): any {
+        const res = getCachedCenterResultInternal(num);
+        const result = res as Result;
+        if (!result) return 0;
+        
+        switch (alg) {
+            case NumPropertyWithStr.ID:return result.ID || 0;
+            case NumPropertyWithStr.xCenter:return result.xCenter|| 0;
+            case NumPropertyWithStr.yCenter:return result.yCenter|| 0;
+            case NumPropertyWithStr.width:return result.width|| 0;
+            case NumPropertyWithStr.height: return result.height|| 0;
+            case NumPropertyWithStr.name:return result.name|| "";
+            default:
+                return 0;
+        }
+    }
+
+    //% block="Model ID%num total number of detected targets"
+    //% weight=115
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    export function total(num: number): number {
+        return getCachedResultNumInternal(num);
+    }
+
+    //% block="Model ID%num total number of learned target IDs"
     //% weight=114
-    //% group="Optical Char Recognition"
-    //% subcategory="Optical Char Recognition"
-    export function getNumLearnedTextIDs(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    export function totalLearned(num: number): number {
+        return getCachedResultMaxID(num);
     }
 
-    /** 指定ID的文字区域是否存在 */
-    //% block="Does text region ID %index exist?"
+    //% block="Model ID%num No.%index target%alg"
     //% weight=113
-    //% index.min=1 index.defl=1
-    //% group="Optical Char Recognition"
-    //% subcategory="Optical Char Recognition"
-    export function textIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OCR_RECOGNITION, index);
-        return r != null;
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    //% INDEX.min=1 INDEX.max=6 INDEX.defl=1
+    //% alg.defl=NumPropertyWithStr.ID
+    export function Property(num: number, INDEX: number, alg: NumPropertyWithStr): any {
+        const res = getCachedResultByIndexInternal(num, INDEX - 1);
+        const result = res as Result;
+        if (!result) {
+            if (alg === NumPropertyWithStr.name ) {
+                return "";
+            }
+            return 0;
+        }
+        
+        switch (alg) {
+            case NumPropertyWithStr.ID:return result.ID || 0;
+            case NumPropertyWithStr.xCenter:return result.xCenter|| 0;
+            case NumPropertyWithStr.yCenter:return result.yCenter|| 0;
+            case NumPropertyWithStr.width:return result.width|| 0;
+            case NumPropertyWithStr.height:return result.height|| 0;
+            case NumPropertyWithStr.name:return result.name || "";
+            default:
+                return 0;
+        }
     }
 
-    /** 指定ID的文字区域属性 */
-    //% block="Text region ID %index %alg"
+    //% block="Model ID%num target ID%id exists?"
+    //% weight=112
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    //% id.min=1 id.max=100 id.defl=1
+    export function IDExists(num: number, id: number): boolean {
+        return getCachedResultByIDInternal(num, id) !== null;
+    }
+
+    //% block="Model ID%num total number of targets with ID%id"
     //% weight=111
-    //% index.min=1 index.defl=1
-    //% group="Optical Char Recognition"
-    //% subcategory="Optical Char Recognition"
-    export function getTextPropertyByID(index: number, alg: TextPropertyID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OCR_RECOGNITION, index);
-        return getTextPropertyValueID(r, alg);
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    //% id.min=1 id.max=100 id.defl=1
+    export function totalWithID(num: number, id: number): number {
+        return getCachedResultNumByIDInternal(num, id);
     }
 
-    // ============================================================= Line Tracking ====================================================
-    // Helper function to convert unsigned 16-bit to signed 16-bit integer
-    function toSigned16(val: number): number {
-        // If value is greater than 32767, it's a negative number in signed 16-bit representation
-        return val > 32767 ? val - 65536 : val;
-    }
-
-    function getLineTrackingPropertyValue(result: ResultVariant, prop: LineTrackingProperty): number {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case LineTrackingProperty.XComponent: return toSigned16(res.xCenter);
-            case LineTrackingProperty.YComponent: return toSigned16(res.yCenter);
-            case LineTrackingProperty.Angle: return toSigned16(res.angle);
-            case LineTrackingProperty.Length: return res.length;
-            default: return 0;
+    //% block="Model ID%num target with ID%id%alg"
+    //% weight=110
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    //% id.min=1 id.max=100 id.defl=1
+    //% alg.defl=NumPropertyWithStr.id
+    export function WithID(num: number, id: number, alg: NumPropertyWithStr): any {
+        const res = getCachedResultByIDInternal(num, id);
+        const result = res as Result;
+        if (!result) {
+            if (alg === NumPropertyWithStr.name ) {
+                return "";
+            }
+            return 0;
+        }
+        
+        switch (alg) {
+            case NumPropertyWithStr.ID:return result.ID || 0;
+            case NumPropertyWithStr.xCenter:return result.xCenter|| 0;
+            case NumPropertyWithStr.yCenter:return result.yCenter|| 0;
+            case NumPropertyWithStr.width:return result.width|| 0;
+            case NumPropertyWithStr.height:return result.height|| 0;
+            case NumPropertyWithStr.name: return result.name|| "";
+            default:return 0;
         }
     }
 
-    // Line tracking properties
-    export enum LineTrackingProperty {
-        //% block="X Component"
-        XComponent,
-        //% block="Y Component"
-        YComponent,
-        //% block="Angle"
-        Angle,
-        //% block="Length"
-        Length,
-    }
-
-    /** 请求一次巡线数据存入结果 */
-    //% block="Request line tracking data and store result"
+    //% block="Model ID %num ID %id the %index target of %alg""
     //% weight=109
-    //% group="Line Tracking"
-    //% subcategory="Line Tracking"
-    export function getResultLineTracking(): void {
-        getResultInternal(Algorithm.ALGORITHM_LINE_TRACKING);
-    }
-
-    /** 是否检测到路线 */
-    //% block="Whether line detected"
-    //% weight=108
-    //% group="Line Tracking"
-    //% subcategory="Line Tracking"
-    export function availableLineTracking(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_LINE_TRACKING);
-    }
-
-    /** 当前路线的属性 */
-    //% block="Current line %alg"
-    //% weight=107
-    //% group="Line Tracking"
-    //% subcategory="Line Tracking"
-    export function getCachedLineTrackingResult(alg: LineTrackingProperty): number {
-        const r = getCurrentBranchInternal(Algorithm.ALGORITHM_LINE_TRACKING);
-        return getLineTrackingPropertyValue(r, alg);
-    }
-
-    /** 前方路口分支数量 */
-    //% block="Number of branches at intersection ahead"
-    //% weight=106
-    //% group="Line Tracking"
-    //% subcategory="Line Tracking"
-    export function getLineTrackingBranchCount(): number {
-        return getUpcomingBranchCountInternal(Algorithm.ALGORITHM_LINE_TRACKING);
-    }
-
-    /** 逆时针第index条分支路线的属性 */
-    //% block="Branch %index counterclockwise %alg"
-    //% weight=105
-    //% index.min=1 index.defl=1
-    //% group="Line Tracking"
-    //% subcategory="Line Tracking"
-    export function getLineTrackingBranchProperty(index: number, alg: LineTrackingProperty): number {
-        const r = getBranchInternal(Algorithm.ALGORITHM_LINE_TRACKING, index - 1);
-        return getLineTrackingPropertyValue(r, alg);
-    }
-
-    // ======================================================== Face Emotion Recognition ==============================================
-    function getEmotionPropertyValue(result: ResultVariant, prop: EmotionProperty): number {
-        return getObjectPropertyValue(result, prop as any);
-    }
-
-    function getEmotionPropertyValueID(result: ResultVariant, prop: EmotionPropertyID): number {
-        return getObjectPropertyValueID(result, prop as any);
-    }
-
-    export enum EmotionProperty {
-        //% block="ID"
-        ID,
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-    }
-
-    export enum EmotionPropertyID {
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-    }
-
-    //% block="Get Face Emotion Recognition result"
-    //% weight=104
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function getResultEmotionRecogtion(): void {
-        getResultInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
-    }
-
-    //% block="Whether emotion detected"
-    //% weight=103
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function availableEmotionRecogtion(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
-    }
-
-    //% block="Emotion near center %alg"
-    //% weight=102
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function getCachedCenterEmotionResult(alg: EmotionProperty): number {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
-        return getEmotionPropertyValue(r, alg);
-    }
-
-    //% block="Number of detected emotions"
-    //% weight=101
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function getCachedResultNumEmotion(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
-    }
-
-    //% block="Emotion %index %alg"
-    //% weight=100
-    //% index.min=1 index.defl=1
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function getCachedResultEmotionProperty(index: number, alg: EmotionProperty): number {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index - 1);
-        return getEmotionPropertyValue(r, alg);
-    }
-
-    //% block="Number of learned emotion IDs"
-    //% weight=99
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function getNumLearnedEmotionIDs(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
-    }
-
-    //% block="Does emotion ID %index exist?"
-    //% weight=98
-    //% index.min=1 index.defl=1
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function emotionIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
-        return r != null;
-    }
-
-    //% block="Number of emotions with ID %index"
-    //% weight=97
-    //% index.min=1 index.defl=1
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function getNumEmotionByID(index: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
-    }
-
-    //% block="Emotion ID %index %alg"
-    //% weight=96
-    //% index.min=1 index.defl=1
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function getEmotionPropertyByID(index: number, alg: EmotionPropertyID): number {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
-        return getEmotionPropertyValueID(r, alg);
-    }
-
-    //% block="Emotion ID %id No.%n %alg"
-    //% weight=95
-    //% id.min=1 id.defl=1
-    //% n.min=1 n.defl=1
-    //% group="Face Emotion Recognition"
-    //% subcategory="Face Emotion Recognition"
-    export function getEmotionPropertyByIDNth(id: number, n: number, alg: EmotionPropertyID): number {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, id, n - 1);
-        return getEmotionPropertyValueID(r, alg);
-    }
-
-    // =========================================================== Tag Recognition ====================================================
-    function getTagPropertyValue(result: ResultVariant, prop: TagProperty): any {
+    //% subcategory="Self-training"
+    //% num.min=128 num.max=255 num.defl=128
+    //% id.min=1 id.max=100 id.defl=1
+    //% index.min=1 index.max=6 index.defl=1
+    //% alg.defl=NumProperty.name
+    export function WithIDProperty(num: number, id: number, index: number, alg: NumProperty): any {
+        const res = getCachedIndexResultByIDInternal(num, id, index - 1);
+        const result = res as Result;
+       
         if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case TagProperty.ID: return res.ID;
-            case TagProperty.Name: return res.name.length > 0 ? res.name : "";
-            case TagProperty.Content: return res.content.length > 0 ? res.content : "";
-            case TagProperty.XCenter: return res.xCenter;
-            case TagProperty.YCenter: return res.yCenter;
-            case TagProperty.Width: return res.width;
-            case TagProperty.Height: return res.height;
-            default: return 0;
+        
+        switch (alg) {
+            case NumProperty.xCenter:return result.xCenter;
+            case NumProperty.yCenter:return result.yCenter;
+            case NumProperty.width:return result.width;
+            case NumProperty.height: return result.height;
+            case NumProperty.name: return result.name|| "";
+            default:
+                return 0;
         }
-    }
-
-    function getTagPropertyValueID(result: ResultVariant, prop: TagPropertyID): any {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case TagPropertyID.Name: return res.name.length > 0 ? res.name : "";
-            case TagPropertyID.Content: return res.content.length > 0 ? res.content : "";
-            case TagPropertyID.XCenter: return res.xCenter;
-            case TagPropertyID.YCenter: return res.yCenter;
-            case TagPropertyID.Width: return res.width;
-            case TagPropertyID.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    export enum TagProperty {
-        //% block="ID"
-        ID,
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
-    }
-
-    export enum TagPropertyID {
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
-    }
-
-    //% block="Get tag recognition result"
-    //% weight=94
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function getResultTagRecogtion(): void {
-        getResultInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
-    }
-
-    //% block="Whether tag detected"
-    //% weight=93
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function availableTagRecogtion(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
-    }
-
-    //% block="Tag near center %alg"
-    //% weight=92
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function getCachedCenterTagResult(alg: TagProperty): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
-        return getTagPropertyValue(r, alg);
-    }
-
-    //% block="Number of detected tags"
-    //% weight=91
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function getCachedResultNumTag(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
-    }
-
-    //% block="Tag %index %alg"
-    //% weight=90
-    //% index.min=1 index.defl=1
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function getCachedResultTagProperty(index: number, alg: TagProperty): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index - 1);
-        return getTagPropertyValue(r, alg);
-    }
-
-    //% block="Number of learned tag IDs"
-    //% weight=89
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function getNumLearnedTagIDs(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
-    }
-
-    //% block="Does tag ID %index exist?"
-    //% weight=88
-    //% index.min=1 index.defl=1
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function tagIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
-        return r != null;
-    }
-
-    //% block="Number of tags with ID %index"
-    //% weight=87
-    //% index.min=1 index.defl=1
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function getNumTagByID(index: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
-    }
-
-    //% block="Tag ID %index %alg"
-    //% weight=86
-    //% index.min=1 index.defl=1
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function getTagPropertyByID(index: number, alg: TagPropertyID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
-        return getTagPropertyValueID(r, alg);
-    }
-
-    //% block="Tag ID %id No.%n %alg"
-    //% weight=85
-    //% id.min=1 id.defl=1
-    //% n.min=1 n.defl=1
-    //% group="Tag Recognition"
-    //% subcategory="Tag Recognition"
-    export function getTagPropertyByIDNth(id: number, n: number, alg: TagPropertyID): any {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, id, n - 1);
-        return getTagPropertyValueID(r, alg);
-    }
-
-    // =================================================================== QR Code Recognition =====================================
-    function getQRCodePropertyValue(result: ResultVariant, prop: QRCodeProperty): any {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case QRCodeProperty.ID: return res.ID;
-            case QRCodeProperty.Name: return res.name.length > 0 ? res.name : "";
-            case QRCodeProperty.Content: return res.content.length > 0 ? res.content : "";
-            case QRCodeProperty.XCenter: return res.xCenter;
-            case QRCodeProperty.YCenter: return res.yCenter;
-            case QRCodeProperty.Width: return res.width;
-            case QRCodeProperty.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    function getQRCodePropertyValueID(result: ResultVariant, prop: QRCodePropertyID): any {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case QRCodePropertyID.Name: return res.name.length > 0 ? res.name : "";
-            case QRCodePropertyID.Content: return res.content.length > 0 ? res.content : "";
-            case QRCodePropertyID.XCenter: return res.xCenter;
-            case QRCodePropertyID.YCenter: return res.yCenter;
-            case QRCodePropertyID.Width: return res.width;
-            case QRCodePropertyID.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    export enum QRCodeProperty {
-        //% block="ID"
-        ID,
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
-    }
-
-    export enum QRCodePropertyID {
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
-    }
-
-    //% block="Get QR code recognition result"
-    //% weight=84
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function getResultQRCodeRecogtion(): void {
-        getResultInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
-    }
-
-    //% block="Whether QR code detected"
-    //% weight=83
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function availableQRCodeRecogtion(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
-    }
-
-    //% block="QR code near center %alg"
-    //% weight=82
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function getCachedCenterQRCodeResult(alg: QRCodeProperty): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
-        return getQRCodePropertyValue(r, alg);
-    }
-
-    //% block="Number of detected QR codes"
-    //% weight=81
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function getCachedResultNumQRCode(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
-    }
-
-    //% block="QR code %index %alg"
-    //% weight=80
-    //% index.min=1 index.defl=1
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function getCachedResultQRCodeProperty(index: number, alg: QRCodeProperty): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index - 1);
-        return getQRCodePropertyValue(r, alg);
-    }
-
-    //% block="Number of learned QR code IDs"
-    //% weight=79
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function getNumLearnedQRCodeIDs(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
-    }
-
-    //% block="Does QR code ID %index exist?"
-    //% weight=78
-    //% index.min=1 index.defl=1
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function qrcodeIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
-        return r != null;
-    }
-
-    //% block="Number of QR codes with ID %index"
-    //% weight=77
-    //% index.min=1 index.defl=1
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function getNumQRCodeByID(index: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
-    }
-
-    //% block="QR code ID %index %alg"
-    //% weight=76
-    //% index.min=1 index.defl=1
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function getQRCodePropertyByID(index: number, alg: QRCodePropertyID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
-        return getQRCodePropertyValueID(r, alg);
-    }
-
-    //% block="QR code ID %id No.%n %alg"
-    //% weight=75
-    //% id.min=1 id.defl=1
-    //% n.min=1 n.defl=1
-    //% group="QR Code Recognition"
-    //% subcategory="QR Code Recognition"
-    export function getQRCodePropertyByIDNth(id: number, n: number, alg: QRCodePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, id, n - 1);
-        return getQRCodePropertyValueID(r, alg);
-    }
-
-    // ===================================================== Barcode Recognition" ==============================================
-    function getBarcodePropertyValue(result: ResultVariant, prop: BarcodeProperty): any {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case BarcodeProperty.ID: return res.ID;
-            case BarcodeProperty.Name: return res.name.length > 0 ? res.name : "";
-            case BarcodeProperty.Content: return res.content.length > 0 ? res.content : "";
-            case BarcodeProperty.XCenter: return res.xCenter;
-            case BarcodeProperty.YCenter: return res.yCenter;
-            case BarcodeProperty.Width: return res.width;
-            case BarcodeProperty.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    function getBarcodePropertyValueID(result: ResultVariant, prop: BarcodePropertyID): any {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case BarcodePropertyID.Name: return res.name.length > 0 ? res.name : "";
-            case BarcodePropertyID.Content: return res.content.length > 0 ? res.content : "";
-            case BarcodePropertyID.XCenter: return res.xCenter;
-            case BarcodePropertyID.YCenter: return res.yCenter;
-            case BarcodePropertyID.Width: return res.width;
-            case BarcodePropertyID.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    export enum BarcodeProperty {
-        //% block="ID"
-        ID,
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
-    }
-
-    export enum BarcodePropertyID {
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-        //% block="Content"
-        Content,
-    }
-
-    //% block="Get barcode recognition result"
-    //% weight=74
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function getResultBarcodeRecogtion(): void {
-        getResultInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
-    }
-
-    //% block="Whether barcode detected"
-    //% weight=73
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function availableBarcodeRecogtion(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
-    }
-
-    //% block="Barcode near center %alg"
-    //% weight=72
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function getCachedCenterBarcodeResult(alg: BarcodeProperty): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
-        return getBarcodePropertyValue(r, alg);
-    }
-
-    //% block="Number of detected barcodes"
-    //% weight=71
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function getCachedResultNumBarcode(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
-    }
-
-    //% block="Barcode %index %alg"
-    //% weight=70
-    //% index.min=1 index.defl=1
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function getCachedResultBarcodeProperty(index: number, alg: BarcodeProperty): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index - 1);
-        return getBarcodePropertyValue(r, alg);
-    }
-
-    //% block="Number of learned barcode IDs"
-    //% weight=69
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function getNumLearnedBarcodeIDs(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
-    }
-
-    //% block="Does barcode ID %index exist?"
-    //% weight=68
-    //% index.min=1 index.defl=1
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function barcodeIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
-        return r != null;
-    }
-
-    //% block="Number of barcodes with ID %index"
-    //% weight=67
-    //% index.min=1 index.defl=1
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function getNumBarcodeByID(index: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
-    }
-
-    //% block="Barcode ID %index %alg"
-    //% weight=66
-    //% index.min=1 index.defl=1
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function getBarcodePropertyByID(index: number, alg: BarcodePropertyID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
-        return getBarcodePropertyValueID(r, alg);
-    }
-
-    //% block="Barcode ID %id No.%n %alg"
-    //% weight=65
-    //% id.min=1 id.defl=1
-    //% n.min=1 n.defl=1
-    //% group="Barcode Recognition"
-    //% subcategory="Barcode Recognition"
-    export function getBarcodePropertyByIDNth(id: number, n: number, alg: BarcodePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, id, n - 1);
-        return getBarcodePropertyValueID(r, alg);
-    }
-
-    // ================= Custom Model =================
-    function getCustomModelPropertyValue(result: ResultVariant, prop: CustomModelProperty): number {
-        return getObjectPropertyValue(result, prop as any);
-    }
-
-    function getCustomModelPropertyValueID(result: ResultVariant, prop: CustomModelPropertyID): number {
-        return getObjectPropertyValueID(result, prop as any);
-    }
-
-    // Custom model properties (with ID)
-    export enum CustomModelProperty {
-        //% blockHidden=true
-        //% block="ID"
-        ID,
-        //% blockHidden=true
-        //% block="Name"
-        Name,
-        //% blockHidden=true
-        //% block="X Center"
-        XCenter,
-        //% blockHidden=true
-        //% block="Y Center"
-        YCenter,
-        //% blockHidden=true
-        //% block="Width"
-        Width,
-        //% blockHidden=true
-        //% block="Height"
-        Height,
-    }
-
-    // Custom model properties (without ID)
-    export enum CustomModelPropertyID {
-        //% blockHidden=true
-        //% block="Name"
-        Name,
-        //% blockHidden=true
-        //% block="X Center"
-        XCenter,
-        //% blockHidden=true
-        //% block="Y Center"
-        YCenter,
-        //% blockHidden=true
-        //% block="Width"
-        Width,
-        //% blockHidden=true
-        //% block="Height"
-        Height,
-    }
-
-    /** HUSKYLENS 2切换算法ID直到成功 */
-    //% blockHidden=true
-    //% block="HUSKYLENS 2 switch algorithm ID %algorithmId until success"
-    //% weight=64
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function switchCustomModelAlgorithm(algorithmId: number): void {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        switchAlgorithmInternal(algoId);
-    }
-
-    /** 算法ID请求一次数据存入结果 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId request data and store result"
-    //% weight=63
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function getResultCustomModel(algorithmId: number): void {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        getResultInternal(algoId);
-    }
-
-    /** 算法ID检测到目标 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId target detected?"
-    //% weight=62
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function availableCustomModel(algorithmId: number): boolean {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        return availableInternal(algoId);
-    }
-
-    /** 算法ID靠近中心的目标属性 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId target near center %alg1"
-    //% weight=61
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function getCachedCenterCustomModelResult(algorithmId: number, alg1: CustomModelProperty): number {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        const r = getCachedCenterResultInternal(algoId);
-        return getCustomModelPropertyValue(r, alg1);
-    }
-
-    /** 算法ID检测到的目标总数 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId number of detected targets"
-    //% weight=60
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function getCachedResultNumCustomModel(algorithmId: number): number {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        return getCachedResultNumInternal(algoId);
-    }
-
-    /** 算法ID第num个目标的属性 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId target %num %alg1"
-    //% weight=59
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% num.min=1 num.defl=1
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function getCachedResultCustomModelProperty(algorithmId: number, num: number, alg1: CustomModelProperty): number {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        const r = getCachedResultByIndexInternal(algoId, num - 1);
-        return getCustomModelPropertyValue(r, alg1);
-    }
-
-    /** 算法ID已学习的目标ID总数 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId number of learned target IDs"
-    //% weight=58
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function getNumLearnedCustomModelIDs(algorithmId: number): number {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        return getCachedResultLearnedNumInternal(algoId);
-    }
-
-    /** 算法ID ID的目标存在 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId target ID %targetId exists?"
-    //% weight=57
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% targetId.min=1 targetId.defl=1
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function customModelIdExists(algorithmId: number, targetId: number): boolean {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        const r = getCachedResultByIDInternal(algoId, targetId);
-        return r != null;
-    }
-
-    /** 算法ID ID的目标总数 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId number of targets with ID %targetId"
-    //% weight=56
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% targetId.min=1 targetId.defl=1
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function getNumCustomModelByID(algorithmId: number, targetId: number): number {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        return getCachedResultNumByIDInternal(algoId, targetId);
-    }
-
-    /** 算法ID ID的目标属性 */
-    //% blockHidden=true
-    //% block="Algorithm ID %algorithmId target ID %targetId %alg2"
-    //% weight=55
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% targetId.min=1 targetId.defl=1
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function getCustomModelPropertyByID(algorithmId: number, targetId: number, alg2: CustomModelPropertyID): number {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        const r = getCachedResultByIDInternal(algoId, targetId);
-        return getCustomModelPropertyValueID(r, alg2);
-    }
-
-    /** 算法ID ID的第num个目标的属性 */
-    //% blockHidden=true
-    //% block="Algorithm %algorithmId ID%targetId No.%num %alg2"
-    //% inlineInputMode=inline
-    //% weight=54
-    //% algorithmId.min=1 algorithmId.defl=128
-    //% targetId.min=1 targetId.defl=1
-    //% num.min=1 num.defl=1
-    //% group="Custom Model"
-    //% subcategory="Custom Model"
-    export function getCustomModelPropertyByIDNth(algorithmId: number, targetId: number, num: number, alg2: CustomModelPropertyID): number {
-        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
-        const r = getCachedIndexResultByIDInternal(algoId, targetId, num - 1);
-        return getCustomModelPropertyValueID(r, alg2);
     }
 }
+
+

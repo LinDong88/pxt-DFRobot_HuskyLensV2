@@ -164,7 +164,7 @@ namespace huskylensV2 {
     //% subcategory="Face Recognition"
     export function getFacePropertyByID(index: number, alg: FacePropertyID): any {
         const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, index);
-        return getFacePropertyValueID(r, alg);
+        return getFacePropertyValue(r, alg);
     }
 
     /**
@@ -181,7 +181,7 @@ namespace huskylensV2 {
     //% subcategory="Face Recognition"
     export function getFacePropertyByIDNth(id: number, n: number, alg: FacePropertyID): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_FACE_RECOGNITION, id, n - 1);
-        return getFacePropertyValueID(r, alg);
+        return getFacePropertyValue(r, alg);
     }
 
     
@@ -256,32 +256,12 @@ namespace huskylensV2 {
         Width,
         //% block="Height"
         Height,
-        //% block="Left Eye X"
-        LeftEyeX,
-        //% block="Left Eye Y"
-        LeftEyeY,
-        //% block="Right Eye X"
-        RightEyeX,
-        //% block="Right Eye Y"
-        RightEyeY,
-        //% block="Left Mouth X"
-        LeftMouthX,
-        //% block="Left Mouth Y"
-        LeftMouthY,
-        //% block="Right Mouth X"
-        RightMouthX,
-        //% block="Right Mouth Y"
-        RightMouthY,
-        //% block="Nose X"
-        NoseX,
-        //% block="Nose Y"
-        NoseY,
     }
 
     // Face properties (without ID)
     export enum FacePropertyID {
         //% block="Name"
-        Name,
+        Name=1,
         //% block="X Center"
         XCenter,
         //% block="Y Center"
@@ -290,26 +270,6 @@ namespace huskylensV2 {
         Width,
         //% block="Height"
         Height,
-        //% block="Left Eye X"
-        LeftEyeX,
-        //% block="Left Eye Y"
-        LeftEyeY,
-        //% block="Right Eye X"
-        RightEyeX,
-        //% block="Right Eye Y"
-        RightEyeY,
-        //% block="Left Mouth X"
-        LeftMouthX,
-        //% block="Left Mouth Y"
-        LeftMouthY,
-        //% block="Right Mouth X"
-        RightMouthX,
-        //% block="Right Mouth Y"
-        RightMouthY,
-        //% block="Nose X"
-        NoseX,
-        //% block="Nose Y"
-        NoseY,
     }
 
     // Object properties (with ID)
@@ -331,7 +291,7 @@ namespace huskylensV2 {
     // Object properties (without ID)
     export enum ObjectPropertyID {
         //% block="Name"
-        Name,
+        Name=1,
         //% block="X Center"
         XCenter,
         //% block="Y Center"
@@ -361,7 +321,7 @@ namespace huskylensV2 {
     // Color properties (without ID)
     export enum ColorPropertyID {
         //% block="Name"
-        Name,
+        Name=1,
         //% block="X Center"
         XCenter,
         //% block="Y Center"
@@ -391,7 +351,7 @@ namespace huskylensV2 {
     // Instance properties (without ID)
     export enum InstancePropertyID {
         //% block="Name"
-        Name,
+        Name=1,
         //% block="X Center"
         XCenter,
         //% block="Y Center"
@@ -408,30 +368,8 @@ namespace huskylensV2 {
     }
 
     // Helper export function: Get FaceResult property value
-    export function getFacePropertyValue(result: ResultVariant, prop: FaceProperty): any {
+    export function getFacePropertyValue(result: ResultVariant, prop: number): any {
         if (!result) return 0;
-        if (result instanceof FaceResult) {
-            const fr = result as FaceResult;
-            switch (prop) {
-                case FaceProperty.ID: return fr.ID;
-                case FaceProperty.Name: return fr.name; // Return name length or existence flag
-                case FaceProperty.XCenter: return fr.xCenter;
-                case FaceProperty.YCenter: return fr.yCenter;
-                case FaceProperty.Width: return fr.width;
-                case FaceProperty.Height: return fr.height;
-                case FaceProperty.LeftEyeX: return fr.leye_x;
-                case FaceProperty.LeftEyeY: return fr.leye_y;
-                case FaceProperty.RightEyeX: return fr.reye_x;
-                case FaceProperty.RightEyeY: return fr.reye_y;
-                case FaceProperty.LeftMouthX: return fr.lmouth_x;
-                case FaceProperty.LeftMouthY: return fr.lmouth_y;
-                case FaceProperty.RightMouthX: return fr.rmouth_x;
-                case FaceProperty.RightMouthY: return fr.rmouth_y;
-                case FaceProperty.NoseX: return fr.nose_x;
-                case FaceProperty.NoseY: return fr.nose_y;
-                default: return 0;
-            }
-        }
         // Regular Result also supports basic properties
         const res = result as Result;
         switch (prop) {
@@ -445,41 +383,7 @@ namespace huskylensV2 {
         }
     }
 
-    export function getFacePropertyValueID(result: ResultVariant, prop: FacePropertyID): any {
-        if (!result) return 0;
-        if (result instanceof FaceResult) {
-            const fr = result as FaceResult;
-            switch (prop) {
-                case FacePropertyID.Name: return fr.name;
-                case FacePropertyID.XCenter: return fr.xCenter;
-                case FacePropertyID.YCenter: return fr.yCenter;
-                case FacePropertyID.Width: return fr.width;
-                case FacePropertyID.Height: return fr.height;
-                case FacePropertyID.LeftEyeX: return fr.leye_x;
-                case FacePropertyID.LeftEyeY: return fr.leye_y;
-                case FacePropertyID.RightEyeX: return fr.reye_x;
-                case FacePropertyID.RightEyeY: return fr.reye_y;
-                case FacePropertyID.LeftMouthX: return fr.lmouth_x;
-                case FacePropertyID.LeftMouthY: return fr.lmouth_y;
-                case FacePropertyID.RightMouthX: return fr.rmouth_x;
-                case FacePropertyID.RightMouthY: return fr.rmouth_y;
-                case FacePropertyID.NoseX: return fr.nose_x;
-                case FacePropertyID.NoseY: return fr.nose_y;
-                default: return 0;
-            }
-        }
-        const res = result as Result;
-        switch (prop) {
-            case FacePropertyID.Name: return res.name;
-            case FacePropertyID.XCenter: return res.xCenter;
-            case FacePropertyID.YCenter: return res.yCenter;
-            case FacePropertyID.Width: return res.width;
-            case FacePropertyID.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    export function getObjectPropertyValue(result: ResultVariant, prop: ObjectProperty): any {
+    export function getObjectPropertyValue(result: ResultVariant, prop: number): any {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
@@ -493,164 +397,6 @@ namespace huskylensV2 {
         }
     }
 
-    export function getObjectPropertyValueID(result: ResultVariant, prop: ObjectPropertyID): any {
-        if (!result) return 0;
-        const res = result as Result;
-        switch (prop) {
-            case ObjectPropertyID.Name: return res.name.length > 0 ? res.name : "";
-            case ObjectPropertyID.XCenter: return res.xCenter;
-            case ObjectPropertyID.YCenter: return res.yCenter;
-            case ObjectPropertyID.Width: return res.width;
-            case ObjectPropertyID.Height: return res.height;
-            default: return 0;
-        }
-    }
-
-    export class FaceResult extends Result {
-        leye_x: number = 0; leye_y: number = 0;
-        reye_x: number = 0; reye_y: number = 0;
-        nose_x: number = 0; nose_y: number = 0;
-        lmouth_x: number = 0; lmouth_y: number = 0;
-        rmouth_x: number = 0; rmouth_y: number = 0;
-
-        constructor(buf: Buffer) {
-            super(buf);
-            let name_length = buf[10];
-            let content_length = buf[11 + name_length];
-
-            let offset = 12 + content_length + name_length;
-
-            this.leye_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.leye_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.reye_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.reye_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.nose_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.nose_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lmouth_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lmouth_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.rmouth_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.rmouth_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-        }
-    }
-
-    export class HandResult extends Result {
-        wrist_x: number = 0; wrist_y: number = 0;
-        thumb_cmc_x: number = 0; thumb_cmc_y: number = 0;
-        thumb_mcp_x: number = 0; thumb_mcp_y: number = 0;
-        thumb_ip_x: number = 0; thumb_ip_y: number = 0;
-        thumb_tip_x: number = 0; thumb_tip_y: number = 0;
-        index_finger_mcp_x: number = 0; index_finger_mcp_y: number = 0;
-        index_finger_pip_x: number = 0; index_finger_pip_y: number = 0;
-        index_finger_dip_x: number = 0; index_finger_dip_y: number = 0;
-        index_finger_tip_x: number = 0; index_finger_tip_y: number = 0;
-        middle_finger_mcp_x: number = 0; middle_finger_mcp_y: number = 0;
-        middle_finger_pip_x: number = 0; middle_finger_pip_y: number = 0;
-        middle_finger_dip_x: number = 0; middle_finger_dip_y: number = 0;
-        middle_finger_tip_x: number = 0; middle_finger_tip_y: number = 0;
-        ring_finger_mcp_x: number = 0; ring_finger_mcp_y: number = 0;
-        ring_finger_pip_x: number = 0; ring_finger_pip_y: number = 0;
-        ring_finger_dip_x: number = 0; ring_finger_dip_y: number = 0;
-        ring_finger_tip_x: number = 0; ring_finger_tip_y: number = 0;
-        pinky_finger_mcp_x: number = 0; pinky_finger_mcp_y: number = 0;
-        pinky_finger_pip_x: number = 0; pinky_finger_pip_y: number = 0;
-        pinky_finger_dip_x: number = 0; pinky_finger_dip_y: number = 0;
-        pinky_finger_tip_x: number = 0; pinky_finger_tip_y: number = 0;
-
-        constructor(buf: Buffer) {
-            super(buf);
-            let name_length = buf[10];
-            let content_length = buf[11 + name_length];
-            let offset = 12 + content_length + name_length;
-
-            this.wrist_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.wrist_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.thumb_cmc_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.thumb_cmc_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.thumb_mcp_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.thumb_mcp_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.thumb_ip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.thumb_ip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.thumb_tip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.thumb_tip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.index_finger_mcp_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.index_finger_mcp_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.index_finger_pip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.index_finger_pip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.index_finger_dip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.index_finger_dip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.index_finger_tip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.index_finger_tip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.middle_finger_mcp_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.middle_finger_mcp_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.middle_finger_pip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.middle_finger_pip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.middle_finger_dip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.middle_finger_dip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.middle_finger_tip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.middle_finger_tip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.ring_finger_mcp_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.ring_finger_mcp_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.ring_finger_pip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.ring_finger_pip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.ring_finger_dip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.ring_finger_dip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.ring_finger_tip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.ring_finger_tip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.pinky_finger_mcp_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.pinky_finger_mcp_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.pinky_finger_pip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.pinky_finger_pip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.pinky_finger_dip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.pinky_finger_dip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.pinky_finger_tip_x = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.pinky_finger_tip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-        }
-    }
-
-    export class PoseResult extends Result {
-        nose_x: number = 0; nose_y: number = 0;
-        leye_x: number = 0; leye_y: number = 0;
-        reye_x: number = 0; reye_y: number = 0;
-        lear_x: number = 0; lear_y: number = 0;
-        rear_x: number = 0; rear_y: number = 0;
-        lshoulder_x: number = 0; lshoulder_y: number = 0;
-        rshoulder_x: number = 0; rshoulder_y: number = 0;
-        lelbow_x: number = 0; lelbow_y: number = 0;
-        relbow_x: number = 0; relbow_y: number = 0;
-        lwrist_x: number = 0; lwrist_y: number = 0;
-        rwrist_x: number = 0; rwrist_y: number = 0;
-        lhip_x: number = 0; lhip_y: number = 0;
-        rhip_x: number = 0; rhip_y: number = 0;
-        lknee_x: number = 0; lknee_y: number = 0;
-        rknee_x: number = 0; rknee_y: number = 0;
-        lankle_x: number = 0; lankle_y: number = 0;
-        rankle_x: number = 0; rankle_y: number = 0;
-
-        constructor(buf: Buffer) {
-            super(buf);
-            let name_length = buf[10];
-            let content_length = buf[11 + name_length];
-            let offset = 12 + content_length + name_length;
-
-            this.nose_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.nose_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.leye_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.leye_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.reye_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.reye_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lear_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.lear_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.rear_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.rear_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lshoulder_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.lshoulder_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.rshoulder_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.rshoulder_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lelbow_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.lelbow_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.relbow_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.relbow_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lwrist_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.lwrist_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.rwrist_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.rwrist_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lhip_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.lhip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.rhip_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.rhip_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lknee_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.lknee_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.rknee_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.rknee_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.lankle_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.lankle_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-            this.rankle_x = buf[offset] + buf[offset + 1] * 256; offset += 2; this.rankle_y = buf[offset] + buf[offset + 1] * 256; offset += 2;
-        }
-    }
 
     // ====================================================== Object Recognition ===============================================
 
@@ -740,7 +486,7 @@ namespace huskylensV2 {
     //% subcategory="Object Recognition"
     export function getObjectPropertyByID(index: number, alg: ObjectPropertyID): number {
         const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION, index);
-        return getObjectPropertyValueID(r, alg);
+        return getObjectPropertyValue(r, alg);
     }
 
     /** Property of Nth object with specified ID */
@@ -752,7 +498,7 @@ namespace huskylensV2 {
     //% subcategory="Object Recognition"
     export function getObjectPropertyByIDNth(id: number, n: number, alg: ObjectPropertyID): number {
         const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_OBJECT_RECOGNITION, id, n - 1);
-        return getObjectPropertyValueID(r, alg);
+        return getObjectPropertyValue(r, alg);
     }
 
     // =============================================================== Object Tracking ========================================
@@ -790,7 +536,7 @@ namespace huskylensV2 {
     }
 
     export function getColorPropertyValueID(result: ResultVariant, prop: ColorPropertyID): number {
-        return getObjectPropertyValueID(result, prop as any);
+        return getObjectPropertyValue(result, prop as any);
     }
 
     /** Get one-time color recognition result and cache it */
@@ -1006,7 +752,7 @@ namespace huskylensV2 {
     }
 
     export function getInstancePropertyValueID(result: ResultVariant, prop: InstancePropertyID): number {
-        return getObjectPropertyValueID(result, prop as any);
+        return getObjectPropertyValue(result, prop as any);
     }
 
     /** Get one-time instance segmentation result and cache it */
@@ -1110,4 +856,302 @@ namespace huskylensV2 {
         return getInstancePropertyValueID(r, alg);
     }
 
+    // ================================== Hand Recognition ==================================
+    function getGesturePropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        if (result instanceof HandResult) {
+            const hr = result as HandResult;
+            switch (prop) {
+                case GestureProperty.ID: return hr.ID;
+                case GestureProperty.Name: return hr.name.length > 0 ? hr.name : "";
+                case GestureProperty.XCenter: return hr.xCenter;
+                case GestureProperty.YCenter: return hr.yCenter;
+                case GestureProperty.Width: return hr.width;
+                case GestureProperty.Height: return hr.height;
+                default: return 0;
+            }
+        }
+        return getObjectPropertyValue(result, prop as any);
+    }
+
+    // Gesture properties (with ID)
+    export enum GestureProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height
+    }
+
+    // Gesture properties (without ID)
+    export enum GesturePropertyID {
+        //% block="Name"
+        Name=1,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height
+    }
+
+    /** Get one-time Hand Recognition result and cache it */
+    //% block="get Hand Recognition result"
+    //% weight=149
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function getResultGestureRecogtion(): void {
+        getResultInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+    }
+
+    /** Whether gesture detected */
+    //% block="gesture detected?"
+    //% weight=148
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function availableGestureRecogtion(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+    }
+
+    /** Gesture property nearest to center */
+    //% block="gesture nearest to center %alg"
+    //% weight=147
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function getCachedCenterGestureResult(alg: GestureProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+        return getGesturePropertyValue(r, alg);
+    }
+
+    /** Total number of detected gestures */
+    //% block="number of detected gestures"
+    //% weight=146
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function getCachedResultNumGesture(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+    }
+
+    /** Property of Nth gesture */
+    //% block="gesture %index %alg"
+    //% weight=145
+    //% index.min=1 index.defl=1
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function getCachedResultGestureProperty(index: number, alg: GestureProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, index - 1);
+        return getGesturePropertyValue(r, alg);
+    }
+
+    /** Total number of learned gesture IDs */
+    //% block="number of learned gesture IDs"
+    //% weight=144
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function getNumLearnedGestureIDs(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+    }
+
+    /** Whether gesture with specified ID exists */
+    //% block="gesture ID %index exists?"
+    //% weight=143
+    //% index.min=1 index.defl=1
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function gestureIdExists(index: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, index);
+        return r != null;
+    }
+
+    /** Number of gestures with specified ID */
+    //% block="number of gestures with ID %index"
+    //% weight=142
+    //% index.min=1 index.defl=1
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function getNumGestureByID(index: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, index);
+    }
+
+    /** Property of gesture with specified ID */
+    //% block="gesture ID %index %alg"
+    //% weight=141
+    //% index.min=1 index.defl=1
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function getGesturePropertyByID(index: number, alg: GesturePropertyID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, index);
+        return getGesturePropertyValue(r, alg);
+    }
+
+    /** Property of Nth gesture with specified ID */
+    //% block="gesture ID %id nth %n %alg"
+    //% weight=140
+    //% id.min=1 id.defl=1
+    //% n.min=1 n.defl=1
+    //% group="Hand Recognition"
+    //% subcategory="Hand Recognition"
+    export function getGesturePropertyByIDNth(id: number, n: number, alg: GesturePropertyID): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, id, n - 1);
+        return getGesturePropertyValue(r, alg);
+    }
+
+    // ================================================================ Pose Recognition (Human Pose) ========================
+    function getPosePropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        if (result instanceof PoseResult) {
+            const pr = result as PoseResult;
+            switch (prop) {
+                case PoseProperty.ID: return pr.ID;
+                case PoseProperty.Name: return pr.name.length > 0 ? pr.name : "";
+                case PoseProperty.XCenter: return pr.xCenter;
+                case PoseProperty.YCenter: return pr.yCenter;
+                case PoseProperty.Width: return pr.width;
+                case PoseProperty.Height: return pr.height;
+                default: return 0;
+            }
+        }
+        return getObjectPropertyValue(result, prop as any);
+    }
+
+
+    // Pose properties (with ID)
+    export enum PoseProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height
+    }
+
+    // Pose properties (without ID)
+    export enum PosePropertyID {
+        //% block="Name"
+        Name=1,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height
+    }
+
+    /** Get one-time pose recognition result and cache it */
+    //% block="get pose recognition result"
+    //% weight=139
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function getResultPoseRecogtion(): void {
+        getResultInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+    }
+
+    /** Whether pose detected */
+    //% block="pose detected?"
+    //% weight=138
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function availablePoseRecogtion(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+    }
+
+    /** Pose property nearest to center */
+    //% block="pose nearest to center %alg"
+    //% weight=137
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function getCachedCenterPoseResult(alg: PoseProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+        return getPosePropertyValue(r, alg);
+    }
+
+    /** Total number of detected poses */
+    //% block="number of detected poses"
+    //% weight=136
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function getCachedResultNumPose(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+    }
+
+    /** Property of Nth pose */
+    //% block="pose %index %alg"
+    //% weight=135
+    //% index.min=1 index.defl=1
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function getCachedResultPoseProperty(index: number, alg: PoseProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, index - 1);
+        return getPosePropertyValue(r, alg);
+    }
+
+    /** Total number of learned pose IDs */
+    //% block="number of learned pose IDs"
+    //% weight=134
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function getNumLearnedPoseIDs(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+    }
+
+    /** Whether pose with specified ID exists */
+    //% block="pose ID %index exists?"
+    //% weight=133
+    //% index.min=1 index.defl=1
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function poseIdExists(index: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, index);
+        return r != null;
+    }
+
+    /** Number of poses with specified ID */
+    //% block="number of poses with ID %index"
+    //% weight=132
+    //% index.min=1 index.defl=1
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function getNumPoseByID(index: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, index);
+    }
+
+    /** Property of pose with specified ID */
+    //% block="pose ID %index %alg"
+    //% weight=131
+    //% index.min=1 index.defl=1
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function getPosePropertyByID(index: number, alg: PosePropertyID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, index);
+        return getPosePropertyValue(r, alg);
+    }
+
+    /** Property of Nth pose with specified ID */
+    //% block="pose ID %id nth %n %alg"
+    //% weight=130
+    //% id.min=1 id.defl=1
+    //% n.min=1 n.defl=1
+    //% group="Pose Recognition"
+    //% subcategory="Pose Recognition"
+    export function getPosePropertyByIDNth(id: number, n: number, alg: PosePropertyID): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, id, n - 1);
+        return getPosePropertyValue(r, alg);
+    }
 }

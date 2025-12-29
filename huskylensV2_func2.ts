@@ -5,125 +5,9 @@
 //% groups='["Communication","Algorithm Switch","Face Recognition","Object Recognition","Object Tracking","Color Recognition","Object Classification","Self-learning Classification","Instance Segmentation","Hand Recognition","Pose Recognition","License Plate Recognition","Optical Char Recognition","Line Tracking","Face Emotion Recognition","Tag Recognition","QR Code Recognition","Barcode Recognition"]'
 namespace huskylensV2 {
 
-    // ================= Hand Recognition =================
-    function getGesturePropertyValue(result: ResultVariant, prop: GestureProperty): any {
-        if (!result) return 0;
-        if (result instanceof HandResult) {
-            const hr = result as HandResult;
-            switch (prop) {
-                case GestureProperty.ID: return hr.ID;
-                case GestureProperty.Name: return hr.name.length > 0 ? hr.name : "";
-                case GestureProperty.XCenter: return hr.xCenter;
-                case GestureProperty.YCenter: return hr.yCenter;
-                case GestureProperty.Width: return hr.width;
-                case GestureProperty.Height: return hr.height;
-                case GestureProperty.ThumbBaseX: return hr.thumb_cmc_x;
-                case GestureProperty.ThumbBaseY: return hr.thumb_cmc_y;
-                case GestureProperty.ThumbMiddleJointX: return hr.thumb_mcp_x;
-                case GestureProperty.ThumbMiddleJointY: return hr.thumb_mcp_y;
-                case GestureProperty.ThumbSecondJointX: return hr.thumb_ip_x;
-                case GestureProperty.ThumbSecondJointY: return hr.thumb_ip_y;
-                case GestureProperty.ThumbTipX: return hr.thumb_tip_x;
-                case GestureProperty.ThumbTipY: return hr.thumb_tip_y;
-                case GestureProperty.IndexFingerBaseX: return hr.index_finger_mcp_x;
-                case GestureProperty.IndexFingerBaseY: return hr.index_finger_mcp_y;
-                case GestureProperty.IndexFingerFirstJointX: return hr.index_finger_pip_x;
-                case GestureProperty.IndexFingerFirstJointY: return hr.index_finger_pip_y;
-                case GestureProperty.IndexFingerSecondJointX: return hr.index_finger_dip_x;
-                case GestureProperty.IndexFingerSecondJointY: return hr.index_finger_dip_y;
-                case GestureProperty.IndexFingerTipX: return hr.index_finger_tip_x;
-                case GestureProperty.IndexFingerTipY: return hr.index_finger_tip_y;
-                case GestureProperty.MiddleFingerBaseX: return hr.middle_finger_mcp_x;
-                case GestureProperty.MiddleFingerBaseY: return hr.middle_finger_mcp_y;
-                case GestureProperty.MiddleFingerFirstJointX: return hr.middle_finger_pip_x;
-                case GestureProperty.MiddleFingerFirstJointY: return hr.middle_finger_pip_y;
-                case GestureProperty.MiddleFingerSecondJointX: return hr.middle_finger_dip_x;
-                case GestureProperty.MiddleFingerSecondJointY: return hr.middle_finger_dip_y;
-                case GestureProperty.MiddleFingerTipX: return hr.middle_finger_tip_x;
-                case GestureProperty.MiddleFingerTipY: return hr.middle_finger_tip_y;
-                case GestureProperty.RingFingerBaseX: return hr.ring_finger_mcp_x;
-                case GestureProperty.RingFingerBaseY: return hr.ring_finger_mcp_y;
-                case GestureProperty.RingFingerFirstJointX: return hr.ring_finger_pip_x;
-                case GestureProperty.RingFingerFirstJointY: return hr.ring_finger_pip_y;
-                case GestureProperty.RingFingerSecondJointX: return hr.ring_finger_dip_x;
-                case GestureProperty.RingFingerSecondJointY: return hr.ring_finger_dip_y;
-                case GestureProperty.RingFingerTipX: return hr.ring_finger_tip_x;
-                case GestureProperty.RingFingerTipY: return hr.ring_finger_tip_y;
-                case GestureProperty.PinkyFingerBaseX: return hr.pinky_finger_mcp_x;
-                case GestureProperty.PinkyFingerBaseY: return hr.pinky_finger_mcp_y;
-                case GestureProperty.PinkyFingerFirstJointX: return hr.pinky_finger_pip_x;
-                case GestureProperty.PinkyFingerFirstJointY: return hr.pinky_finger_pip_y;
-                case GestureProperty.PinkyFingerSecondJointX: return hr.pinky_finger_dip_x;
-                case GestureProperty.PinkyFingerSecondJointY: return hr.pinky_finger_dip_y;
-                case GestureProperty.PinkyFingerTipX: return hr.pinky_finger_tip_x;
-                case GestureProperty.PinkyFingerTipY: return hr.pinky_finger_tip_y;
-                default: return 0;
-            }
-        }
-        return getObjectPropertyValue(result, prop as any);
-    }
-
-    function getGesturePropertyValueID(result: ResultVariant, prop: GesturePropertyID): any {
-        if (!result) return 0;
-        if (result instanceof HandResult) {
-            const hr = result as HandResult;
-            switch (prop) {
-                case GesturePropertyID.Name: return hr.name.length > 0 ? hr.name : "";
-                case GesturePropertyID.XCenter: return hr.xCenter;
-                case GesturePropertyID.YCenter: return hr.yCenter;
-                case GesturePropertyID.Width: return hr.width;
-                case GesturePropertyID.Height: return hr.height;
-                case GesturePropertyID.confidence: return hr.confidence;
-                case GesturePropertyID.WristX: return hr.wrist_x;
-                case GesturePropertyID.WristY: return hr.wrist_y;
-                case GesturePropertyID.ThumbBaseX: return hr.thumb_cmc_x;
-                case GesturePropertyID.ThumbBaseY: return hr.thumb_cmc_y;
-                case GesturePropertyID.ThumbMiddleJointX: return hr.thumb_mcp_x;
-                case GesturePropertyID.ThumbMiddleJointY: return hr.thumb_mcp_y;
-                case GesturePropertyID.ThumbSecondJointX: return hr.thumb_ip_x;
-                case GesturePropertyID.ThumbSecondJointY: return hr.thumb_ip_y;
-                case GesturePropertyID.ThumbTipX: return hr.thumb_tip_x;
-                case GesturePropertyID.ThumbTipY: return hr.thumb_tip_y;
-                case GesturePropertyID.IndexFingerBaseX: return hr.index_finger_mcp_x;
-                case GesturePropertyID.IndexFingerBaseY: return hr.index_finger_mcp_y;
-                case GesturePropertyID.IndexFingerFirstJointX: return hr.index_finger_pip_x;
-                case GesturePropertyID.IndexFingerFirstJointY: return hr.index_finger_pip_y;
-                case GesturePropertyID.IndexFingerSecondJointX: return hr.index_finger_dip_x;
-                case GesturePropertyID.IndexFingerSecondJointY: return hr.index_finger_dip_y;
-                case GesturePropertyID.IndexFingerTipX: return hr.index_finger_tip_x;
-                case GesturePropertyID.IndexFingerTipY: return hr.index_finger_tip_y;
-                case GesturePropertyID.MiddleFingerBaseX: return hr.middle_finger_mcp_x;
-                case GesturePropertyID.MiddleFingerBaseY: return hr.middle_finger_mcp_y;
-                case GesturePropertyID.MiddleFingerFirstJointX: return hr.middle_finger_pip_x;
-                case GesturePropertyID.MiddleFingerFirstJointY: return hr.middle_finger_pip_y;
-                case GesturePropertyID.MiddleFingerSecondJointX: return hr.middle_finger_dip_x;
-                case GesturePropertyID.MiddleFingerSecondJointY: return hr.middle_finger_dip_y;
-                case GesturePropertyID.MiddleFingerTipX: return hr.middle_finger_tip_x;
-                case GesturePropertyID.MiddleFingerTipY: return hr.middle_finger_tip_y;
-                case GesturePropertyID.RingFingerBaseX: return hr.ring_finger_mcp_x;
-                case GesturePropertyID.RingFingerBaseY: return hr.ring_finger_mcp_y;
-                case GesturePropertyID.RingFingerFirstJointX: return hr.ring_finger_pip_x;
-                case GesturePropertyID.RingFingerFirstJointY: return hr.ring_finger_pip_y;
-                case GesturePropertyID.RingFingerSecondJointX: return hr.ring_finger_dip_x;
-                case GesturePropertyID.RingFingerSecondJointY: return hr.ring_finger_dip_y;
-                case GesturePropertyID.RingFingerTipX: return hr.ring_finger_tip_x;
-                case GesturePropertyID.RingFingerTipY: return hr.ring_finger_tip_y;
-                case GesturePropertyID.PinkyFingerBaseX: return hr.pinky_finger_mcp_x;
-                case GesturePropertyID.PinkyFingerBaseY: return hr.pinky_finger_mcp_y;
-                case GesturePropertyID.PinkyFingerFirstJointX: return hr.pinky_finger_pip_x;
-                case GesturePropertyID.PinkyFingerFirstJointY: return hr.pinky_finger_pip_y;
-                case GesturePropertyID.PinkyFingerSecondJointX: return hr.pinky_finger_dip_x;
-                case GesturePropertyID.PinkyFingerSecondJointY: return hr.pinky_finger_dip_y;
-                case GesturePropertyID.PinkyFingerTipX: return hr.pinky_finger_tip_x;
-                case GesturePropertyID.PinkyFingerTipY: return hr.pinky_finger_tip_y;
-                default: return 0;
-            }
-        }
-        return getObjectPropertyValueID(result, prop as any);
-    }
-
-    // Gesture properties (with ID)
-    export enum GestureProperty {
+    // ======================================================= License Plate Recognition ======================================
+    // 车牌属性（含ID）
+    export enum PlateProperty {
         //% block="ID"
         ID,
         //% block="Name"
@@ -136,92 +20,14 @@ namespace huskylensV2 {
         Width,
         //% block="Height"
         Height,
-        //% block="Thumb Base X"
-        ThumbBaseX,
-        //% block="Thumb Base Y"
-        ThumbBaseY,
-        //% block="Thumb Middle Joint X"
-        ThumbMiddleJointX,
-        //% block="Thumb Middle Joint Y"
-        ThumbMiddleJointY,
-        //% block="Thumb Second Joint X"
-        ThumbSecondJointX,
-        //% block="Thumb Second Joint Y"
-        ThumbSecondJointY,
-        //% block="Thumb Tip X"
-        ThumbTipX,
-        //% block="Thumb Tip Y"
-        ThumbTipY,
-        //% block="Index Finger Base X"
-        IndexFingerBaseX,
-        //% block="Index Finger Base Y"
-        IndexFingerBaseY,
-        //% block="Index Finger First Joint X"
-        IndexFingerFirstJointX,
-        //% block="Index Finger First Joint Y"
-        IndexFingerFirstJointY,
-        //% block="Index Finger Second Joint X"
-        IndexFingerSecondJointX,
-        //% block="Index Finger Second Joint Y"
-        IndexFingerSecondJointY,
-        //% block="Index Finger Tip X"
-        IndexFingerTipX,
-        //% block="Index Finger Tip Y"
-        IndexFingerTipY,
-        //% block="Middle Finger Base X"
-        MiddleFingerBaseX,
-        //% block="Middle Finger Base Y"
-        MiddleFingerBaseY,
-        //% block="Middle Finger First Joint X"
-        MiddleFingerFirstJointX,
-        //% block="Middle Finger First Joint Y"
-        MiddleFingerFirstJointY,
-        //% block="Middle Finger Second Joint X"
-        MiddleFingerSecondJointX,
-        //% block="Middle Finger Second Joint Y"
-        MiddleFingerSecondJointY,
-        //% block="Middle Finger Tip X"
-        MiddleFingerTipX,
-        //% block="Middle Finger Tip Y"
-        MiddleFingerTipY,
-        //% block="Ring Finger Base X"
-        RingFingerBaseX,
-        //% block="Ring Finger Base Y"
-        RingFingerBaseY,
-        //% block="Ring Finger First Joint X"
-        RingFingerFirstJointX,
-        //% block="Ring Finger First Joint Y"
-        RingFingerFirstJointY,
-        //% block="Ring Finger Second Joint X"
-        RingFingerSecondJointX,
-        //% block="Ring Finger Second Joint Y"
-        RingFingerSecondJointY,
-        //% block="Ring Finger Tip X"
-        RingFingerTipX,
-        //% block="Ring Finger Tip Y"
-        RingFingerTipY,
-        //% block="Pinky Finger Base X"
-        PinkyFingerBaseX,
-        //% block="Pinky Finger Base Y"
-        PinkyFingerBaseY,
-        //% block="Pinky Finger First Joint X"
-        PinkyFingerFirstJointX,
-        //% block="Pinky Finger First Joint Y"
-        PinkyFingerFirstJointY,
-        //% block="Pinky Finger Second Joint X"
-        PinkyFingerSecondJointX,
-        //% block="Pinky Finger Second Joint Y"
-        PinkyFingerSecondJointY,
-        //% block="Pinky Finger Tip X"
-        PinkyFingerTipX,
-        //% block="Pinky Finger Tip Y"
-        PinkyFingerTipY,
+        //% block="Content"
+        Content,
     }
 
-    // Gesture properties (without ID)
-    export enum GesturePropertyID {
+    // 车牌属性（不含ID）
+    export enum PlatePropertyID {
         //% block="Name"
-        Name,
+        Name=1,
         //% block="X Center"
         XCenter,
         //% block="Y Center"
@@ -230,299 +36,128 @@ namespace huskylensV2 {
         Width,
         //% block="Height"
         Height,
-        //% block="confidence"
-        confidence,
-        //% block="Wrist X"
-        WristX,
-        //% block="Wrist Y"
-        WristY,
-        //% block="Thumb Base X"
-        ThumbBaseX,
-        //% block="Thumb Base Y"
-        ThumbBaseY,
-        //% block="Thumb Middle Joint X"
-        ThumbMiddleJointX,
-        //% block="Thumb Middle Joint Y"
-        ThumbMiddleJointY,
-        //% block="Thumb Second Joint X"
-        ThumbSecondJointX,
-        //% block="Thumb Second Joint Y"
-        ThumbSecondJointY,
-        //% block="Thumb Tip X"
-        ThumbTipX,
-        //% block="Thumb Tip Y"
-        ThumbTipY,
-        //% block="Index Finger Base X"
-        IndexFingerBaseX,
-        //% block="Index Finger Base Y"
-        IndexFingerBaseY,
-        //% block="Index Finger First Joint X"
-        IndexFingerFirstJointX,
-        //% block="Index Finger First Joint Y"
-        IndexFingerFirstJointY,
-        //% block="Index Finger Second Joint X"
-        IndexFingerSecondJointX,
-        //% block="Index Finger Second Joint Y"
-        IndexFingerSecondJointY,
-        //% block="Index Finger Tip X"
-        IndexFingerTipX,
-        //% block="Index Finger Tip Y"
-        IndexFingerTipY,
-        //% block="Middle Finger Base X"
-        MiddleFingerBaseX,
-        //% block="Middle Finger Base Y"
-        MiddleFingerBaseY,
-        //% block="Middle Finger First Joint X"
-        MiddleFingerFirstJointX,
-        //% block="Middle Finger First Joint Y"
-        MiddleFingerFirstJointY,
-        //% block="Middle Finger Second Joint X"
-        MiddleFingerSecondJointX,
-        //% block="Middle Finger Second Joint Y"
-        MiddleFingerSecondJointY,
-        //% block="Middle Finger Tip X"
-        MiddleFingerTipX,
-        //% block="Middle Finger Tip Y"
-        MiddleFingerTipY,
-        //% block="Ring Finger Base X"
-        RingFingerBaseX,
-        //% block="Ring Finger Base Y"
-        RingFingerBaseY,
-        //% block="Ring Finger First Joint X"
-        RingFingerFirstJointX,
-        //% block="Ring Finger First Joint Y"
-        RingFingerFirstJointY,
-        //% block="Ring Finger Second Joint X"
-        RingFingerSecondJointX,
-        //% block="Ring Finger Second Joint Y"
-        RingFingerSecondJointY,
-        //% block="Ring Finger Tip X"
-        RingFingerTipX,
-        //% block="Ring Finger Tip Y"
-        RingFingerTipY,
-        //% block="Pinky Finger Base X"
-        PinkyFingerBaseX,
-        //% block="Pinky Finger Base Y"
-        PinkyFingerBaseY,
-        //% block="Pinky Finger First Joint X"
-        PinkyFingerFirstJointX,
-        //% block="Pinky Finger First Joint Y"
-        PinkyFingerFirstJointY,
-        //% block="Pinky Finger Second Joint X"
-        PinkyFingerSecondJointX,
-        //% block="Pinky Finger Second Joint Y"
-        PinkyFingerSecondJointY,
-        //% block="Pinky Finger Tip X"
-        PinkyFingerTipX,
-        //% block="Pinky Finger Tip Y"
-        PinkyFingerTipY,
+        //% block="Content"
+        Content,
+    }
+    function getPlatePropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case PlateProperty.ID: return res.ID;
+            case PlateProperty.Name: return res.name.length > 0 ? res.name : "";
+            case PlateProperty.Content: return res.content.length > 0 ? res.content : "";
+            case PlateProperty.XCenter: return res.xCenter;
+            case PlateProperty.YCenter: return res.yCenter;
+            case PlateProperty.Width: return res.width;
+            case PlateProperty.Height: return res.height;
+            default: return 0;
+        }
     }
 
-    /** Get one-time Hand Recognition result and cache it */
-    //% block="get Hand Recognition result"
-    //% weight=149
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function getResultGestureRecogtion(): void {
-        getResultInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+    /** Get one-time license plate recognition result and cache it */
+    //% block="get license plate recognition result"
+    //% weight=129
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function getResultPlateRecogtion(): void {
+        getResultInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
     }
 
-    /** Whether gesture detected */
-    //% block="gesture detected?"
-    //% weight=148
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function availableGestureRecogtion(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+    /** Whether license plate detected */
+    //% block="license plate detected?"
+    //% weight=128
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function availablePlateRecogtion(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
     }
 
-    /** Gesture property nearest to center */
-    //% block="gesture nearest to center %alg"
-    //% weight=147
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function getCachedCenterGestureResult(alg: GestureProperty): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
-        return getGesturePropertyValue(r, alg);
+    /** 靠近中心的车牌属性 */
+    //% block="Plate near center %alg"
+    //% weight=127
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function getCachedCenterPlateResult(alg: PlateProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
+        return getPlatePropertyValue(r, alg);
     }
 
-    /** Total number of detected gestures */
-    //% block="number of detected gestures"
-    //% weight=146
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function getCachedResultNumGesture(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+    /** 检测到的车牌总数 */
+    //% block="Number of detected plates"
+    //% weight=126
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function getCachedResultNumPlate(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
     }
 
-    /** Property of Nth gesture */
-    //% block="gesture %index %alg"
-    //% weight=145
+    /** 第N个车牌的属性 */
+    //% block="Plate %index %alg"
+    //% weight=125
     //% index.min=1 index.defl=1
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function getCachedResultGestureProperty(index: number, alg: GestureProperty): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, index - 1);
-        return getGesturePropertyValue(r, alg);
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function getCachedResultPlateProperty(index: number, alg: PlateProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index - 1);
+        return getPlatePropertyValue(r, alg);
     }
 
-    /** Total number of learned gesture IDs */
-    //% block="number of learned gesture IDs"
-    //% weight=144
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function getNumLearnedGestureIDs(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_HAND_RECOGNITION);
+    /** 已学习的车牌ID总数 */
+    //% block="Number of learned plate IDs"
+    //% weight=124
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function getNumLearnedPlateIDs(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION);
     }
 
-    /** Whether gesture with specified ID exists */
-    //% block="gesture ID %index exists?"
-    //% weight=143
+    /** 指定ID的车牌是否存在 */
+    //% block="Does plate ID %index exist?"
+    //% weight=123
     //% index.min=1 index.defl=1
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function gestureIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, index);
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function plateIdExists(index: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
         return r != null;
     }
 
-    /** Number of gestures with specified ID */
-    //% block="number of gestures with ID %index"
-    //% weight=142
+    /** 指定ID的车牌数量 */
+    //% block="Number of plates with ID %index"
+    //% weight=122
     //% index.min=1 index.defl=1
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function getNumGestureByID(index: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, index);
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function getNumPlateByID(index: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
     }
 
-    /** Property of gesture with specified ID */
-    //% block="gesture ID %index %alg"
-    //% weight=141
+    /** 指定ID的车牌属性 */
+    //% block="Plate ID %index %alg"
+    //% weight=121
     //% index.min=1 index.defl=1
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function getGesturePropertyByID(index: number, alg: GesturePropertyID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, index);
-        return getGesturePropertyValueID(r, alg);
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function getPlatePropertyByID(index: number, alg: PlatePropertyID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, index);
+        return getPlatePropertyValue(r, alg);
     }
 
-    /** Property of Nth gesture with specified ID */
-    //% block="gesture ID %id nth %n %alg"
-    //% weight=140
+    /** 指定ID第N个车牌的属性 */
+    //% block="Plate ID %id No.%n %alg"
+    //% weight=120
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
-    //% group="Hand Recognition"
-    //% subcategory="Hand Recognition"
-    export function getGesturePropertyByIDNth(id: number, n: number, alg: GesturePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_HAND_RECOGNITION, id, n - 1);
-        return getGesturePropertyValueID(r, alg);
+    //% group="License Plate Recognition"
+    //% subcategory="License Plate Recognition"
+    export function getPlatePropertyByIDNth(id: number, n: number, alg: PlatePropertyID): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_LICENSE_RECOGNITION, id, n - 1);
+        return getPlatePropertyValue(r, alg);
     }
 
-    // ================================================================ Pose Recognition (Human Pose) ========================
-    function getPosePropertyValue(result: ResultVariant, prop: PoseProperty): any {
-        if (!result) return 0;
-        if (result instanceof PoseResult) {
-            const pr = result as PoseResult;
-            switch (prop) {
-                case PoseProperty.ID: return pr.ID;
-                case PoseProperty.Name: return pr.name.length > 0 ? pr.name : "";
-                case PoseProperty.XCenter: return pr.xCenter;
-                case PoseProperty.YCenter: return pr.yCenter;
-                case PoseProperty.Width: return pr.width;
-                case PoseProperty.Height: return pr.height;
-                case PoseProperty.NoseX: return pr.nose_x;
-                case PoseProperty.NoseY: return pr.nose_y;
-                case PoseProperty.LeftEyeX: return pr.leye_x;
-                case PoseProperty.LeftEyeY: return pr.leye_y;
-                case PoseProperty.RightEyeX: return pr.reye_x;
-                case PoseProperty.RightEyeY: return pr.reye_y;
-                case PoseProperty.LeftEarX: return pr.lear_x;
-                case PoseProperty.LeftEarY: return pr.lear_y;
-                case PoseProperty.RightEarX: return pr.rear_x;
-                case PoseProperty.RightEarY: return pr.rear_y;
-                case PoseProperty.LeftShoulderX: return pr.lshoulder_x;
-                case PoseProperty.LeftShoulderY: return pr.lshoulder_y;
-                case PoseProperty.RightShoulderX: return pr.rshoulder_x;
-                case PoseProperty.RightShoulderY: return pr.rshoulder_y;
-                case PoseProperty.LeftElbowX: return pr.lelbow_x;
-                case PoseProperty.LeftElbowY: return pr.lelbow_y;
-                case PoseProperty.RightElbowX: return pr.relbow_x;
-                case PoseProperty.RightElbowY: return pr.relbow_y;
-                case PoseProperty.LeftWristX: return pr.lwrist_x;
-                case PoseProperty.LeftWristY: return pr.lwrist_y;
-                case PoseProperty.RightWristX: return pr.rwrist_x;
-                case PoseProperty.RightWristY: return pr.rwrist_y;
-                case PoseProperty.LeftHipX: return pr.lhip_x;
-                case PoseProperty.LeftHipY: return pr.lhip_y;
-                case PoseProperty.RightHipX: return pr.rhip_x;
-                case PoseProperty.RightHipY: return pr.rhip_y;
-                case PoseProperty.LeftKneeX: return pr.lknee_x;
-                case PoseProperty.LeftKneeY: return pr.lknee_y;
-                case PoseProperty.RightKneeX: return pr.rknee_x;
-                case PoseProperty.RightKneeY: return pr.rknee_y;
-                case PoseProperty.LeftAnkleX: return pr.lankle_x;
-                case PoseProperty.LeftAnkleY: return pr.lankle_y;
-                case PoseProperty.RightAnkleX: return pr.rankle_x;
-                case PoseProperty.RightAnkleY: return pr.rankle_y;
-                default: return 0;
-            }
-        }
-        return getObjectPropertyValue(result, prop as any);
-    }
-
-    function getPosePropertyValueID(result: ResultVariant, prop: PosePropertyID): any {
-        if (!result) return 0;
-        if (result instanceof PoseResult) {
-            const pr = result as PoseResult;
-            switch (prop) {
-                case PosePropertyID.Name: return pr.name.length > 0 ? pr.name : "";
-                case PosePropertyID.XCenter: return pr.xCenter;
-                case PosePropertyID.YCenter: return pr.yCenter;
-                case PosePropertyID.Width: return pr.width;
-                case PosePropertyID.Height: return pr.height;
-                case PosePropertyID.NoseX: return pr.nose_x;
-                case PosePropertyID.NoseY: return pr.nose_y;
-                case PosePropertyID.LeftEyeX: return pr.leye_x;
-                case PosePropertyID.LeftEyeY: return pr.leye_y;
-                case PosePropertyID.RightEyeX: return pr.reye_x;
-                case PosePropertyID.RightEyeY: return pr.reye_y;
-                case PosePropertyID.LeftEarX: return pr.lear_x;
-                case PosePropertyID.LeftEarY: return pr.lear_y;
-                case PosePropertyID.RightEarX: return pr.rear_x;
-                case PosePropertyID.RightEarY: return pr.rear_y;
-                case PosePropertyID.LeftShoulderX: return pr.lshoulder_x;
-                case PosePropertyID.LeftShoulderY: return pr.lshoulder_y;
-                case PosePropertyID.RightShoulderX: return pr.rshoulder_x;
-                case PosePropertyID.RightShoulderY: return pr.rshoulder_y;
-                case PosePropertyID.LeftElbowX: return pr.lelbow_x;
-                case PosePropertyID.LeftElbowY: return pr.lelbow_y;
-                case PosePropertyID.RightElbowX: return pr.relbow_x;
-                case PosePropertyID.RightElbowY: return pr.relbow_y;
-                case PosePropertyID.LeftWristX: return pr.lwrist_x;
-                case PosePropertyID.LeftWristY: return pr.lwrist_y;
-                case PosePropertyID.RightWristX: return pr.rwrist_x;
-                case PosePropertyID.RightWristY: return pr.rwrist_y;
-                case PosePropertyID.LeftHipX: return pr.lhip_x;
-                case PosePropertyID.LeftHipY: return pr.lhip_y;
-                case PosePropertyID.RightHipX: return pr.rhip_x;
-                case PosePropertyID.RightHipY: return pr.rhip_y;
-                case PosePropertyID.LeftKneeX: return pr.lknee_x;
-                case PosePropertyID.LeftKneeY: return pr.lknee_y;
-                case PosePropertyID.RightKneeX: return pr.rknee_x;
-                case PosePropertyID.RightKneeY: return pr.rknee_y;
-                case PosePropertyID.LeftAnkleX: return pr.lankle_x;
-                case PosePropertyID.LeftAnkleY: return pr.lankle_y;
-                case PosePropertyID.RightAnkleX: return pr.rankle_x;
-                case PosePropertyID.RightAnkleY: return pr.rankle_y;
-                default: return 0;
-            }
-        }
-        return getObjectPropertyValueID(result, prop as any);
-    }
-
-    // Pose properties (with ID)
-    export enum PoseProperty {
+    // ========================================================== Optical Char Recognition ==============================================
+    // 文字属性（含ID）
+    export enum TextProperty {
         //% block="ID"
         ID,
         //% block="Name"
@@ -535,78 +170,192 @@ namespace huskylensV2 {
         Width,
         //% block="Height"
         Height,
-        //% block="Nose X"
-        NoseX,
-        //% block="Nose Y"
-        NoseY,
-        //% block="Left Eye X"
-        LeftEyeX,
-        //% block="Left Eye Y"
-        LeftEyeY,
-        //% block="Right Eye X"
-        RightEyeX,
-        //% block="Right Eye Y"
-        RightEyeY,
-        //% block="Left Ear X"
-        LeftEarX,
-        //% block="Left Ear Y"
-        LeftEarY,
-        //% block="Right Ear X"
-        RightEarX,
-        //% block="Right Ear Y"
-        RightEarY,
-        //% block="Left Shoulder X"
-        LeftShoulderX,
-        //% block="Left Shoulder Y"
-        LeftShoulderY,
-        //% block="Right Shoulder X"
-        RightShoulderX,
-        //% block="Right Shoulder Y"
-        RightShoulderY,
-        //% block="Left Elbow X"
-        LeftElbowX,
-        //% block="Left Elbow Y"
-        LeftElbowY,
-        //% block="Right Elbow X"
-        RightElbowX,
-        //% block="Right Elbow Y"
-        RightElbowY,
-        //% block="Left Wrist X"
-        LeftWristX,
-        //% block="Left Wrist Y"
-        LeftWristY,
-        //% block="Right Wrist X"
-        RightWristX,
-        //% block="Right Wrist Y"
-        RightWristY,
-        //% block="Left Hip X"
-        LeftHipX,
-        //% block="Left Hip Y"
-        LeftHipY,
-        //% block="Right Hip X"
-        RightHipX,
-        //% block="Right Hip Y"
-        RightHipY,
-        //% block="Left Knee X"
-        LeftKneeX,
-        //% block="Left Knee Y"
-        LeftKneeY,
-        //% block="Right Knee X"
-        RightKneeX,
-        //% block="Right Knee Y"
-        RightKneeY,
-        //% block="Left Ankle X"
-        LeftAnkleX,
-        //% block="Left Ankle Y"
-        LeftAnkleY,
-        //% block="Right Ankle X"
-        RightAnkleX,
-        //% block="Right Ankle Y"
-        RightAnkleY,
+        //% block="Content"
+        Content,
     }
 
-    // Pose properties (without ID)
-    export enum PosePropertyID {
+    // 文字属性（不含ID）
+    export enum TextPropertyID {
+        //% block="Name"
+        Name=1,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Content"
+        Content,
+    }
+    function getTextPropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        const res = result as Result;
+
+        switch (prop) {
+            case TextProperty.ID: return res.ID;
+            case TextProperty.Name: return res.name.length > 0 ? res.name : "";
+            case TextProperty.Content: return res.content.length > 0 ? res.content : "";
+            case TextProperty.XCenter: return res.xCenter;
+            case TextProperty.YCenter: return res.yCenter;
+            case TextProperty.Width: return res.width;
+            case TextProperty.Height: return res.height;
+            default: return 0;
+        }
+    }
+
+
+    /** 获取一次文字识别结果并缓存 */
+    //% block="Get Optical Char Recognition result"
+    //% weight=119
+    //% group="Optical Char Recognition"
+    //% subcategory="Optical Char Recognition"
+    export function getResultTextRecogtion(): void {
+        getResultInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
+    }
+
+    /** 是否检测到文字区域 */
+    //% block="Whether text region detected"
+    //% weight=118
+    //% group="Optical Char Recognition"
+    //% subcategory="Optical Char Recognition"
+    export function availableTextRecogtion(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
+    }
+
+    /** 靠近中心的文字区域属性 */
+    //% block="Text region near center %alg"
+    //% weight=117
+    //% group="Optical Char Recognition"
+    //% subcategory="Optical Char Recognition"
+    export function getCachedCenterTextResult(alg: TextProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
+        return getTextPropertyValue(r, alg);
+    }
+
+    /** 已学习的文字区域ID总数 */
+    //% block="Number of learned text region IDs"
+    //% weight=114
+    //% group="Optical Char Recognition"
+    //% subcategory="Optical Char Recognition"
+    export function getNumLearnedTextIDs(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_OCR_RECOGNITION);
+    }
+
+    /** 指定ID的文字区域是否存在 */
+    //% block="Does text region ID %index exist?"
+    //% weight=113
+    //% index.min=1 index.defl=1
+    //% group="Optical Char Recognition"
+    //% subcategory="Optical Char Recognition"
+    export function textIdExists(index: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OCR_RECOGNITION, index);
+        return r != null;
+    }
+
+    /** 指定ID的文字区域属性 */
+    //% block="Text region ID %index %alg"
+    //% weight=111
+    //% index.min=1 index.defl=1
+    //% group="Optical Char Recognition"
+    //% subcategory="Optical Char Recognition"
+    export function getTextPropertyByID(index: number, alg: TextPropertyID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_OCR_RECOGNITION, index);
+        return getTextPropertyValue(r, alg);
+    }
+
+    // ============================================================= Line Tracking ====================================================
+    // Helper function to convert unsigned 16-bit to signed 16-bit integer
+    function toSigned16(val: number): number {
+        // If value is greater than 32767, it's a negative number in signed 16-bit representation
+        return val > 32767 ? val - 65536 : val;
+    }
+
+    function getLineTrackingPropertyValue(result: ResultVariant, prop: LineTrackingProperty): number {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case LineTrackingProperty.XComponent: return toSigned16(res.xCenter);
+            case LineTrackingProperty.YComponent: return toSigned16(res.yCenter);
+            case LineTrackingProperty.Angle: return toSigned16(res.angle);
+            case LineTrackingProperty.Length: return res.length;
+            default: return 0;
+        }
+    }
+
+    // Line tracking properties
+    export enum LineTrackingProperty {
+        //% block="X Component"
+        XComponent,
+        //% block="Y Component"
+        YComponent,
+        //% block="Angle"
+        Angle,
+        //% block="Length"
+        Length,
+    }
+
+    /** 请求一次巡线数据存入结果 */
+    //% block="Request line tracking data and store result"
+    //% weight=109
+    //% group="Line Tracking"
+    //% subcategory="Line Tracking"
+    export function getResultLineTracking(): void {
+        getResultInternal(Algorithm.ALGORITHM_LINE_TRACKING);
+    }
+
+    /** 是否检测到路线 */
+    //% block="Whether line detected"
+    //% weight=108
+    //% group="Line Tracking"
+    //% subcategory="Line Tracking"
+    export function availableLineTracking(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_LINE_TRACKING);
+    }
+
+    /** 当前路线的属性 */
+    //% block="Current line %alg"
+    //% weight=107
+    //% group="Line Tracking"
+    //% subcategory="Line Tracking"
+    export function getCachedLineTrackingResult(alg: LineTrackingProperty): number {
+        const r = getCurrentBranchInternal(Algorithm.ALGORITHM_LINE_TRACKING);
+        return getLineTrackingPropertyValue(r, alg);
+    }
+
+    /** 前方路口分支数量 */
+    //% block="Number of branches at intersection ahead"
+    //% weight=106
+    //% group="Line Tracking"
+    //% subcategory="Line Tracking"
+    export function getLineTrackingBranchCount(): number {
+        return getUpcomingBranchCountInternal(Algorithm.ALGORITHM_LINE_TRACKING);
+    }
+
+    /** 逆时针第index条分支路线的属性 */
+    //% block="Branch %index counterclockwise %alg"
+    //% weight=105
+    //% index.min=1 index.defl=1
+    //% group="Line Tracking"
+    //% subcategory="Line Tracking"
+    export function getLineTrackingBranchProperty(index: number, alg: LineTrackingProperty): number {
+        const r = getBranchInternal(Algorithm.ALGORITHM_LINE_TRACKING, index - 1);
+        return getLineTrackingPropertyValue(r, alg);
+    }
+
+    // ======================================================== Face Emotion Recognition ==============================================
+    function getEmotionPropertyValue(result: ResultVariant, prop: EmotionProperty): number {
+        return getObjectPropertyValue(result, prop as any);
+    }
+
+    function getEmotionPropertyValueID(result: ResultVariant, prop: EmotionPropertyID): number {
+        return getObjectPropertyValue(result, prop as any);
+    }
+
+    export enum EmotionProperty {
+        //% block="ID"
+        ID,
         //% block="Name"
         Name,
         //% block="X Center"
@@ -617,175 +366,721 @@ namespace huskylensV2 {
         Width,
         //% block="Height"
         Height,
-        //% block="Nose X"
-        NoseX,
-        //% block="Nose Y"
-        NoseY,
-        //% block="Left Eye X"
-        LeftEyeX,
-        //% block="Left Eye Y"
-        LeftEyeY,
-        //% block="Right Eye X"
-        RightEyeX,
-        //% block="Right Eye Y"
-        RightEyeY,
-        //% block="Left Ear X"
-        LeftEarX,
-        //% block="Left Ear Y"
-        LeftEarY,
-        //% block="Right Ear X"
-        RightEarX,
-        //% block="Right Ear Y"
-        RightEarY,
-        //% block="Left Shoulder X"
-        LeftShoulderX,
-        //% block="Left Shoulder Y"
-        LeftShoulderY,
-        //% block="Right Shoulder X"
-        RightShoulderX,
-        //% block="Right Shoulder Y"
-        RightShoulderY,
-        //% block="Left Elbow X"
-        LeftElbowX,
-        //% block="Left Elbow Y"
-        LeftElbowY,
-        //% block="Right Elbow X"
-        RightElbowX,
-        //% block="Right Elbow Y"
-        RightElbowY,
-        //% block="Left Wrist X"
-        LeftWristX,
-        //% block="Left Wrist Y"
-        LeftWristY,
-        //% block="Right Wrist X"
-        RightWristX,
-        //% block="Right Wrist Y"
-        RightWristY,
-        //% block="Left Hip X"
-        LeftHipX,
-        //% block="Left Hip Y"
-        LeftHipY,
-        //% block="Right Hip X"
-        RightHipX,
-        //% block="Right Hip Y"
-        RightHipY,
-        //% block="Left Knee X"
-        LeftKneeX,
-        //% block="Left Knee Y"
-        LeftKneeY,
-        //% block="Right Knee X"
-        RightKneeX,
-        //% block="Right Knee Y"
-        RightKneeY,
-        //% block="Left Ankle X"
-        LeftAnkleX,
-        //% block="Left Ankle Y"
-        LeftAnkleY,
-        //% block="Right Ankle X"
-        RightAnkleX,
-        //% block="Right Ankle Y"
-        RightAnkleY,
     }
 
-    /** Get one-time pose recognition result and cache it */
-    //% block="get pose recognition result"
-    //% weight=139
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function getResultPoseRecogtion(): void {
-        getResultInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+    export enum EmotionPropertyID {
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
     }
 
-    /** Whether pose detected */
-    //% block="pose detected?"
-    //% weight=138
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function availablePoseRecogtion(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+    //% block="Get Face Emotion Recognition result"
+    //% weight=104
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function getResultEmotionRecogtion(): void {
+        getResultInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
     }
 
-    /** Pose property nearest to center */
-    //% block="pose nearest to center %alg"
-    //% weight=137
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function getCachedCenterPoseResult(alg: PoseProperty): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
-        return getPosePropertyValue(r, alg);
+    //% block="Whether emotion detected"
+    //% weight=103
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function availableEmotionRecogtion(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
     }
 
-    /** Total number of detected poses */
-    //% block="number of detected poses"
-    //% weight=136
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function getCachedResultNumPose(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+    //% block="Emotion near center %alg"
+    //% weight=102
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function getCachedCenterEmotionResult(alg: EmotionProperty): number {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
+        return getEmotionPropertyValue(r, alg);
     }
 
-    /** Property of Nth pose */
-    //% block="pose %index %alg"
-    //% weight=135
+    //% block="Number of detected emotions"
+    //% weight=101
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function getCachedResultNumEmotion(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
+    }
+
+    //% block="Emotion %index %alg"
+    //% weight=100
     //% index.min=1 index.defl=1
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function getCachedResultPoseProperty(index: number, alg: PoseProperty): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, index - 1);
-        return getPosePropertyValue(r, alg);
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function getCachedResultEmotionProperty(index: number, alg: EmotionProperty): number {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index - 1);
+        return getEmotionPropertyValue(r, alg);
     }
 
-    /** Total number of learned pose IDs */
-    //% block="number of learned pose IDs"
-    //% weight=134
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function getNumLearnedPoseIDs(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_POSE_RECOGNITION);
+    //% block="Number of learned emotion IDs"
+    //% weight=99
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function getNumLearnedEmotionIDs(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION);
     }
 
-    /** Whether pose with specified ID exists */
-    //% block="pose ID %index exists?"
-    //% weight=133
+    //% block="Does emotion ID %index exist?"
+    //% weight=98
     //% index.min=1 index.defl=1
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function poseIdExists(index: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, index);
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function emotionIdExists(index: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
         return r != null;
     }
 
-    /** Number of poses with specified ID */
-    //% block="number of poses with ID %index"
-    //% weight=132
+    //% block="Number of emotions with ID %index"
+    //% weight=97
     //% index.min=1 index.defl=1
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function getNumPoseByID(index: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, index);
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function getNumEmotionByID(index: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
     }
 
-    /** Property of pose with specified ID */
-    //% block="pose ID %index %alg"
-    //% weight=131
+    //% block="Emotion ID %index %alg"
+    //% weight=96
     //% index.min=1 index.defl=1
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function getPosePropertyByID(index: number, alg: PosePropertyID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, index);
-        return getPosePropertyValueID(r, alg);
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function getEmotionPropertyByID(index: number, alg: EmotionPropertyID): number {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, index);
+        return getEmotionPropertyValueID(r, alg);
     }
 
-    /** Property of Nth pose with specified ID */
-    //% block="pose ID %id nth %n %alg"
-    //% weight=130
+    //% block="Emotion ID %id No.%n %alg"
+    //% weight=95
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
-    //% group="Pose Recognition"
-    //% subcategory="Pose Recognition"
-    export function getPosePropertyByIDNth(id: number, n: number, alg: PosePropertyID): any {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_POSE_RECOGNITION, id, n - 1);
-        return getPosePropertyValueID(r, alg);
+    //% group="Face Emotion Recognition"
+    //% subcategory="Face Emotion Recognition"
+    export function getEmotionPropertyByIDNth(id: number, n: number, alg: EmotionPropertyID): number {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_EMOTION_RECOGNITION, id, n - 1);
+        return getEmotionPropertyValueID(r, alg);
     }
 
+    // =========================================================== Tag Recognition ====================================================
+    export enum TagProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Content"
+        Content,
+    }
+
+    export enum TagPropertyID {
+        //% block="Name"
+        Name=1,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Content"
+        Content,
+    }
+    function getTagPropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case TagProperty.ID: return res.ID;
+            case TagProperty.Name: return res.name.length > 0 ? res.name : "";
+            case TagProperty.Content: return res.content.length > 0 ? res.content : "";
+            case TagProperty.XCenter: return res.xCenter;
+            case TagProperty.YCenter: return res.yCenter;
+            case TagProperty.Width: return res.width;
+            case TagProperty.Height: return res.height;
+            default: return 0;
+        }
+    }
+
+    //% block="Get tag recognition result"
+    //% weight=94
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function getResultTagRecogtion(): void {
+        getResultInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
+    }
+
+    //% block="Whether tag detected"
+    //% weight=93
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function availableTagRecogtion(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
+    }
+
+    //% block="Tag near center %alg"
+    //% weight=92
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function getCachedCenterTagResult(alg: TagProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
+        return getTagPropertyValue(r, alg);
+    }
+
+    //% block="Number of detected tags"
+    //% weight=91
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function getCachedResultNumTag(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
+    }
+
+    //% block="Tag %index %alg"
+    //% weight=90
+    //% index.min=1 index.defl=1
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function getCachedResultTagProperty(index: number, alg: TagProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index - 1);
+        return getTagPropertyValue(r, alg);
+    }
+
+    //% block="Number of learned tag IDs"
+    //% weight=89
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function getNumLearnedTagIDs(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_TAG_RECOGNITION);
+    }
+
+    //% block="Does tag ID %index exist?"
+    //% weight=88
+    //% index.min=1 index.defl=1
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function tagIdExists(index: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
+        return r != null;
+    }
+
+    //% block="Number of tags with ID %index"
+    //% weight=87
+    //% index.min=1 index.defl=1
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function getNumTagByID(index: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
+    }
+
+    //% block="Tag ID %index %alg"
+    //% weight=86
+    //% index.min=1 index.defl=1
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function getTagPropertyByID(index: number, alg: TagPropertyID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, index);
+        return getTagPropertyValue(r, alg);
+    }
+
+    //% block="Tag ID %id No.%n %alg"
+    //% weight=85
+    //% id.min=1 id.defl=1
+    //% n.min=1 n.defl=1
+    //% group="Tag Recognition"
+    //% subcategory="Tag Recognition"
+    export function getTagPropertyByIDNth(id: number, n: number, alg: TagPropertyID): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_TAG_RECOGNITION, id, n - 1);
+        return getTagPropertyValue(r, alg);
+    }
+
+    // =================================================================== QR Code Recognition =====================================
+    export enum QRCodeProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Content"
+        Content,
+    }
+
+    export enum QRCodePropertyID {
+        //% block="Name"
+        Name=1,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Content"
+        Content,
+    }
+
+    function getQRCodePropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case QRCodeProperty.ID: return res.ID;
+            case QRCodeProperty.Name: return res.name.length > 0 ? res.name : "";
+            case QRCodeProperty.Content: return res.content.length > 0 ? res.content : "";
+            case QRCodeProperty.XCenter: return res.xCenter;
+            case QRCodeProperty.YCenter: return res.yCenter;
+            case QRCodeProperty.Width: return res.width;
+            case QRCodeProperty.Height: return res.height;
+            default: return 0;
+        }
+    }
+
+
+    //% block="Get QR code recognition result"
+    //% weight=84
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function getResultQRCodeRecogtion(): void {
+        getResultInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
+    }
+
+    //% block="Whether QR code detected"
+    //% weight=83
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function availableQRCodeRecogtion(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
+    }
+
+    //% block="QR code near center %alg"
+    //% weight=82
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function getCachedCenterQRCodeResult(alg: QRCodeProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
+        return getQRCodePropertyValue(r, alg);
+    }
+
+    //% block="Number of detected QR codes"
+    //% weight=81
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function getCachedResultNumQRCode(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
+    }
+
+    //% block="QR code %index %alg"
+    //% weight=80
+    //% index.min=1 index.defl=1
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function getCachedResultQRCodeProperty(index: number, alg: QRCodeProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index - 1);
+        return getQRCodePropertyValue(r, alg);
+    }
+
+    //% block="Number of learned QR code IDs"
+    //% weight=79
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function getNumLearnedQRCodeIDs(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION);
+    }
+
+    //% block="Does QR code ID %index exist?"
+    //% weight=78
+    //% index.min=1 index.defl=1
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function qrcodeIdExists(index: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
+        return r != null;
+    }
+
+    //% block="Number of QR codes with ID %index"
+    //% weight=77
+    //% index.min=1 index.defl=1
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function getNumQRCodeByID(index: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
+    }
+
+    //% block="QR code ID %index %alg"
+    //% weight=76
+    //% index.min=1 index.defl=1
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function getQRCodePropertyByID(index: number, alg: QRCodePropertyID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, index);
+        return getQRCodePropertyValue(r, alg);
+    }
+
+    //% block="QR code ID %id No.%n %alg"
+    //% weight=75
+    //% id.min=1 id.defl=1
+    //% n.min=1 n.defl=1
+    //% group="QR Code Recognition"
+    //% subcategory="QR Code Recognition"
+    export function getQRCodePropertyByIDNth(id: number, n: number, alg: QRCodePropertyID): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_QRCODE_RECOGNITION, id, n - 1);
+        return getQRCodePropertyValue(r, alg);
+    }
+
+    // ===================================================== Barcode Recognition" ==============================================
+    export enum BarcodeProperty {
+        //% block="ID"
+        ID,
+        //% block="Name"
+        Name,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Content"
+        Content,
+    }
+
+    export enum BarcodePropertyID {
+        //% block="Name"
+        Name=1,
+        //% block="X Center"
+        XCenter,
+        //% block="Y Center"
+        YCenter,
+        //% block="Width"
+        Width,
+        //% block="Height"
+        Height,
+        //% block="Content"
+        Content,
+    }
+    function getBarcodePropertyValue(result: ResultVariant, prop: number): any {
+        if (!result) return 0;
+        const res = result as Result;
+        switch (prop) {
+            case BarcodeProperty.ID: return res.ID;
+            case BarcodeProperty.Name: return res.name.length > 0 ? res.name : "";
+            case BarcodeProperty.Content: return res.content.length > 0 ? res.content : "";
+            case BarcodeProperty.XCenter: return res.xCenter;
+            case BarcodeProperty.YCenter: return res.yCenter;
+            case BarcodeProperty.Width: return res.width;
+            case BarcodeProperty.Height: return res.height;
+            default: return 0;
+        }
+    }
+
+
+    //% block="Get barcode recognition result"
+    //% weight=74
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function getResultBarcodeRecogtion(): void {
+        getResultInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
+    }
+
+    //% block="Whether barcode detected"
+    //% weight=73
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function availableBarcodeRecogtion(): boolean {
+        return availableInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
+    }
+
+    //% block="Barcode near center %alg"
+    //% weight=72
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function getCachedCenterBarcodeResult(alg: BarcodeProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
+        return getBarcodePropertyValue(r, alg);
+    }
+
+    //% block="Number of detected barcodes"
+    //% weight=71
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function getCachedResultNumBarcode(): number {
+        return getCachedResultNumInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
+    }
+
+    //% block="Barcode %index %alg"
+    //% weight=70
+    //% index.min=1 index.defl=1
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function getCachedResultBarcodeProperty(index: number, alg: BarcodeProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index - 1);
+        return getBarcodePropertyValue(r, alg);
+    }
+
+    //% block="Number of learned barcode IDs"
+    //% weight=69
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function getNumLearnedBarcodeIDs(): number {
+        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION);
+    }
+
+    //% block="Does barcode ID %index exist?"
+    //% weight=68
+    //% index.min=1 index.defl=1
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function barcodeIdExists(index: number): boolean {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
+        return r != null;
+    }
+
+    //% block="Number of barcodes with ID %index"
+    //% weight=67
+    //% index.min=1 index.defl=1
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function getNumBarcodeByID(index: number): number {
+        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
+    }
+
+    //% block="Barcode ID %index %alg"
+    //% weight=66
+    //% index.min=1 index.defl=1
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function getBarcodePropertyByID(index: number, alg: BarcodePropertyID): any {
+        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, index);
+        return getBarcodePropertyValue(r, alg);
+    }
+
+    //% block="Barcode ID %id No.%n %alg"
+    //% weight=65
+    //% id.min=1 id.defl=1
+    //% n.min=1 n.defl=1
+    //% group="Barcode Recognition"
+    //% subcategory="Barcode Recognition"
+    export function getBarcodePropertyByIDNth(id: number, n: number, alg: BarcodePropertyID): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_BARCODE_RECOGNITION, id, n - 1);
+        return getBarcodePropertyValue(r, alg);
+    }
+
+    // ================= Custom Model =================
+    // Custom model properties (with ID)
+    export enum CustomModelProperty {
+        //% blockHidden=true
+        //% block="ID"
+        ID,
+        //% blockHidden=true
+        //% block="Name"
+        Name,
+        //% blockHidden=true
+        //% block="X Center"
+        XCenter,
+        //% blockHidden=true
+        //% block="Y Center"
+        YCenter,
+        //% blockHidden=true
+        //% block="Width"
+        Width,
+        //% blockHidden=true
+        //% block="Height"
+        Height,
+    }
+
+    // Custom model properties (without ID)
+    export enum CustomModelPropertyID {
+        //% blockHidden=true
+        //% block="Name"
+        Name,
+        //% blockHidden=true
+        //% block="X Center"
+        XCenter,
+        //% blockHidden=true
+        //% block="Y Center"
+        YCenter,
+        //% blockHidden=true
+        //% block="Width"
+        Width,
+        //% blockHidden=true
+        //% block="Height"
+        Height,
+    }
+    function getCustomModelPropertyValue(result: ResultVariant, prop: CustomModelProperty): number {
+        return getObjectPropertyValue(result, prop as any);
+    }
+
+    function getCustomModelPropertyValueID(result: ResultVariant, prop: CustomModelPropertyID): number {
+        return getObjectPropertyValue(result, prop as any);
+    }
+
+
+
+    /** HUSKYLENS 2切换算法ID直到成功 */
+    //% blockHidden=true
+    //% block="HUSKYLENS 2 switch algorithm ID %algorithmId until success"
+    //% weight=64
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function switchCustomModelAlgorithm(algorithmId: number): void {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        switchAlgorithmInternal(algoId);
+    }
+
+    /** 算法ID请求一次数据存入结果 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId request data and store result"
+    //% weight=63
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function getResultCustomModel(algorithmId: number): void {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        getResultInternal(algoId);
+    }
+
+    /** 算法ID检测到目标 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId target detected?"
+    //% weight=62
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function availableCustomModel(algorithmId: number): boolean {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        return availableInternal(algoId);
+    }
+
+    /** 算法ID靠近中心的目标属性 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId target near center %alg1"
+    //% weight=61
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function getCachedCenterCustomModelResult(algorithmId: number, alg1: CustomModelProperty): number {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const r = getCachedCenterResultInternal(algoId);
+        return getCustomModelPropertyValue(r, alg1);
+    }
+
+    /** 算法ID检测到的目标总数 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId number of detected targets"
+    //% weight=60
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function getCachedResultNumCustomModel(algorithmId: number): number {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        return getCachedResultNumInternal(algoId);
+    }
+
+    /** 算法ID第num个目标的属性 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId target %num %alg1"
+    //% weight=59
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% num.min=1 num.defl=1
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function getCachedResultCustomModelProperty(algorithmId: number, num: number, alg1: CustomModelProperty): number {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const r = getCachedResultByIndexInternal(algoId, num - 1);
+        return getCustomModelPropertyValue(r, alg1);
+    }
+
+    /** 算法ID已学习的目标ID总数 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId number of learned target IDs"
+    //% weight=58
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function getNumLearnedCustomModelIDs(algorithmId: number): number {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        return getCachedResultLearnedNumInternal(algoId);
+    }
+
+    /** 算法ID ID的目标存在 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId target ID %targetId exists?"
+    //% weight=57
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% targetId.min=1 targetId.defl=1
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function customModelIdExists(algorithmId: number, targetId: number): boolean {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const r = getCachedResultByIDInternal(algoId, targetId);
+        return r != null;
+    }
+
+    /** 算法ID ID的目标总数 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId number of targets with ID %targetId"
+    //% weight=56
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% targetId.min=1 targetId.defl=1
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function getNumCustomModelByID(algorithmId: number, targetId: number): number {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        return getCachedResultNumByIDInternal(algoId, targetId);
+    }
+
+    /** 算法ID ID的目标属性 */
+    //% blockHidden=true
+    //% block="Algorithm ID %algorithmId target ID %targetId %alg2"
+    //% weight=55
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% targetId.min=1 targetId.defl=1
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function getCustomModelPropertyByID(algorithmId: number, targetId: number, alg2: CustomModelPropertyID): number {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const r = getCachedResultByIDInternal(algoId, targetId);
+        return getCustomModelPropertyValueID(r, alg2);
+    }
+
+    /** 算法ID ID的第num个目标的属性 */
+    //% blockHidden=true
+    //% block="Algorithm %algorithmId ID%targetId No.%num %alg2"
+    //% inlineInputMode=inline
+    //% weight=54
+    //% algorithmId.min=1 algorithmId.defl=128
+    //% targetId.min=1 targetId.defl=1
+    //% num.min=1 num.defl=1
+    //% group="Custom Model"
+    //% subcategory="Custom Model"
+    export function getCustomModelPropertyByIDNth(algorithmId: number, targetId: number, num: number, alg2: CustomModelPropertyID): number {
+        const algoId = Algorithm.ALGORITHM_CUSTOM_BEGIN + (algorithmId - 1);
+        const r = getCachedIndexResultByIDInternal(algoId, targetId, num - 1);
+        return getCustomModelPropertyValueID(r, alg2);
+    }
 }
