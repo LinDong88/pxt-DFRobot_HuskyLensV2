@@ -397,14 +397,7 @@ namespace huskylensV2 {
         constructor(buffer: Buffer) {
             super(buffer);
 
-            // Debug info: First check the first 20 bytes of buffer
-            //console.log("=== Result constructor debug ===");
-            //console.log("buffer length: " + buffer.length);
-            //console.log("buffer[0-19] hex: " + bufferToHex(buffer.slice(0, 20), 20));
-            //console.log("buffer[10] (name_length): " + buffer[10] + " (0x" + toHex(buffer[10]) + ")");
-
-            let name_length = buffer[10];
-            //console.log("name_length: " + name_length);
+            const name_length = buffer[10];
 
             // Check if name_length is 0, if so, there is no name field
             if (name_length === 0) {
@@ -412,7 +405,7 @@ namespace huskylensV2 {
                 // For license plate and OCR recognition, content may still exist even when name_length is 0
                 // Try to parse content from buffer[11] if buffer is long enough
                 if (buffer.length > 11) {
-                    let content_length = buffer[11];
+                    const content_length = buffer[11];
                     if (content_length > 0 && buffer.length > 12 + content_length) {
                         this.content = bufferToStringAtOffset(buffer, 12, content_length);
                     } else {
@@ -421,21 +414,14 @@ namespace huskylensV2 {
                 } else {
                     this.content = "";
                 }
-                //console.log("name_length is 0, skipping name and content");
-                //console.log("================================");
                 return;
             }
 
-            let content_length = buffer[11 + name_length];
+            const content_length = buffer[11 + name_length];
 
             // Directly decode from buffer at specific offsets, avoiding slice() which may have issues in MakeCode
             this.name = bufferToStringAtOffset(buffer, 11, name_length);
             this.content = bufferToStringAtOffset(buffer, 12 + name_length, content_length);
-
-            // Debug info: Print final result
-            //console.log("final name: [" + this.name + "]");
-            //console.log("final name length: " + this.name.length);
-            //console.log("================================");
         }
 
         printInfo() {
@@ -472,29 +458,38 @@ namespace huskylensV2 {
         return hex;
     }
 
+    // Helper function: Create Buffer from receive_buffer (optimized)
+    function createBufferFromReceive(): Buffer {
+        const buf = Buffer.create(receive_buffer.length);
+        for (let j = 0; j < receive_buffer.length; j++) {
+            buf[j] = receive_buffer[j];
+        }
+        return buf;
+    }
+
+    // Helper function: Get PacketData from response
+    function getPacketDataFromResponse(): PacketData {
+        const buf = createBufferFromReceive();
+        return new PacketData(buf.slice(5, buf.length - 1));
+    }
+
     export function protocolAvailable(): boolean {
-        let response = pins.i2cReadBuffer(Macro.I2CADDR, 32);
+        const response = pins.i2cReadBuffer(Macro.I2CADDR, 32);
         if (response.length > 0) {
-            // console.log("protocolAvailable: Received " + response.length + " bytes");
-            // Print received raw data
             for (let k = 0; k < response.length; k++) {
                 i2c_cached_data.push(response[k]);
             }
         }
         while (i2c_cached_data.length) {
-            let data = i2c_cached_data.shift();
-            if (data != null) {
-                if (husky_lens_protocol_receive(data)) {
-                    return true;
-                }
+            const data = i2c_cached_data.shift();
+            if (data != null && husky_lens_protocol_receive(data)) {
+                return true;
             }
         }
-
         return false;
     }
 
     export function husky_lens_protocol_receive(data: number): boolean {
-        //console.log("receive_index=" + receive_index + "  data=0x" + toHex(data));
         switch (receive_index) {
             case Macro.HEADER_0_INDEX:
                 if (data != 0x55) {
@@ -537,32 +532,46 @@ namespace huskylensV2 {
     }
 
     export function validateCheckSum(): boolean {
-        let stackSumIndex = receive_buffer[Macro.CONTENT_SIZE_INDEX] + Macro.CONTENT_INDEX;
+        const stackSumIndex = receive_buffer[Macro.CONTENT_SIZE_INDEX] + Macro.CONTENT_INDEX;
         let sum = 0;
-        let i;
-        for (i = 0; i < stackSumIndex; i++) {
+        for (let i = 0; i < stackSumIndex; i++) {
             sum += receive_buffer[i];
         }
         sum = sum & 0xff;
-        let expected = receive_buffer[stackSumIndex];
-        let isValid = (sum == expected);
-        return isValid;
+        const expected = receive_buffer[stackSumIndex];
+        return sum === expected;
     }
 
-    function wait(cmd: number, command: number): boolean {
-        //console.log("wait: Waiting for command 0x" + toHex(command));
-        timerBegin();
-        // receive_buffer[Macro.COMMAND_INDEX] = Algorithm.ALGORITHM_ANY;
-        while (!timerAvailable()) {
-            if (protocolAvailable()) {
-                let receivedCmd = receive_buffer[Macro.COMMAND_INDEX];
-                if (command === receivedCmd) {
-                    return true;
-                } else {
-                    return false;
+    /**
+     * 等待指定命令的响应
+     * @param expectedCommand 期望收到的命令
+     * @param retry 重试次数，默认为3
+     * @param pkt 可选的数据包，如果提供则每次重试前会发送
+     * @param pauseMs 每次重试之间的暂停时间（毫秒），默认为100
+     * @returns 是否收到期望的命令
+     */
+    function waitForResponse(expectedCommand: number, retry: number = 3, pkt?: Buffer, pauseMs: number = 100): boolean {
+        for (let i = 0; i < retry; i++) {
+            // 如果提供了数据包，在每次重试前发送
+            if (pkt) {
+                protocolWrite(pkt);
+                if (pauseMs > 0) {
+                    basic.pause(pauseMs);
                 }
             }
-            basic.pause(10);
+            
+            // 等待响应
+            timerBegin();
+            while (!timerAvailable()) {
+                if (protocolAvailable()) {
+                    const receivedCmd = receive_buffer[Macro.COMMAND_INDEX];
+                    if (expectedCommand === receivedCmd) {
+                        return true;
+                    }
+                    // 如果收到其他命令，继续等待
+                }
+                basic.pause(10);
+            }
         }
         return false;
     }
@@ -571,42 +580,146 @@ namespace huskylensV2 {
         pins.i2cWriteBuffer(Macro.I2CADDR, buffer);
     }
 
-    export function beginInternal(): boolean {
+    /**
+     * 创建并初始化10字节的Buffer（第一个字节为指定值，其余为0）
+     * @param firstByte 第一个字节的值
+     * @returns 初始化后的Buffer
+     */
+    function createInitializedBuffer(firstByte: number): Buffer {
+        const buf = Buffer.create(10);
+        buf[0] = firstByte;
+        for (let i = 1; i < 10; i++) {
+            buf[i] = 0;
+        }
+        return buf;
+    }
+
+    /**
+     * 发送命令并等待响应，检查返回值
+     * @param cmd 命令类型
+     * @param algoId 算法ID
+     * @param data 数据缓冲区
+     * @param retry 重试次数，默认为3
+     * @param pauseMs 每次重试之间的暂停时间（毫秒），默认为100
+     * @param expectedRetValue 期望的返回值，默认为0
+     * @returns 是否成功（收到响应且返回值匹配）
+     */
+    function sendCommandAndCheckResponse(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100, expectedRetValue: number = 0): boolean {
+        const pkt = PacketHead.fromFields({
+            cmd: cmd,
+            algo_id: algoId,
+            data: data,
+        });
+        if (waitForResponse(Macro.COMMAND_RETURN_ARGS, retry, pkt, pauseMs)) {
+            const packetData = getPacketDataFromResponse();
+            return packetData.retValue === expectedRetValue;
+        }
+        return false;
+    }
+
+    /**
+     * 发送命令并等待响应（不检查返回值）
+     * @param cmd 命令类型
+     * @param algoId 算法ID
+     * @param data 数据缓冲区
+     * @param retry 重试次数，默认为3
+     * @param pauseMs 每次重试之间的暂停时间（毫秒），默认为100
+     * @returns 是否收到响应
+     */
+    function sendCommandAndWait(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100): boolean {
+        const pkt = PacketHead.fromFields({
+            cmd: cmd,
+            algo_id: algoId,
+            data: data,
+        });
+        return waitForResponse(Macro.COMMAND_RETURN_ARGS, retry, pkt, pauseMs);
+    }
+
+    /**
+     * 发送命令并获取响应数据（用于需要提取payload的情况）
+     * @param cmd 命令类型
+     * @param algoId 算法ID
+     * @param data 数据缓冲区
+     * @param retry 重试次数，默认为3
+     * @param pauseMs 每次重试之间的暂停时间（毫秒），默认为100
+     * @returns PacketData对象，如果失败返回null
+     */
+    function sendCommandAndGetResponse(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100): PacketData | null {
+        const pkt = PacketHead.fromFields({
+            cmd: cmd,
+            algo_id: algoId,
+            data: data,
+        });
+        if (waitForResponse(Macro.COMMAND_RETURN_ARGS, retry, pkt, pauseMs)) {
+            const packetData = getPacketDataFromResponse();
+            if (packetData.retValue === 0) {
+                return packetData;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 发送学习命令并获取学习ID
+     * @param cmd 命令类型（LEARN 或 LEARN_BLOCK）
+     * @param algoId 算法ID
+     * @param data 数据缓冲区
+     * @returns 学习到的ID，失败返回0
+     */
+    function sendLearnCommand(cmd: number, algoId: number, data: Buffer): number {
+        const pkt = PacketHead.fromFields({
+            cmd: cmd,
+            algo_id: algoId,
+            data: data,
+        });
+        if (waitForResponse(Macro.COMMAND_RETURN_ARGS, 1, pkt, 100)) {
+            const packetData = getPacketDataFromResponse();
+            return packetData.first;
+        }
+        return 0;
+    }
+
+    /**
+     * 创建包含坐标和尺寸的10字节Buffer（用于LEARN_BLOCK命令）
+     * @param X X坐标
+     * @param Y Y坐标
+     * @param W 宽度
+     * @param H 高度
+     * @returns 初始化后的Buffer
+     */
+    function createBoxBuffer(X: number, Y: number, W: number, H: number): Buffer {
         const dataBuf = Buffer.create(10);
-        dataBuf[0] = 1;
+        dataBuf[0] = 0;   // reserved
+        dataBuf[1] = 0;   // reserved
+        dataBuf[2] = X & 0xFF;
+        dataBuf[3] = (X >> 8) & 0xFF;
+        dataBuf[4] = Y & 0xFF;
+        dataBuf[5] = (Y >> 8) & 0xFF;
+        dataBuf[6] = W & 0xFF;
+        dataBuf[7] = (W >> 8) & 0xFF;
+        dataBuf[8] = H & 0xFF;
+        dataBuf[9] = (H >> 8) & 0xFF;
+        return dataBuf;
+    }
+
+    export function beginInternal(): boolean {
+        const dataBuf = createInitializedBuffer(1);
         const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_KNOCK,
             algo_id: Algorithm.ALGORITHM_ANY,
             data: dataBuf,
         });
-
-        for (let i = 0; i < 20; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_KNOCK, Macro.COMMAND_RETURN_ARGS)) {
-                return true;
-            }
-        }
-        return false;
+        return waitForResponse(Macro.COMMAND_RETURN_ARGS, 20, pkt, 100);
     }
 
     export function switchAlgorithmInternal(algo: number): boolean {
-        const dataBuf = Buffer.create(10);
-        dataBuf[0] = algo;
+        const dataBuf = createInitializedBuffer(algo);
         const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_SET_ALGORITHM,
             algo_id: Algorithm.ALGORITHM_ANY,
             data: dataBuf,
         });
-
-        for (let i = 0; i < 3; i++) {
-            protocolWrite(pkt);
-            basic.pause(1000);
-            if (wait(Macro.COMMAND_SET_ALGORITHM, Macro.COMMAND_RETURN_ARGS)) {
-                return true;
-            }
-        }
-        return false;
+        return waitForResponse(Macro.COMMAND_RETURN_ARGS, 3, pkt, 1000);
     }
 
     export type ResultVariant = Result | FaceResult | HandResult | PoseResult | null;
@@ -632,142 +745,126 @@ namespace huskylensV2 {
     }
 
     export function availableInternal(algo: number): boolean {
-        let ret = false;
-        // algo = toRealID(algo);
-        algo = 0;
+        const cacheAlgo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            const r = result[algo][i];
+            const r = result[cacheAlgo][i];
             if (r != null) {
                 const res = r as Result;
                 if (!res.used) {
-                    ret = true;
-                    break;
+                    return true;
                 }
             }
         }
-
-        return ret;
+        return false;
     }
 
     export function getCachedResultMaxID(algo: number): number {
-        // algo = toRealID(algo);
-        algo = 0;
-        return maxID[algo] || 0;
+        const cacheAlgo = 0;
+        return maxID[cacheAlgo] || 0;
     }
 
     export function getResultInternal(algo: number): number {
         const dataBuf = Buffer.create(0);
-        let retry = 3
-        let pkt = PacketHead.fromFields({
+        const retry = 3;
+        const pkt = PacketHead.fromFields({
             cmd: Macro.COMMAND_GET_RESULT,
             algo_id: algo,
             data: dataBuf,
         });
 
-        let i = 0
-        let _count = 0
-        let info = new PacketData(Buffer.create(10));
-        // algo = toRealID(algo);
-        algo = 0;
-        for (i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            result[algo][i] = null;
+        // Normalize algorithm ID to 0 for caching
+        const cacheAlgo = 0;
+        
+        // Clear previous results
+        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
+            result[cacheAlgo][i] = null;
         }
-        for (i = 0; i < retry; i++) {
-            protocolWrite(pkt)
-            if (wait(Macro.COMMAND_GET_RESULT, Macro.COMMAND_RETURN_INFO)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                info = new PacketData(buf.slice(5, buf.length - 1));
-                maxID[algo] = info.maxID;
-                // if (info.total_results > Macro.MAX_RESULT_NUM) {
-                //     info.total_results = Macro.MAX_RESULT_NUM;
-                // }
-                if (info.total_blocks > Macro.MAX_RESULT_NUM) {
-                    info.total_blocks = Macro.MAX_RESULT_NUM;
-                }
-                break;
+
+        // Request result info with retry
+        let info: PacketData | null = null;
+        if (waitForResponse(Macro.COMMAND_RETURN_INFO, retry, pkt, 0)) {
+            info = getPacketDataFromResponse();
+            maxID[cacheAlgo] = info.maxID;
+            if (info.total_blocks > Macro.MAX_RESULT_NUM) {
+                info.total_blocks = Macro.MAX_RESULT_NUM;
             }
         }
-        if (i == retry) {
+        
+        if (!info) {
             return -1;
         }
-        for (i = 0; i < info.total_blocks; i++) {
-            if (wait(0, Macro.COMMAND_RETURN_BLOCK)) {
-                _count++;
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                let dataBuf = buf.slice(5, buf.length - 1);
-                result[algo][i] = new Result(dataBuf);
+
+        // Process blocks
+        let count = 0;
+        for (let i = 0; i < info.total_blocks; i++) {
+            if (waitForResponse(Macro.COMMAND_RETURN_BLOCK)) {
+                const buf = createBufferFromReceive();
+                result[cacheAlgo][i] = new Result(buf.slice(5, buf.length - 1));
+                count++;
             }
         }
-        for (i = info.total_blocks; i < info.total_results; i++) {
-            if (wait(0, Macro.COMMAND_RETURN_ARROW)) {
-                _count++;
-                let buf = Buffer.create(receive_buffer.length);
-                result[algo][i] = new Result(buf.slice(5, buf.length - 1));
+        
+        // Process arrows
+        for (let i = info.total_blocks; i < info.total_results; i++) {
+            if (waitForResponse(Macro.COMMAND_RETURN_ARROW)) {
+                const buf = createBufferFromReceive();
+                result[cacheAlgo][i] = new Result(buf.slice(5, buf.length - 1));
+                count++;
             }
         }
-        return _count;
+        
+        return count;
     }
 
     export function getCachedCenterResultInternal(algo: number): ResultVariant | null {
-        // algo = toRealID(algo);
-        algo = 0;
+        const cacheAlgo = 0;
         let centerIndex = -1;
         let minLen = 999999999;
+        const centerX = Macro.LCD_WIDTH / 2;
+        const centerY = Macro.LCD_HEIGHT / 2;
+        
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            const r = result[algo][i];
+            const r = result[cacheAlgo][i];
             if (r) {
                 const res = r as Result;
-                const len = (res.xCenter - Macro.LCD_WIDTH / 2) ** 2 +
-                    (res.yCenter - Macro.LCD_HEIGHT / 2) ** 2;
+                const len = (res.xCenter - centerX) ** 2 + (res.yCenter - centerY) ** 2;
                 if (len < minLen) {
                     minLen = len;
                     centerIndex = i;
                 }
             }
         }
-        if (centerIndex != -1) {
-            return result[algo][centerIndex];
-        }
-        return null;
+        
+        return centerIndex !== -1 ? result[cacheAlgo][centerIndex] : null;
     }
 
     export function getCachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
-        // algo = toRealID(algo);
-        algo = 0;
-        if (index >= Macro.MAX_RESULT_NUM) {
+        const cacheAlgo = 0;
+        if (index < 0 || index >= Macro.MAX_RESULT_NUM) {
             return null;
         }
-        return result[algo][index];
+        return result[cacheAlgo][index];
     }
 
     export function getCachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
-        // algo = toRealID(algo);
-        algo = 0;
+        const cacheAlgo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            const r = result[algo][i];
-            if (r == null) {
-                continue;
-            }
-            const res = r as Result;
-            if (res.ID == ID) {
-                return r;
+            const r = result[cacheAlgo][i];
+            if (r != null) {
+                const res = r as Result;
+                if (res.ID === ID) {
+                    return r;
+                }
             }
         }
         return null;
     }
 
     export function getCachedResultNumInternal(algo: number): number {
+        const cacheAlgo = 0;
         let count = 0;
-        // algo = toRealID(algo);
-        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            if (result[algo][i] != null) {
+            if (result[cacheAlgo][i] != null) {
                 count++;
             }
         }
@@ -775,20 +872,17 @@ namespace huskylensV2 {
     }
 
     export function getCachedResultLearnedNumInternal(algo: number): number {
-        // algo = toRealID(algo);
-        algo = 0;
         return getCachedResultMaxID(algo);
     }
 
     export function getCachedResultNumByIDInternal(algo: number, ID: number): number {
+        const cacheAlgo = 0;
         let count = 0;
-        // algo = toRealID(algo);
-        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            const r = result[algo][i];
+            const r = result[cacheAlgo][i];
             if (r) {
                 const res = r as Result;
-                if (ID == res.ID) {
+                if (ID === res.ID) {
                     count++;
                 }
             }
@@ -797,43 +891,34 @@ namespace huskylensV2 {
     }
 
     export function getCachedIndexResultByIDInternal(algo: number, ID: number, index: number): ResultVariant | null {
-        let rlt: ResultVariant | null = null;
-        let _index = 0;
-        // algo = toRealID(algo);
-        algo = 0;
+        const cacheAlgo = 0;
+        let currentIndex = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            const r = result[algo][i];
+            const r = result[cacheAlgo][i];
             if (r) {
                 const res = r as Result;
-                if (ID == res.ID) {
-                    if (_index == index) {
+                if (ID === res.ID) {
+                    if (currentIndex === index) {
                         return r;
                     }
-                    _index++;
+                    currentIndex++;
                 }
             }
         }
-        return rlt;
-    }
-
-    export function getCurrentBranchInternal(algo: number): ResultVariant | null {
-        // algo = toRealID(algo);
-        algo = 0;
-        const item = result[algo] && result[algo][0];
-
-        if (item && item.level === 1) {
-            return item;
-        }
-
         return null;
     }
 
+    export function getCurrentBranchInternal(algo: number): ResultVariant | null {
+        const cacheAlgo = 0;
+        const item = result[cacheAlgo] && result[cacheAlgo][0];
+        return (item && item.level === 1) ? item : null;
+    }
+
     export function getUpcomingBranchCountInternal(algo: number): number {
+        const cacheAlgo = 0;
         let count = 0;
-        // algo = toRealID(algo);
-        algo = 0;
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            if (result[algo][i] != null) {
+            if (result[cacheAlgo][i] != null) {
                 count++;
             }
         }
@@ -841,19 +926,14 @@ namespace huskylensV2 {
     }
 
     export function getBranchInternal(algo: number, index: number): ResultVariant | null {
-        let rlt: ResultVariant | null = null;
-        index++;
-        // algo = toRealID(algo);
-        algo = 0;
+        const cacheAlgo = 0;
+        const targetIndex = index + 1;
         for (let i = 1; i < Macro.MAX_RESULT_NUM; i++) {
-            if (result[algo][i] != null) {
-                if (i == index) {
-                    rlt = result[algo][i];
-                    break;
-                }
+            if (result[cacheAlgo][i] != null && i === targetIndex) {
+                return result[cacheAlgo][i];
             }
         }
-        return rlt;
+        return null;
     }
 
     //---------------------------------------------------------------multimedia----------------------------------------
@@ -890,32 +970,8 @@ namespace huskylensV2 {
             totalBuf[11 + i] = nameBuf[i];
         }
 
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_PLAY_MUSIC,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: totalBuf,
-        });
-
         // 发送命令并等待响应
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_PLAY_MUSIC, Macro.COMMAND_RETURN_ARGS)) {
-                // 检查返回值
-                const responsePacket = new PacketData(Buffer.create(10));
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                if (packetData.retValue === 0) {
-                    return ;
-                }
-            }
-        }
-
-        return ;
+        sendCommandAndCheckResponse(Macro.COMMAND_ACTION_PLAY_MUSIC, Algorithm.ALGORITHM_ANY, totalBuf);
     }
 
     let photoName: string = "";
@@ -923,42 +979,11 @@ namespace huskylensV2 {
     //% weight=118
     //% subcategory="multimedia"
     export function takePhoto(): void {
-        const dataBuf = Buffer.create(10);
-        dataBuf[0] = 2;  // 设置分辨率2： RESOLUTION_1280x720 
-        // 添加9个零字节
-        for (let i = 1; i < 10; i++) {
-            dataBuf[i] = 0;
+        const dataBuf = createInitializedBuffer(2);  // 设置分辨率2： RESOLUTION_1280x720
+        const packetData = sendCommandAndGetResponse(Macro.COMMAND_ACTION_TAKE_PHOTO, Algorithm.ALGORITHM_ANY, dataBuf);
+        if (packetData) {
+            photoName = bufferToString(packetData.payload);
         }
-
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_TAKE_PHOTO,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_TAKE_PHOTO, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-
-                if (packetData.retValue !== 0) {
-                    return ;
-                }
-
-                // 从payload中提取字符串
-                // return bufferToString(packetData.payload);
-                photoName = bufferToString(packetData.payload);
-                
-            }
-        }
-
-        return ;
     }
     let screenshotName: string = "";
     //% block="Take a screenshot"
@@ -972,26 +997,10 @@ namespace huskylensV2 {
             data: dataBuf,
         });
 
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_TAKE_SCREENSHOT, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-
-                if (packetData.retValue !== 0) {
-                    return ;
-                }
-                // 从payload中提取字符串
-                // return bufferToString(packetData.payload);
-                screenshotName = bufferToString(packetData.payload);
-            }
+        const packetData = sendCommandAndGetResponse(Macro.COMMAND_ACTION_TAKE_SCREENSHOT, Algorithm.ALGORITHM_ANY, dataBuf);
+        if (packetData) {
+            screenshotName = bufferToString(packetData.payload);
         }
-        return ;
     }
 
     //% block="Obtain the name of the saved screenshot"
@@ -1009,16 +1018,17 @@ namespace huskylensV2 {
     }
 
     //-------------------------------------------------Screen Display-----------------------------------
-    //% block="Draw or update indicator box Color%color Line width%lineWidth x%x y%y width%w height%h"
-    //% subcategory="Screen Display"
-    //% weight=90
-    //% color.min=0 
-    //% lineWidth.min=1 lineWidth.max=10
-    //% x.min=0 x.max=640
-    //% y.min=0 y.max=480
-    //% w.min=1 w.max=640
-    //% h.min=1 h.max=480
-    export function drawBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
+    /**
+     * 内部函数：绘制矩形框（通用实现）
+     * @param cmd 命令类型（DRAW_RECT 或 DRAW_UNIQUE_RECT）
+     * @param color 颜色值
+     * @param lineWidth 线宽
+     * @param x X坐标
+     * @param y Y坐标
+     * @param w 宽度
+     * @param h 高度
+     */
+    function drawBoxInternal(cmd: number, color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
         const dataBuf = Buffer.create(16);
         dataBuf[0] = 0;  // 保留字节
         dataBuf[1] = lineWidth;  // 线宽
@@ -1041,29 +1051,21 @@ namespace huskylensV2 {
         dataBuf[14] = (color >> 16) & 0xFF;
         dataBuf[15] = (color >> 24) & 0xFF;
 
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_DRAW_RECT,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
         // 发送命令并等待响应
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_DRAW_RECT, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                if (packetData.retValue === 0) {
-                    return ;
-                }
-            }
-        }
-        return ;
+        sendCommandAndCheckResponse(cmd, Algorithm.ALGORITHM_ANY, dataBuf);
+    }
+
+    //% block="Draw or update indicator box Color%color Line width%lineWidth x%x y%y width%w height%h"
+    //% subcategory="Screen Display"
+    //% weight=90
+    //% color.min=0 
+    //% lineWidth.min=1 lineWidth.max=10
+    //% x.min=0 x.max=640
+    //% y.min=0 y.max=480
+    //% w.min=1 w.max=640
+    //% h.min=1 h.max=480
+    export function drawBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
+        drawBoxInternal(Macro.COMMAND_ACTION_DRAW_RECT, color, lineWidth, x, y, w, h);
     }
 
     //% block="Draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
@@ -1076,51 +1078,7 @@ namespace huskylensV2 {
     //% w.min=1 w.max=640
     //% h.min=1 h.max=480
     export function drawNewBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
-        const dataBuf = Buffer.create(16);
-        dataBuf[0] = 0;  // 保留字节
-        dataBuf[1] = lineWidth;  // 线宽
-        
-        // 设置坐标和尺寸 (int16_t)
-        dataBuf[2] = x & 0xFF;
-        dataBuf[3] = (x >> 8) & 0xFF;
-        dataBuf[4] = y & 0xFF;
-        dataBuf[5] = (y >> 8) & 0xFF;
-        dataBuf[6] = w & 0xFF;
-        dataBuf[7] = (w >> 8) & 0xFF;
-        dataBuf[8] = h & 0xFF;
-        dataBuf[9] = (h >> 8) & 0xFF;
-        dataBuf[10] = 0;  // 保留
-        dataBuf[11] = 0;  // 保留
-        
-        // 设置颜色 (int32_t)
-        dataBuf[12] = color & 0xFF;
-        dataBuf[13] = (color >> 8) & 0xFF;
-        dataBuf[14] = (color >> 16) & 0xFF;
-        dataBuf[15] = (color >> 24) & 0xFF;
-
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
-        // 发送命令并等待响应
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                if (packetData.retValue === 0) {
-                    return ;
-                }
-            }
-        }
-        return ;
+        drawBoxInternal(Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT, color, lineWidth, x, y, w, h);
     }
     export const enum fontSize {
         FONT_20 =20,
@@ -1175,30 +1133,8 @@ namespace huskylensV2 {
         dataBuf[14 + textBuf.length] = (color >> 16) & 0xFF;
         dataBuf[15 + textBuf.length] = (color >> 24) & 0xFF;
 
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_DRAW_TEXT,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
         // 发送命令并等待响应
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_DRAW_TEXT, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                if (packetData.retValue === 0) {
-                    return ;
-                }
-            }
-        }
-
-        return ;
+        sendCommandAndCheckResponse(Macro.COMMAND_ACTION_DRAW_TEXT, Algorithm.ALGORITHM_ANY, dataBuf);
     }
     /**
      * Clear text
@@ -1207,31 +1143,7 @@ namespace huskylensV2 {
     //% subcategory="Screen Display"
     //% weight=88
     export function clearText(): void {
-        const dataBuf = Buffer.create(0);
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_CLEAR_TEXT,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
-        // 发送命令并等待响应
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_CLEAR_TEXT, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                if (packetData.retValue === 0) {
-                    return ;
-                }
-            }
-        }
-
-        return ;
+        sendCommandAndCheckResponse(Macro.COMMAND_ACTION_CLEAR_TEXT, Algorithm.ALGORITHM_ANY, Buffer.create(0));
     }
 
     /**
@@ -1241,31 +1153,7 @@ namespace huskylensV2 {
     //% subcategory="Screen Display"
     //% weight=87
     export function clearBoxes(): void {
-        const dataBuf = Buffer.create(0);
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_CLEAR_RECT,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
-        // 发送命令并等待响应
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_CLEAR_RECT, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                if (packetData.retValue === 0) {
-                    return ;
-                }
-            }
-        }
-
-        return ;
+        sendCommandAndCheckResponse(Macro.COMMAND_ACTION_CLEAR_RECT, Algorithm.ALGORITHM_ANY, Buffer.create(0));
     }
 
     //% block="set color red%red green%green blue%blue"
@@ -1295,32 +1183,7 @@ namespace huskylensV2 {
     //% subcategory="Learning /Forgetting"
     //% alg.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
     export function learnObjectAtCenter(alg: Algorithm): void {
-        const dataBuf = Buffer.create(10);
-        dataBuf[0] = alg;
-        for (let i = 1; i < 10; i++) {
-            dataBuf[i] = 0;
-        }
-
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_LEARN,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
-        protocolWrite(pkt);
-        basic.pause(100);
-        
-        if (wait(Macro.COMMAND_ACTION_LEARN, Macro.COMMAND_RETURN_ARGS)) {
-            let buf = Buffer.create(receive_buffer.length);
-            for (let j = 0; j < receive_buffer.length; j++) {
-                buf[j] = receive_buffer[j];
-            }
-            const packetData = new PacketData(buf.slice(5, buf.length - 1));
-            learn_id = packetData.first; 
-            return ;
-        }
-        
-        return ;
+        learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, Algorithm.ALGORITHM_ANY, createInitializedBuffer(alg));
     }
 
     //% block="Built-in model %alg learn target at center of screen"
@@ -1328,32 +1191,7 @@ namespace huskylensV2 {
     //% subcategory="Learning /Forgetting"
     //% alg.defl=128
     export function learnObjectAtCenterNUM(alg: number): void {
-        const dataBuf = Buffer.create(10);
-        dataBuf[0] = alg;
-        for (let i = 1; i < 10; i++) {
-            dataBuf[i] = 0;
-        }
-
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_LEARN,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
-        protocolWrite(pkt);
-        basic.pause(100);
-        
-        if (wait(Macro.COMMAND_ACTION_LEARN, Macro.COMMAND_RETURN_ARGS)) {
-            let buf = Buffer.create(receive_buffer.length);
-            for (let j = 0; j < receive_buffer.length; j++) {
-                buf[j] = receive_buffer[j];
-            }
-            const packetData = new PacketData(buf.slice(5, buf.length - 1));
-            learn_id = packetData.first; 
-            return ;
-        }
-        
-        return ;
+        learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, Algorithm.ALGORITHM_ANY, createInitializedBuffer(alg));
     }
 
     //% block="Built-in model %alg learn target in specified box X%X Y%Y W%W H%H"
@@ -1365,38 +1203,7 @@ namespace huskylensV2 {
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
     export function learnObjectInBox(alg: Algorithm, X: number, Y: number, W: number, H: number): void {
-        const dataBuf = Buffer.create(10);
-        dataBuf[0] = 0;   // reserved
-        dataBuf[1] = 0;   // reserved
-        dataBuf[2] = X & 0xFF;
-        dataBuf[3] = (X >> 8) & 0xFF;
-        dataBuf[4] = Y & 0xFF;
-        dataBuf[5] = (Y >> 8) & 0xFF;
-        dataBuf[6] = W & 0xFF;
-        dataBuf[7] = (W >> 8) & 0xFF;
-        dataBuf[8] = H & 0xFF;
-        dataBuf[9] = (H >> 8) & 0xFF;
-
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_LEARN_BLOCK,
-            algo_id: alg,
-            data: dataBuf,
-        });
-
-        protocolWrite(pkt);
-        basic.pause(100);
-        
-        if (wait(Macro.COMMAND_ACTION_LEARN_BLOCK, Macro.COMMAND_RETURN_ARGS)) {
-            let buf = Buffer.create(receive_buffer.length);
-            for (let j = 0; j < receive_buffer.length; j++) {
-                buf[j] = receive_buffer[j];
-            }
-            const packetData = new PacketData(buf.slice(5, buf.length - 1));
-            learn_id = packetData.first; 
-            return;
-        }
-        
-        return ;
+        learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN_BLOCK, alg, createBoxBuffer(X, Y, W, H));
     }
 
     //% block="Self-trained model %alg learn target in specified box X%X Y%Y W%W H%H"
@@ -1408,37 +1215,7 @@ namespace huskylensV2 {
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
     export function learnObjectInBoxNUM(alg: number, X: number, Y: number, W: number, H: number): void {
-        const dataBuf = Buffer.create(10);
-        dataBuf[0] = 0;   // reserved
-        dataBuf[1] = 0;   // reserved
-        dataBuf[2] = X & 0xFF;
-        dataBuf[3] = (X >> 8) & 0xFF;
-        dataBuf[4] = Y & 0xFF;
-        dataBuf[5] = (Y >> 8) & 0xFF;
-        dataBuf[6] = W & 0xFF;
-        dataBuf[7] = (W >> 8) & 0xFF;
-        dataBuf[8] = H & 0xFF;
-        dataBuf[9] = (H >> 8) & 0xFF;
-
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_LEARN_BLOCK,
-            algo_id: alg,
-            data: dataBuf,
-        });
-
-        protocolWrite(pkt);
-        basic.pause(100);
-        
-        if (wait(Macro.COMMAND_ACTION_LEARN_BLOCK, Macro.COMMAND_RETURN_ARGS)) {
-            let buf = Buffer.create(receive_buffer.length);
-            for (let j = 0; j < receive_buffer.length; j++) {
-                buf[j] = receive_buffer[j];
-            }
-            const packetData = new PacketData(buf.slice(5, buf.length - 1));
-            learn_id = packetData.first; 
-        }
-        
-        return ;
+        learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN_BLOCK, alg, createBoxBuffer(X, Y, W, H));
     }
 
     //% block="Set built-in model %alg id%id name to %name"
@@ -1464,27 +1241,7 @@ namespace huskylensV2 {
             dataBuf[11 + i] = nameBuf[i];
         }
 
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_SET_NAME_BY_ID,
-            algo_id: alg,
-            data: dataBuf,
-        });
-
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_SET_NAME_BY_ID, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                return ;
-            }
-        }
-        
-        return ;
+        sendCommandAndWait(Macro.COMMAND_SET_NAME_BY_ID, alg, dataBuf);
     }
 
     //% block="Forget built-in model %alg all IDs"
@@ -1492,33 +1249,7 @@ namespace huskylensV2 {
     //% subcategory="Learning /Forgetting"
     //% alg.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
     export function forgetAllIDs(alg: Algorithm): void {
-        const dataBuf = Buffer.create(10);
-        dataBuf[0] = alg;
-        for (let i = 1; i < 10; i++) {
-            dataBuf[i] = 0;
-        }
-
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_FORGET,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_FORGET, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                return ;
-            }
-        }
-        
-        return ;
+        sendCommandAndWait(Macro.COMMAND_ACTION_FORGET, Algorithm.ALGORITHM_ANY, createInitializedBuffer(alg));
     }
 
     //% block="Forget self-trained model %alg all IDs"
@@ -1526,33 +1257,7 @@ namespace huskylensV2 {
     //% subcategory="Learning /Forgetting"
     //% alg.defl=128
     export function forgetAllIDsNUM(alg: number): void {
-        const dataBuf = Buffer.create(10);
-        dataBuf[0] = alg;
-        for (let i = 1; i < 10; i++) {
-            dataBuf[i] = 0;
-        }
-
-        const pkt = PacketHead.fromFields({
-            cmd: Macro.COMMAND_ACTION_FORGET,
-            algo_id: Algorithm.ALGORITHM_ANY,
-            data: dataBuf,
-        });
-
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-            protocolWrite(pkt);
-            basic.pause(100);
-            if (wait(Macro.COMMAND_ACTION_FORGET, Macro.COMMAND_RETURN_ARGS)) {
-                let buf = Buffer.create(receive_buffer.length);
-                for (let j = 0; j < receive_buffer.length; j++) {
-                    buf[j] = receive_buffer[j];
-                }
-                const packetData = new PacketData(buf.slice(5, buf.length - 1));
-                return ;
-            }
-        }
-        
-        return ;
+        sendCommandAndWait(Macro.COMMAND_ACTION_FORGET, Algorithm.ALGORITHM_ANY, createInitializedBuffer(alg));
     }
 
 }
