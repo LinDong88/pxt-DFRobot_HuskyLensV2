@@ -1282,12 +1282,12 @@ namespace huskylensV2 {
     }
 
     //************************************* Learning /Forgetting   ********************************* */
-
+    let learn_id = 0;
     //% block="Get learned ID"
     //% weight=100
     //% subcategory="Learning /Forgetting"
     export function getLearnedID(): number {
-        return maxID[0] || 0;
+        return learn_id||0;
     }
 
     //% block="Built-in model %alg learn target at center of screen"
@@ -1316,7 +1316,7 @@ namespace huskylensV2 {
                 buf[j] = receive_buffer[j];
             }
             const packetData = new PacketData(buf.slice(5, buf.length - 1));
-            // return packetData.first; // 返回学习到的ID
+            learn_id = packetData.first; 
             return ;
         }
         
@@ -1349,7 +1349,7 @@ namespace huskylensV2 {
                 buf[j] = receive_buffer[j];
             }
             const packetData = new PacketData(buf.slice(5, buf.length - 1));
-            // return packetData.first; // 返回学习到的ID
+            learn_id = packetData.first; 
             return ;
         }
         
@@ -1359,12 +1359,12 @@ namespace huskylensV2 {
     //% block="Built-in model %alg learn target in specified box X%X Y%Y W%W H%H"
     //% weight=90
     //% subcategory="Learning /Forgetting"
-    //% alg.defl=128
+    //% alg.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
-    export function learnObjectInBox(alg: number, X: number, Y: number, W: number, H: number): void {
+    export function learnObjectInBox(alg: Algorithm, X: number, Y: number, W: number, H: number): void {
         const dataBuf = Buffer.create(10);
         dataBuf[0] = 0;   // reserved
         dataBuf[1] = 0;   // reserved
@@ -1392,7 +1392,7 @@ namespace huskylensV2 {
                 buf[j] = receive_buffer[j];
             }
             const packetData = new PacketData(buf.slice(5, buf.length - 1));
-            // return packetData.first; // 返回学习到的ID
+            learn_id = packetData.first; 
             return;
         }
         
@@ -1402,12 +1402,12 @@ namespace huskylensV2 {
     //% block="Self-trained model %alg learn target in specified box X%X Y%Y W%W H%H"
     //% weight=89
     //% subcategory="Learning /Forgetting"
-    //% alg.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
+    //% alg.defl=128
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
-    export function learnObjectInBoxNUM(alg: Algorithm, X: number, Y: number, W: number, H: number): void {
+    export function learnObjectInBoxNUM(alg: number, X: number, Y: number, W: number, H: number): void {
         const dataBuf = Buffer.create(10);
         dataBuf[0] = 0;   // reserved
         dataBuf[1] = 0;   // reserved
@@ -1435,7 +1435,7 @@ namespace huskylensV2 {
                 buf[j] = receive_buffer[j];
             }
             const packetData = new PacketData(buf.slice(5, buf.length - 1));
-            return ; // 返回学习到的ID
+            learn_id = packetData.first; 
         }
         
         return ;
