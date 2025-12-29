@@ -6,36 +6,21 @@
 namespace huskylensV2 {
 
     // ================================================== Fall Detection ========================================
-    // Fall Detection Properties (Include ID)
-    export enum FallDetectionProperty {
-        //% block="ID"
-        ID,
-        //% block="Name"
-        Name,
-        //% block="X Center"
-        XCenter,
-        //% block="Y Center"
-        YCenter,
-        //% block="Width"
-        Width,
-        //% block="Height"
-        Height,
-    }
     /**
      * Get Fall Detection Property Value (Include ID)
      * @param result Result object
      * @param prop Fall detection property
      */
-    export function getFallDetectionPropertyValue(result: ResultVariant, prop: FallDetectionProperty): any {
+    export function getFallDetectionPropertyValue(result: ResultVariant, prop: BasePropertyID): any {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case FallDetectionProperty.ID: return res.ID;
-            case FallDetectionProperty.Name: return res.name.length > 0 ? res.name : "";
-            case FallDetectionProperty.XCenter: return res.xCenter;
-            case FallDetectionProperty.YCenter: return res.yCenter;
-            case FallDetectionProperty.Width: return res.width;
-            case FallDetectionProperty.Height: return res.height;
+            case BasePropertyID.ID: return res.ID;
+            case BasePropertyID.Name: return res.name.length > 0 ? res.name : "";
+            case BasePropertyID.XCenter: return res.xCenter;
+            case BasePropertyID.YCenter: return res.yCenter;
+            case BasePropertyID.Width: return res.width;
+            case BasePropertyID.Height: return res.height;
             default: return 0;
         }
     }
@@ -68,7 +53,7 @@ namespace huskylensV2 {
     //% block="Closest fall detection %alg"
     //% weight=147
     //% subcategory="Fall Detection"
-    export function nearestFallDetection(alg: FallDetectionProperty): any {
+    export function nearestFallDetection(alg: BasePropertyID): any {
         const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
         return getFallDetectionPropertyValue(r, alg);
     }
@@ -93,7 +78,7 @@ namespace huskylensV2 {
     //% weight=145
     //% index.min=1 index.defl=1
     //% subcategory="Fall Detection"
-    export function fallDetectionProperty(index: number, alg: FallDetectionProperty): any {
+    export function fallDetectionProperty(index: number, alg: BasePropertyID): any {
         const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION, index - 1);
         return getFallDetectionPropertyValue(r, alg);
     }
@@ -439,38 +424,6 @@ namespace huskylensV2 {
 
     // ==================================== Self-trained model related enums ========================================
     
-    // Number property enum
-    export const enum NumProperty {
-        //% block="xCenter"
-        xCenter,
-        //% block="yCenter"
-        yCenter,
-        //% block="width"
-        width,
-        //% block="height"
-        height,
-        //% block="name"
-        name 
-    }
-
-    // Number property enum including strings
-    export const enum NumPropertyWithStr {
-        //% block="ID"
-        ID ,
-        //% block="xCenter"
-        xCenter,
-        //% block="yCenter"
-        yCenter,
-        //% block="width"
-        width,
-        //% block="height"
-        height,
-        //% block="name"
-        name 
-    }
-
-    // ==================== Self-trained model function blocks ====================
-    
     //% block="HUSKYLENS 2 switch to custom-trained model, model ID%num"
     //% weight=119
     //% subcategory="Self-training"
@@ -502,19 +455,20 @@ namespace huskylensV2 {
     //% weight=116
     //% subcategory="Self-training"
     //% num.min=128 num.max=255 num.defl=128
-    //% alg.defl=NumPropertyWithStr.ID
-    export function nearest(num: number, alg: NumPropertyWithStr): any {
+    //% alg.defl=BasePropertyID.ID
+    export function nearest(num: number, alg: BasePropertyID): any {
         const res = getCachedCenterResultInternal(num);
         const result = res as Result;
         if (!result) return 0;
         
         switch (alg) {
-            case NumPropertyWithStr.ID:return result.ID || 0;
-            case NumPropertyWithStr.xCenter:return result.xCenter|| 0;
-            case NumPropertyWithStr.yCenter:return result.yCenter|| 0;
-            case NumPropertyWithStr.width:return result.width|| 0;
-            case NumPropertyWithStr.height: return result.height|| 0;
-            case NumPropertyWithStr.name:return result.name|| "";
+            case BasePropertyID.ID: return result.ID || 0;
+            case BasePropertyID.Name:return result.name|| "";
+            case BasePropertyID.XCenter:return result.xCenter|| 0;
+            case BasePropertyID.YCenter:return result.yCenter|| 0;
+            case BasePropertyID.Width:return result.width|| 0;
+            case BasePropertyID.Height: return result.height|| 0;
+
             default:
                 return 0;
         }
@@ -541,24 +495,24 @@ namespace huskylensV2 {
     //% subcategory="Self-training"
     //% num.min=128 num.max=255 num.defl=128
     //% INDEX.min=1 INDEX.max=6 INDEX.defl=1
-    //% alg.defl=NumPropertyWithStr.ID
-    export function Property(num: number, INDEX: number, alg: NumPropertyWithStr): any {
+    //% alg.defl=BasePropertyID.ID
+    export function Property(num: number, INDEX: number, alg: BasePropertyID): any {
         const res = getCachedResultByIndexInternal(num, INDEX - 1);
         const result = res as Result;
         if (!result) {
-            if (alg === NumPropertyWithStr.name ) {
+            if (alg === BasePropertyID.Name ) {
                 return "";
             }
             return 0;
         }
         
         switch (alg) {
-            case NumPropertyWithStr.ID:return result.ID || 0;
-            case NumPropertyWithStr.xCenter:return result.xCenter|| 0;
-            case NumPropertyWithStr.yCenter:return result.yCenter|| 0;
-            case NumPropertyWithStr.width:return result.width|| 0;
-            case NumPropertyWithStr.height:return result.height|| 0;
-            case NumPropertyWithStr.name:return result.name || "";
+            case BasePropertyID.ID: return result.ID || 0;
+            case BasePropertyID.Name:return result.name || "";
+            case BasePropertyID.XCenter:return result.xCenter|| 0;
+            case BasePropertyID.YCenter:return result.yCenter|| 0;
+            case BasePropertyID.Width:return result.width|| 0;
+            case BasePropertyID.Height:return result.height|| 0;
             default:
                 return 0;
         }
@@ -587,24 +541,24 @@ namespace huskylensV2 {
     //% subcategory="Self-training"
     //% num.min=128 num.max=255 num.defl=128
     //% id.min=1 id.max=100 id.defl=1
-    //% alg.defl=NumPropertyWithStr.id
-    export function WithID(num: number, id: number, alg: NumPropertyWithStr): any {
+    //% alg.defl=BasePropertyID.id
+    export function WithID(num: number, id: number, alg: BasePropertyID): any {
         const res = getCachedResultByIDInternal(num, id);
         const result = res as Result;
         if (!result) {
-            if (alg === NumPropertyWithStr.name ) {
+            if (alg === BasePropertyID.Name ) {
                 return "";
             }
             return 0;
         }
         
         switch (alg) {
-            case NumPropertyWithStr.ID:return result.ID || 0;
-            case NumPropertyWithStr.xCenter:return result.xCenter|| 0;
-            case NumPropertyWithStr.yCenter:return result.yCenter|| 0;
-            case NumPropertyWithStr.width:return result.width|| 0;
-            case NumPropertyWithStr.height:return result.height|| 0;
-            case NumPropertyWithStr.name: return result.name|| "";
+            case BasePropertyID.ID: return result.ID || 0;
+            case BasePropertyID.Name: return result.name|| "";
+            case BasePropertyID.XCenter:return result.xCenter|| 0;
+            case BasePropertyID.YCenter:return result.yCenter|| 0;
+            case BasePropertyID.Width:return result.width|| 0;
+            case BasePropertyID.Height:return result.height|| 0;
             default:return 0;
         }
     }
@@ -615,19 +569,19 @@ namespace huskylensV2 {
     //% num.min=128 num.max=255 num.defl=128
     //% id.min=1 id.max=100 id.defl=1
     //% index.min=1 index.max=6 index.defl=1
-    //% alg.defl=NumProperty.name
-    export function WithIDProperty(num: number, id: number, index: number, alg: NumProperty): any {
+    //% alg.defl=BaseProperty.name
+    export function WithIDProperty(num: number, id: number, index: number, alg: BaseProperty): any {
         const res = getCachedIndexResultByIDInternal(num, id, index - 1);
         const result = res as Result;
        
         if (!result) return 0;
         
         switch (alg) {
-            case NumProperty.xCenter:return result.xCenter;
-            case NumProperty.yCenter:return result.yCenter;
-            case NumProperty.width:return result.width;
-            case NumProperty.height: return result.height;
-            case NumProperty.name: return result.name|| "";
+            case BaseProperty.Name: return result.name|| "";
+            case BaseProperty.XCenter:return result.xCenter;
+            case BaseProperty.YCenter:return result.yCenter;
+            case BaseProperty.Width:return result.width;
+            case BaseProperty.Height: return result.height;
             default:
                 return 0;
         }

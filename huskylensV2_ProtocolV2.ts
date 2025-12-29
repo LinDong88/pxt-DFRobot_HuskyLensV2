@@ -559,7 +559,7 @@ namespace huskylensV2 {
                     basic.pause(pauseMs);
                 }
             }
-            
+
             // 等待响应
             timerBegin();
             while (!timerAvailable()) {
@@ -722,7 +722,7 @@ namespace huskylensV2 {
         return waitForResponse(Macro.COMMAND_RETURN_ARGS, 3, pkt, 1000);
     }
 
-    export type ResultVariant = Result | FaceResult | HandResult | PoseResult | null;
+    export type ResultVariant = Result |  null;
     let result: ResultVariant[][] = [];
     for (let i = 0; i < Macro.ALGORITHM_COUNT; i++) {
         result[i] = [];
@@ -774,7 +774,7 @@ namespace huskylensV2 {
 
         // Normalize algorithm ID to 0 for caching
         const cacheAlgo = 0;
-        
+
         // Clear previous results
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             result[cacheAlgo][i] = null;
@@ -789,7 +789,7 @@ namespace huskylensV2 {
                 info.total_blocks = Macro.MAX_RESULT_NUM;
             }
         }
-        
+
         if (!info) {
             return -1;
         }
@@ -803,7 +803,7 @@ namespace huskylensV2 {
                 count++;
             }
         }
-        
+
         // Process arrows
         for (let i = info.total_blocks; i < info.total_results; i++) {
             if (waitForResponse(Macro.COMMAND_RETURN_ARROW)) {
@@ -812,7 +812,7 @@ namespace huskylensV2 {
                 count++;
             }
         }
-        
+
         return count;
     }
 
@@ -822,7 +822,7 @@ namespace huskylensV2 {
         let minLen = 999999999;
         const centerX = Macro.LCD_WIDTH / 2;
         const centerY = Macro.LCD_HEIGHT / 2;
-        
+
         for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
             const r = result[cacheAlgo][i];
             if (r) {
@@ -834,7 +834,7 @@ namespace huskylensV2 {
                 }
             }
         }
-        
+
         return centerIndex !== -1 ? result[cacheAlgo][centerIndex] : null;
     }
 
@@ -943,7 +943,7 @@ namespace huskylensV2 {
     //% weight=119
     //% volume.min=0 volume.max=100 volume.defl=50
     //% subcategory="multimedia"
-    export function playMusic(name: string, volume: number ): void {
+    export function playMusic(name: string, volume: number): void {
         if (volume < 0) volume = 0;
         if (volume > 100) volume = 100;
 
@@ -1032,7 +1032,7 @@ namespace huskylensV2 {
         const dataBuf = Buffer.create(16);
         dataBuf[0] = 0;  // 保留字节
         dataBuf[1] = lineWidth;  // 线宽
-        
+
         // 设置坐标和尺寸 (int16_t)
         dataBuf[2] = x & 0xFF;
         dataBuf[3] = (x >> 8) & 0xFF;
@@ -1044,7 +1044,7 @@ namespace huskylensV2 {
         dataBuf[9] = (h >> 8) & 0xFF;
         dataBuf[10] = 0;  // 保留
         dataBuf[11] = 0;  // 保留
-        
+
         // 设置颜色 (int32_t)
         dataBuf[12] = color & 0xFF;
         dataBuf[13] = (color >> 8) & 0xFF;
@@ -1081,15 +1081,15 @@ namespace huskylensV2 {
         drawBoxInternal(Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT, color, lineWidth, x, y, w, h);
     }
     export const enum fontSize {
-        FONT_20 =20,
-        FONT_24 =24,
-        FONT_26 =26,
-        FONT_27 =27,
-        FONT_28 =28,
-        FONT_32 =32,
-        FONT_36 =36,
-        FONT_40 =40,
-        FONT_48 =48,
+        FONT_20 = 20,
+        FONT_24 = 24,
+        FONT_26 = 26,
+        FONT_27 = 27,
+        FONT_28 = 28,
+        FONT_32 = 32,
+        FONT_36 = 36,
+        FONT_40 = 40,
+        FONT_48 = 48,
     }
     //% block="Display text color%color fontSize%fontSize x%x y%y content%content"
     //% subcategory="Screen Display"
@@ -1100,33 +1100,33 @@ namespace huskylensV2 {
     export function showText(color: number, fontSize: fontSize, x: number, y: number, content: string): void {
         const textBuf = Buffer.fromUTF8(content);
         const dataBuf = Buffer.create(20 + textBuf.length);
-        
+
         dataBuf[0] = 0;  // 保留字节
         dataBuf[1] = fontSize;  // 字体大小
-        
+
         // 设置坐标 (int16_t)
         dataBuf[2] = x & 0xFF;
         dataBuf[3] = (x >> 8) & 0xFF;
         dataBuf[4] = y & 0xFF;
         dataBuf[5] = (y >> 8) & 0xFF;
-        
+
         // 保留字段
         dataBuf[6] = 0;  // 保留
         dataBuf[7] = 0;  // 保留
         dataBuf[8] = 0;  // 保留
         dataBuf[9] = 0;  // 保留
-        
+
         // 文字长度
         dataBuf[10] = textBuf.length;
-        
+
         // 文字内容
         for (let i = 0; i < textBuf.length; i++) {
             dataBuf[11 + i] = textBuf[i];
         }
-        
+
         // 结束符和颜色
         dataBuf[11 + textBuf.length] = 0;  // 结束符
-        
+
         // 设置颜色 (int32_t)
         dataBuf[12 + textBuf.length] = color & 0xFF;
         dataBuf[13 + textBuf.length] = (color >> 8) & 0xFF;
@@ -1175,7 +1175,7 @@ namespace huskylensV2 {
     //% weight=100
     //% subcategory="Learning /Forgetting"
     export function getLearnedID(): number {
-        return learn_id||0;
+        return learn_id || 0;
     }
 
     //% block="Built-in model %alg learn target at center of screen"
@@ -1228,7 +1228,7 @@ namespace huskylensV2 {
         // 创建包含ID和名称的Buffer
         const nameBuf = Buffer.fromUTF8(name);
         const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10字节 + 1字节长度 + 名称
-        
+
         dataBuf[0] = id; // id
         // 填充剩余9个字节为0
         for (let i = 1; i < 10; i++) {
