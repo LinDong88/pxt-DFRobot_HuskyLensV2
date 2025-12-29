@@ -21,7 +21,7 @@ namespace huskylensV2 {
                 . # . # .
                 # . . . #
                 `, 10)
-            basic.pause(500)
+            basic.pause(500);
             res = beginInternal();
             basic.clearScreen()
         }
@@ -32,7 +32,7 @@ namespace huskylensV2 {
                 # . # . .
                 . # . . .
                 `, 10)
-        basic.pause(500)
+        basic.pause(500);
         basic.clearScreen()
     }
 
@@ -46,9 +46,10 @@ namespace huskylensV2 {
     export function switchAlgorithm(alg: Algorithm): void {
         let s = switchAlgorithmInternal(algorithmToID(alg));
         while (!s) { 
-            basic.pause(1000)
+            basic.pause(1000);
             s = switchAlgorithmInternal(algorithmToID(alg));
         }
+        basic.pause(5000);// Wait 5 seconds for model loading
     }
 
     // ========================================================== Face recognition ==================================================
