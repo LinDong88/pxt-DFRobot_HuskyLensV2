@@ -1183,7 +1183,7 @@ namespace huskylensV2 {
     //% subcategory="Learning /Forgetting"
     //% alg.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
     export function learnObjectAtCenter(alg: Algorithm): void {
-        learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, Algorithm.ALGORITHM_ANY, createInitializedBuffer(alg));
+        learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, alg, createInitializedBuffer(0));
     }
 
     //% block="Built-in model %alg learn target at center of screen"
@@ -1191,7 +1191,7 @@ namespace huskylensV2 {
     //% subcategory="Learning /Forgetting"
     //% alg.defl=128
     export function learnObjectAtCenterNUM(alg: number): void {
-        learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, Algorithm.ALGORITHM_ANY, createInitializedBuffer(alg));
+        learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, alg, createInitializedBuffer(0));
     }
 
     //% block="Built-in model %alg learn target in specified box X%X Y%Y W%W H%H"
@@ -1249,7 +1249,7 @@ namespace huskylensV2 {
     //% subcategory="Learning /Forgetting"
     //% alg.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
     export function forgetAllIDs(alg: Algorithm): void {
-        sendCommandAndWait(Macro.COMMAND_ACTION_FORGET, Algorithm.ALGORITHM_ANY, createInitializedBuffer(alg));
+        sendCommandAndWait(Macro.COMMAND_ACTION_FORGET, alg, createInitializedBuffer(alg));
     }
 
     //% block="Forget self-trained model %alg all IDs"
@@ -1257,7 +1257,7 @@ namespace huskylensV2 {
     //% subcategory="Learning /Forgetting"
     //% alg.defl=128
     export function forgetAllIDsNUM(alg: number): void {
-        sendCommandAndWait(Macro.COMMAND_ACTION_FORGET, Algorithm.ALGORITHM_ANY, createInitializedBuffer(alg));
+        sendCommandAndWait(Macro.COMMAND_ACTION_FORGET, alg, createInitializedBuffer(alg));
     }
 
 }
