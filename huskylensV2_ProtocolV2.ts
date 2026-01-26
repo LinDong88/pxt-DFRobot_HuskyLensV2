@@ -1095,7 +1095,7 @@ namespace huskylensV2 {
     //% w.min=1 w.max=640
     //% h.min=1 h.max=480
     export function drawBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
-        drawBoxInternal(Macro.COMMAND_ACTION_DRAW_RECT, color, lineWidth, x, y, w, h);
+        drawBoxInternal(Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT, color, lineWidth, x, y, w, h);
     }
 
     //% block="Draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
@@ -1108,7 +1108,7 @@ namespace huskylensV2 {
     //% w.min=1 w.max=640
     //% h.min=1 h.max=480
     export function drawNewBox(color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
-        drawBoxInternal(Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT, color, lineWidth, x, y, w, h);
+        drawBoxInternal(Macro.COMMAND_ACTION_DRAW_RECT, color, lineWidth, x, y, w, h);
     }
     export const enum fontSize {
         FONT_20 = 20,
@@ -1196,7 +1196,7 @@ namespace huskylensV2 {
         red = Math.max(0, Math.min(255, red));
         green = Math.max(0, Math.min(255, green));
         blue = Math.max(0, Math.min(255, blue));
-        return (red << 16) + (green << 8) + blue;
+        return ( blue<< 16) + (green << 8) + red;
     }
 
     //************************************* Learning /Forgetting   ********************************* */
