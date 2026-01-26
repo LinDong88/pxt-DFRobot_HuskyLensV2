@@ -257,8 +257,13 @@ namespace huskylensV2 {
         get total_results_learned() { return this.buffer[4] + this.buffer[5] * 256; }
         set total_results_learned(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        get yaw() { return this.buffer[4] + this.buffer[5] * 256; }  // 新增：偏航角
-        set yaw(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
+        get yaw() {const value = this.buffer[4] + this.buffer[5] * 256;
+            return value > 32767 ? value - 65536 : value;}  // 偏航角 负数处理
+        set yaw(v: number) {     // 处理超出范围的值
+            v = Math.max(-32768, Math.min(32767, v));
+            if (v < 0) v = v + 65536;
+            this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff;
+        }
 
         // 第五个union - int16_t类型（使用buffer[6]和buffer[7]）
         get third() { return this.buffer[6] + this.buffer[7] * 256; }
@@ -277,8 +282,15 @@ namespace huskylensV2 {
         get total_blocks() { return this.buffer[6] + this.buffer[7] * 256; }
         set total_blocks(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        get roll() { return this.buffer[6] + this.buffer[7] * 256; }  // 新增：横滚角
-        set roll(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
+        get roll() {
+            const value = this.buffer[6] + this.buffer[7] * 256; 
+            return value > 32767 ? value - 65536 : value;
+        }  // 新增：横滚角
+        set roll(v: number) {
+            v = Math.max(-32768, Math.min(32767, v));
+            if (v < 0) v = v + 65536;
+            this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff;
+        }
 
         // 第六个union - int16_t类型（使用buffer[8]和buffer[9]）
         get fourth() { return this.buffer[8] + this.buffer[9] * 256; }
@@ -293,8 +305,26 @@ namespace huskylensV2 {
         get total_blocks_learned() { return this.buffer[8] + this.buffer[9] * 256; }
         set total_blocks_learned(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
 
-        get pitch() { return this.buffer[8] + this.buffer[9] * 256; }  // 新增：俯仰角
-        set pitch(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
+        get pitch() {
+            const value = this.buffer[8] + this.buffer[9] * 256; 
+            console.log(`Buffer[8] (low byte): ${this.buffer[8]}`);
+            console.log(`Buffer[9] (high byte): ${this.buffer[9]}`);
+
+            console.log(`=== BUFFER DUMP ===`);
+            console.log(`Buffer length: ${this.buffer.length}`);
+            for (let i = 0; i < this.buffer.length; i++) {
+                console.log(`buffer[${i}]: ${this.buffer[i]} `);
+            }
+            console.log(`==================`);
+
+            console.log(`length: ${this.buffer.length}`);
+            return value > 32767 ? value - 65536 : value;
+        }  // 新增：俯仰角
+        set pitch(v: number) {
+            v = Math.max(-32768, Math.min(32767, v));
+            if (v < 0) v = v + 65536;
+            this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff;
+        }
 
         get payload() {
             return this.buffer.slice(10);
@@ -1181,8 +1211,8 @@ namespace huskylensV2 {
     //% block="Built-in model %alg learn target at center of screen"
     //% weight=95
     //% subcategory="Learning /Forgetting"
-    //% alg.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
-    export function learnObjectAtCenter(alg: Algorithm): void {
+    //% alg.defl=Algorithm_learnObjectAtCenter.ALGORITHM_OBJECT_RECOGNITION
+    export function learnObjectAtCenter(alg: Algorithm_learnObjectAtCenter): void {
         learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, alg, createInitializedBuffer(0));
     }
 
@@ -1197,12 +1227,12 @@ namespace huskylensV2 {
     //% block="Built-in model %alg learn target in specified box X%X Y%Y W%W H%H"
     //% weight=90
     //% subcategory="Learning /Forgetting"
-    //% alg.defl=Algorithm.ALGORITHM_FACE_RECOGNITION
+    //% alg.defl=Algorithm_learnObjectInBox.ALGORITHM_FACE_RECOGNITION
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
-    export function learnObjectInBox(alg: Algorithm, X: number, Y: number, W: number, H: number): void {
+    export function learnObjectInBox(alg: Algorithm_learnObjectInBox, X: number, Y: number, W: number, H: number): void {
         learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN_BLOCK, alg, createBoxBuffer(X, Y, W, H));
     }
 
@@ -1221,10 +1251,10 @@ namespace huskylensV2 {
     //% block="Set built-in model %alg id%id name to %name"
     //% weight=70
     //% subcategory="Learning /Forgetting"
-    //% alg.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
+    //% alg.defl=AlgorithmLearn_setNameOfID.ALGORITHM_FACE_RECOGNITION
     //% id.min=1 id.max=100 id.defl=1
     //% name.defl="Object"
-    export function setNameOfID(alg: Algorithm, id: number, name: string): void {
+    export function setNameOfID(alg: AlgorithmLearn_setNameOfID, id: number, name: string): void {
         // 创建包含ID和名称的Buffer
         const nameBuf = Buffer.fromUTF8(name);
         const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10字节 + 1字节长度 + 名称
