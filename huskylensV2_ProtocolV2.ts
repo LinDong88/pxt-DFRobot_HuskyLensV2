@@ -238,10 +238,14 @@ namespace huskylensV2 {
 
         get classID() { return this.buffer[2] + this.buffer[3] * 256; }
         set classID(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
-
-        // 删除了 sensor0ID 属性
         get total_results() { return this.buffer[2] + this.buffer[3] * 256; }  // 保留：总结果数
         set total_results(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+        get pitch() {const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value;}  // ：俯仰角
+        set pitch(v: number) {
+            v = Math.max(-32768, Math.min(32767, v));
+            if (v < 0) v = v + 65536;
+            this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff;
+        }
 
         // 第四个union - int16_t类型（使用buffer[4]和buffer[5]）
         get second() { return this.buffer[4] + this.buffer[5] * 256; }
@@ -257,8 +261,7 @@ namespace huskylensV2 {
         get total_results_learned() { return this.buffer[4] + this.buffer[5] * 256; }
         set total_results_learned(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        get yaw() {const value = this.buffer[4] + this.buffer[5] * 256;
-            return value > 32767 ? value - 65536 : value;}  // 偏航角 负数处理
+        get yaw() {const value = this.buffer[4] + this.buffer[5] * 256;return value > 32767 ? value - 65536 : value;}  // 偏航角 负数处理
         set yaw(v: number) {     // 处理超出范围的值
             v = Math.max(-32768, Math.min(32767, v));
             if (v < 0) v = v + 65536;
@@ -277,15 +280,10 @@ namespace huskylensV2 {
 
         get azimuth() { return this.buffer[6] + this.buffer[7] * 256; }  // 新增：方位角
         set azimuth(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
-
-        // 删除了 sensor2ID 属性
         get total_blocks() { return this.buffer[6] + this.buffer[7] * 256; }
         set total_blocks(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        get roll() {
-            const value = this.buffer[6] + this.buffer[7] * 256; 
-            return value > 32767 ? value - 65536 : value;
-        }  // 新增：横滚角
+        get roll() {const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value;}  // 横滚角
         set roll(v: number) {
             v = Math.max(-32768, Math.min(32767, v));
             if (v < 0) v = v + 65536;
@@ -304,27 +302,6 @@ namespace huskylensV2 {
 
         get total_blocks_learned() { return this.buffer[8] + this.buffer[9] * 256; }
         set total_blocks_learned(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
-
-        get pitch() {
-            const value = this.buffer[8] + this.buffer[9] * 256; 
-            console.log(`Buffer[8] (low byte): ${this.buffer[8]}`);
-            console.log(`Buffer[9] (high byte): ${this.buffer[9]}`);
-
-            console.log(`=== BUFFER DUMP ===`);
-            console.log(`Buffer length: ${this.buffer.length}`);
-            for (let i = 0; i < this.buffer.length; i++) {
-                console.log(`buffer[${i}]: ${this.buffer[i]} `);
-            }
-            console.log(`==================`);
-
-            console.log(`length: ${this.buffer.length}`);
-            return value > 32767 ? value - 65536 : value;
-        }  // 新增：俯仰角
-        set pitch(v: number) {
-            v = Math.max(-32768, Math.min(32767, v));
-            if (v < 0) v = v + 65536;
-            this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff;
-        }
 
         get payload() {
             return this.buffer.slice(10);
