@@ -271,6 +271,7 @@
   "huskylensV2.AlgorithmLearn_setNameOfID.ALGORITHM_QRCODE_RECOGNITION|block": "二维码识别",
 
   "huskylensV2.Algorithm_learnObjectAtCenter.ALGORITHM_ANY|block": "任意",
+  "huskylensV2.Algorithm_learnObjectAtCenter.ALGORITHM_FACE_RECOGNITION|block": "人脸识别",
   "huskylensV2.Algorithm_learnObjectAtCenter.ALGORITHM_OBJECT_RECOGNITION|block": "物体识别",
   "huskylensV2.Algorithm_learnObjectAtCenter.ALGORITHM_COLOR_RECOGNITION|block": "颜色识别",
   "huskylensV2.Algorithm_learnObjectAtCenter.ALGORITHM_OBJECT_CLASSIFICATION|block": "物体分类",
@@ -301,8 +302,6 @@
   "huskylensV2.Algorithm_learnObjectInBox.ALGORITHM_TAG_RECOGNITION|block": "标签识别",
   "huskylensV2.Algorithm_learnObjectInBox.ALGORITHM_BARCODE_RECOGNITION|block": "条形码识别",
   "huskylensV2.Algorithm_learnObjectInBox.ALGORITHM_QRCODE_RECOGNITION|block": "二维码识别",
-
-
 
   "huskylensV2.BasePropertyID.ID|block": "ID",
   "huskylensV2.BasePropertyID.Name|block": "名称",

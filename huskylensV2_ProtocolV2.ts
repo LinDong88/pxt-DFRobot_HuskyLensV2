@@ -663,7 +663,7 @@ namespace huskylensV2 {
             algo_id: algoId,
             data: data,
         });
-        if (waitForResponse(Macro.COMMAND_RETURN_ARGS, 1, pkt, 100)) {
+        if (waitForResponse(Macro.COMMAND_RETURN_ARGS, 3, pkt, 100)) {
             const packetData = getPacketDataFromResponse();
             return packetData.first;
         }

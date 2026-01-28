@@ -211,6 +211,8 @@ namespace huskylensV2 {
         export enum Algorithm_learnObjectAtCenter {
         //% blockHidden=true
         ALGORITHM_ANY = 0,                      // 0
+        //% block="Face recognition"
+        ALGORITHM_FACE_RECOGNITION = 1,         // 1
         //% block="Object recognition"
         ALGORITHM_OBJECT_RECOGNITION = 2,       // 2
         //% block="Color recognition"
