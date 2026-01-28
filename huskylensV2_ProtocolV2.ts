@@ -197,8 +197,6 @@ namespace huskylensV2 {
         get multiAlgoNum() { return this.buffer[0] }
         set multiAlgoNum(v: number) { this.buffer[0] = v & 0xff; }
 
-        // 删除了 totalSensors 属性
-
         // 第二个union - int8_t类型
         get rfu1() { return this.buffer[1]; }
         set rfu1(v: number) { this.buffer[1] = v & 0xff; }
@@ -217,92 +215,78 @@ namespace huskylensV2 {
 
         get confidence() { return this.buffer[1]; }
         set confidence(v: number) { this.buffer[1] = v & 0xff; }
+        // 第三个 union - int16_t（buffer[2], buffer[3]）
+        get first() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set first(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        // 删除了 currSensorIndex 属性
+        get xCenter() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set xCenter(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        // 第三个union - int16_t类型（使用buffer[2]和buffer[3]）
-        get first() { return this.buffer[2] + this.buffer[3] * 256; }
-        set first(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+        get xTarget() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set xTarget(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        get xCenter() { return this.buffer[2] + this.buffer[3] * 256; }
-        set xCenter(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+        get duration() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set duration(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        get xTarget() { return this.buffer[2] + this.buffer[3] * 256; }
-        set xTarget(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+        get algorithmType() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set algorithmType(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        get duration() { return this.buffer[2] + this.buffer[3] * 256; }  // 新增：持续时间
-        set duration(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+        get classID() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set classID(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        get algorithmType() { return this.buffer[2] + this.buffer[3] * 256; }
-        set algorithmType(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+        get total_results() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set total_results(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        get classID() { return this.buffer[2] + this.buffer[3] * 256; }
-        set classID(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
-        get total_results() { return this.buffer[2] + this.buffer[3] * 256; }  // 保留：总结果数
-        set total_results(v: number) { this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
-        get pitch() {const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value;}  // ：俯仰角
-        set pitch(v: number) {
-            v = Math.max(-32768, Math.min(32767, v));
-            if (v < 0) v = v + 65536;
-            this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff;
-        }
+        get pitch() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set pitch(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        // 第四个union - int16_t类型（使用buffer[4]和buffer[5]）
-        get second() { return this.buffer[4] + this.buffer[5] * 256; }
-        set second(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
+        // 第四个 union - int16_t（buffer[4], buffer[5]）
+        get second() { const value = this.buffer[4] + this.buffer[5] * 256; return value > 32767 ? value - 65536 : value; }
+        set second(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        get yCenter() { return this.buffer[4] + this.buffer[5] * 256; }
-        set yCenter(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
+        get yCenter() { const value = this.buffer[4] + this.buffer[5] * 256; return value > 32767 ? value - 65536 : value; }
+        set yCenter(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        get yTarget() { return this.buffer[4] + this.buffer[5] * 256; }
-        set yTarget(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
+        get yTarget() { const value = this.buffer[4] + this.buffer[5] * 256; return value > 32767 ? value - 65536 : value; }
+        set yTarget(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        // 删除了 sensor1ID 属性
-        get total_results_learned() { return this.buffer[4] + this.buffer[5] * 256; }
-        set total_results_learned(v: number) { this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
+        get total_results_learned() { const value = this.buffer[4] + this.buffer[5] * 256; return value > 32767 ? value - 65536 : value; }
+        set total_results_learned(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        get yaw() {const value = this.buffer[4] + this.buffer[5] * 256;return value > 32767 ? value - 65536 : value;}  // 偏航角 负数处理
-        set yaw(v: number) {     // 处理超出范围的值
-            v = Math.max(-32768, Math.min(32767, v));
-            if (v < 0) v = v + 65536;
-            this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff;
-        }
+        get yaw() { const value = this.buffer[4] + this.buffer[5] * 256; return value > 32767 ? value - 65536 : value; }
+        set yaw(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        // 第五个union - int16_t类型（使用buffer[6]和buffer[7]）
-        get third() { return this.buffer[6] + this.buffer[7] * 256; }
-        set third(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
+        // 第五个 union - int16_t（buffer[6], buffer[7]）
+        get third() { const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value; }
+        set third(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        get width() { return this.buffer[6] + this.buffer[7] * 256; }
-        set width(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
+        get width() { const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value; }
+        set width(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        get angle() { return this.buffer[6] + this.buffer[7] * 256; }
-        set angle(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
+        get angle() { const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value; }
+        set angle(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        get azimuth() { return this.buffer[6] + this.buffer[7] * 256; }  // 新增：方位角
-        set azimuth(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
-        get total_blocks() { return this.buffer[6] + this.buffer[7] * 256; }
-        set total_blocks(v: number) { this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
+        get azimuth() { const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value; }
+        set azimuth(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        get roll() {const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value;}  // 横滚角
-        set roll(v: number) {
-            v = Math.max(-32768, Math.min(32767, v));
-            if (v < 0) v = v + 65536;
-            this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff;
-        }
+        get total_blocks() { const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value; }
+        set total_blocks(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        // 第六个union - int16_t类型（使用buffer[8]和buffer[9]）
-        get fourth() { return this.buffer[8] + this.buffer[9] * 256; }
-        set fourth(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
+        get roll() { const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value; }
+        set roll(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        get height() { return this.buffer[8] + this.buffer[9] * 256; }
-        set height(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
+        // 第六个 union - int16_t（buffer[8], buffer[9]）
+        get fourth() { const value = this.buffer[8] + this.buffer[9] * 256; return value > 32767 ? value - 65536 : value; }
+        set fourth(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
 
-        get length() { return this.buffer[8] + this.buffer[9] * 256; }
-        set length(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
+        get height() { const value = this.buffer[8] + this.buffer[9] * 256; return value > 32767 ? value - 65536 : value; }
+        set height(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
 
-        get total_blocks_learned() { return this.buffer[8] + this.buffer[9] * 256; }
-        set total_blocks_learned(v: number) { this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
+        get length() { const value = this.buffer[8] + this.buffer[9] * 256; return value > 32767 ? value - 65536 : value; }
+        set length(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
 
+        get total_blocks_learned() { const value = this.buffer[8] + this.buffer[9] * 256; return value > 32767 ? value - 65536 : value; }
+        set total_blocks_learned(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
         get payload() {
             return this.buffer.slice(10);
         }
@@ -488,7 +472,7 @@ namespace huskylensV2 {
             }
         }
         while (i2c_cached_data.length) {
-            const data = i2c_cached_data.shift();
+            const data = i2c_cached_data.shift();  
             if (data != null && husky_lens_protocol_receive(data)) {
                 return true;
             }
@@ -823,27 +807,27 @@ namespace huskylensV2 {
         return count;
     }
 
-    export function getCachedCenterResultInternal(algo: number): ResultVariant | null {
-        const cacheAlgo = 0;
-        let centerIndex = -1;
-        let minLen = 999999999;
-        const centerX = Macro.LCD_WIDTH / 2;
-        const centerY = Macro.LCD_HEIGHT / 2;
+export function getCachedCenterResultInternal(algo: number): ResultVariant | null {
+    const cacheAlgo = 0;
+    let centerIndex = -1;
+    let minLen = 0x7FFFFFFF;
+    const centerX = Macro.LCD_WIDTH / 2;
+    const centerY = Macro.LCD_HEIGHT / 2;
 
-        for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
-            const r = result[cacheAlgo][i];
-            if (r) {
-                const res = r as Result;
+    for (let i = 0; i < Macro.MAX_RESULT_NUM; i++) {
+        const r = result[cacheAlgo][i];
+        if (r) {
+            const res = r as Result;
                 const len = (res.xCenter - centerX) ** 2 + (res.yCenter - centerY) ** 2;
-                if (len < minLen) {
-                    minLen = len;
-                    centerIndex = i;
-                }
+            if (len < minLen) {
+                minLen = len;
+                centerIndex = i;
             }
         }
-
-        return centerIndex !== -1 ? result[cacheAlgo][centerIndex] : null;
     }
+    
+        return centerIndex !== -1 ? result[cacheAlgo][centerIndex] : null;
+}
 
     export function getCachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
