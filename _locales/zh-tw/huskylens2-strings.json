@@ -364,7 +364,7 @@
   "{id:subcategory}object recognition": "物體識別",
   "{id:subcategory}object tracking": "物體追蹤",
   "{id:subcategory}object classification": "物體分類",
-  "{id:subcategory}self-learning classification": "自學習分類",
+  "{id:subcategory}self learning classification": "自學習分類",
   "{id:subcategory}line tracking": "巡線",
   "{id:subcategory}color recognition": "顏色識別",
   "{id:subcategory}instance segmentation": "實例分割",

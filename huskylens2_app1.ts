@@ -193,7 +193,7 @@ namespace huskylens2 {
         ALGORITHM_OBJECT_TRACKING = 3,          // 3
         //% block="color recognition"
         ALGORITHM_COLOR_RECOGNITION = 4,        // 4
-        //% block="self-learning classification"
+        //% block="self learning classification"
         ALGORITHM_SELF_LEARNING_CLASSIFICATION = 6, // 6
         //% block="hand recognition"
         ALGORITHM_HAND_RECOGNITION = 8,        // 8
@@ -226,7 +226,7 @@ namespace huskylens2 {
         ALGORITHM_COLOR_RECOGNITION = 4,        // 4
         //% block="object classification"
         ALGORITHM_OBJECT_CLASSIFICATION = 5,   // 5
-        //% block="self-learning classification"
+        //% block="self learning classification"
         ALGORITHM_SELF_LEARNING_CLASSIFICATION = 6, // 6
         //% block="instance segmentation"
         ALGORITHM_SEGMENT = 7,                 // 7
@@ -299,7 +299,7 @@ namespace huskylens2 {
         ALGORITHM_COLOR_RECOGNITION = 4,        // 4
         //% block="object classification"
         ALGORITHM_OBJECT_CLASSIFICATION = 5,   // 5
-        //% block="self-learning classification"
+        //% block="self learning classification"
         ALGORITHM_SELF_LEARNING_CLASSIFICATION = 6, // 6
         //% block="instance segmentation"
         ALGORITHM_SEGMENT = 7,                 // 7
@@ -690,8 +690,8 @@ namespace huskylens2 {
 
 
 
-    // ==================================================== self-learning classification ========================================
-    // self-learning classification properties (only ID and Name)
+    // ==================================================== self learning classification ========================================
+    // self learning classification properties (only ID and Name)
     export enum SelfLearningClassificationProperty {
         //% block="ID"
         ID,
@@ -709,26 +709,26 @@ namespace huskylens2 {
         }
     }
 
-    /** Request one-time self-learning classification data and store in result */
-    //% block="get self-learning classification result"
+    /** Request one-time self learning classification data and store in result */
+    //% block="get self learning classification result"
     //% weight=162
-    //% subcategory="self-learning classification"
+    //% subcategory="self learning classification"
     export function getResultSelfLearningClassification(): void {
         getResultInternal(Algorithm.ALGORITHM_SELF_LEARNING_CLASSIFICATION);
     }
 
-    /** Whether self-learning classification detected */
-    //% block="self-learning classification detected?"
+    /** Whether self learning classification detected */
+    //% block="self learning classification detected?"
     //% weight=161
-    //% subcategory="self-learning classification"
+    //% subcategory="self learning classification"
     export function availableSelfLearningClassification(): boolean {
         return availableInternal(Algorithm.ALGORITHM_SELF_LEARNING_CLASSIFICATION);
     }
 
-    /** Property of self-learning classification */
-    //% block="self-learning classification %alg"
+    /** Property of self learning classification */
+    //% block="self learning classification %alg"
     //% weight=160
-    //% subcategory="self-learning classification"
+    //% subcategory="self learning classification"
     export function getCachedSelfLearningClassificationResult(alg: SelfLearningClassificationProperty): any {
         const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_SELF_LEARNING_CLASSIFICATION);
         return getSelfLearningClassificationPropertyValue(r, alg);
