@@ -48,16 +48,16 @@ namespace huskylens2 {
 
     /**
      * Switch algorithm
-     * @param alg select algorithm
+     * @param property select algorithm
      */
-    //% block="switch algorithm %alg"
+    //% block="switch algorithm %property"
     //% weight=199
     //% group="algorithm switch"
-    export function switchAlgorithm(alg: Algorithm): void {
-        let s = switchAlgorithmInternal(algorithmToID(alg));
+    export function switchAlgorithm(property: Algorithm): void {
+        let s = switchAlgorithmInternal(algorithmToID(property));
         while (!s) { 
             basic.pause(1000);
-            s = switchAlgorithmInternal(algorithmToID(alg));
+            s = switchAlgorithmInternal(algorithmToID(property));
         }
         basic.pause(5000);// Wait 5 seconds for model loading
     }
@@ -86,14 +86,14 @@ namespace huskylens2 {
 
     /**
      * Get cached result of the face nearest to the center
-     * @param alg face property to query
+     * @param property face property to query
      */
-    //% block="face nearest to center %alg"
+    //% block="face nearest to center %property"
     //% weight=196
     //% subcategory="face recognition"
-    export function getCachedCenterResult(alg: BasePropertyId): any {
+    export function getCachedCenterResult(property: BasePropertyId): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmFaceRecognition);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     /**
@@ -109,15 +109,15 @@ namespace huskylens2 {
     /**
      * Get a specific face's property by index from cache
      * @param index face index (1-based)
-     * @param alg face property to query
+     * @param property face property to query
      */
-    //% block="face %index %alg"
+    //% block="face %index %property"
     //% weight=194
     //% index.min=1 index.defl=1
     //% subcategory="face recognition"
-    export function getCachedResultFaceProperty(index: number, alg: BasePropertyId): any {
+    export function getCachedResultFaceProperty(index: number, property: BasePropertyId): any {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmFaceRecognition, index - 1);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     /**
@@ -158,31 +158,31 @@ namespace huskylens2 {
     /**
      * Get a property for faces with a given id
      * @param index face id index (number)
-     * @param alg face property (without id)
+     * @param property face property (without id)
      */
-    //% block="face id %index %alg"
+    //% block="face id %index %property"
     //% weight=190
     //% index.min=1 index.defl=1
     //% subcategory="face recognition"
-    export function getFacePropertyByID(index: number, alg: BaseProperty): any {
+    export function getFacePropertyByID(index: number, property: BaseProperty): any {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmFaceRecognition, index);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     /**
      * Get a property for the No.N face of a given id
      * @param id face id (number)
      * @param n No.N face (1-based)
-     * @param alg face property (without id)
+     * @param property face property (without id)
      */
-    //% block="face id %id No.%n %alg"
+    //% block="face id %id No.%n %property"
     //% weight=189
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="face recognition"
-    export function getFacePropertyByIDNth(id: number, n: number, alg: BaseProperty): any {
+    export function getFacePropertyByIDNth(id: number, n: number, property: BaseProperty): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmFaceRecognition, id, n - 1);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     
@@ -404,8 +404,8 @@ namespace huskylens2 {
     }
 
     // Helper export function: Convert Algorithm enum to algorithm id
-    export function algorithmToID(alg: Algorithm): number {
-        return alg as number;
+    export function algorithmToID(property: Algorithm): number {
+        return property as number;
     }
 
     export function getBasePropertyValue(result: ResultVariant, prop: number): any {
@@ -442,12 +442,12 @@ namespace huskylens2 {
     }
 
     /** Object property nearest to center */
-    //% block="object nearest to center %alg"
+    //% block="object nearest to center %property"
     //% weight=186
     //% subcategory="object recognition"
-    export function getCachedCenterObjectResult(alg: BasePropertyId): number {
+    export function getCachedCenterObjectResult(property: BasePropertyId): number {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmObjectRecognition);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     /** Total number of detected objects */
@@ -459,13 +459,13 @@ namespace huskylens2 {
     }
 
     /** Property of No.N object */
-    //% block="object %index %alg"
+    //% block="object %index %property"
     //% weight=184
     //% index.min=1 index.defl=1
     //% subcategory="object recognition"
-    export function getCachedResultObjectProperty(index: number, alg: BasePropertyId): number {
+    export function getCachedResultObjectProperty(index: number, property: BasePropertyId): number {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmObjectRecognition, index - 1);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     /** Total number of learned object IDs */
@@ -496,24 +496,24 @@ namespace huskylens2 {
     }
 
     /** Property of object with specified id */
-    //% block="object id %index %alg"
+    //% block="object id %index %property"
     //% weight=180
     //% index.min=1 index.defl=1
     //% subcategory="object recognition"
-    export function getObjectPropertyByID(index: number, alg: BaseProperty): number {
+    export function getObjectPropertyByID(index: number, property: BaseProperty): number {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmObjectRecognition, index);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     /** Property of No.N object with specified id */
-    //% block="object id %id No. %n %alg"
+    //% block="object id %id No. %n %property"
     //% weight=179
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="object recognition"
-    export function getObjectPropertyByIDNth(id: number, n: number, alg: BaseProperty): number {
+    export function getObjectPropertyByIDNth(id: number, n: number, property: BaseProperty): number {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmObjectRecognition, id, n - 1);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     // =============================================================== object tracking ========================================
@@ -534,12 +534,12 @@ namespace huskylens2 {
     }
 
     /** Property of tracked object */
-    //% block="tracked object %alg"
+    //% block="tracked object %property"
     //% weight=176
     //% subcategory="object tracking"
-    export function getCachedObjectTrackingResult(alg: BasePropertyId): number {
+    export function getCachedObjectTrackingResult(property: BasePropertyId): number {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmObjectTracking);
-        return getBasePropertyValue(r, alg);
+        return getBasePropertyValue(r, property);
     }
 
     // ================= color recognition =================
@@ -564,12 +564,12 @@ namespace huskylens2 {
     }
 
     /** Color block property nearest to center */
-    //% block="color block nearest to center %alg"
+    //% block="color block nearest to center %property"
     //% weight=173
     //% subcategory="color recognition"
-    export function getCachedCenterColorResult(alg: BasePropertyId): number {
+    export function getCachedCenterColorResult(property: BasePropertyId): number {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmColorRecognition);
-        return getColorPropertyValue(r, alg);
+        return getColorPropertyValue(r, property);
     }
 
     /** Total number of detected color blocks */
@@ -581,13 +581,13 @@ namespace huskylens2 {
     }
 
     /** Property of No.N color block */
-    //% block="color block %index %alg"
+    //% block="color block %index %property"
     //% weight=171
     //% index.min=1 index.defl=1
     //% subcategory="color recognition"
-    export function getCachedResultColorProperty(index: number, alg: BasePropertyId): number {
+    export function getCachedResultColorProperty(index: number, property: BasePropertyId): number {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmColorRecognition, index - 1);
-        return getColorPropertyValue(r, alg);
+        return getColorPropertyValue(r, property);
     }
 
     /** Total number of learned color block IDs */
@@ -618,24 +618,24 @@ namespace huskylens2 {
     }
 
     /** Property of color block with specified id */
-    //% block="color block id %index %alg"
+    //% block="color block id %index %property"
     //% weight=167
     //% index.min=1 index.defl=1
     //% subcategory="color recognition"
-    export function getColorPropertyByID(index: number, alg: BaseProperty): number {
+    export function getColorPropertyByID(index: number, property: BaseProperty): number {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmColorRecognition, index);
-        return getColorPropertyValue(r, alg);
+        return getColorPropertyValue(r, property);
     }
 
     /** Property of No.N color block with specified id */
-    //% block="color block id %id No. %n %alg"
+    //% block="color block id %id No. %n %property"
     //% weight=166
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="color recognition"
-    export function getColorPropertyByIDNth(id: number, n: number, alg: BaseProperty): number {
+    export function getColorPropertyByIDNth(id: number, n: number, property: BaseProperty): number {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmColorRecognition, id, n - 1);
-        return getColorPropertyValue(r, alg);
+        return getColorPropertyValue(r, property);
     }
 
 
@@ -682,13 +682,13 @@ namespace huskylens2 {
     }
 
     /** Property of No.N classified object */
-    //% block="classified object %num %alg"
+    //% block="classified object %num %property"
     //% weight=1
     //% num.min=1 num.defl=1
     //% subcategory="object classification"
-    export function getCachedObjectClassificationResult(num: number, alg: ObjectClassificationProperty): any {
+    export function getCachedObjectClassificationResult(num: number, property: ObjectClassificationProperty): any {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmObjectClassification, num - 1);
-        return getObjectClassificationPropertyValue(r, alg);
+        return getObjectClassificationPropertyValue(r, property);
     }
 
 
@@ -729,12 +729,12 @@ namespace huskylens2 {
     }
 
     /** Property of self learning classification */
-    //% block="self learning classification %alg"
+    //% block="self learning classification %property"
     //% weight=160
     //% subcategory="self learning classification"
-    export function getCachedSelfLearningClassificationResult(alg: SelfLearningClassificationProperty): any {
+    export function getCachedSelfLearningClassificationResult(property: SelfLearningClassificationProperty): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmSelfLearningClassification);
-        return getSelfLearningClassificationPropertyValue(r, alg);
+        return getSelfLearningClassificationPropertyValue(r, property);
     }
 
     // =================================================== instance segmentation ===================================================
@@ -763,12 +763,12 @@ namespace huskylens2 {
     }
 
     /** Instance property nearest to center */
-    //% block="instance nearest to center %alg"
+    //% block="instance nearest to center %property"
     //% weight=157
     //% subcategory="instance segmentation"
-    export function getCachedCenterInstanceResult(alg: BasePropertyId): number {
+    export function getCachedCenterInstanceResult(property: BasePropertyId): number {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmSegment);
-        return getInstancePropertyValue(r, alg);
+        return getInstancePropertyValue(r, property);
     }
 
     /** Total number of detected instances */
@@ -780,13 +780,13 @@ namespace huskylens2 {
     }
 
     /** Property of No.N instance */
-    //% block="instance %index %alg"
+    //% block="instance %index %property"
     //% weight=155
     //% index.min=1 index.defl=1
     //% subcategory="instance segmentation"
-    export function getCachedResultInstanceProperty(index: number, alg: BasePropertyId): number {
+    export function getCachedResultInstanceProperty(index: number, property: BasePropertyId): number {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmSegment, index - 1);
-        return getInstancePropertyValue(r, alg);
+        return getInstancePropertyValue(r, property);
     }
 
     /** Total number of learned instance IDs */
@@ -817,24 +817,24 @@ namespace huskylens2 {
     }
 
     /** Property of instance with specified id */
-    //% block="instance id %index %alg"
+    //% block="instance id %index %property"
     //% weight=151
     //% index.min=1 index.defl=1
     //% subcategory="instance segmentation"
-    export function getInstancePropertyByID(index: number, alg: BaseProperty): number {
+    export function getInstancePropertyByID(index: number, property: BaseProperty): number {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmSegment, index);
-        return getInstancePropertyValueID(r, alg);
+        return getInstancePropertyValueID(r, property);
     }
 
     /** Property of No.N instance with specified id */
-    //% block="instance id %id No. %n %alg"
+    //% block="instance id %id No. %n %property"
     //% weight=150
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="instance segmentation"
-    export function getInstancePropertyByIDNth(id: number, n: number, alg: BaseProperty): number {
+    export function getInstancePropertyByIDNth(id: number, n: number, property: BaseProperty): number {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmSegment, id, n - 1);
-        return getInstancePropertyValueID(r, alg);
+        return getInstancePropertyValueID(r, property);
     }
 
     // ================================== hand recognition ==================================
@@ -860,12 +860,12 @@ namespace huskylens2 {
     }
 
     /** Gesture property nearest to center */
-    //% block="gesture nearest to center %alg"
+    //% block="gesture nearest to center %property"
     //% weight=147
     //% subcategory="hand recognition"
-    export function getCachedCenterGestureResult(alg: BasePropertyId): any {
+    export function getCachedCenterGestureResult(property: BasePropertyId): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmHandRecognition);
-        return getGesturePropertyValue(r, alg);
+        return getGesturePropertyValue(r, property);
     }
 
     /** Total number of detected gestures */
@@ -877,13 +877,13 @@ namespace huskylens2 {
     }
 
     /** Property of No.N gesture */
-    //% block="gesture %index %alg"
+    //% block="gesture %index %property"
     //% weight=145
     //% index.min=1 index.defl=1
     //% subcategory="hand recognition"
-    export function getCachedResultGestureProperty(index: number, alg: BasePropertyId): any {
+    export function getCachedResultGestureProperty(index: number, property: BasePropertyId): any {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmHandRecognition, index - 1);
-        return getGesturePropertyValue(r, alg);
+        return getGesturePropertyValue(r, property);
     }
 
     /** Total number of learned gesture IDs */
@@ -914,24 +914,24 @@ namespace huskylens2 {
     }
 
     /** Property of gesture with specified id */
-    //% block="gesture id %index %alg"
+    //% block="gesture id %index %property"
     //% weight=141
     //% index.min=1 index.defl=1
     //% subcategory="hand recognition"
-    export function getGesturePropertyByID(index: number, alg: BaseProperty): any {
+    export function getGesturePropertyByID(index: number, property: BaseProperty): any {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmHandRecognition, index);
-        return getGesturePropertyValue(r, alg);
+        return getGesturePropertyValue(r, property);
     }
 
     /** Property of No.N gesture with specified id */
-    //% block="gesture id %id No. %n %alg"
+    //% block="gesture id %id No. %n %property"
     //% weight=140
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="hand recognition"
-    export function getGesturePropertyByIDNth(id: number, n: number, alg: BaseProperty): any {
+    export function getGesturePropertyByIDNth(id: number, n: number, property: BaseProperty): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmHandRecognition, id, n - 1);
-        return getGesturePropertyValue(r, alg);
+        return getGesturePropertyValue(r, property);
     }
 
     // ================================================================ pose recognition (Human Pose) ========================
@@ -957,12 +957,12 @@ namespace huskylens2 {
     }
 
     /** Pose property nearest to center */
-    //% block="pose nearest to center %alg"
+    //% block="pose nearest to center %property"
     //% weight=137
     //% subcategory="pose recognition"
-    export function getCachedCenterPoseResult(alg: BasePropertyId): any {
+    export function getCachedCenterPoseResult(property: BasePropertyId): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmPoseRecognition);
-        return getPosePropertyValue(r, alg);
+        return getPosePropertyValue(r, property);
     }
 
     /** Total number of detected poses */
@@ -974,13 +974,13 @@ namespace huskylens2 {
     }
 
     /** Property of No.N pose */
-    //% block="pose %index %alg"
+    //% block="pose %index %property"
     //% weight=135
     //% index.min=1 index.defl=1
     //% subcategory="pose recognition"
-    export function getCachedResultPoseProperty(index: number, alg: BasePropertyId): any {
+    export function getCachedResultPoseProperty(index: number, property: BasePropertyId): any {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmPoseRecognition, index - 1);
-        return getPosePropertyValue(r, alg);
+        return getPosePropertyValue(r, property);
     }
 
     /** Total number of learned pose IDs */
@@ -1011,23 +1011,23 @@ namespace huskylens2 {
     }
 
     /** Property of pose with specified id */
-    //% block="pose id %index %alg"
+    //% block="pose id %index %property"
     //% weight=131
     //% index.min=1 index.defl=1
     //% subcategory="pose recognition"
-    export function getPosePropertyByID(index: number, alg: BaseProperty): any {
+    export function getPosePropertyByID(index: number, property: BaseProperty): any {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmPoseRecognition, index);
-        return getPosePropertyValue(r, alg);
+        return getPosePropertyValue(r, property);
     }
 
     /** Property of No.N pose with specified id */
-    //% block="pose id %id No. %n %alg"
+    //% block="pose id %id No. %n %property"
     //% weight=130
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="pose recognition"
-    export function getPosePropertyByIDNth(id: number, n: number, alg: BaseProperty): any {
+    export function getPosePropertyByIDNth(id: number, n: number, property: BaseProperty): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmPoseRecognition, id, n - 1);
-        return getPosePropertyValue(r, alg);
+        return getPosePropertyValue(r, property);
     }
 }

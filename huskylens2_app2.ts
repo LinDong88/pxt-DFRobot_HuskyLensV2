@@ -49,12 +49,12 @@ namespace huskylens2 {
     }
 
     /** The license plate attributes close to the center */
-    //% block="plate near center %alg"
+    //% block="plate near center %property"
     //% weight=127
     //% subcategory="license plate recognition"
-    export function getCachedCenterPlateResult(alg: BasePropertyContentId): any {
+    export function getCachedCenterPlateResult(property: BasePropertyContentId): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmLicenseRecognition);
-        return getPlatePropertyValue(r, alg);
+        return getPlatePropertyValue(r, property);
     }
 
     /** Total number of detected license plates */
@@ -66,13 +66,13 @@ namespace huskylens2 {
     }
 
     /** The attributes of the No.N license plate */
-    //% block="plate %index %alg"
+    //% block="plate %index %property"
     //% weight=125
     //% index.min=1 index.defl=1
     //% subcategory="license plate recognition"
-    export function getCachedResultPlateProperty(index: number, alg: BasePropertyContentId): any {
+    export function getCachedResultPlateProperty(index: number, property: BasePropertyContentId): any {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmLicenseRecognition, index - 1);
-        return getPlatePropertyValue(r, alg);
+        return getPlatePropertyValue(r, property);
     }
 
     /** Total number of learned license plate IDs */
@@ -103,24 +103,24 @@ namespace huskylens2 {
     }
 
     /** The license plate attribute with the specified id */
-    //% block="plate id %index %alg"
+    //% block="plate id %index %property"
     //% weight=121
     //% index.min=1 index.defl=1
     //% subcategory="license plate recognition"
-    export function getPlatePropertyByID(index: number, alg: BasePropertyContent): any {
+    export function getPlatePropertyByID(index: number, property: BasePropertyContent): any {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmLicenseRecognition, index);
-        return getPlatePropertyValue(r, alg);
+        return getPlatePropertyValue(r, property);
     }
 
     /** The attribute of the No.N license plate with the specified id */
-    //% block="plate id %id No.%n %alg"
+    //% block="plate id %id No.%n %property"
     //% weight=120
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="license plate recognition"
-    export function getPlatePropertyByIDNth(id: number, n: number, alg: BasePropertyContent): any {
+    export function getPlatePropertyByIDNth(id: number, n: number, property: BasePropertyContent): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmLicenseRecognition, id, n - 1);
-        return getPlatePropertyValue(r, alg);
+        return getPlatePropertyValue(r, property);
     }
 
     // ========================================================== optical char recognition ==============================================
@@ -158,12 +158,12 @@ namespace huskylens2 {
     }
 
     /** Attributes of the text area close to the center */
-    //% block="text region near center %alg"
+    //% block="text region near center %property"
     //% weight=117
     //% subcategory="optical char recognition"
-    export function getCachedCenterTextResult(alg: BasePropertyContentId): any {
+    export function getCachedCenterTextResult(property: BasePropertyContentId): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmOcrRecognition);
-        return getTextPropertyValue(r, alg);
+        return getTextPropertyValue(r, property);
     }
 
     /** Total number of learned text areas */
@@ -185,13 +185,13 @@ namespace huskylens2 {
     }
 
     /** Text area attribute with specified id */
-    //% block="text region id %index %alg"
+    //% block="text region id %index %property"
     //% weight=111
     //% index.min=1 index.defl=1
     //% subcategory="optical char recognition"
-    export function getTextPropertyByID(index: number, alg: BasePropertyContent): any {
+    export function getTextPropertyByID(index: number, property: BasePropertyContent): any {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmOcrRecognition, index);
-        return getTextPropertyValue(r, alg);
+        return getTextPropertyValue(r, property);
     }
 
     // ============================================================= line tracking ====================================================
@@ -242,12 +242,12 @@ namespace huskylens2 {
     }
 
     /** Attributes of the current route */
-    //% block="current line %alg"
+    //% block="current line %property"
     //% weight=107
     //% subcategory="line tracking"
-    export function getCachedLineTrackingResult(alg: LineTrackingProperty): number {
+    export function getCachedLineTrackingResult(property: LineTrackingProperty): number {
         const r = getCurrentBranchInternal(Algorithm.AlgorithmLineTracking);
-        return getLineTrackingPropertyValue(r, alg);
+        return getLineTrackingPropertyValue(r, property);
     }
 
     /** Number of branches at the upcoming intersection */
@@ -259,13 +259,13 @@ namespace huskylens2 {
     }
 
     /** Attributes of the Nth branch route counterclockwise */
-    //% block="branch %index counterclockwise %alg"
+    //% block="branch %index counterclockwise %property"
     //% weight=105
     //% index.min=1 index.defl=1
     //% subcategory="line tracking"
-    export function getLineTrackingBranchProperty(index: number, alg: LineTrackingProperty): number {
+    export function getLineTrackingBranchProperty(index: number, property: LineTrackingProperty): number {
         const r = getBranchInternal(Algorithm.AlgorithmLineTracking, index - 1);
-        return getLineTrackingPropertyValue(r, alg);
+        return getLineTrackingPropertyValue(r, property);
     }
 
     // ======================================================== face emotion recognition ==============================================
@@ -294,12 +294,12 @@ namespace huskylens2 {
     }
 
     /** Emotion attributes near the center */
-    //% block="emotion near center %alg"
+    //% block="emotion near center %property"
     //% weight=102
     //% subcategory="face emotion recognition"
-    export function getCachedCenterEmotionResult(alg: BasePropertyId): number {
+    export function getCachedCenterEmotionResult(property: BasePropertyId): number {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmEmotionRecognition);
-        return getEmotionPropertyValue(r, alg);
+        return getEmotionPropertyValue(r, property);
     }
 
     /** Total number of detected emotions */
@@ -311,13 +311,13 @@ namespace huskylens2 {
     }
 
     /** Attributes of the Nth emotion */
-    //% block="emotion %index %alg"
+    //% block="emotion %index %property"
     //% weight=100
     //% index.min=1 index.defl=1
     //% subcategory="face emotion recognition"
-    export function getCachedResultEmotionProperty(index: number, alg: BasePropertyId): number {
+    export function getCachedResultEmotionProperty(index: number, property: BasePropertyId): number {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmEmotionRecognition, index - 1);
-        return getEmotionPropertyValue(r, alg);
+        return getEmotionPropertyValue(r, property);
     }
 
     /** Total number of learned emotion IDs */
@@ -348,24 +348,24 @@ namespace huskylens2 {
     }
 
     /** Attributes of an emotion with a specific ID */
-    //% block="emotion id %index %alg"
+    //% block="emotion id %index %property"
     //% weight=96
     //% index.min=1 index.defl=1
     //% subcategory="face emotion recognition"
-    export function getEmotionPropertyByID(index: number, alg: BaseProperty): number {
+    export function getEmotionPropertyByID(index: number, property: BaseProperty): number {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmEmotionRecognition, index);
-        return getEmotionPropertyValueID(r, alg);
+        return getEmotionPropertyValueID(r, property);
     }
 
     /** Attributes of the Nth emotion with a specific ID */
-    //% block="emotion id %id No.%n %alg"
+    //% block="emotion id %id No.%n %property"
     //% weight=95
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="face emotion recognition"
-    export function getEmotionPropertyByIDNth(id: number, n: number, alg: BaseProperty): number {
+    export function getEmotionPropertyByIDNth(id: number, n: number, property: BaseProperty): number {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmEmotionRecognition, id, n - 1);
-        return getEmotionPropertyValueID(r, alg);
+        return getEmotionPropertyValueID(r, property);
     }
 
     // =========================================================== tag recognition ====================================================
@@ -401,12 +401,12 @@ namespace huskylens2 {
     }
 
     /** Tag attributes near the center */
-    //% block="tag near center %alg"
+    //% block="tag near center %property"
     //% weight=92
     //% subcategory="tag recognition"
-    export function getCachedCenterTagResult(alg: BasePropertyContentId): any {
+    export function getCachedCenterTagResult(property: BasePropertyContentId): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmTagRecognition);
-        return getTagPropertyValue(r, alg);
+        return getTagPropertyValue(r, property);
     }
 
     /** Total number of detected tags */
@@ -418,13 +418,13 @@ namespace huskylens2 {
     }
 
     /** Attributes of the Nth tag */
-    //% block="tag %index %alg"
+    //% block="tag %index %property"
     //% weight=90
     //% index.min=1 index.defl=1
     //% subcategory="tag recognition"
-    export function getCachedResultTagProperty(index: number, alg: BasePropertyContentId): any {
+    export function getCachedResultTagProperty(index: number, property: BasePropertyContentId): any {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmTagRecognition, index - 1);
-        return getTagPropertyValue(r, alg);
+        return getTagPropertyValue(r, property);
     }
 
     /** Total number of learned tag IDs */
@@ -455,24 +455,24 @@ namespace huskylens2 {
     }
 
     /** Attributes of a tag with a specific ID */
-    //% block="tag id %index %alg"
+    //% block="tag id %index %property"
     //% weight=86
     //% index.min=1 index.defl=1
     //% subcategory="tag recognition"
-    export function getTagPropertyByID(index: number, alg: BasePropertyContent): any {
+    export function getTagPropertyByID(index: number, property: BasePropertyContent): any {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmTagRecognition, index);
-        return getTagPropertyValue(r, alg);
+        return getTagPropertyValue(r, property);
     }
 
     /** Attributes of the Nth tag with a specific ID */
-    //% block="tag id %id No.%n %alg"
+    //% block="tag id %id No.%n %property"
     //% weight=85
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="tag recognition"
-    export function getTagPropertyByIDNth(id: number, n: number, alg: BasePropertyContent): any {
+    export function getTagPropertyByIDNth(id: number, n: number, property: BasePropertyContent): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmTagRecognition, id, n - 1);
-        return getTagPropertyValue(r, alg);
+        return getTagPropertyValue(r, property);
     }
 
     // =================================================================== QR code recognition =====================================
@@ -508,12 +508,12 @@ namespace huskylens2 {
     }
 
     /** QR code attributes near the center */
-    //% block="QR code near center %alg"
+    //% block="QR code near center %property"
     //% weight=82
     //% subcategory="QR code recognition"
-    export function getCachedCenterQRCodeResult(alg: BasePropertyContentId): any {
+    export function getCachedCenterQRCodeResult(property: BasePropertyContentId): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmQrCodeRecognition);
-        return getQRCodePropertyValue(r, alg);
+        return getQRCodePropertyValue(r, property);
     }
 
     /** Total number of detected QR codes */
@@ -525,13 +525,13 @@ namespace huskylens2 {
     }
 
     /** Attributes of the Nth QR code */
-    //% block="QR code %index %alg"
+    //% block="QR code %index %property"
     //% weight=80
     //% index.min=1 index.defl=1
     //% subcategory="QR code recognition"
-    export function getCachedResultQRCodeProperty(index: number, alg: BasePropertyContentId): any {
+    export function getCachedResultQRCodeProperty(index: number, property: BasePropertyContentId): any {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmQrCodeRecognition, index - 1);
-        return getQRCodePropertyValue(r, alg);
+        return getQRCodePropertyValue(r, property);
     }
 
     /** Total number of learned QR code IDs */
@@ -562,24 +562,24 @@ namespace huskylens2 {
     }
 
     /** Attributes of a QR code with a specific ID */
-    //% block="QR code id %index %alg"
+    //% block="QR code id %index %property"
     //% weight=76
     //% index.min=1 index.defl=1
     //% subcategory="QR code recognition"
-    export function getQRCodePropertyByID(index: number, alg: BasePropertyContent): any {
+    export function getQRCodePropertyByID(index: number, property: BasePropertyContent): any {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmQrCodeRecognition, index);
-        return getQRCodePropertyValue(r, alg);
+        return getQRCodePropertyValue(r, property);
     }
 
     /** Attributes of the Nth QR code with a specific ID */
-    //% block="QR code id %id No.%n %alg"
+    //% block="QR code id %id No.%n %property"
     //% weight=75
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="QR code recognition"
-    export function getQRCodePropertyByIDNth(id: number, n: number, alg: BasePropertyContent): any {
+    export function getQRCodePropertyByIDNth(id: number, n: number, property: BasePropertyContent): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmQrCodeRecognition, id, n - 1);
-        return getQRCodePropertyValue(r, alg);
+        return getQRCodePropertyValue(r, property);
     }
 
     // ===================================================== barcode recognition" ==============================================
@@ -618,12 +618,12 @@ namespace huskylens2 {
     }
 
     /** Barcode attributes near the center */
-    //% block="barcode near center %alg"
+    //% block="barcode near center %property"
     //% weight=72
     //% subcategory="barcode recognition"
-    export function getCachedCenterBarcodeResult(alg: BasePropertyContentId): any {
+    export function getCachedCenterBarcodeResult(property: BasePropertyContentId): any {
         const r = getCachedCenterResultInternal(Algorithm.AlgorithmBarcodeRecognition);
-        return getBarcodePropertyValue(r, alg);
+        return getBarcodePropertyValue(r, property);
     }
 
     /** Total number of detected barcodes */
@@ -635,13 +635,13 @@ namespace huskylens2 {
     }
 
     /** Attributes of the Nth barcode */
-    //% block="barcode %index %alg"
+    //% block="barcode %index %property"
     //% weight=70
     //% index.min=1 index.defl=1
     //% subcategory="barcode recognition"
-    export function getCachedResultBarcodeProperty(index: number, alg: BasePropertyContentId): any {
+    export function getCachedResultBarcodeProperty(index: number, property: BasePropertyContentId): any {
         const r = getCachedResultByIndexInternal(Algorithm.AlgorithmBarcodeRecognition, index - 1);
-        return getBarcodePropertyValue(r, alg);
+        return getBarcodePropertyValue(r, property);
     }
 
     /** Total number of learned barcode IDs */
@@ -672,24 +672,24 @@ namespace huskylens2 {
     }
 
     /** Attributes of a barcode with a specific ID */
-    //% block="barcode id %index %alg"
+    //% block="barcode id %index %property"
     //% weight=66
     //% index.min=1 index.defl=1
     //% subcategory="barcode recognition"
-    export function getBarcodePropertyByID(index: number, alg: BasePropertyContent): any {
+    export function getBarcodePropertyByID(index: number, property: BasePropertyContent): any {
         const r = getCachedResultByIDInternal(Algorithm.AlgorithmBarcodeRecognition, index);
-        return getBarcodePropertyValue(r, alg);
+        return getBarcodePropertyValue(r, property);
     }
 
     /** Attributes of the Nth barcode with a specific ID */
-    //% block="barcode id %id No.%n %alg"
+    //% block="barcode id %id No.%n %property"
     //% weight=65
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="barcode recognition"
-    export function getBarcodePropertyByIDNth(id: number, n: number, alg: BasePropertyContent): any {
+    export function getBarcodePropertyByIDNth(id: number, n: number, property: BasePropertyContent): any {
         const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmBarcodeRecognition, id, n - 1);
-        return getBarcodePropertyValue(r, alg);
+        return getBarcodePropertyValue(r, property);
     }
 
     // ================= Custom Model =================

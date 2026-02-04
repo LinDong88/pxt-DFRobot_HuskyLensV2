@@ -1180,53 +1180,53 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         return learn_id || 0;
     }
 
-    //% block="built-in model %alg learn target at center of screen"
+    //% block="built-in model %property learn target at center of screen"
     //% weight=95
     //% subcategory="learning /forgetting"
-    //% alg.defl=AlgorithmLearnObjectAtCenter.AlgorithmObjectRecognition
-    export function learnObjectAtCenter(alg: AlgorithmLearnObjectAtCenter): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearn, alg, createInitializedBuffer(0));
+    //% property.defl=AlgorithmLearnObjectAtCenter.AlgorithmObjectRecognition
+    export function learnObjectAtCenter(property: AlgorithmLearnObjectAtCenter): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearn, property, createInitializedBuffer(0));
     }
 
-    //% block="built-in model %alg learn target at center of screen"
+    //% block="built-in model %property learn target at center of screen"
     //% weight=94
     //% subcategory="learning /forgetting"
-    //% alg.defl=128
-    export function learnObjectAtCenterNUM(alg: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearn, alg, createInitializedBuffer(0));
+    //% property.defl=128
+    export function learnObjectAtCenterNUM(property: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearn, property, createInitializedBuffer(0));
     }
 
-    //% block="built-in model %alg learn target in specified box X%X Y%Y W%W H%H"
+    //% block="built-in model %property learn target in specified box X%X Y%Y W%W H%H"
     //% weight=90
     //% subcategory="learning /forgetting"
-    //% alg.defl=AlgorithmLearnObjectInBox.AlgorithmFaceRecognition
+    //% property.defl=AlgorithmLearnObjectInBox.AlgorithmFaceRecognition
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
-    export function learnObjectInBox(alg: AlgorithmLearnObjectInBox, X: number, Y: number, W: number, H: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, alg, createBoxBuffer(X, Y, W, H));
+    export function learnObjectInBox(property: AlgorithmLearnObjectInBox, X: number, Y: number, W: number, H: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(X, Y, W, H));
     }
 
-    //% block="self-trained model %alg learn target in specified box X%X Y%Y W%W H%H"
+    //% block="self-trained model %property learn target in specified box X%X Y%Y W%W H%H"
     //% weight=89
     //% subcategory="learning /forgetting"
-    //% alg.defl=128
+    //% property.defl=128
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
     //% W.min=10 W.max=100
     //% H.min=10 H.max=100
-    export function learnObjectInBoxNUM(alg: number, X: number, Y: number, W: number, H: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, alg, createBoxBuffer(X, Y, W, H));
+    export function learnObjectInBoxNUM(property: number, X: number, Y: number, W: number, H: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(X, Y, W, H));
     }
 
-    //% block="set built-in model %alg id%id name to %name"
+    //% block="set built-in model %property id%id name to %name"
     //% weight=70
     //% subcategory="learning /forgetting"
-    //% alg.defl=AlgorithmLearnSetNameOfId.AlgorithmFaceRecognition
+    //% property.defl=AlgorithmLearnSetNameOfId.AlgorithmFaceRecognition
     //% id.min=1 id.max=100 id.defl=1
     //% name.defl="object"
-    export function setNameOfID(alg: AlgorithmLearnSetNameOfId, id: number, name: string): void {
+    export function setNameOfID(property: AlgorithmLearnSetNameOfId, id: number, name: string): void {
         // Create a Buffer containing id and name
         const nameBuf = Buffer.fromUTF8(name);
         const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10 bytes + 1-byte length + name
@@ -1243,23 +1243,23 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
             dataBuf[11 + i] = nameBuf[i];
         }
 
-        sendCommandAndWait(Macro.CommandSetNameById, alg, dataBuf);
+        sendCommandAndWait(Macro.CommandSetNameById, property, dataBuf);
     }
 
-    //% block="forget built-in model %alg all IDs"
+    //% block="forget built-in model %property all IDs"
     //% weight=80
     //% subcategory="learning /forgetting"
-    //% alg.defl=Algorithm.AlgorithmObjectRecognition
-    export function forgetAllIDs(alg: Algorithm): void {
-        sendCommandAndWait(Macro.CommandActionForget, alg, createInitializedBuffer(alg));
+    //% property.defl=Algorithm.AlgorithmObjectRecognition
+    export function forgetAllIDs(property: Algorithm): void {
+        sendCommandAndWait(Macro.CommandActionForget, property, createInitializedBuffer(property));
     }
 
-    //% block="forget self-trained model %alg all IDs"
+    //% block="forget self-trained model %property all IDs"
     //% weight=79
     //% subcategory="learning /forgetting"
-    //% alg.defl=128
-    export function forgetAllIDsNUM(alg: number): void {
-        sendCommandAndWait(Macro.CommandActionForget, alg, createInitializedBuffer(alg));
+    //% property.defl=128
+    export function forgetAllIDsNUM(property: number): void {
+        sendCommandAndWait(Macro.CommandActionForget, property, createInitializedBuffer(property));
     }
 
 }
