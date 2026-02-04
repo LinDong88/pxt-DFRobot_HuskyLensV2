@@ -483,7 +483,7 @@ namespace huskylens2 {
             }
         }
         while (i2c_cached_data.length) {
-            const data = i2c_cached_data.shift();  
+            const data = i2c_cached_data.shift();
             if (data != null && husky_lens_protocol_receive(data)) {
                 return true;
             }
@@ -818,27 +818,27 @@ namespace huskylens2 {
         return count;
     }
 
-export function getCachedCenterResultInternal(algo: number): ResultVariant | null {
-    const cacheAlgo = 0;
-    let centerIndex = -1;
-    let minLen = 0x7FFFFFFF;
-    const centerX = Macro.LcdWidth / 2;
-    const centerY = Macro.LcdHeight / 2;
+    export function getCachedCenterResultInternal(algo: number): ResultVariant | null {
+        const cacheAlgo = 0;
+        let centerIndex = -1;
+        let minLen = 0x7FFFFFFF;
+        const centerX = Macro.LcdWidth / 2;
+        const centerY = Macro.LcdHeight / 2;
 
-    for (let i = 0; i < Macro.MaxResultNum; i++) {
-        const r = result[cacheAlgo][i];
-        if (r) {
-            const res = r as Result;
+        for (let i = 0; i < Macro.MaxResultNum; i++) {
+            const r = result[cacheAlgo][i];
+            if (r) {
+                const res = r as Result;
                 const len = (res.xCenter - centerX) ** 2 + (res.yCenter - centerY) ** 2;
-            if (len < minLen) {
-                minLen = len;
-                centerIndex = i;
+                if (len < minLen) {
+                    minLen = len;
+                    centerIndex = i;
+                }
             }
         }
-    }
     
         return centerIndex !== -1 ? result[cacheAlgo][centerIndex] : null;
-}
+    }
 
     export function getCachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
@@ -939,6 +939,8 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
     }
 
     //---------------------------------------------------------------multimedia----------------------------------------
+
+    /** Play music with specified name and volume */
     //% block="play music %name at volume %volume"
     //% name.shadow="text"
     //% name.defl="music.mp3"
@@ -977,6 +979,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
     }
 
     let photoName: string = "";
+    /** Take a photo */
     //% block="take photo"
     //% weight=118
     //% subcategory="multimedia"
@@ -988,6 +991,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         }
     }
     let screenshotName: string = "";
+    /** Take a screenshot */
     //% block="take a screenshot"
     //% weight=116
     //% subcategory="multimedia"
@@ -1005,6 +1009,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         }
     }
 
+    /** Get the name of the saved screenshot */
     //% block="obtain the name of the saved screenshot"
     //% weight=115
     //% subcategory="multimedia"
@@ -1012,6 +1017,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         return screenshotName;
     }
 
+    /** Get the names of the stored photos */
     //% block="obtain the names of the stored photos"
     //% weight=117
     //% subcategory="multimedia"
@@ -1020,7 +1026,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
     }
 
     //-------------------------------------------------screen display-----------------------------------
-    /**
+/**
      * Internal function: draw rectangle (common implementation)
      * @param cmd Command type (CommandActionDrawRect or CommandActionDrawUniqueRect)
      * @param color Color value
@@ -1057,6 +1063,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         sendCommandAndCheckResponse(cmd, Algorithm.AlgorithmAny, dataBuf);
     }
 
+    /** Draw or update an indicator box on the screen */
     //% block="draw or update indicator box Color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
     //% weight=90
@@ -1070,6 +1077,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         drawBoxInternal(Macro.CommandActionDrawUniqueRect, color, lineWidth, x, y, w, h);
     }
 
+    /** Draw a new rectangle on the screen */
     //% block="draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
     //% weight=89
@@ -1093,6 +1101,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         Font40 = 40,
         Font48 = 48,
     }
+    /** Display text on the screen */
     //% block="display text color%color fontSize%fontSize x%x y%y content%content"
     //% subcategory="screen display"
     //% weight=91
@@ -1138,9 +1147,8 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         // Send command and wait for response
         sendCommandAndCheckResponse(Macro.CommandActionDrawText, Algorithm.AlgorithmAny, dataBuf);
     }
-    /**
-     * Clear text
-     */
+
+    /** Clear all displayed text */
     //% block="clear text"
     //% subcategory="screen display"
     //% weight=88
@@ -1148,9 +1156,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         sendCommandAndCheckResponse(Macro.CommandActionClearText, Algorithm.AlgorithmAny, Buffer.create(0));
     }
 
-    /**
-     * Clear indicator boxes and rectangles
-     */
+    /** Clear all indicator boxes and rectangles */
     //% block="clear indicator boxes and rectangles"
     //% subcategory="screen display"
     //% weight=87
@@ -1158,6 +1164,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         sendCommandAndCheckResponse(Macro.CommandActionClearRect, Algorithm.AlgorithmAny, Buffer.create(0));
     }
 
+    /** Set RGB color value */
     //% block="set color red%red green%green blue%blue"
     //% subcategory="screen display"
     //% weight=86
@@ -1168,11 +1175,12 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         red = Math.max(0, Math.min(255, red));
         green = Math.max(0, Math.min(255, green));
         blue = Math.max(0, Math.min(255, blue));
-        return ( red<< 16) + (green << 8) + blue;
+        return (red << 16) + (green << 8) + blue;
     }
 
     //************************************* learning /forgetting   ********************************* */
     let learn_id = 0;
+    /** Get the learned ID */
     //% block="get learned id"
     //% weight=100
     //% subcategory="learning /forgetting"
@@ -1180,6 +1188,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         return learn_id || 0;
     }
 
+    /** Learn a target at the center of the screen using a built-in model */
     //% block="built-in model %property learn target at center of screen"
     //% weight=95
     //% subcategory="learning /forgetting"
@@ -1188,6 +1197,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         learn_id = sendLearnCommand(Macro.CommandActionLearn, property, createInitializedBuffer(0));
     }
 
+    /** Learn a target at the center of the screen using a self-trained model */
     //% block="built-in model %property learn target at center of screen"
     //% weight=94
     //% subcategory="learning /forgetting"
@@ -1196,6 +1206,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         learn_id = sendLearnCommand(Macro.CommandActionLearn, property, createInitializedBuffer(0));
     }
 
+    /** Learn a target within a specified box using a built-in model */
     //% block="built-in model %property learn target in specified box X%X Y%Y W%W H%H"
     //% weight=90
     //% subcategory="learning /forgetting"
@@ -1208,6 +1219,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(X, Y, W, H));
     }
 
+    /** Learn a target within a specified box using a self-trained model */
     //% block="self-trained model %property learn target in specified box X%X Y%Y W%W H%H"
     //% weight=89
     //% subcategory="learning /forgetting"
@@ -1220,6 +1232,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(X, Y, W, H));
     }
 
+    /** Set the name of a built-in model's ID */
     //% block="set built-in model %property id%id name to %name"
     //% weight=70
     //% subcategory="learning /forgetting"
@@ -1246,6 +1259,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         sendCommandAndWait(Macro.CommandSetNameById, property, dataBuf);
     }
 
+    /** Forget all IDs of a built-in model */
     //% block="forget built-in model %property all IDs"
     //% weight=80
     //% subcategory="learning /forgetting"
@@ -1254,6 +1268,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         sendCommandAndWait(Macro.CommandActionForget, property, createInitializedBuffer(property));
     }
 
+    /** Forget all IDs of a self-trained model */
     //% block="forget self-trained model %property all IDs"
     //% weight=79
     //% subcategory="learning /forgetting"
