@@ -8,6 +8,10 @@
  * @date  2026-2-2
 */
 
+
+/**
+ * HuskyLens 2 
+ */
 //% weight=100 color=#0fbc11 icon="\uf083" block="huskylens2"
 //% groups='["communication","algorithm switch"]'
 namespace huskylens2 {
@@ -221,7 +225,7 @@ namespace huskylens2 {
         Length,
     }
 
-    /** 请求一次巡线数据存入结果 */
+    /** Request one-time line tracking data and store in result */
     //% block="request line tracking data and store result"
     //% weight=109
     //% subcategory="line tracking"
@@ -229,7 +233,7 @@ namespace huskylens2 {
         getResultInternal(Algorithm.AlgorithmLineTracking);
     }
 
-    /** 是否检测到路线 */
+    /** Whether a route is detected */
     //% block="whether line detected"
     //% weight=108
     //% subcategory="line tracking"
@@ -237,7 +241,7 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmLineTracking);
     }
 
-    /** 当前路线的属性 */
+    /** Attributes of the current route */
     //% block="current line %alg"
     //% weight=107
     //% subcategory="line tracking"
@@ -246,7 +250,7 @@ namespace huskylens2 {
         return getLineTrackingPropertyValue(r, alg);
     }
 
-    /** 前方路口分支数量 */
+    /** Number of branches at the upcoming intersection */
     //% block="number of branches at intersection ahead"
     //% weight=106
     //% subcategory="line tracking"
@@ -254,7 +258,7 @@ namespace huskylens2 {
         return getUpcomingBranchCountInternal(Algorithm.AlgorithmLineTracking);
     }
 
-    /** 逆时针第index条分支路线的属性 */
+    /** Attributes of the Nth branch route counterclockwise */
     //% block="branch %index counterclockwise %alg"
     //% weight=105
     //% index.min=1 index.defl=1
@@ -273,6 +277,7 @@ namespace huskylens2 {
         return getBasePropertyValue(result, prop as any);
     }
 
+        /** Get one-time face emotion recognition result and cache it */
     //% block="get face emotion recognition result"
     //% weight=104
     //% subcategory="face emotion recognition"
@@ -280,6 +285,7 @@ namespace huskylens2 {
         getResultInternal(Algorithm.AlgorithmEmotionRecognition);
     }
 
+    /** Whether an emotion is detected */
     //% block="whether emotion detected"
     //% weight=103
     //% subcategory="face emotion recognition"
@@ -287,6 +293,7 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmEmotionRecognition);
     }
 
+    /** Emotion attributes near the center */
     //% block="emotion near center %alg"
     //% weight=102
     //% subcategory="face emotion recognition"
@@ -295,6 +302,7 @@ namespace huskylens2 {
         return getEmotionPropertyValue(r, alg);
     }
 
+    /** Total number of detected emotions */
     //% block="number of detected emotions"
     //% weight=101
     //% subcategory="face emotion recognition"
@@ -302,6 +310,7 @@ namespace huskylens2 {
         return getCachedResultNumInternal(Algorithm.AlgorithmEmotionRecognition);
     }
 
+    /** Attributes of the Nth emotion */
     //% block="emotion %index %alg"
     //% weight=100
     //% index.min=1 index.defl=1
@@ -311,6 +320,7 @@ namespace huskylens2 {
         return getEmotionPropertyValue(r, alg);
     }
 
+    /** Total number of learned emotion IDs */
     //% block="number of learned emotion IDs"
     //% weight=99
     //% subcategory="face emotion recognition"
@@ -318,6 +328,7 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmEmotionRecognition);
     }
 
+    /** Check if an emotion with a specific ID exists */
     //% block="does emotion id %index exist?"
     //% weight=98
     //% index.min=1 index.defl=1
@@ -327,6 +338,7 @@ namespace huskylens2 {
         return r != null;
     }
 
+    /** Number of emotions with a specific ID */
     //% block="number of emotions with id %index"
     //% weight=97
     //% index.min=1 index.defl=1
@@ -335,6 +347,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmEmotionRecognition, index);
     }
 
+    /** Attributes of an emotion with a specific ID */
     //% block="emotion id %index %alg"
     //% weight=96
     //% index.min=1 index.defl=1
@@ -344,6 +357,7 @@ namespace huskylens2 {
         return getEmotionPropertyValueID(r, alg);
     }
 
+    /** Attributes of the Nth emotion with a specific ID */
     //% block="emotion id %id No.%n %alg"
     //% weight=95
     //% id.min=1 id.defl=1
@@ -378,6 +392,7 @@ namespace huskylens2 {
         getResultInternal(Algorithm.AlgorithmTagRecognition);
     }
 
+    /** Whether a tag is detected */
     //% block="whether tag detected"
     //% weight=93
     //% subcategory="tag recognition"
@@ -385,6 +400,7 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmTagRecognition);
     }
 
+    /** Tag attributes near the center */
     //% block="tag near center %alg"
     //% weight=92
     //% subcategory="tag recognition"
@@ -393,6 +409,7 @@ namespace huskylens2 {
         return getTagPropertyValue(r, alg);
     }
 
+    /** Total number of detected tags */
     //% block="number of detected tags"
     //% weight=91
     //% subcategory="tag recognition"
@@ -400,6 +417,7 @@ namespace huskylens2 {
         return getCachedResultNumInternal(Algorithm.AlgorithmTagRecognition);
     }
 
+    /** Attributes of the Nth tag */
     //% block="tag %index %alg"
     //% weight=90
     //% index.min=1 index.defl=1
@@ -409,6 +427,7 @@ namespace huskylens2 {
         return getTagPropertyValue(r, alg);
     }
 
+    /** Total number of learned tag IDs */
     //% block="number of learned tag IDs"
     //% weight=89
     //% subcategory="tag recognition"
@@ -416,6 +435,7 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmTagRecognition);
     }
 
+    /** Check if a tag with a specific ID exists */
     //% block="does tag id %index exist?"
     //% weight=88
     //% index.min=1 index.defl=1
@@ -425,6 +445,7 @@ namespace huskylens2 {
         return r != null;
     }
 
+    /** Number of tags with a specific ID */
     //% block="number of tags with id %index"
     //% weight=87
     //% index.min=1 index.defl=1
@@ -433,6 +454,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmTagRecognition, index);
     }
 
+    /** Attributes of a tag with a specific ID */
     //% block="tag id %index %alg"
     //% weight=86
     //% index.min=1 index.defl=1
@@ -442,6 +464,7 @@ namespace huskylens2 {
         return getTagPropertyValue(r, alg);
     }
 
+    /** Attributes of the Nth tag with a specific ID */
     //% block="tag id %id No.%n %alg"
     //% weight=85
     //% id.min=1 id.defl=1
@@ -476,6 +499,7 @@ namespace huskylens2 {
         getResultInternal(Algorithm.AlgorithmQrCodeRecognition);
     }
 
+    /** Whether a QR code is detected */
     //% block="whether QR code detected"
     //% weight=83
     //% subcategory="QR code recognition"
@@ -483,6 +507,7 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmQrCodeRecognition);
     }
 
+    /** QR code attributes near the center */
     //% block="QR code near center %alg"
     //% weight=82
     //% subcategory="QR code recognition"
@@ -491,6 +516,7 @@ namespace huskylens2 {
         return getQRCodePropertyValue(r, alg);
     }
 
+    /** Total number of detected QR codes */
     //% block="number of detected QR codes"
     //% weight=81
     //% subcategory="QR code recognition"
@@ -498,6 +524,7 @@ namespace huskylens2 {
         return getCachedResultNumInternal(Algorithm.AlgorithmQrCodeRecognition);
     }
 
+    /** Attributes of the Nth QR code */
     //% block="QR code %index %alg"
     //% weight=80
     //% index.min=1 index.defl=1
@@ -507,6 +534,7 @@ namespace huskylens2 {
         return getQRCodePropertyValue(r, alg);
     }
 
+    /** Total number of learned QR code IDs */
     //% block="number of learned QR code IDs"
     //% weight=79
     //% subcategory="QR code recognition"
@@ -514,6 +542,7 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmQrCodeRecognition);
     }
 
+    /** Check if a QR code with a specific ID exists */
     //% block="does QR code id %index exist?"
     //% weight=78
     //% index.min=1 index.defl=1
@@ -523,6 +552,7 @@ namespace huskylens2 {
         return r != null;
     }
 
+    /** Number of QR codes with a specific ID */
     //% block="number of QR codes with id %index"
     //% weight=77
     //% index.min=1 index.defl=1
@@ -531,6 +561,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmQrCodeRecognition, index);
     }
 
+    /** Attributes of a QR code with a specific ID */
     //% block="QR code id %index %alg"
     //% weight=76
     //% index.min=1 index.defl=1
@@ -540,6 +571,7 @@ namespace huskylens2 {
         return getQRCodePropertyValue(r, alg);
     }
 
+    /** Attributes of the Nth QR code with a specific ID */
     //% block="QR code id %id No.%n %alg"
     //% weight=75
     //% id.min=1 id.defl=1
@@ -577,6 +609,7 @@ namespace huskylens2 {
         getResultInternal(Algorithm.AlgorithmBarcodeRecognition);
     }
 
+    /** Whether a barcode is detected */
     //% block="whether barcode detected"
     //% weight=73
     //% subcategory="barcode recognition"
@@ -584,6 +617,7 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmBarcodeRecognition);
     }
 
+    /** Barcode attributes near the center */
     //% block="barcode near center %alg"
     //% weight=72
     //% subcategory="barcode recognition"
@@ -592,6 +626,7 @@ namespace huskylens2 {
         return getBarcodePropertyValue(r, alg);
     }
 
+    /** Total number of detected barcodes */
     //% block="number of detected barcodes"
     //% weight=71
     //% subcategory="barcode recognition"
@@ -599,6 +634,7 @@ namespace huskylens2 {
         return getCachedResultNumInternal(Algorithm.AlgorithmBarcodeRecognition);
     }
 
+    /** Attributes of the Nth barcode */
     //% block="barcode %index %alg"
     //% weight=70
     //% index.min=1 index.defl=1
@@ -608,6 +644,7 @@ namespace huskylens2 {
         return getBarcodePropertyValue(r, alg);
     }
 
+    /** Total number of learned barcode IDs */
     //% block="number of learned barcode IDs"
     //% weight=69
     //% subcategory="barcode recognition"
@@ -615,6 +652,7 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmBarcodeRecognition);
     }
 
+    /** Check if a barcode with a specific ID exists */
     //% block="does barcode id %index exist?"
     //% weight=68
     //% index.min=1 index.defl=1
@@ -624,6 +662,7 @@ namespace huskylens2 {
         return r != null;
     }
 
+    /** Number of barcodes with a specific ID */
     //% block="number of barcodes with id %index"
     //% weight=67
     //% index.min=1 index.defl=1
@@ -632,6 +671,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmBarcodeRecognition, index);
     }
 
+    /** Attributes of a barcode with a specific ID */
     //% block="barcode id %index %alg"
     //% weight=66
     //% index.min=1 index.defl=1
@@ -641,6 +681,7 @@ namespace huskylens2 {
         return getBarcodePropertyValue(r, alg);
     }
 
+    /** Attributes of the Nth barcode with a specific ID */
     //% block="barcode id %id No.%n %alg"
     //% weight=65
     //% id.min=1 id.defl=1

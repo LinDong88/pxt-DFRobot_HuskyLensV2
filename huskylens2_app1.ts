@@ -8,6 +8,9 @@
  * @date  2026-2-2
 */
 
+/**
+ * HuskyLens 2 
+ */
 //% weight=100 color=#0fbc11 icon="\uf083" block="huskylens2"
 //% groups='["communication","algorithm switch"]'
 namespace huskylens2 {

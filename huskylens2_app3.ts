@@ -8,6 +8,10 @@
  * @date  2026-2-2
 */
 
+
+/**
+ * HuskyLens 2 
+ */
 //% weight=100 color=#0fbc11 icon="\uf083" block="huskylens2"
 //% groups='["communication","algorithm switch"]'
 namespace huskylens2 {
@@ -431,7 +435,11 @@ namespace huskylens2 {
 
 
     // ==================================== Self-trained model related enums ========================================
-    
+
+    /**
+     * Switch to a custom-trained model by specifying the model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     */
     //% block="HUSKYLENS 2 switch to custom-trained model, model id%num"
     //% weight=119
     //% subcategory="self training"
@@ -442,6 +450,10 @@ namespace huskylens2 {
         basic.pause(5000); // Wait 5 seconds for model loading
     }
 
+    /**
+     * Request data from the specified model ID and save it to the results cache.
+     * @param num Model ID (range: 128-255, default: 128)
+     */
     //% block="model id%num request data and save to results"
     //% weight=118
     //% subcategory="self training"
@@ -451,6 +463,11 @@ namespace huskylens2 {
         getResultInternal(num);
     }
 
+    /**
+     * Check if a target is detected by the specified model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @returns True if a target is detected, false otherwise.
+     */
     //% block="model id%num target detected?"
     //% weight=117
     //% subcategory="self training"
@@ -459,6 +476,12 @@ namespace huskylens2 {
         return availableInternal(num);
     }
 
+    /**
+     * Get the property of the target closest to the center for the specified model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @param alg Property to retrieve (e.g., ID, Name, XCenter, etc.)
+     * @returns The requested property value.
+     */
     //% block="model id%num target closest to center%alg"
     //% weight=116
     //% subcategory="self training"
@@ -482,6 +505,11 @@ namespace huskylens2 {
         }
     }
 
+    /**
+     * Get the total number of detected targets for the specified model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @returns Total number of detected targets.
+     */
     //% block="model id%num total number of detected targets"
     //% weight=115
     //% subcategory="self training"
@@ -490,6 +518,11 @@ namespace huskylens2 {
         return getCachedResultNumInternal(num);
     }
 
+    /**
+     * Get the total number of learned target IDs for the specified model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @returns Total number of learned target IDs.
+     */
     //% block="model id%num total number of learned target IDs"
     //% weight=114
     //% subcategory="self training"
@@ -498,6 +531,13 @@ namespace huskylens2 {
         return getCachedResultMaxID(num);
     }
 
+    /**
+     * Get the property of the Nth target for the specified model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @param INDEX Index of the target (1-based, range: 1-6, default: 1)
+     * @param alg Property to retrieve (e.g., ID, Name, XCenter, etc.)
+     * @returns The requested property value.
+     */
     //% block="model id%num No.%index target%alg"
     //% weight=113
     //% subcategory="self training"
@@ -526,6 +566,12 @@ namespace huskylens2 {
         }
     }
 
+    /**
+     * Check if a target with the specified ID exists for the given model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @param id Target ID (range: 1-100, default: 1)
+     * @returns True if the target exists, false otherwise.
+     */
     //% block="model id%num target id%id exists?"
     //% weight=112
     //% subcategory="self training"
@@ -535,6 +581,12 @@ namespace huskylens2 {
         return getCachedResultByIDInternal(num, id) !== null;
     }
 
+    /**
+     * Get the total number of targets with the specified ID for the given model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @param id Target ID (range: 1-100, default: 1)
+     * @returns Total number of targets with the specified ID.
+     */
     //% block="model id%num total number of targets with id%id"
     //% weight=111
     //% subcategory="self training"
@@ -544,6 +596,13 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(num, id);
     }
 
+    /**
+     * Get the property of a target with the specified ID for the given model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @param id Target ID (range: 1-100, default: 1)
+     * @param alg Property to retrieve (e.g., Name, XCenter, etc.)
+     * @returns The requested property value.
+     */
     //% block="model id%num target with id%id%alg"
     //% weight=110
     //% subcategory="self training"
@@ -570,6 +629,14 @@ namespace huskylens2 {
         }
     }
 
+    /**
+     * Get the property of the Nth target with the specified ID for the given model ID.
+     * @param num Model ID (range: 128-255, default: 128)
+     * @param id Target ID (range: 1-100, default: 1)
+     * @param index Index of the target (1-based, range: 1-6, default: 1)
+     * @param alg Property to retrieve (e.g., Name, XCenter, etc.)
+     * @returns The requested property value.
+     */
     //% block="model id %num id %id the %index target of %alg""
     //% weight=109
     //% subcategory="self training"
@@ -593,6 +660,5 @@ namespace huskylens2 {
                 return 0;
         }
     }
-}
 
 
