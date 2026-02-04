@@ -1,14 +1,14 @@
 /** 
- * @file huskylensV2_app3.ts
+ * @file huskylens2_app3.ts
  * @brief DFRobot's huskylens 2 makecode library.
- * @n [Get the module here](https://github.com/DFRobot/pxt-DFRobot_HuskyLensV2)
+ * @n [Get the module here](https://github.com/DFRobot/pxt-DFRobot_huskylens2)
  * @copyright    [DFRobot](http://www.dfrobot.com), 2026
  * @license The MIT License (MIT)
  * @author [email](rong.li@dfrobot.com)
  * @date  2026-2-2
 */
 
-//% weight=100 color=#0fbc11 icon="\uf083" block="HuskylensV2"
+//% weight=100 color=#0fbc11 icon="\uf083" block="huskylens2"
 //% groups='["communication","algorithm switch"]'
 namespace huskylens2 {
 

@@ -16,10 +16,10 @@
         "_locales/zh-tw/huskylens2-jsdoc-strings.json",
         "_locales/en/huskylens2-strings.json",
         "_locales/en/huskylens2-jsdoc-strings.json",
-        "huskylensV2_protocol.ts",
-        "huskylensV2_app1.ts",
-        "huskylensV2_app2.ts",
-        "huskylensV2_app3.ts"
+        "huskylens2_protocol.ts",
+        "huskylens2_app1.ts",
+        "huskylens2_app2.ts",
+        "huskylens2_app3.ts"
     ],
     "testFiles": [
         "test.ts"
