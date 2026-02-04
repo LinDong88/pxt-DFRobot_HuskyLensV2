@@ -186,8 +186,8 @@ namespace huskylens2 {
         }
 
         // First union - uint8_t type
-        get ID() { return this.buffer[0] }
-        set ID(v: number) { this.buffer[0] = v & 0xff; }
+        get id() { return this.buffer[0] }
+        set id(v: number) { this.buffer[0] = v & 0xff; }
 
         get maxID() { return this.buffer[0] }
         set maxID(v: number) { this.buffer[0] = v & 0xff; }
@@ -595,7 +595,7 @@ namespace huskylens2 {
     /**
      * Send command and wait for response, checking return value
      * @param cmd Command type
-     * @param algoId Algorithm ID
+     * @param algoId Algorithm id
      * @param data Data buffer
      * @param retry Retry count, default is 3
      * @param pauseMs Pause between retries (ms), default is 100
@@ -618,7 +618,7 @@ namespace huskylens2 {
     /**
      * Send command and wait for response (without checking return value)
      * @param cmd Command type
-     * @param algoId Algorithm ID
+     * @param algoId Algorithm id
      * @param data Data buffer
      * @param retry Retry count, default is 3
      * @param pauseMs Pause between retries (ms), default is 100
@@ -636,7 +636,7 @@ namespace huskylens2 {
     /**
      * Send command and get response data (for cases where payload is needed)
      * @param cmd Command type
-     * @param algoId Algorithm ID
+     * @param algoId Algorithm id
      * @param data Data buffer
      * @param retry Retry count, default is 3
      * @param pauseMs Pause between retries (ms), default is 100
@@ -658,11 +658,11 @@ namespace huskylens2 {
     }
 
     /**
-     * Send learn command and get learned ID
+     * Send learn command and get learned id
      * @param cmd Command type (CommandActionLearn or CommandActionLearnBlock)
-     * @param algoId Algorithm ID
+     * @param algoId Algorithm id
      * @param data Data buffer
-     * @returns Learned ID; returns 0 on failure
+     * @returns Learned id; returns 0 on failure
      */
     function sendLearnCommand(cmd: number, algoId: number, data: Buffer): number {
         const pkt = PacketHead.fromFields({
@@ -770,7 +770,7 @@ namespace huskylens2 {
             data: dataBuf,
         });
 
-        // Normalize algorithm ID to 0 for caching
+        // Normalize algorithm id to 0 for caching
         const cacheAlgo = 0;
 
         // Clear previous results
@@ -844,13 +844,13 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         return result[cacheAlgo][index];
     }
 
-    export function getCachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
+    export function getCachedResultByIDInternal(algo: number, id: number): ResultVariant | null {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
             if (r != null) {
                 const res = r as Result;
-                if (res.ID === ID) {
+                if (res.id === id) {
                     return r;
                 }
             }
@@ -873,14 +873,14 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         return getCachedResultMaxID(algo);
     }
 
-    export function getCachedResultNumByIDInternal(algo: number, ID: number): number {
+    export function getCachedResultNumByIDInternal(algo: number, id: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
             if (r) {
                 const res = r as Result;
-                if (ID === res.ID) {
+                if (id === res.id) {
                     count++;
                 }
             }
@@ -888,14 +888,14 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         return count;
     }
 
-    export function getCachedIndexResultByIDInternal(algo: number, ID: number, index: number): ResultVariant | null {
+    export function getCachedIndexResultByIDInternal(algo: number, id: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         let currentIndex = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
             if (r) {
                 const res = r as Result;
-                if (ID === res.ID) {
+                if (id === res.id) {
                     if (currentIndex === index) {
                         return r;
                     }
@@ -1169,7 +1169,7 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
 
     //************************************* learning /forgetting   ********************************* */
     let learn_id = 0;
-    //% block="get learned ID"
+    //% block="get learned id"
     //% weight=100
     //% subcategory="learning /forgetting"
     export function getLearnedID(): number {
@@ -1221,9 +1221,9 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
     //% subcategory="learning /forgetting"
     //% alg.defl=AlgorithmLearnSetNameOfId.AlgorithmFaceRecognition
     //% id.min=1 id.max=100 id.defl=1
-    //% name.defl="Object"
+    //% name.defl="object"
     export function setNameOfID(alg: AlgorithmLearnSetNameOfId, id: number, name: string): void {
-        // Create a Buffer containing ID and name
+        // Create a Buffer containing id and name
         const nameBuf = Buffer.fromUTF8(name);
         const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10 bytes + 1-byte length + name
 

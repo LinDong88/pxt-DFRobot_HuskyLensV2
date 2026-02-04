@@ -17,7 +17,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case BasePropertyContentId.Id: return res.ID;
+            case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.XCenter: return res.xCenter;
             case BasePropertyContentId.YCenter: return res.yCenter;
@@ -61,7 +61,7 @@ namespace huskylens2 {
         return getCachedResultNumInternal(Algorithm.AlgorithmLicenseRecognition);
     }
 
-    /** The attributes of the Nth license plate */
+    /** The attributes of the No.N license plate */
     //% block="plate %index %alg"
     //% weight=125
     //% index.min=1 index.defl=1
@@ -79,8 +79,8 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmLicenseRecognition);
     }
 
-    /** Check if a specific ID's license plate exists */
-    //% block="does plate ID %index exist?"
+    /** Check if a specific id's license plate exists */
+    //% block="does plate id %index exist?"
     //% weight=123
     //% index.min=1 index.defl=1
     //% subcategory="license plate recognition"
@@ -89,8 +89,8 @@ namespace huskylens2 {
         return r != null;
     }
 
-    /** The number of license plates with the specified ID */
-    //% block="number of plates with ID %index"
+    /** The number of license plates with the specified id */
+    //% block="number of plates with id %index"
     //% weight=122
     //% index.min=1 index.defl=1
     //% subcategory="license plate recognition"
@@ -98,8 +98,8 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmLicenseRecognition, index);
     }
 
-    /** The license plate attribute with the specified ID */
-    //% block="plate ID %index %alg"
+    /** The license plate attribute with the specified id */
+    //% block="plate id %index %alg"
     //% weight=121
     //% index.min=1 index.defl=1
     //% subcategory="license plate recognition"
@@ -108,8 +108,8 @@ namespace huskylens2 {
         return getPlatePropertyValue(r, alg);
     }
 
-    /** The attribute of the Nth license plate with the specified ID */
-    //% block="plate ID %id No.%n %alg"
+    /** The attribute of the No.N license plate with the specified id */
+    //% block="plate id %id No.%n %alg"
     //% weight=120
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
@@ -125,7 +125,7 @@ namespace huskylens2 {
         const res = result as Result;
 
         switch (prop) {
-            case BasePropertyContentId.Id: return res.ID;
+            case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.Content: return res.content.length > 0 ? res.content : "";
             case BasePropertyContentId.XCenter: return res.xCenter;
@@ -170,8 +170,8 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmOcrRecognition);
     }
 
-    /** Check if the text area with the specified ID exists */
-    //% block="does text region ID %index exist?"
+    /** Check if the text area with the specified id exists */
+    //% block="does text region id %index exist?"
     //% weight=113
     //% index.min=1 index.defl=1
     //% subcategory="optical char recognition"
@@ -180,8 +180,8 @@ namespace huskylens2 {
         return r != null;
     }
 
-    /** Text area attribute with specified ID */
-    //% block="text region ID %index %alg"
+    /** Text area attribute with specified id */
+    //% block="text region id %index %alg"
     //% weight=111
     //% index.min=1 index.defl=1
     //% subcategory="optical char recognition"
@@ -318,7 +318,7 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmEmotionRecognition);
     }
 
-    //% block="does emotion ID %index exist?"
+    //% block="does emotion id %index exist?"
     //% weight=98
     //% index.min=1 index.defl=1
     //% subcategory="face emotion recognition"
@@ -327,7 +327,7 @@ namespace huskylens2 {
         return r != null;
     }
 
-    //% block="number of emotions with ID %index"
+    //% block="number of emotions with id %index"
     //% weight=97
     //% index.min=1 index.defl=1
     //% subcategory="face emotion recognition"
@@ -335,7 +335,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmEmotionRecognition, index);
     }
 
-    //% block="emotion ID %index %alg"
+    //% block="emotion id %index %alg"
     //% weight=96
     //% index.min=1 index.defl=1
     //% subcategory="face emotion recognition"
@@ -344,7 +344,7 @@ namespace huskylens2 {
         return getEmotionPropertyValueID(r, alg);
     }
 
-    //% block="emotion ID %id No.%n %alg"
+    //% block="emotion id %id No.%n %alg"
     //% weight=95
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
@@ -360,7 +360,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case BasePropertyContentId.Id: return res.ID;
+            case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.Content: return res.content.length > 0 ? res.content : "";
             case BasePropertyContentId.XCenter: return res.xCenter;
@@ -416,7 +416,7 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmTagRecognition);
     }
 
-    //% block="does tag ID %index exist?"
+    //% block="does tag id %index exist?"
     //% weight=88
     //% index.min=1 index.defl=1
     //% subcategory="tag recognition"
@@ -425,7 +425,7 @@ namespace huskylens2 {
         return r != null;
     }
 
-    //% block="number of tags with ID %index"
+    //% block="number of tags with id %index"
     //% weight=87
     //% index.min=1 index.defl=1
     //% subcategory="tag recognition"
@@ -433,7 +433,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmTagRecognition, index);
     }
 
-    //% block="tag ID %index %alg"
+    //% block="tag id %index %alg"
     //% weight=86
     //% index.min=1 index.defl=1
     //% subcategory="tag recognition"
@@ -442,7 +442,7 @@ namespace huskylens2 {
         return getTagPropertyValue(r, alg);
     }
 
-    //% block="tag ID %id No.%n %alg"
+    //% block="tag id %id No.%n %alg"
     //% weight=85
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
@@ -457,7 +457,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case BasePropertyContentId.Id: return res.ID;
+            case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.Content: return res.content.length > 0 ? res.content : "";
             case BasePropertyContentId.XCenter: return res.xCenter;
@@ -514,7 +514,7 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmQrCodeRecognition);
     }
 
-    //% block="does QR code ID %index exist?"
+    //% block="does QR code id %index exist?"
     //% weight=78
     //% index.min=1 index.defl=1
     //% subcategory="QR code recognition"
@@ -523,7 +523,7 @@ namespace huskylens2 {
         return r != null;
     }
 
-    //% block="number of QR codes with ID %index"
+    //% block="number of QR codes with id %index"
     //% weight=77
     //% index.min=1 index.defl=1
     //% subcategory="QR code recognition"
@@ -531,7 +531,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmQrCodeRecognition, index);
     }
 
-    //% block="QR code ID %index %alg"
+    //% block="QR code id %index %alg"
     //% weight=76
     //% index.min=1 index.defl=1
     //% subcategory="QR code recognition"
@@ -540,7 +540,7 @@ namespace huskylens2 {
         return getQRCodePropertyValue(r, alg);
     }
 
-    //% block="QR code ID %id No.%n %alg"
+    //% block="QR code id %id No.%n %alg"
     //% weight=75
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
@@ -558,7 +558,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case BasePropertyContentId.Id: return res.ID;
+            case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.Content: return res.content.length > 0 ? res.content : "";
             case BasePropertyContentId.XCenter: return res.xCenter;
@@ -615,7 +615,7 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(Algorithm.AlgorithmBarcodeRecognition);
     }
 
-    //% block="does barcode ID %index exist?"
+    //% block="does barcode id %index exist?"
     //% weight=68
     //% index.min=1 index.defl=1
     //% subcategory="barcode recognition"
@@ -624,7 +624,7 @@ namespace huskylens2 {
         return r != null;
     }
 
-    //% block="number of barcodes with ID %index"
+    //% block="number of barcodes with id %index"
     //% weight=67
     //% index.min=1 index.defl=1
     //% subcategory="barcode recognition"
@@ -632,7 +632,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(Algorithm.AlgorithmBarcodeRecognition, index);
     }
 
-    //% block="barcode ID %index %alg"
+    //% block="barcode id %index %alg"
     //% weight=66
     //% index.min=1 index.defl=1
     //% subcategory="barcode recognition"
@@ -641,7 +641,7 @@ namespace huskylens2 {
         return getBarcodePropertyValue(r, alg);
     }
 
-    //% block="barcode ID %id No.%n %alg"
+    //% block="barcode id %id No.%n %alg"
     //% weight=65
     //% id.min=1 id.defl=1
     //% n.min=1 n.defl=1
@@ -663,9 +663,9 @@ namespace huskylens2 {
 
 
 
-    /** HUSKYLENS 2 switching algorithm ID until successful */
+    /** HUSKYLENS 2 switching algorithm id until successful */
     //% blockHidden=true
-    //% block="HUSKYLENS 2 switch algorithm ID %algorithmId until success"
+    //% block="HUSKYLENS 2 switch algorithm id %algorithmId until success"
     //% weight=64
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
@@ -674,9 +674,9 @@ namespace huskylens2 {
         switchAlgorithmInternal(algoId);
     }
 
-    /** Request for algorithm ID to store data once */
+    /** Request for algorithm id to store data once */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId request data and store result"
+    //% block="algorithm id %algorithmId request data and store result"
     //% weight=63
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
@@ -685,9 +685,9 @@ namespace huskylens2 {
         getResultInternal(algoId);
     }
 
-    /** Algorithm ID detects the target */
+    /** Algorithm id detects the target */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId target detected?"
+    //% block="algorithm id %algorithmId target detected?"
     //% weight=62
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
@@ -696,9 +696,9 @@ namespace huskylens2 {
         return availableInternal(algoId);
     }
 
-    /** Target attribute with algorithm ID close to the center */
+    /** Target attribute with algorithm id close to the center */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId target near center %alg1"
+    //% block="algorithm id %algorithmId target near center %alg1"
     //% weight=61
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
@@ -708,9 +708,9 @@ namespace huskylens2 {
         return getCustomModelPropertyValueID(r, alg1);
     }
 
-    /** The total number of targets detected by the algorithm ID */
+    /** The total number of targets detected by the algorithm id */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId number of detected targets"
+    //% block="algorithm id %algorithmId number of detected targets"
     //% weight=60
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
@@ -719,9 +719,9 @@ namespace huskylens2 {
         return getCachedResultNumInternal(algoId);
     }
 
-    /** The attribute of the num-th target of the algorithm ID */
+    /** The attribute of the num-th target of the algorithm id */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId target %num %alg1"
+    //% block="algorithm id %algorithmId target %num %alg1"
     //% weight=59
     //% algorithmId.min=1 algorithmId.defl=128
     //% num.min=1 num.defl=1
@@ -734,7 +734,7 @@ namespace huskylens2 {
 
     /** The total number of target IDs that the algorithm has learned */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId number of learned target IDs"
+    //% block="algorithm id %algorithmId number of learned target IDs"
     //% weight=58
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
@@ -743,9 +743,9 @@ namespace huskylens2 {
         return getCachedResultLearnedNumInternal(algoId);
     }
 
-    /** The objective of Algorithm ID exists. */
+    /** The objective of Algorithm id exists. */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId target ID %targetId exists?"
+    //% block="algorithm id %algorithmId target id %targetId exists?"
     //% weight=57
     //% algorithmId.min=1 algorithmId.defl=128
     //% targetId.min=1 targetId.defl=1
@@ -756,9 +756,9 @@ namespace huskylens2 {
         return r != null;
     }
 
-    /** The total target number of Algorithm ID ID */
+    /** The total target number of Algorithm id id */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId number of targets with ID %targetId"
+    //% block="algorithm id %algorithmId number of targets with id %targetId"
     //% weight=56
     //% algorithmId.min=1 algorithmId.defl=128
     //% targetId.min=1 targetId.defl=1
@@ -768,9 +768,9 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(algoId, targetId);
     }
 
-    /** The target attribute of Algorithm ID ID */
+    /** The target attribute of Algorithm id id */
     //% blockHidden=true
-    //% block="algorithm ID %algorithmId target ID %targetId %alg2"
+    //% block="algorithm id %algorithmId target id %targetId %alg2"
     //% weight=55
     //% algorithmId.min=1 algorithmId.defl=128
     //% targetId.min=1 targetId.defl=1
@@ -781,9 +781,9 @@ namespace huskylens2 {
         return getCustomModelPropertyValue(r, alg2);
     }
 
-    /** The attribute of the num-th target of algorithm ID ID */
+    /** The attribute of the num-th target of algorithm id id */
     //% blockHidden=true
-    //% block="algorithm %algorithmId ID%targetId No.%num %alg2"
+    //% block="algorithm %algorithmId id%targetId No.%num %alg2"
     //% inlineInputMode=inline
     //% weight=54
     //% algorithmId.min=1 algorithmId.defl=128

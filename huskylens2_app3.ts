@@ -14,7 +14,7 @@ namespace huskylens2 {
 
     // ================================================== fall detection ========================================
     /**
-     * Get fall detection Property Value (Include ID)
+     * Get fall detection Property Value (Include id)
      * @param result Result object
      * @param prop fall detection property
      */
@@ -22,7 +22,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case BasePropertyId.Id: return res.ID;
+            case BasePropertyId.Id: return res.id;
             case BasePropertyId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyId.XCenter: return res.xCenter;
             case BasePropertyId.YCenter: return res.yCenter;
@@ -93,7 +93,7 @@ namespace huskylens2 {
     // ================================ Face Orientation Detection Related Enums ==================================================
     // Face Orientation Detection Properties
     export enum FaceOrientationProperty {
-        //% block="ID"
+        //% block="id"
         Id = 0,
         //% block="name"
         Name,
@@ -120,7 +120,7 @@ namespace huskylens2 {
 
 
     /**
-     * Get Face Orientation Detection Property Value (Include ID)
+     * Get Face Orientation Detection Property Value (Include id)
      * @param result Result object
      * @param prop Face orientation detection property
      */
@@ -129,7 +129,7 @@ namespace huskylens2 {
         const res = result as Result;
         const p = prop | 0; // Ensure it's an integer
         switch (prop) {
-            case FaceOrientationProperty.Id: return res.ID || 0;
+            case FaceOrientationProperty.Id: return res.id || 0;
             case FaceOrientationProperty.Name: return res.name || "";
             case FaceOrientationProperty.Yaw: return res.yaw || 0;
             case FaceOrientationProperty.Pitch: return res.pitch || 0;
@@ -204,10 +204,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Does face orientation with ID %id exist?
-     * @param id Face orientation ID
+     * Does face orientation with id %id exist?
+     * @param id Face orientation id
      */
-    //% block="does face orientation with ID %id exist?"
+    //% block="does face orientation with id %id exist?"
     //% weight=133
     //% id.min=1 id.defl=1
     //% subcategory="faceorientation recognition"
@@ -217,10 +217,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Total number of face orientations with ID %id
-     * @param id Face orientation ID
+     * Total number of face orientations with id %id
+     * @param id Face orientation id
      */
-    //% block="total number of face orientations with ID %id"
+    //% block="total number of face orientations with id %id"
     //% weight=132
     //% id.min=1 id.defl=1
     //% subcategory="faceorientation recognition"
@@ -229,11 +229,11 @@ namespace huskylens2 {
     }
 
     /**
-     * %alg of face orientation with ID %id
-     * @param id Face orientation ID
-     * @param alg Face orientation detection property (excluding ID)
+     * %alg of face orientation with id %id
+     * @param id Face orientation id
+     * @param alg Face orientation detection property (excluding id)
      */
-    //% block="ID %id face orientation %alg"
+    //% block="id %id face orientation %alg"
     //% weight=131
     //% id.min=1 id.defl=1
     //% subcategory="faceorientation recognition"
@@ -243,12 +243,12 @@ namespace huskylens2 {
     }
 
     /**
-     * %alg of the [INDEX]th face orientation with ID %id
-     * @param id Face orientation ID
+     * %alg of the [INDEX]th face orientation with id %id
+     * @param id Face orientation id
      * @param index Which one (1-based)
-     * @param alg Face orientation detection property (excluding ID)
+     * @param alg Face orientation detection property (excluding id)
      */
-    //% block="ID %id of the %index th face orientation %alg "
+    //% block="id %id of the %index th face orientation %alg "
     //% weight=130
     //% id.min=1 id.defl=1
     //% index.min=1 index.defl=1
@@ -260,9 +260,9 @@ namespace huskylens2 {
     }
 
     // ==================================== gaze direction detection Related Enums ===============================
-    // gaze direction detection Properties (Include ID)
+    // gaze direction detection Properties (Include id)
     export enum EyeGazeProperty {
-        //% block="ID"
+        //% block="id"
         Id = 0,
         //% block="name"
         Name,
@@ -276,7 +276,7 @@ namespace huskylens2 {
         Yaw
     }
 
-    // gaze direction detection Properties (excluding ID)
+    // gaze direction detection Properties (excluding id)
     export enum EyeGazePropertyId {
         //% block="name"
         Name = 1,
@@ -290,7 +290,7 @@ namespace huskylens2 {
         Yaw
     }
     /**
-     * Get gaze direction detection Property Value (Include ID)
+     * Get gaze direction detection Property Value (Include id)
      * @param result Result object
      * @param prop gaze direction detection property
      */
@@ -298,7 +298,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case EyeGazeProperty.Id: return res.ID;
+            case EyeGazeProperty.Id: return res.id;
             case EyeGazeProperty.Name: return res.name || "";
             case EyeGazeProperty.Angle: return res.angle;        // Projected angle
             case EyeGazeProperty.Length: return res.length;      // Projected length
@@ -375,10 +375,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Does gaze direction with ID %id exist?
-     * @param id Gaze direction ID
+     * Does gaze direction with id %id exist?
+     * @param id Gaze direction id
      */
-    //% block="does gaze direction with ID %id exist?"
+    //% block="does gaze direction with id %id exist?"
     //% weight=123
     //% id.min=1 id.defl=1
     //% subcategory="gaze direction detection"
@@ -388,10 +388,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Total number of gaze directions with ID %id
-     * @param id Gaze direction ID
+     * Total number of gaze directions with id %id
+     * @param id Gaze direction id
      */
-    //% block="total number of gaze directions with ID %id"
+    //% block="total number of gaze directions with id %id"
     //% weight=122
     //% id.min=1 id.defl=1
     //% subcategory="gaze direction detection"
@@ -400,11 +400,11 @@ namespace huskylens2 {
     }
 
     /**
-     * %alg of gaze direction with ID %id
-     * @param id Gaze direction ID
-     * @param alg gaze direction detection property (excluding ID)
+     * %alg of gaze direction with id %id
+     * @param id Gaze direction id
+     * @param alg gaze direction detection property (excluding id)
      */
-    //% block="ID %id gaze direction %alg "
+    //% block="id %id gaze direction %alg "
     //% weight=121
     //% id.min=1 id.defl=1
     //% subcategory="gaze direction detection"
@@ -414,12 +414,12 @@ namespace huskylens2 {
     }
 
     /**
-     * %alg of the [INDEX]th gaze direction with ID %id
-     * @param id Gaze direction ID
+     * %alg of the [INDEX]th gaze direction with id %id
+     * @param id Gaze direction id
      * @param index Which one (1-based)
-     * @param alg gaze direction detection property (excluding ID)
+     * @param alg gaze direction detection property (excluding id)
      */
-    //% block="ID %id of the %index th gaze direction %alg"
+    //% block="id %id of the %index th gaze direction %alg"
     //% weight=120
     //% id.min=1 id.defl=1
     //% index.min=1 index.defl=1
@@ -432,7 +432,7 @@ namespace huskylens2 {
 
     // ==================================== Self-trained model related enums ========================================
     
-    //% block="HUSKYLENS 2 switch to custom-trained model, model ID%num"
+    //% block="HUSKYLENS 2 switch to custom-trained model, model id%num"
     //% weight=119
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -442,7 +442,7 @@ namespace huskylens2 {
         basic.pause(5000); // Wait 5 seconds for model loading
     }
 
-    //% block="model ID%num request data and save to results"
+    //% block="model id%num request data and save to results"
     //% weight=118
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -451,7 +451,7 @@ namespace huskylens2 {
         getResultInternal(num);
     }
 
-    //% block="model ID%num target detected?"
+    //% block="model id%num target detected?"
     //% weight=117
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -459,7 +459,7 @@ namespace huskylens2 {
         return availableInternal(num);
     }
 
-    //% block="model ID%num target closest to center%alg"
+    //% block="model id%num target closest to center%alg"
     //% weight=116
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -470,7 +470,7 @@ namespace huskylens2 {
         if (!result) return 0;
         
         switch (alg) {
-            case BasePropertyId.Id: return result.ID || 0;
+            case BasePropertyId.Id: return result.id || 0;
             case BasePropertyId.Name:return result.name|| "";
             case BasePropertyId.XCenter:return result.xCenter|| 0;
             case BasePropertyId.YCenter:return result.yCenter|| 0;
@@ -482,7 +482,7 @@ namespace huskylens2 {
         }
     }
 
-    //% block="model ID%num total number of detected targets"
+    //% block="model id%num total number of detected targets"
     //% weight=115
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -490,7 +490,7 @@ namespace huskylens2 {
         return getCachedResultNumInternal(num);
     }
 
-    //% block="model ID%num total number of learned target IDs"
+    //% block="model id%num total number of learned target IDs"
     //% weight=114
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -498,7 +498,7 @@ namespace huskylens2 {
         return getCachedResultMaxID(num);
     }
 
-    //% block="model ID%num No.%index target%alg"
+    //% block="model id%num No.%index target%alg"
     //% weight=113
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -515,7 +515,7 @@ namespace huskylens2 {
         }
         
         switch (alg) {
-            case BasePropertyId.Id: return result.ID || 0;
+            case BasePropertyId.Id: return result.id || 0;
             case BasePropertyId.Name:return result.name || "";
             case BasePropertyId.XCenter:return result.xCenter|| 0;
             case BasePropertyId.YCenter:return result.yCenter|| 0;
@@ -526,7 +526,7 @@ namespace huskylens2 {
         }
     }
 
-    //% block="model ID%num target ID%id exists?"
+    //% block="model id%num target id%id exists?"
     //% weight=112
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -535,7 +535,7 @@ namespace huskylens2 {
         return getCachedResultByIDInternal(num, id) !== null;
     }
 
-    //% block="model ID%num total number of targets with ID%id"
+    //% block="model id%num total number of targets with id%id"
     //% weight=111
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -544,7 +544,7 @@ namespace huskylens2 {
         return getCachedResultNumByIDInternal(num, id);
     }
 
-    //% block="model ID%num target with ID%id%alg"
+    //% block="model id%num target with id%id%alg"
     //% weight=110
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -570,7 +570,7 @@ namespace huskylens2 {
         }
     }
 
-    //% block="model ID %num ID %id the %index target of %alg""
+    //% block="model id %num id %id the %index target of %alg""
     //% weight=109
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
