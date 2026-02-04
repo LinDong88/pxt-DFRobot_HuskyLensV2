@@ -18,16 +18,16 @@ namespace huskylens2 {
      * @param result Result object
      * @param prop fall detection property
      */
-    export function getFallDetectionPropertyValue(result: ResultVariant, prop: BasePropertyID): any {
+    export function getFallDetectionPropertyValue(result: ResultVariant, prop: BasePropertyId): any {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case BasePropertyID.ID: return res.ID;
-            case BasePropertyID.Name: return res.name.length > 0 ? res.name : "";
-            case BasePropertyID.XCenter: return res.xCenter;
-            case BasePropertyID.YCenter: return res.yCenter;
-            case BasePropertyID.Width: return res.width;
-            case BasePropertyID.Height: return res.height;
+            case BasePropertyId.Id: return res.ID;
+            case BasePropertyId.Name: return res.name.length > 0 ? res.name : "";
+            case BasePropertyId.XCenter: return res.xCenter;
+            case BasePropertyId.YCenter: return res.yCenter;
+            case BasePropertyId.Width: return res.width;
+            case BasePropertyId.Height: return res.height;
             default: return 0;
         }
     }
@@ -40,7 +40,7 @@ namespace huskylens2 {
     //% weight=149
     //% subcategory="fall detection"
     export function requestFallDetectionData(): void {
-        getResultInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
+        getResultInternal(Algorithm.AlgorithmFallDownRecognition);
     }
 
     /**
@@ -50,7 +50,7 @@ namespace huskylens2 {
     //% weight=148
     //% subcategory="fall detection"
     export function fallDetected(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
+        return availableInternal(Algorithm.AlgorithmFallDownRecognition);
     }
 
     /**
@@ -60,8 +60,8 @@ namespace huskylens2 {
     //% block="closest fall detection %alg"
     //% weight=147
     //% subcategory="fall detection"
-    export function nearestFallDetection(alg: BasePropertyID): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
+    export function nearestFallDetection(alg: BasePropertyId): any {
+        const r = getCachedCenterResultInternal(Algorithm.AlgorithmFallDownRecognition);
         return getFallDetectionPropertyValue(r, alg);
     }
 
@@ -72,7 +72,7 @@ namespace huskylens2 {
     //% weight=146
     //% subcategory="fall detection"
     export function totalFallDetections(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.AlgorithmFallDownRecognition);
     }
 
     /**
@@ -85,8 +85,8 @@ namespace huskylens2 {
     //% weight=145
     //% index.min=1 index.defl=1
     //% subcategory="fall detection"
-    export function fallDetectionProperty(index: number, alg: BasePropertyID): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_FALLDOWN_RECOGNITION, index - 1);
+    export function fallDetectionProperty(index: number, alg: BasePropertyId): any {
+        const r = getCachedResultByIndexInternal(Algorithm.AlgorithmFallDownRecognition, index - 1);
         return getFallDetectionPropertyValue(r, alg);
     }
 
@@ -94,7 +94,7 @@ namespace huskylens2 {
     // Face Orientation Detection Properties
     export enum FaceOrientationProperty {
         //% block="ID"
-        ID = 0,
+        Id = 0,
         //% block="name"
         Name,
         //% block="roll angle"
@@ -106,7 +106,7 @@ namespace huskylens2 {
 
     }
     // Face Orientation Detection Properties
-    export enum FaceOrientationPropertyID {
+    export enum FaceOrientationPropertyId {
         //% block="name"
         Name = 1,
         //% block="roll angle"
@@ -129,7 +129,7 @@ namespace huskylens2 {
         const res = result as Result;
         const p = prop | 0; // Ensure it's an integer
         switch (prop) {
-            case FaceOrientationProperty.ID: return res.ID || 0;
+            case FaceOrientationProperty.Id: return res.ID || 0;
             case FaceOrientationProperty.Name: return res.name || "";
             case FaceOrientationProperty.Yaw: return res.yaw || 0;
             case FaceOrientationProperty.Pitch: return res.pitch || 0;
@@ -144,7 +144,7 @@ namespace huskylens2 {
     //% weight=139
     //% subcategory="faceorientation recognition"
     export function requestFaceOrientationData(): void {
-        getResultInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
+        getResultInternal(Algorithm.AlgorithmFaceOrientation);
     }
 
     /**
@@ -154,7 +154,7 @@ namespace huskylens2 {
     //% weight=138
     //% subcategory="faceorientation recognition"
     export function faceOrientationDetected(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
+        return availableInternal(Algorithm.AlgorithmFaceOrientation);
     }
 
     /**
@@ -165,7 +165,7 @@ namespace huskylens2 {
     //% weight=137
     //% subcategory="faceorientation recognition"
     export function nearestFaceOrientation(alg: FaceOrientationProperty): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
+        const r = getCachedCenterResultInternal(Algorithm.AlgorithmFaceOrientation);
         return getFaceOrientationPropertyValue(r, alg);
     }
 
@@ -176,7 +176,7 @@ namespace huskylens2 {
     //% weight=136
     //% subcategory="faceorientation recognition"
     export function totalFaceOrientations(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
+        return getCachedResultNumInternal(Algorithm.AlgorithmFaceOrientation);
     }
 
     /**
@@ -186,7 +186,7 @@ namespace huskylens2 {
     //% weight=135
     //% subcategory="faceorientation recognition"
     export function totalLearnedFaceOrientations(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_FACE_ORIENTATION);
+        return getCachedResultLearnedNumInternal(Algorithm.AlgorithmFaceOrientation);
     }
 
     /**
@@ -199,7 +199,7 @@ namespace huskylens2 {
     //% index.min=1 index.defl=1
     //% subcategory="faceorientation recognition"
     export function faceOrientationProperty(index: number, alg: FaceOrientationProperty): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, index - 1);
+        const r = getCachedResultByIndexInternal(Algorithm.AlgorithmFaceOrientation, index - 1);
         return getFaceOrientationPropertyValue(r, alg);
     }
 
@@ -212,7 +212,7 @@ namespace huskylens2 {
     //% id.min=1 id.defl=1
     //% subcategory="faceorientation recognition"
     export function faceOrientationIDExists(id: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, id);
+        const r = getCachedResultByIDInternal(Algorithm.AlgorithmFaceOrientation, id);
         return r != null;
     }
 
@@ -225,7 +225,7 @@ namespace huskylens2 {
     //% id.min=1 id.defl=1
     //% subcategory="faceorientation recognition"
     export function totalFaceOrientationsWithID(id: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, id);
+        return getCachedResultNumByIDInternal(Algorithm.AlgorithmFaceOrientation, id);
     }
 
     /**
@@ -237,8 +237,8 @@ namespace huskylens2 {
     //% weight=131
     //% id.min=1 id.defl=1
     //% subcategory="faceorientation recognition"
-    export function faceOrientationWithID(id: number, alg: FaceOrientationPropertyID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, id);
+    export function faceOrientationWithID(id: number, alg: FaceOrientationPropertyId): any {
+        const r = getCachedResultByIDInternal(Algorithm.AlgorithmFaceOrientation, id);
         return getFaceOrientationPropertyValue(r, alg);
     }
 
@@ -254,16 +254,16 @@ namespace huskylens2 {
     //% index.min=1 index.defl=1
 
     //% subcategory="faceorientation recognition"
-    export function faceOrientationWithIDProperty(id: number, index: number, alg: FaceOrientationPropertyID): any {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_FACE_ORIENTATION, id, index - 1);
+    export function faceOrientationWithIDProperty(id: number, index: number, alg: FaceOrientationPropertyId): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmFaceOrientation, id, index - 1);
         return getFaceOrientationPropertyValue(r, alg);
     }
 
     // ==================================== gaze direction detection Related Enums ===============================
     // gaze direction detection Properties (Include ID)
-    export enum Eye_GAZE_PROPERTY {
+    export enum EyeGazeProperty {
         //% block="ID"
-        ID = 0,
+        Id = 0,
         //% block="name"
         Name,
         //% block="projected Angle"
@@ -277,7 +277,7 @@ namespace huskylens2 {
     }
 
     // gaze direction detection Properties (excluding ID)
-    export enum Eye_GAZE_PROPERTY_ID {
+    export enum EyeGazePropertyId {
         //% block="name"
         Name = 1,
         //% block="projected Angle"
@@ -298,12 +298,12 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (prop) {
-            case Eye_GAZE_PROPERTY.ID: return res.ID;
-            case Eye_GAZE_PROPERTY.Name: return res.name || "";
-            case Eye_GAZE_PROPERTY.Angle: return res.angle;        // Projected angle
-            case Eye_GAZE_PROPERTY.Length: return res.length;      // Projected length
-            case Eye_GAZE_PROPERTY.Pitch: return res.pitch;        // Pitch angle
-            case Eye_GAZE_PROPERTY.Yaw: return res.yaw;           // Yaw angle
+            case EyeGazeProperty.Id: return res.ID;
+            case EyeGazeProperty.Name: return res.name || "";
+            case EyeGazeProperty.Angle: return res.angle;        // Projected angle
+            case EyeGazeProperty.Length: return res.length;      // Projected length
+            case EyeGazeProperty.Pitch: return res.pitch;        // Pitch angle
+            case EyeGazeProperty.Yaw: return res.yaw;           // Yaw angle
             default: return 0;
         }
     }
@@ -315,7 +315,7 @@ namespace huskylens2 {
     //% weight=129
     //% subcategory="gaze direction detection"
     export function requestEyeGazeData(): void {
-        getResultInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+        getResultInternal(Algorithm.AlgorithmGazeRecognition);
     }
 
     /**
@@ -325,7 +325,7 @@ namespace huskylens2 {
     //% weight=128
     //% subcategory="gaze direction detection"
     export function eyeGazeDetected(): boolean {
-        return availableInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+        return availableInternal(Algorithm.AlgorithmGazeRecognition);
     }
 
     /**
@@ -335,8 +335,8 @@ namespace huskylens2 {
     //% block="closest gaze direction %alg"
     //% weight=127
     //% subcategory="gaze direction detection"
-    export function nearestEyeGaze(alg: Eye_GAZE_PROPERTY): any {
-        const r = getCachedCenterResultInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+    export function nearestEyeGaze(alg: EyeGazeProperty): any {
+        const r = getCachedCenterResultInternal(Algorithm.AlgorithmGazeRecognition);
         return getEyeGazePropertyValue(r, alg);
     }
 
@@ -347,7 +347,7 @@ namespace huskylens2 {
     //% weight=126
     //% subcategory="gaze direction detection"
     export function totalEyeGazes(): number {
-        return getCachedResultNumInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+        return getCachedResultNumInternal(Algorithm.AlgorithmGazeRecognition);
     }
 
     /**
@@ -357,7 +357,7 @@ namespace huskylens2 {
     //% weight=125
     //% subcategory="gaze direction detection"
     export function totalLearnedEyeGazes(): number {
-        return getCachedResultLearnedNumInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION);
+        return getCachedResultLearnedNumInternal(Algorithm.AlgorithmGazeRecognition);
     }
 
     /**
@@ -369,8 +369,8 @@ namespace huskylens2 {
     //% weight=124
     //% index.min=1 index.defl=1
     //% subcategory="gaze direction detection"
-    export function eyeGazeProperty(index: number, alg: Eye_GAZE_PROPERTY): any {
-        const r = getCachedResultByIndexInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, index - 1);
+    export function eyeGazeProperty(index: number, alg: EyeGazeProperty): any {
+        const r = getCachedResultByIndexInternal(Algorithm.AlgorithmGazeRecognition, index - 1);
         return getEyeGazePropertyValue(r, alg);
     }
 
@@ -383,7 +383,7 @@ namespace huskylens2 {
     //% id.min=1 id.defl=1
     //% subcategory="gaze direction detection"
     export function gazeIDExists(id: number): boolean {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, id);
+        const r = getCachedResultByIDInternal(Algorithm.AlgorithmGazeRecognition, id);
         return r != null;
     }
 
@@ -396,7 +396,7 @@ namespace huskylens2 {
     //% id.min=1 id.defl=1
     //% subcategory="gaze direction detection"
     export function totalEyeGazesWithID(id: number): number {
-        return getCachedResultNumByIDInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, id);
+        return getCachedResultNumByIDInternal(Algorithm.AlgorithmGazeRecognition, id);
     }
 
     /**
@@ -408,8 +408,8 @@ namespace huskylens2 {
     //% weight=121
     //% id.min=1 id.defl=1
     //% subcategory="gaze direction detection"
-    export function gazeWithID(id: number, alg: Eye_GAZE_PROPERTY_ID): any {
-        const r = getCachedResultByIDInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, id);
+    export function gazeWithID(id: number, alg: EyeGazePropertyId): any {
+        const r = getCachedResultByIDInternal(Algorithm.AlgorithmGazeRecognition, id);
         return getEyeGazePropertyValue(r, alg);
     }
 
@@ -424,8 +424,8 @@ namespace huskylens2 {
     //% id.min=1 id.defl=1
     //% index.min=1 index.defl=1
     //% subcategory="gaze direction detection"
-    export function gazeWithIDProperty(id: number, index: number, alg: Eye_GAZE_PROPERTY_ID): any {
-        const r = getCachedIndexResultByIDInternal(Algorithm.ALGORITHM_GAZE_RECOGNITION, id, index - 1);
+    export function gazeWithIDProperty(id: number, index: number, alg: EyeGazePropertyId): any {
+        const r = getCachedIndexResultByIDInternal(Algorithm.AlgorithmGazeRecognition, id, index - 1);
         return getEyeGazePropertyValue(r, alg);
     }
 
@@ -463,19 +463,19 @@ namespace huskylens2 {
     //% weight=116
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    //% alg.defl=BasePropertyID.ID
-    export function nearest(num: number, alg: BasePropertyID): any {
+    //% alg.defl=BasePropertyId.Id
+    export function nearest(num: number, alg: BasePropertyId): any {
         const res = getCachedCenterResultInternal(num);
         const result = res as Result;
         if (!result) return 0;
         
         switch (alg) {
-            case BasePropertyID.ID: return result.ID || 0;
-            case BasePropertyID.Name:return result.name|| "";
-            case BasePropertyID.XCenter:return result.xCenter|| 0;
-            case BasePropertyID.YCenter:return result.yCenter|| 0;
-            case BasePropertyID.Width:return result.width|| 0;
-            case BasePropertyID.Height: return result.height|| 0;
+            case BasePropertyId.Id: return result.ID || 0;
+            case BasePropertyId.Name:return result.name|| "";
+            case BasePropertyId.XCenter:return result.xCenter|| 0;
+            case BasePropertyId.YCenter:return result.yCenter|| 0;
+            case BasePropertyId.Width:return result.width|| 0;
+            case BasePropertyId.Height: return result.height|| 0;
 
             default:
                 return 0;
@@ -503,24 +503,24 @@ namespace huskylens2 {
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
     //% INDEX.min=1 INDEX.max=6 INDEX.defl=1
-    //% alg.defl=BasePropertyID.ID
-    export function Property(num: number, INDEX: number, alg: BasePropertyID): any {
+    //% alg.defl=BasePropertyId.Id
+    export function Property(num: number, INDEX: number, alg: BasePropertyId): any {
         const res = getCachedResultByIndexInternal(num, INDEX - 1);
         const result = res as Result;
         if (!result) {
-            if (alg === BasePropertyID.Name ) {
+            if (alg === BasePropertyId.Name ) {
                 return "";
             }
             return 0;
         }
         
         switch (alg) {
-            case BasePropertyID.ID: return result.ID || 0;
-            case BasePropertyID.Name:return result.name || "";
-            case BasePropertyID.XCenter:return result.xCenter|| 0;
-            case BasePropertyID.YCenter:return result.yCenter|| 0;
-            case BasePropertyID.Width:return result.width|| 0;
-            case BasePropertyID.Height:return result.height|| 0;
+            case BasePropertyId.Id: return result.ID || 0;
+            case BasePropertyId.Name:return result.name || "";
+            case BasePropertyId.XCenter:return result.xCenter|| 0;
+            case BasePropertyId.YCenter:return result.yCenter|| 0;
+            case BasePropertyId.Width:return result.width|| 0;
+            case BasePropertyId.Height:return result.height|| 0;
             default:
                 return 0;
         }
