@@ -1,5 +1,5 @@
 {
-    "huskylensV2": "",
-    "huskylensV2.I2CInit": "initialize I2C until successful"
+    "huskylens2": "",
+    "huskylens2.I2CInit": "initialize I2C until successful"
 
 } 

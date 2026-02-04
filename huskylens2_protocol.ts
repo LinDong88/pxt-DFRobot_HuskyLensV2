@@ -10,7 +10,7 @@
 
 //% weight=100 color=#0fbc11 icon="\uf083" block="HuskylensV2"
 //% groups='["communication","algorithm switch"]'
-namespace huskylensV2 {
+namespace huskylens2 {
     // MakeCode global types are automatically injected, these declarations are only to suppress IDE warnings
     // These declarations are not needed in the actual MakeCode compilation environment
     // ==================== Low-level communication Code ====================

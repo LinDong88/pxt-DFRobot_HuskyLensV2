@@ -10,7 +10,7 @@
 
 //% weight=100 color=#0fbc11 icon="\uf083" block="HuskylensV2"
 //% groups='["communication","algorithm switch"]'
-namespace huskylensV2 {
+namespace huskylens2 {
     // ================= Block =================
     /**
      *  Init I2C until success

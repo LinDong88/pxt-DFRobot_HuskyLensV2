@@ -9,8 +9,8 @@ HuskyLens 2 offers a very detailed tutorial on using MakeCode.(https://wiki.dfro
 * HuskyLens 2 Init I2C and select pattern.
 
 ```blocks
-    huskylensV2.I2CInit()
-    huskylensV2.switchAlgorithm(huskylensV2.Algorithm.ALGORITHM_FACE_RECOGNITION)
+    huskylens2.I2CInit()
+    huskylens2.switchAlgorithm(huskylens2.Algorithm.ALGORITHM_FACE_RECOGNITION)
 
 ```
 
@@ -18,14 +18,14 @@ HuskyLens 2 offers a very detailed tutorial on using MakeCode.(https://wiki.dfro
 
 ```blocks
     basic.forever(function () {
-        huskylensV2.getResultFaceRecogtion()
-        if (huskylensV2.availableFaceRecogtion()) {
-            serial.writeLine("ID:" + huskylensV2.getCachedCenterResult(huskylensV2.BasePropertyID.ID))
-            serial.writeLine("NAME:" + huskylensV2.getCachedCenterResult(huskylensV2.BasePropertyID.Name))
-            serial.writeLine("X:" + huskylensV2.getCachedCenterResult(huskylensV2.BasePropertyID.XCenter))
-            serial.writeLine("Y:" + huskylensV2.getCachedCenterResult(huskylensV2.BasePropertyID.YCenter))
-            serial.writeLine("W:" + huskylensV2.getCachedCenterResult(huskylensV2.BasePropertyID.Width))
-            serial.writeLine("H:" + huskylensV2.getCachedCenterResult(huskylensV2.BasePropertyID.Height))
+        huskylens2.getResultFaceRecogtion()
+        if (huskylens2.availableFaceRecogtion()) {
+            serial.writeLine("ID:" + huskylens2.getCachedCenterResult(huskylens2.BasePropertyID.ID))
+            serial.writeLine("NAME:" + huskylens2.getCachedCenterResult(huskylens2.BasePropertyID.Name))
+            serial.writeLine("X:" + huskylens2.getCachedCenterResult(huskylens2.BasePropertyID.XCenter))
+            serial.writeLine("Y:" + huskylens2.getCachedCenterResult(huskylens2.BasePropertyID.YCenter))
+            serial.writeLine("W:" + huskylens2.getCachedCenterResult(huskylens2.BasePropertyID.Width))
+            serial.writeLine("H:" + huskylens2.getCachedCenterResult(huskylens2.BasePropertyID.Height))
             serial.writeLine("----")
         }
     })
