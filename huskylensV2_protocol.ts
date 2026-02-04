@@ -1,12 +1,19 @@
-/**
- * Custom graphic block
- */
-//% weight=100 color=#0fbc11 icon="\uf067" block="HuskylensV2"
-//% groups='["Communication","Algorithm Switch","Face Recognition","Object Recognition","Object Tracking","Color Recognition","Object Classification","Self-learning Classification","Instance Segmentation","Hand Recognition","Pose Recognition","License Plate Recognition","Optical Char Recognition","Line Tracking","Face Emotion Recognition","Tag Recognition","QR Code Recognition","Barcode Recognition"]'
+/** 
+ * @file huskylensV2_protocol.ts
+ * @brief DFRobot's huskylens 2 makecode library.
+ * @n [Get the module here](https://github.com/DFRobot/pxt-DFRobot_HuskyLensV2)
+ * @copyright    [DFRobot](http://www.dfrobot.com), 2026
+ * @license The MIT License (MIT)
+ * @author [email](rong.li@dfrobot.com)
+ * @date  2026-2-2
+*/
+
+//% weight=100 color=#0fbc11 icon="\uf083" block="HuskylensV2"
+//% groups='["communication","algorithm switch"]'
 namespace huskylensV2 {
     // MakeCode global types are automatically injected, these declarations are only to suppress IDE warnings
     // These declarations are not needed in the actual MakeCode compilation environment
-    // ==================== Low-level Communication Code ====================
+    // ==================== Low-level communication Code ====================
     export const enum Macro {
         I2CADDR = 0x50,
         // ===================== Commands ====================
@@ -178,7 +185,7 @@ namespace huskylensV2 {
             return new PacketData(buffer);
         }
 
-        // 第一个union - uint8_t类型
+        // First union - uint8_t type
         get ID() { return this.buffer[0] }
         set ID(v: number) { this.buffer[0] = v & 0xff; }
 
@@ -188,7 +195,7 @@ namespace huskylensV2 {
         get rfu0() { return this.buffer[0] }
         set rfu0(v: number) { this.buffer[0] = v & 0xff; }
 
-        get resolution() { return this.buffer[0] }  // 新增：分辨率
+        get resolution() { return this.buffer[0] }  // Added: resolution
         set resolution(v: number) { this.buffer[0] = v & 0xff; }
 
         get boardType() { return this.buffer[0] }
@@ -197,25 +204,25 @@ namespace huskylensV2 {
         get multiAlgoNum() { return this.buffer[0] }
         set multiAlgoNum(v: number) { this.buffer[0] = v & 0xff; }
 
-        // 第二个union - int8_t类型
+        // Second union - int8_t type
         get rfu1() { return this.buffer[1]; }
         set rfu1(v: number) { this.buffer[1] = v & 0xff; }
 
         get level() { return this.buffer[1]; }
         set level(v: number) { this.buffer[1] = v & 0xff; }
 
-        get mediaType() { return this.buffer[1]; }  // 新增：媒体类型
+        get mediaType() { return this.buffer[1]; }  // Added: media type
         set mediaType(v: number) { this.buffer[1] = v & 0xff; }
 
-        get retValue() { return this.buffer[1]; }  // 新增：返回值
+        get retValue() { return this.buffer[1]; }  // Added: return value
         set retValue(v: number) { this.buffer[1] = v & 0xff; }
 
-        get lineWidth() { return this.buffer[1]; }  // 新增：线宽
+        get lineWidth() { return this.buffer[1]; }  // Added: line width
         set lineWidth(v: number) { this.buffer[1] = v & 0xff; }
 
         get confidence() { return this.buffer[1]; }
         set confidence(v: number) { this.buffer[1] = v & 0xff; }
-        // 第三个 union - int16_t（buffer[2], buffer[3]）
+        // Third union - int16_t (buffer[2], buffer[3])
         get first() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
         set first(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
@@ -240,7 +247,7 @@ namespace huskylensV2 {
         get pitch() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
         set pitch(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        // 第四个 union - int16_t（buffer[4], buffer[5]）
+        // Fourth union - int16_t (buffer[4], buffer[5])
         get second() { const value = this.buffer[4] + this.buffer[5] * 256; return value > 32767 ? value - 65536 : value; }
         set second(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
@@ -256,7 +263,7 @@ namespace huskylensV2 {
         get yaw() { const value = this.buffer[4] + this.buffer[5] * 256; return value > 32767 ? value - 65536 : value; }
         set yaw(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[4] = v & 0xff; this.buffer[5] = (v >> 8) & 0xff; }
 
-        // 第五个 union - int16_t（buffer[6], buffer[7]）
+        // Fifth union - int16_t (buffer[6], buffer[7])
         get third() { const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value; }
         set third(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
@@ -275,7 +282,7 @@ namespace huskylensV2 {
         get roll() { const value = this.buffer[6] + this.buffer[7] * 256; return value > 32767 ? value - 65536 : value; }
         set roll(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[6] = v & 0xff; this.buffer[7] = (v >> 8) & 0xff; }
 
-        // 第六个 union - int16_t（buffer[8], buffer[9]）
+        // Sixth union - int16_t (buffer[8], buffer[9])
         get fourth() { const value = this.buffer[8] + this.buffer[9] * 256; return value > 32767 ? value - 65536 : value; }
         set fourth(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[8] = v & 0xff; this.buffer[9] = (v >> 8) & 0xff; }
 
@@ -534,16 +541,16 @@ namespace huskylensV2 {
     }
 
     /**
-     * 等待指定命令的响应
-     * @param expectedCommand 期望收到的命令
-     * @param retry 重试次数，默认为3
-     * @param pkt 可选的数据包，如果提供则每次重试前会发送
-     * @param pauseMs 每次重试之间的暂停时间（毫秒），默认为100
-     * @returns 是否收到期望的命令
+     * Wait for the response to the specified command
+     * @param expectedCommand Expected command to receive
+     * @param retry Retry count, default is 3
+     * @param pkt Optional packet; if provided, it is sent before each retry
+     * @param pauseMs Pause between retries (ms), default is 100
+     * @returns Whether the expected command was received
      */
     function waitForResponse(expectedCommand: number, retry: number = 3, pkt?: Buffer, pauseMs: number = 100): boolean {
         for (let i = 0; i < retry; i++) {
-            // 如果提供了数据包，在每次重试前发送
+            // If a packet is provided, send it before each retry
             if (pkt) {
                 protocolWrite(pkt);
                 if (pauseMs > 0) {
@@ -551,7 +558,7 @@ namespace huskylensV2 {
                 }
             }
 
-            // 等待响应
+            // Wait for response
             timerBegin();
             while (!timerAvailable()) {
                 if (protocolAvailable()) {
@@ -559,7 +566,7 @@ namespace huskylensV2 {
                     if (expectedCommand === receivedCmd) {
                         return true;
                     }
-                    // 如果收到其他命令，继续等待
+                    // If another command is received, keep waiting
                 }
                 basic.pause(10);
             }
@@ -572,9 +579,9 @@ namespace huskylensV2 {
     }
 
     /**
-     * 创建并初始化10字节的Buffer（第一个字节为指定值，其余为0）
-     * @param firstByte 第一个字节的值
-     * @returns 初始化后的Buffer
+     * Create and initialize a 10-byte Buffer (first byte set to the specified value, rest are 0)
+     * @param firstByte Value of the first byte
+     * @returns Initialized Buffer
      */
     function createInitializedBuffer(firstByte: number): Buffer {
         const buf = Buffer.create(10);
@@ -586,14 +593,14 @@ namespace huskylensV2 {
     }
 
     /**
-     * 发送命令并等待响应，检查返回值
-     * @param cmd 命令类型
-     * @param algoId 算法ID
-     * @param data 数据缓冲区
-     * @param retry 重试次数，默认为3
-     * @param pauseMs 每次重试之间的暂停时间（毫秒），默认为100
-     * @param expectedRetValue 期望的返回值，默认为0
-     * @returns 是否成功（收到响应且返回值匹配）
+     * Send command and wait for response, checking return value
+     * @param cmd Command type
+     * @param algoId Algorithm ID
+     * @param data Data buffer
+     * @param retry Retry count, default is 3
+     * @param pauseMs Pause between retries (ms), default is 100
+     * @param expectedRetValue Expected return value, default is 0
+     * @returns Whether successful (response received and return value matches)
      */
     function sendCommandAndCheckResponse(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100, expectedRetValue: number = 0): boolean {
         const pkt = PacketHead.fromFields({
@@ -609,13 +616,13 @@ namespace huskylensV2 {
     }
 
     /**
-     * 发送命令并等待响应（不检查返回值）
-     * @param cmd 命令类型
-     * @param algoId 算法ID
-     * @param data 数据缓冲区
-     * @param retry 重试次数，默认为3
-     * @param pauseMs 每次重试之间的暂停时间（毫秒），默认为100
-     * @returns 是否收到响应
+     * Send command and wait for response (without checking return value)
+     * @param cmd Command type
+     * @param algoId Algorithm ID
+     * @param data Data buffer
+     * @param retry Retry count, default is 3
+     * @param pauseMs Pause between retries (ms), default is 100
+     * @returns Whether a response was received
      */
     function sendCommandAndWait(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100): boolean {
         const pkt = PacketHead.fromFields({
@@ -627,13 +634,13 @@ namespace huskylensV2 {
     }
 
     /**
-     * 发送命令并获取响应数据（用于需要提取payload的情况）
-     * @param cmd 命令类型
-     * @param algoId 算法ID
-     * @param data 数据缓冲区
-     * @param retry 重试次数，默认为3
-     * @param pauseMs 每次重试之间的暂停时间（毫秒），默认为100
-     * @returns PacketData对象，如果失败返回null
+     * Send command and get response data (for cases where payload is needed)
+     * @param cmd Command type
+     * @param algoId Algorithm ID
+     * @param data Data buffer
+     * @param retry Retry count, default is 3
+     * @param pauseMs Pause between retries (ms), default is 100
+     * @returns PacketData object; returns null on failure
      */
     function sendCommandAndGetResponse(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100): PacketData | null {
         const pkt = PacketHead.fromFields({
@@ -651,11 +658,11 @@ namespace huskylensV2 {
     }
 
     /**
-     * 发送学习命令并获取学习ID
-     * @param cmd 命令类型（LEARN 或 LEARN_BLOCK）
-     * @param algoId 算法ID
-     * @param data 数据缓冲区
-     * @returns 学习到的ID，失败返回0
+     * Send learn command and get learned ID
+     * @param cmd Command type (LEARN or LEARN_BLOCK)
+     * @param algoId Algorithm ID
+     * @param data Data buffer
+     * @returns Learned ID; returns 0 on failure
      */
     function sendLearnCommand(cmd: number, algoId: number, data: Buffer): number {
         const pkt = PacketHead.fromFields({
@@ -671,12 +678,12 @@ namespace huskylensV2 {
     }
 
     /**
-     * 创建包含坐标和尺寸的10字节Buffer（用于LEARN_BLOCK命令）
-     * @param X X坐标
-     * @param Y Y坐标
-     * @param W 宽度
-     * @param H 高度
-     * @returns 初始化后的Buffer
+     * Create a 10-byte Buffer with coordinates and size (for LEARN_BLOCK command)
+     * @param X X coordinate
+     * @param Y Y coordinate
+     * @param W Width
+     * @param H Height
+     * @returns Initialized Buffer
      */
     function createBoxBuffer(X: number, Y: number, W: number, H: number): Buffer {
         const dataBuf = Buffer.create(10);
@@ -938,46 +945,46 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         if (volume < 0) volume = 0;
         if (volume > 100) volume = 100;
 
-        // 创建命令包
+        // Create command packet
         const dataBuf = Buffer.create(10);
-        dataBuf[0] = 0;  // 保留字节
-        dataBuf[1] = 0;  // 保留字节
-        // 设置音量（16位整数）
+        dataBuf[0] = 0;  // Reserved byte
+        dataBuf[1] = 0;  // Reserved byte
+        // Set volume (16-bit integer)
         dataBuf[2] = volume & 0xFF;
         dataBuf[3] = (volume >> 8) & 0xFF;
-        // 添加6个零字节
+        // Add six zero bytes
         for (let i = 4; i < 10; i++) {
             dataBuf[i] = 0;
         }
 
-        // 创建包头，包含字符串数据
+        // Create packet header including string data
         const nameBuf = Buffer.fromUTF8(name);
-        const totalBuf = Buffer.create(11 + nameBuf.length); // 10字节数据 + 1字节长度 + 名称长度
+        const totalBuf = Buffer.create(11 + nameBuf.length); // 10-byte data + 1-byte length + name length
         for (let i = 0; i < 10; i++) {
             totalBuf[i] = dataBuf[i];
         }
-        totalBuf[10] = nameBuf.length; // 名称长度
+        totalBuf[10] = nameBuf.length; // Name length
         for (let i = 0; i < nameBuf.length; i++) {
             totalBuf[11 + i] = nameBuf[i];
         }
 
-        // 发送命令并等待响应
+        // Send command and wait for response
         sendCommandAndCheckResponse(Macro.COMMAND_ACTION_PLAY_MUSIC, Algorithm.ALGORITHM_ANY, totalBuf);
     }
 
     let photoName: string = "";
-    //% block="take Photo"
+    //% block="take photo"
     //% weight=118
     //% subcategory="multimedia"
     export function takePhoto(): void {
-        const dataBuf = createInitializedBuffer(2);  // 设置分辨率2： RESOLUTION_1280x720
+        const dataBuf = createInitializedBuffer(2);  // Set resolution 2: RESOLUTION_1280x720
         const packetData = sendCommandAndGetResponse(Macro.COMMAND_ACTION_TAKE_PHOTO, Algorithm.ALGORITHM_ANY, dataBuf);
         if (packetData) {
             photoName = bufferToString(packetData.payload);
         }
     }
     let screenshotName: string = "";
-    //% block="Take a screenshot"
+    //% block="take a screenshot"
     //% weight=116
     //% subcategory="multimedia"
     export function takeScreenshot(): void {
@@ -994,37 +1001,37 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         }
     }
 
-    //% block="Obtain the name of the saved screenshot"
+    //% block="obtain the name of the saved screenshot"
     //% weight=115
     //% subcategory="multimedia"
     export function getStoredScreenshotName(): string {
         return screenshotName;
     }
 
-    //% block="Obtain the names of the stored photos"
+    //% block="obtain the names of the stored photos"
     //% weight=117
     //% subcategory="multimedia"
     export function getStoredPhotoName(): string {
         return photoName;
     }
 
-    //-------------------------------------------------Screen Display-----------------------------------
+    //-------------------------------------------------screen display-----------------------------------
     /**
-     * 内部函数：绘制矩形框（通用实现）
-     * @param cmd 命令类型（DRAW_RECT 或 DRAW_UNIQUE_RECT）
-     * @param color 颜色值
-     * @param lineWidth 线宽
-     * @param x X坐标
-     * @param y Y坐标
-     * @param w 宽度
-     * @param h 高度
+     * Internal function: draw rectangle (common implementation)
+     * @param cmd Command type (DRAW_RECT or DRAW_UNIQUE_RECT)
+     * @param color Color value
+     * @param lineWidth Line width
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param w Width
+     * @param h Height
      */
     function drawBoxInternal(cmd: number, color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
         const dataBuf = Buffer.create(16);
-        dataBuf[0] = 0;  // 保留字节
-        dataBuf[1] = lineWidth;  // 线宽
+        dataBuf[0] = 0;  // Reserved byte
+        dataBuf[1] = lineWidth;  // Line width
 
-        // 设置坐标和尺寸 (int16_t)
+        // Set coordinates and size (int16_t)
         dataBuf[2] = x & 0xFF;
         dataBuf[3] = (x >> 8) & 0xFF;
         dataBuf[4] = y & 0xFF;
@@ -1033,21 +1040,21 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         dataBuf[7] = (w >> 8) & 0xFF;
         dataBuf[8] = h & 0xFF;
         dataBuf[9] = (h >> 8) & 0xFF;
-        dataBuf[10] = 0;  // 保留
-        dataBuf[11] = 0;  // 保留
+        dataBuf[10] = 0;  // Reserved
+        dataBuf[11] = 0;  // Reserved
 
-        // 设置颜色 (int32_t)
+        // Set color (int32_t)
         dataBuf[12] = color & 0xFF;
         dataBuf[13] = (color >> 8) & 0xFF;
         dataBuf[14] = (color >> 16) & 0xFF;
         dataBuf[15] = (color >> 24) & 0xFF;
 
-        // 发送命令并等待响应
+        // Send command and wait for response
         sendCommandAndCheckResponse(cmd, Algorithm.ALGORITHM_ANY, dataBuf);
     }
 
     //% block="Draw or update indicator box Color%color Line width%lineWidth x%x y%y width%w height%h"
-    //% subcategory="Screen Display"
+    //% subcategory="screen display"
     //% weight=90
     //% color.min=0 
     //% lineWidth.min=1 lineWidth.max=10
@@ -1059,8 +1066,8 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         drawBoxInternal(Macro.COMMAND_ACTION_DRAW_UNIQUE_RECT, color, lineWidth, x, y, w, h);
     }
 
-    //% block="Draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
-    //% subcategory="Screen Display"
+    //% block="draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
+    //% subcategory="screen display"
     //% weight=89
     //% color.min=0 
     //% lineWidth.min=1 lineWidth.max=10
@@ -1072,18 +1079,18 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         drawBoxInternal(Macro.COMMAND_ACTION_DRAW_RECT, color, lineWidth, x, y, w, h);
     }
     export const enum fontSize {
-        FONT_20 = 20,
-        FONT_24 = 24,
-        FONT_26 = 26,
-        FONT_27 = 27,
-        FONT_28 = 28,
-        FONT_32 = 32,
-        FONT_36 = 36,
-        FONT_40 = 40,
-        FONT_48 = 48,
+        font20 = 20,
+        font24 = 24,
+        font26 = 26,
+        font27 = 27,
+        font28 = 28,
+        font32 = 32,
+        font36 = 36,
+        font40 = 40,
+        font48 = 48,
     }
-    //% block="Display text color%color fontSize%fontSize x%x y%y content%content"
-    //% subcategory="Screen Display"
+    //% block="display text color%color fontSize%fontSize x%x y%y content%content"
+    //% subcategory="screen display"
     //% weight=91
     //% color.min=0
     //% x.min=0 x.max=640
@@ -1092,46 +1099,46 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         const textBuf = Buffer.fromUTF8(content);
         const dataBuf = Buffer.create(20 + textBuf.length);
 
-        dataBuf[0] = 0;  // 保留字节
-        dataBuf[1] = fontSize;  // 字体大小
+        dataBuf[0] = 0;  // Reserved byte
+        dataBuf[1] = fontSize;  // Font size
 
-        // 设置坐标 (int16_t)
+        // Set coordinates (int16_t)
         dataBuf[2] = x & 0xFF;
         dataBuf[3] = (x >> 8) & 0xFF;
         dataBuf[4] = y & 0xFF;
         dataBuf[5] = (y >> 8) & 0xFF;
 
-        // 保留字段
-        dataBuf[6] = 0;  // 保留
-        dataBuf[7] = 0;  // 保留
-        dataBuf[8] = 0;  // 保留
-        dataBuf[9] = 0;  // 保留
+        // Reserved fields
+        dataBuf[6] = 0;  // Reserved
+        dataBuf[7] = 0;  // Reserved
+        dataBuf[8] = 0;  // Reserved
+        dataBuf[9] = 0;  // Reserved
 
-        // 文字长度
+        // Text length
         dataBuf[10] = textBuf.length;
 
-        // 文字内容
+        // Text content
         for (let i = 0; i < textBuf.length; i++) {
             dataBuf[11 + i] = textBuf[i];
         }
 
-        // 结束符和颜色
-        dataBuf[11 + textBuf.length] = 0;  // 结束符
+        // Terminator and color
+        dataBuf[11 + textBuf.length] = 0;  // Terminator
 
-        // 设置颜色 (int32_t)
+        // Set color (int32_t)
         dataBuf[12 + textBuf.length] = color & 0xFF;
         dataBuf[13 + textBuf.length] = (color >> 8) & 0xFF;
         dataBuf[14 + textBuf.length] = (color >> 16) & 0xFF;
         dataBuf[15 + textBuf.length] = (color >> 24) & 0xFF;
 
-        // 发送命令并等待响应
+        // Send command and wait for response
         sendCommandAndCheckResponse(Macro.COMMAND_ACTION_DRAW_TEXT, Algorithm.ALGORITHM_ANY, dataBuf);
     }
     /**
      * Clear text
      */
-    //% block="Clear text"
-    //% subcategory="Screen Display"
+    //% block="clear text"
+    //% subcategory="screen display"
     //% weight=88
     export function clearText(): void {
         sendCommandAndCheckResponse(Macro.COMMAND_ACTION_CLEAR_TEXT, Algorithm.ALGORITHM_ANY, Buffer.create(0));
@@ -1140,15 +1147,15 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
     /**
      * Clear indicator boxes and rectangles
      */
-    //% block="Clear indicator boxes and rectangles"
-    //% subcategory="Screen Display"
+    //% block="clear indicator boxes and rectangles"
+    //% subcategory="screen display"
     //% weight=87
     export function clearBoxes(): void {
         sendCommandAndCheckResponse(Macro.COMMAND_ACTION_CLEAR_RECT, Algorithm.ALGORITHM_ANY, Buffer.create(0));
     }
 
     //% block="set color red%red green%green blue%blue"
-    //% subcategory="Screen Display"
+    //% subcategory="screen display"
     //% weight=86
     //% red.min=0 red.max=255
     //% green.min=0 green.max=255
@@ -1157,37 +1164,37 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         red = Math.max(0, Math.min(255, red));
         green = Math.max(0, Math.min(255, green));
         blue = Math.max(0, Math.min(255, blue));
-        return ( blue<< 16) + (green << 8) + red;
+        return ( red<< 16) + (green << 8) + blue;
     }
 
-    //************************************* Learning /Forgetting   ********************************* */
+    //************************************* learning /forgetting   ********************************* */
     let learn_id = 0;
-    //% block="Get learned ID"
+    //% block="get learned ID"
     //% weight=100
-    //% subcategory="Learning /Forgetting"
+    //% subcategory="learning /forgetting"
     export function getLearnedID(): number {
         return learn_id || 0;
     }
 
-    //% block="Built-in model %alg learn target at center of screen"
+    //% block="built-in model %alg learn target at center of screen"
     //% weight=95
-    //% subcategory="Learning /Forgetting"
+    //% subcategory="learning /forgetting"
     //% alg.defl=Algorithm_learnObjectAtCenter.ALGORITHM_OBJECT_RECOGNITION
     export function learnObjectAtCenter(alg: Algorithm_learnObjectAtCenter): void {
         learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, alg, createInitializedBuffer(0));
     }
 
-    //% block="Built-in model %alg learn target at center of screen"
+    //% block="built-in model %alg learn target at center of screen"
     //% weight=94
-    //% subcategory="Learning /Forgetting"
+    //% subcategory="learning /forgetting"
     //% alg.defl=128
     export function learnObjectAtCenterNUM(alg: number): void {
         learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN, alg, createInitializedBuffer(0));
     }
 
-    //% block="Built-in model %alg learn target in specified box X%X Y%Y W%W H%H"
+    //% block="built-in model %alg learn target in specified box X%X Y%Y W%W H%H"
     //% weight=90
-    //% subcategory="Learning /Forgetting"
+    //% subcategory="learning /forgetting"
     //% alg.defl=Algorithm_learnObjectInBox.ALGORITHM_FACE_RECOGNITION
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
@@ -1197,9 +1204,9 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN_BLOCK, alg, createBoxBuffer(X, Y, W, H));
     }
 
-    //% block="Self-trained model %alg learn target in specified box X%X Y%Y W%W H%H"
+    //% block="self-trained model %alg learn target in specified box X%X Y%Y W%W H%H"
     //% weight=89
-    //% subcategory="Learning /Forgetting"
+    //% subcategory="learning /forgetting"
     //% alg.defl=128
     //% X.min=0 X.max=640
     //% Y.min=0 Y.max=480
@@ -1209,25 +1216,25 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         learn_id = sendLearnCommand(Macro.COMMAND_ACTION_LEARN_BLOCK, alg, createBoxBuffer(X, Y, W, H));
     }
 
-    //% block="Set built-in model %alg id%id name to %name"
+    //% block="set built-in model %alg id%id name to %name"
     //% weight=70
-    //% subcategory="Learning /Forgetting"
+    //% subcategory="learning /forgetting"
     //% alg.defl=AlgorithmLearn_setNameOfID.ALGORITHM_FACE_RECOGNITION
     //% id.min=1 id.max=100 id.defl=1
     //% name.defl="Object"
     export function setNameOfID(alg: AlgorithmLearn_setNameOfID, id: number, name: string): void {
-        // 创建包含ID和名称的Buffer
+        // Create a Buffer containing ID and name
         const nameBuf = Buffer.fromUTF8(name);
-        const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10字节 + 1字节长度 + 名称
+        const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10 bytes + 1-byte length + name
 
         dataBuf[0] = id; // id
-        // 填充剩余9个字节为0
+        // Fill the remaining 9 bytes with 0
         for (let i = 1; i < 10; i++) {
             dataBuf[i] = 0;
         }
-        // 名称长度
+        // Name length
         dataBuf[10] = nameBuf.length;
-        // 名称内容
+        // Name content
         for (let i = 0; i < nameBuf.length; i++) {
             dataBuf[11 + i] = nameBuf[i];
         }
@@ -1235,17 +1242,17 @@ export function getCachedCenterResultInternal(algo: number): ResultVariant | nul
         sendCommandAndWait(Macro.COMMAND_SET_NAME_BY_ID, alg, dataBuf);
     }
 
-    //% block="Forget built-in model %alg all IDs"
+    //% block="forget built-in model %alg all IDs"
     //% weight=80
-    //% subcategory="Learning /Forgetting"
+    //% subcategory="learning /forgetting"
     //% alg.defl=Algorithm.ALGORITHM_OBJECT_RECOGNITION
     export function forgetAllIDs(alg: Algorithm): void {
         sendCommandAndWait(Macro.COMMAND_ACTION_FORGET, alg, createInitializedBuffer(alg));
     }
 
-    //% block="Forget self-trained model %alg all IDs"
+    //% block="forget self-trained model %alg all IDs"
     //% weight=79
-    //% subcategory="Learning /Forgetting"
+    //% subcategory="learning /forgetting"
     //% alg.defl=128
     export function forgetAllIDsNUM(alg: number): void {
         sendCommandAndWait(Macro.COMMAND_ACTION_FORGET, alg, createInitializedBuffer(alg));
