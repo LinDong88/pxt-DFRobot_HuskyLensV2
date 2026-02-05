@@ -683,24 +683,24 @@ namespace huskylens2 {
 
     /**
      * Create a 10-byte Buffer with coordinates and size (for CommandActionLearnBlock)
-     * @param X X coordinate
-     * @param Y Y coordinate
-     * @param W Width
-     * @param H Height
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param w Width
+     * @param h Height
      * @returns Initialized Buffer
      */
-    function createBoxBuffer(X: number, Y: number, W: number, H: number): Buffer {
+    function createBoxBuffer(x: number, y: number, w: number, h: number): Buffer {
         const dataBuf = Buffer.create(10);
         dataBuf[0] = 0;   // reserved
         dataBuf[1] = 0;   // reserved
-        dataBuf[2] = X & 0xFF;
-        dataBuf[3] = (X >> 8) & 0xFF;
-        dataBuf[4] = Y & 0xFF;
-        dataBuf[5] = (Y >> 8) & 0xFF;
-        dataBuf[6] = W & 0xFF;
-        dataBuf[7] = (W >> 8) & 0xFF;
-        dataBuf[8] = H & 0xFF;
-        dataBuf[9] = (H >> 8) & 0xFF;
+        dataBuf[2] = x & 0xFF;
+        dataBuf[3] = (x >> 8) & 0xFF;
+        dataBuf[4] = y & 0xFF;
+        dataBuf[5] = (y >> 8) & 0xFF;
+        dataBuf[6] = w & 0xFF;
+        dataBuf[7] = (w >> 8) & 0xFF;
+        dataBuf[8] = h & 0xFF;
+        dataBuf[9] = (h >> 8) & 0xFF;
         return dataBuf;
     }
 
@@ -1031,8 +1031,8 @@ namespace huskylens2 {
      * @param cmd Command type (CommandActionDrawRect or CommandActionDrawUniqueRect)
      * @param color Color value
      * @param lineWidth Line width
-     * @param x X coordinate
-     * @param y Y coordinate
+     * @param x x coordinate
+     * @param y y coordinate
      * @param w Width
      * @param h Height
      */
@@ -1207,29 +1207,29 @@ namespace huskylens2 {
     }
 
     /** Learn a target within a specified box using a built-in model */
-    //% block="built-in model %property learn target in specified box X%X Y%Y W%W H%H"
+    //% block="built-in model %property learn target in specified box x%x y%y w%w h%h"
     //% weight=90
     //% subcategory="learning /forgetting"
     //% property.defl=AlgorithmLearnObjectInBox.AlgorithmFaceRecognition
-    //% X.min=0 X.max=640
-    //% Y.min=0 Y.max=480
-    //% W.min=10 W.max=100
-    //% H.min=10 H.max=100
-    export function learnObjectInBox(property: AlgorithmLearnObjectInBox, X: number, Y: number, W: number, H: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(X, Y, W, H));
+    //% x.min=0 x.max=640
+    //% y.min=0 y.max=480
+    //% w.min=10 w.max=100
+    //% h.min=10 h.max=100
+    export function learnObjectInBox(property: AlgorithmLearnObjectInBox, x: number, y: number, w: number, h: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(x, y, w, h));
     }
 
     /** Learn a target within a specified box using a self-trained model */
-    //% block="self-trained model %property learn target in specified box X%X Y%Y W%W H%H"
+    //% block="self-trained model %property learn target in specified box x%x y%y w%w h%h"
     //% weight=89
     //% subcategory="learning /forgetting"
     //% property.defl=128
-    //% X.min=0 X.max=640
-    //% Y.min=0 Y.max=480
-    //% W.min=10 W.max=100
-    //% H.min=10 H.max=100
-    export function learnObjectInBoxNUM(property: number, X: number, Y: number, W: number, H: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(X, Y, W, H));
+    //% x.min=0 x.max=640
+    //% y.min=0 y.max=480
+    //% w.min=10 w.max=100
+    //% h.min=10 h.max=100
+    export function learnObjectInBoxNUM(property: number, x: number, y: number, w: number, h: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(x, y, w, h));
     }
 
     /** Set the name of a built-in model's ID */
