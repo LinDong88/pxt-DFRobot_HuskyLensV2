@@ -760,7 +760,7 @@ namespace huskylens2 {
         return false;
     }
 
-    export function getCachedResultMaxID(algo: number): number {
+    export function cachedResultMaxID(algo: number): number {
         const cacheAlgo = 0;
         return maxID[cacheAlgo] || 0;
     }
@@ -818,7 +818,7 @@ namespace huskylens2 {
         return count;
     }
 
-    export function getCachedCenterResultInternal(algo: number): ResultVariant | null {
+    export function cachedCenterResultInternal(algo: number): ResultVariant | null {
         const cacheAlgo = 0;
         let centerIndex = -1;
         let minLen = 0x7FFFFFFF;
@@ -840,7 +840,7 @@ namespace huskylens2 {
         return centerIndex !== -1 ? result[cacheAlgo][centerIndex] : null;
     }
 
-    export function getCachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
+    export function cachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         if (index < 0 || index >= Macro.MaxResultNum) {
             return null;
@@ -848,7 +848,7 @@ namespace huskylens2 {
         return result[cacheAlgo][index];
     }
 
-    export function getCachedResultByIDInternal(algo: number, id: number): ResultVariant | null {
+    export function cachedResultByIDInternal(algo: number, id: number): ResultVariant | null {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
@@ -862,7 +862,7 @@ namespace huskylens2 {
         return null;
     }
 
-    export function getCachedResultNumInternal(algo: number): number {
+    export function cachedResultNumInternal(algo: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -873,11 +873,11 @@ namespace huskylens2 {
         return count;
     }
 
-    export function getCachedResultLearnedNumInternal(algo: number): number {
-        return getCachedResultMaxID(algo);
+    export function cachedResultLearnedNumInternal(algo: number): number {
+        return cachedResultMaxID(algo);
     }
 
-    export function getCachedResultNumByIDInternal(algo: number, id: number): number {
+    export function cachedResultNumByIDInternal(algo: number, id: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -892,7 +892,7 @@ namespace huskylens2 {
         return count;
     }
 
-    export function getCachedIndexResultByIDInternal(algo: number, id: number, index: number): ResultVariant | null {
+    export function cachedIndexResultByIDInternal(algo: number, id: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         let currentIndex = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -1013,7 +1013,7 @@ namespace huskylens2 {
     //% block="obtain the name of the saved screenshot"
     //% weight=115
     //% subcategory="multimedia"
-    export function getStoredScreenshotName(): string {
+    export function storedScreenshotName(): string {
         return screenshotName;
     }
 
@@ -1021,7 +1021,7 @@ namespace huskylens2 {
     //% block="obtain the names of the stored photos"
     //% weight=117
     //% subcategory="multimedia"
-    export function getStoredPhotoName(): string {
+    export function storedPhotoName(): string {
         return photoName;
     }
 
