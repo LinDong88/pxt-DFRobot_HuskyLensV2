@@ -446,6 +446,7 @@ namespace huskylens2 {
         }
     }
 
+    /** Request one-time tag recognition result and store it */
     //% block="get tag recognition result"
     //% weight=94
     //% subcategory="tag recognition"
@@ -575,6 +576,7 @@ namespace huskylens2 {
     }
 
 
+    /** Request one-time QR code recognition result and store it */
     //% block="get QR code recognition result"
     //% weight=84
     //% subcategory="QR code recognition"
@@ -707,6 +709,7 @@ namespace huskylens2 {
     }
 
 
+    /** Request one-time barcode recognition result and store it */
     //% block="get barcode recognition result"
     //% weight=74
     //% subcategory="barcode recognition"
