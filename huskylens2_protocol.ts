@@ -303,7 +303,7 @@ namespace huskylens2 {
         }
     }
     // Helper function: Convert Buffer to hexadecimal string (for debugging)
-    export function bufferToHex(buf: Buffer, maxLen: number = 50): string {
+    function bufferToHex(buf: Buffer, maxLen: number = 50): string {
         let hex = "";
         const len = buf.length > maxLen ? maxLen : buf.length;
         for (let i = 0; i < len; i++) {
@@ -321,7 +321,7 @@ namespace huskylens2 {
     }
 
     // Helper function: Decode UTF-8 bytes to string (simplified: ASCII + 3-byte UTF-8 for Chinese)
-    export function decodeUTF8(buf: Buffer, start: number, length: number): string {
+    function decodeUTF8(buf: Buffer, start: number, length: number): string {
         let result = "";
         let i = start;
         let end = start + length;
@@ -356,7 +356,7 @@ namespace huskylens2 {
     }
 
     // Helper function: Extract string from Buffer, using \0 as terminator, supports UTF-8 encoding (including Chinese)
-    export function bufferToString(buf: Buffer): string {
+    function bufferToString(buf: Buffer): string {
         // Find the position of the first null character (\0), which is the string terminator
         let validLength = buf.length;
         for (let i = 0; i < buf.length; i++) {
@@ -374,7 +374,7 @@ namespace huskylens2 {
     }
 
     // Helper function: Extract string from Buffer at specific offset and length, using \0 as terminator
-    export function bufferToStringAtOffset(buf: Buffer, offset: number, maxLength: number): string {
+    function bufferToStringAtOffset(buf: Buffer, offset: number, maxLength: number): string {
         // Find the position of the first null character (\0), which is the string terminator
         let validLength = maxLength;
         for (let i = 0; i < maxLength && (offset + i) < buf.length; i++) {
@@ -444,13 +444,13 @@ namespace huskylens2 {
     }
     let receive_index = 0
     let timeOutTimer = 0
-    export function timerBegin() { timeOutTimer = control.millis(); }
-    export function timerAvailable(): boolean {
+    function timerBegin() { timeOutTimer = control.millis(); }
+    function timerAvailable(): boolean {
         return (control.millis() - timeOutTimer > Macro.Timeout);
     }
 
     // Helper function: Convert number to hexadecimal string (ES5 compatible)
-    export function toHex(num: number): string {
+    function toHex(num: number): string {
         let hex = "";
         let val = num & 0xff;
         let high = (val >> 4) & 0x0f;
@@ -475,7 +475,7 @@ namespace huskylens2 {
         return new PacketData(buf.slice(5, buf.length - 1));
     }
 
-    export function protocolAvailable(): boolean {
+    function protocolAvailable(): boolean {
         const response = pins.i2cReadBuffer(Macro.I2cAddr, 32);
         if (response.length > 0) {
             for (let k = 0; k < response.length; k++) {
@@ -491,7 +491,7 @@ namespace huskylens2 {
         return false;
     }
 
-    export function husky_lens_protocol_receive(data: number): boolean {
+    function husky_lens_protocol_receive(data: number): boolean {
         switch (receive_index) {
             case Macro.Header0Index:
                 if (data != 0x55) {
@@ -533,7 +533,7 @@ namespace huskylens2 {
         return false;
     }
 
-    export function validateCheckSum(): boolean {
+    function validateCheckSum(): boolean {
         const stackSumIndex = receive_buffer[Macro.ContentSizeIndex] + Macro.ContentIndex;
         let sum = 0;
         for (let i = 0; i < stackSumIndex; i++) {
@@ -578,7 +578,7 @@ namespace huskylens2 {
         return false;
     }
 
-    export function protocolWrite(buffer: Buffer) {
+    function protocolWrite(buffer: Buffer) {
         pins.i2cWriteBuffer(Macro.I2cAddr, buffer);
     }
 
@@ -704,6 +704,7 @@ namespace huskylens2 {
         return dataBuf;
     }
 
+    
     export function beginInternal(): boolean {
         const dataBuf = createInitializedBuffer(1);
         const pkt = PacketHead.fromFields({
@@ -714,6 +715,7 @@ namespace huskylens2 {
         return waitForResponse(Macro.CommandReturnArgs, 20, pkt, 100);
     }
 
+    
     export function switchAlgorithmInternal(algo: number): boolean {
         const dataBuf = createInitializedBuffer(algo);
         const pkt = PacketHead.fromFields({
@@ -734,7 +736,7 @@ namespace huskylens2 {
     }
     let customId: number[] = [Algorithm.AlgorithmAny, Algorithm.AlgorithmAny, Algorithm.AlgorithmAny];
 
-    export function toRealID(id: number): number {
+    function toRealID(id: number): number {
         let algo = id;
         if (id >= Algorithm.AlgorithmCustomBegin) {
             for (let i = 0; i < Macro.CustomAlgorithmCount; i++)
@@ -746,6 +748,7 @@ namespace huskylens2 {
         return algo;
     }
 
+    
     export function availableInternal(algo: number): boolean {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -760,11 +763,13 @@ namespace huskylens2 {
         return false;
     }
 
+    
     export function cachedResultMaxID(algo: number): number {
         const cacheAlgo = 0;
         return maxID[cacheAlgo] || 0;
     }
 
+    
     export function getResultInternal(algo: number): number {
         const dataBuf = Buffer.create(0);
         const retry = 3;
@@ -818,6 +823,7 @@ namespace huskylens2 {
         return count;
     }
 
+    
     export function cachedCenterResultInternal(algo: number): ResultVariant | null {
         const cacheAlgo = 0;
         let centerIndex = -1;
@@ -840,6 +846,7 @@ namespace huskylens2 {
         return centerIndex !== -1 ? result[cacheAlgo][centerIndex] : null;
     }
 
+    
     export function cachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         if (index < 0 || index >= Macro.MaxResultNum) {
@@ -848,6 +855,7 @@ namespace huskylens2 {
         return result[cacheAlgo][index];
     }
 
+    
     export function cachedResultByIDInternal(algo: number, id: number): ResultVariant | null {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -862,6 +870,7 @@ namespace huskylens2 {
         return null;
     }
 
+    
     export function cachedResultNumInternal(algo: number): number {
         const cacheAlgo = 0;
         let count = 0;
@@ -873,10 +882,12 @@ namespace huskylens2 {
         return count;
     }
 
+    
     export function cachedResultLearnedNumInternal(algo: number): number {
         return cachedResultMaxID(algo);
     }
 
+    
     export function cachedResultNumByIDInternal(algo: number, id: number): number {
         const cacheAlgo = 0;
         let count = 0;
@@ -892,6 +903,7 @@ namespace huskylens2 {
         return count;
     }
 
+    
     export function cachedIndexResultByIDInternal(algo: number, id: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         let currentIndex = 0;
@@ -910,12 +922,14 @@ namespace huskylens2 {
         return null;
     }
 
+    
     export function getCurrentBranchInternal(algo: number): ResultVariant | null {
         const cacheAlgo = 0;
         const item = result[cacheAlgo] && result[cacheAlgo][0];
         return (item && item.level === 1) ? item : null;
     }
 
+    
     export function getUpcomingBranchCountInternal(algo: number): number {
         const cacheAlgo = 0;
         let count = 0;
@@ -927,6 +941,7 @@ namespace huskylens2 {
         return count > 0 ? count - 1 : 0;
     }
 
+    
     export function getBranchInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         const targetIndex = index + 1;
@@ -940,7 +955,11 @@ namespace huskylens2 {
 
     //---------------------------------------------------------------multimedia----------------------------------------
 
-    /** Play music with specified name and volume */
+    /**
+     * Play music with specified name and volume
+     * @param name name
+     * @param volume volume (0~100)
+     */
     //% block="play music %name at volume %volume"
     //% name.shadow="text"
     //% name.defl="music.mp3"
@@ -1009,7 +1028,9 @@ namespace huskylens2 {
         }
     }
 
-    /** Get the name of the saved screenshot */
+    /**
+     * Obtain the name of the saved screenshot
+     */
     //% block="obtain the name of the saved screenshot"
     //% weight=115
     //% subcategory="multimedia"
@@ -1017,7 +1038,9 @@ namespace huskylens2 {
         return screenshotName;
     }
 
-    /** Get the names of the stored photos */
+    /**
+     * Obtain the names of the stored photos
+     */
     //% block="obtain the names of the stored photos"
     //% weight=117
     //% subcategory="multimedia"
@@ -1063,7 +1086,15 @@ namespace huskylens2 {
         sendCommandAndCheckResponse(cmd, Algorithm.AlgorithmAny, dataBuf);
     }
 
-    /** Draw or update an indicator box on the screen */
+    /**
+     * Draw or update an indicator box on the screen
+     * @param color rgb color (>=0)
+     * @param lineWidth line width (1~10)
+     * @param x x-coordinate (0~640)
+     * @param y y-coordinate (0~480)
+     * @param w width (1~640)
+     * @param h height (1~480)
+     */
     //% block="draw or update indicator box color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
     //% weight=90
@@ -1077,7 +1108,15 @@ namespace huskylens2 {
         drawBoxInternal(Macro.CommandActionDrawUniqueRect, color, lineWidth, x, y, w, h);
     }
 
-    /** Draw a new rectangle on the screen */
+    /**
+     * Draw a new rectangle on the screen
+     * @param color rgb color (>=0)
+     * @param lineWidth line width (1~10)
+     * @param x x-coordinate (0~640)
+     * @param y y-coordinate (0~480)
+     * @param w width (1~640)
+     * @param h height (1~480)
+     */
     //% block="draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
     //% weight=89
@@ -1101,7 +1140,14 @@ namespace huskylens2 {
         Font40 = 40,
         Font48 = 48,
     }
-    /** Display text on the screen */
+    /**
+     * Display text on the screen 
+     * @param color rgb color (>=0)
+     * @param fontSize font size
+     * @param x x-coordinate (0~640)
+     * @param y y-coordinate (0~480)
+     * @param content content
+     */
     //% block="display text color%color fontSize%fontSize x%x y%y content%content"
     //% subcategory="screen display"
     //% weight=91
@@ -1156,7 +1202,9 @@ namespace huskylens2 {
         sendCommandAndCheckResponse(Macro.CommandActionClearText, Algorithm.AlgorithmAny, Buffer.create(0));
     }
 
-    /** Clear all indicator boxes and rectangles */
+    /**
+     * Clear all indicator boxes and rectangles
+     */
     //% block="clear indicator boxes and rectangles"
     //% subcategory="screen display"
     //% weight=87
@@ -1164,7 +1212,12 @@ namespace huskylens2 {
         sendCommandAndCheckResponse(Macro.CommandActionClearRect, Algorithm.AlgorithmAny, Buffer.create(0));
     }
 
-    /** Set RGB color value */
+    /**
+     * Set RGB color value
+     * @param red red (0~255)
+     * @param green green (0~255)
+     * @param blue blue (0~255)
+     */
     //% block="set color red%red green%green blue%blue"
     //% subcategory="screen display"
     //% weight=86
@@ -1188,7 +1241,10 @@ namespace huskylens2 {
         return learn_id || 0;
     }
 
-    /** Learn a target at the center of the screen using a built-in model */
+    /**
+     * Learn a target at the center of the screen using a built-in model
+     * @param algorithmType algorithm type
+     */
     //% block="built-in model %algorithmType learn target at center of screen"
     //% weight=95
     //% subcategory="learning /forgetting"
@@ -1197,7 +1253,10 @@ namespace huskylens2 {
         learn_id = sendLearnCommand(Macro.CommandActionLearn, algorithmType, createInitializedBuffer(0));
     }
 
-    /** Learn a target at the center of the screen using a self-trained model */
+    /**
+     * Learn a target at the center of the screen using a self-trained model
+     * @param algoId algo id
+     */
     //% block="built-in model %algoId learn target at center of screen"
     //% weight=94
     //% subcategory="learning /forgetting"
@@ -1206,7 +1265,14 @@ namespace huskylens2 {
         learn_id = sendLearnCommand(Macro.CommandActionLearn, algoId, createInitializedBuffer(0));
     }
 
-    /** Learn a target within a specified box using a built-in model */
+    /**
+     * Learn a target within a specified box using a built-in model 
+     * @param algorithmType algorithm type
+     * @param x x-coordinate (0~640)
+     * @param y y-coordinate (0~480)
+     * @param w width (10~100)
+     * @param h height (10~100)
+     */
     //% block="built-in model %algorithmType learn target in specified box x%x y%y w%w h%h"
     //% weight=90
     //% subcategory="learning /forgetting"
@@ -1219,7 +1285,14 @@ namespace huskylens2 {
         learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, algorithmType, createBoxBuffer(x, y, w, h));
     }
 
-    /** Learn a target within a specified box using a self-trained model */
+    /**
+     * Learn a target within a specified box using a self-trained model
+     * @param algorithmType algorithm type
+     * @param x x-coordinate (0~640)
+     * @param y y-coordinate (0~480)
+     * @param w width (10~100)
+     * @param h height (10~100)
+     */
     //% block="self-trained model %algorithmType learn target in specified box x%x y%y w%w h%h"
     //% weight=89
     //% subcategory="learning /forgetting"
@@ -1232,7 +1305,12 @@ namespace huskylens2 {
         learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, algorithmType, createBoxBuffer(x, y, w, h));
     }
 
-    /** Set the name of a built-in model's ID */
+    /**
+     * Learn a target within a specified box using a self-trained model
+     * @param algorithmType algorithm type
+     * @param id id (1~100)
+     * @param name name
+     */
     //% block="set built-in model %algorithmType id%id name to %name"
     //% weight=70
     //% subcategory="learning /forgetting"
@@ -1259,7 +1337,10 @@ namespace huskylens2 {
         sendCommandAndWait(Macro.CommandSetNameById, algorithmType, dataBuf);
     }
 
-    /** Forget all IDs of a built-in model */
+    /**
+     * Forget all IDs of a built-in model
+     * @param algorithmType algorithm type
+     */
     //% block="forget built-in model %algorithmType all IDs"
     //% weight=80
     //% subcategory="learning /forgetting"
@@ -1268,7 +1349,10 @@ namespace huskylens2 {
         sendCommandAndWait(Macro.CommandActionForget, algorithmType, createInitializedBuffer(algorithmType));
     }
 
-    /** Forget all IDs of a self-trained model */
+    /**
+     * Forget all IDs of a self-trained model
+     * @param algorithmType algorithm type
+     */
     //% block="forget self-trained model %algorithmType all IDs"
     //% weight=79
     //% subcategory="learning /forgetting"

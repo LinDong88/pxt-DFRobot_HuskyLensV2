@@ -403,11 +403,12 @@ namespace huskylens2 {
         Content
     }
 
-    // Helper export function: Convert Algorithm enum to algorithm id
+    // Helper function: Convert Algorithm enum to algorithm id
     export function algorithmToID(algorithmType : Algorithm): number {
         return algorithmType  as number;
     }
 
+    
     export function getBasePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
@@ -441,7 +442,10 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmObjectRecognition);
     }
 
-    /** Object property nearest to center */
+    /**
+     * Object property nearest to center
+     * @param property property
+     */
     //% block="object nearest to center %property"
     //% weight=186
     //% subcategory="object recognition"
@@ -458,7 +462,11 @@ namespace huskylens2 {
         return cachedResultNumInternal(Algorithm.AlgorithmObjectRecognition);
     }
 
-    /** Property of No.N object */
+    /**
+     * Property of No.N object
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="object %index %property"
     //% weight=184
     //% index.min=1 index.defl=1
@@ -476,7 +484,10 @@ namespace huskylens2 {
         return cachedResultLearnedNumInternal(Algorithm.AlgorithmObjectRecognition);
     }
 
-    /** Whether object with specified id exists */
+    /**
+     * Whether object with specified id exists
+     * @param index index (>=1)
+     */
     //% block="object id %index exists?"
     //% weight=182
     //% index.min=1 index.defl=1
@@ -486,7 +497,10 @@ namespace huskylens2 {
         return r != null;
     }
 
-    /** Number of objects with specified id */
+    /**
+     * Number of objects with specified id
+     * @param index index (>=1)
+     */
     //% block="number of objects with id %index"
     //% weight=181
     //% index.min=1 index.defl=1
@@ -495,7 +509,11 @@ namespace huskylens2 {
         return cachedResultNumByIDInternal(Algorithm.AlgorithmObjectRecognition, index);
     }
 
-    /** Property of object with specified id */
+    /**
+     * Property of object with specified id
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="object id %index %property"
     //% weight=180
     //% index.min=1 index.defl=1
@@ -505,7 +523,12 @@ namespace huskylens2 {
         return getBasePropertyValue(r, property);
     }
 
-    /** Property of No.N object with specified id */
+    /**
+     * Property of No.N object with specified id
+     * @param id id (>=1)
+     * @param n n (>=1)
+     * @param property property
+     */
     //% block="object id %id No. %n %property"
     //% weight=179
     //% id.min=1 id.defl=1
@@ -533,7 +556,10 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmObjectTracking);
     }
 
-    /** Property of tracked object */
+    /**
+     * Property of tracked object
+     * @param property property
+     */
     //% block="tracked object %property"
     //% weight=176
     //% subcategory="object tracking"
@@ -563,7 +589,10 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmColorRecognition);
     }
 
-    /** Color block property nearest to center */
+    /**
+     * Color block property nearest to center
+     * @param property property
+     */
     //% block="color block nearest to center %property"
     //% weight=173
     //% subcategory="color recognition"
@@ -580,7 +609,11 @@ namespace huskylens2 {
         return cachedResultNumInternal(Algorithm.AlgorithmColorRecognition);
     }
 
-    /** Property of No.N color block */
+    /**
+     * Property of No.N color block
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="color block %index %property"
     //% weight=171
     //% index.min=1 index.defl=1
@@ -598,7 +631,10 @@ namespace huskylens2 {
         return cachedResultLearnedNumInternal(Algorithm.AlgorithmColorRecognition);
     }
 
-    /** Whether color block with specified id exists */
+    /**
+     * Whether color block with specified id exists
+     * @param index index (>=1)
+     */
     //% block="color block id %index exists?"
     //% weight=169
     //% index.min=1 index.defl=1
@@ -608,7 +644,10 @@ namespace huskylens2 {
         return r != null;
     }
 
-    /** Number of color blocks with specified id */
+    /**
+     * Number of color blocks with specified id
+     * @param index index (>=1)
+     */
     //% block="number of color blocks with id %index"
     //% weight=168
     //% index.min=1 index.defl=1
@@ -617,7 +656,11 @@ namespace huskylens2 {
         return cachedResultNumByIDInternal(Algorithm.AlgorithmColorRecognition, index);
     }
 
-    /** Property of color block with specified id */
+    /**
+     * Property of color block with specified id
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="color block id %index %property"
     //% weight=167
     //% index.min=1 index.defl=1
@@ -627,7 +670,12 @@ namespace huskylens2 {
         return getColorPropertyValue(r, property);
     }
 
-    /** Property of No.N color block with specified id */
+    /**
+     * Property of No.N color block with specified id
+     * @param id id (>=1)
+     * @param n n (>=1)
+     * @param property property
+     */
     //% block="color block id %id No. %n %property"
     //% weight=166
     //% id.min=1 id.defl=1
@@ -681,7 +729,11 @@ namespace huskylens2 {
         return cachedResultNumInternal(Algorithm.AlgorithmObjectClassification);
     }
 
-    /** Property of No.N classified object */
+    /**
+     * Property of No.N classified object
+     * @param num num (>=1)
+     * @param property property
+     */
     //% block="classified object %num %property"
     //% weight=1
     //% num.min=1 num.defl=1
@@ -702,7 +754,7 @@ namespace huskylens2 {
         Name,
     }
 
-    export function getSelfLearningClassificationPropertyValue(result: ResultVariant, property: SelfLearningClassificationProperty): any {
+    function getSelfLearningClassificationPropertyValue(result: ResultVariant, property: SelfLearningClassificationProperty): any {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
@@ -728,7 +780,10 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmSelfLearningClassification);
     }
 
-    /** Property of self learning classification */
+    /**
+     * Property of self learning classification
+     * @param property property
+     */
     //% block="self learning classification %property"
     //% weight=160
     //% subcategory="self learning classification"
@@ -762,7 +817,10 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmSegment);
     }
 
-    /** Instance property nearest to center */
+    /**
+     * Instance property nearest to center
+     * @param property property
+     */
     //% block="instance nearest to center %property"
     //% weight=157
     //% subcategory="instance segmentation"
@@ -779,7 +837,11 @@ namespace huskylens2 {
         return cachedResultNumInternal(Algorithm.AlgorithmSegment);
     }
 
-    /** Property of No.N instance */
+    /**
+     * Property of No.N instance
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="instance %index %property"
     //% weight=155
     //% index.min=1 index.defl=1
@@ -797,7 +859,10 @@ namespace huskylens2 {
         return cachedResultLearnedNumInternal(Algorithm.AlgorithmSegment);
     }
 
-    /** Whether instance with specified id exists */
+    /**
+     * Whether instance with specified id exists
+     * @param index index (>=1)
+     */
     //% block="instance id %index exists?"
     //% weight=153
     //% index.min=1 index.defl=1
@@ -807,7 +872,10 @@ namespace huskylens2 {
         return r != null;
     }
 
-    /** Number of instances with specified id */
+    /**
+     * Number of instances with specified id
+     * @param index index (>=1)
+     */
     //% block="number of instances with id %index"
     //% weight=152
     //% index.min=1 index.defl=1
@@ -816,7 +884,11 @@ namespace huskylens2 {
         return cachedResultNumByIDInternal(Algorithm.AlgorithmSegment, index);
     }
 
-    /** Property of instance with specified id */
+    /**
+     * Property of instance with specified id
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="instance id %index %property"
     //% weight=151
     //% index.min=1 index.defl=1
@@ -826,7 +898,12 @@ namespace huskylens2 {
         return getInstancePropertyValueID(r, property);
     }
 
-    /** Property of No.N instance with specified id */
+    /**
+     * Property of No.N instance with specified id
+     * @param id id (>=1)
+     * @param n n (>=1)
+     * @param property property
+     */
     //% block="instance id %id No. %n %property"
     //% weight=150
     //% id.min=1 id.defl=1
@@ -859,7 +936,10 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmHandRecognition);
     }
 
-    /** Gesture property nearest to center */
+    /**
+     * Gesture property nearest to center
+     * @param property property
+     */
     //% block="gesture nearest to center %property"
     //% weight=147
     //% subcategory="hand recognition"
@@ -876,7 +956,11 @@ namespace huskylens2 {
         return cachedResultNumInternal(Algorithm.AlgorithmHandRecognition);
     }
 
-    /** Property of No.N gesture */
+    /**
+     * Property of No.N gesture
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="gesture %index %property"
     //% weight=145
     //% index.min=1 index.defl=1
@@ -894,7 +978,10 @@ namespace huskylens2 {
         return cachedResultLearnedNumInternal(Algorithm.AlgorithmHandRecognition);
     }
 
-    /** Whether gesture with specified id exists */
+    /**
+     * Whether gesture with specified id exists
+     * @param index index (>=1)
+     */
     //% block="gesture id %index exists?"
     //% weight=143
     //% index.min=1 index.defl=1
@@ -904,7 +991,10 @@ namespace huskylens2 {
         return r != null;
     }
 
-    /** Number of gestures with specified id */
+    /**
+     * Number of gestures with specified id
+     * @param index index (>=1)
+     */
     //% block="number of gestures with id %index"
     //% weight=142
     //% index.min=1 index.defl=1
@@ -913,7 +1003,11 @@ namespace huskylens2 {
         return cachedResultNumByIDInternal(Algorithm.AlgorithmHandRecognition, index);
     }
 
-    /** Property of gesture with specified id */
+    /**
+     * Property of gesture with specified id
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="gesture id %index %property"
     //% weight=141
     //% index.min=1 index.defl=1
@@ -923,7 +1017,12 @@ namespace huskylens2 {
         return getGesturePropertyValue(r, property);
     }
 
-    /** Property of No.N gesture with specified id */
+    /**
+     * Property of No.N gesture with specified id
+     * @param id id (>=1)
+     * @param n n (>=1)
+     * @param property property
+     */
     //% block="gesture id %id No. %n %property"
     //% weight=140
     //% id.min=1 id.defl=1
@@ -956,7 +1055,10 @@ namespace huskylens2 {
         return availableInternal(Algorithm.AlgorithmPoseRecognition);
     }
 
-    /** Pose property nearest to center */
+    /**
+     * Pose property nearest to center
+     * @param property property
+     */
     //% block="pose nearest to center %property"
     //% weight=137
     //% subcategory="pose recognition"
@@ -973,7 +1075,11 @@ namespace huskylens2 {
         return cachedResultNumInternal(Algorithm.AlgorithmPoseRecognition);
     }
 
-    /** Property of No.N pose */
+    /**
+     * Property of No.N pose
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="pose %index %property"
     //% weight=135
     //% index.min=1 index.defl=1
@@ -991,7 +1097,10 @@ namespace huskylens2 {
         return cachedResultLearnedNumInternal(Algorithm.AlgorithmPoseRecognition);
     }
 
-    /** Whether pose with specified id exists */
+    /**
+     * Whether pose with specified id exists
+     * @param index index (>=1)
+     */
     //% block="pose id %index exists?"
     //% weight=133
     //% index.min=1 index.defl=1
@@ -1001,7 +1110,10 @@ namespace huskylens2 {
         return r != null;
     }
 
-    /** Number of poses with specified id */
+    /**
+     * Number of poses with specified id
+     * @param index index (>=1)
+     */
     //% block="number of poses with id %index"
     //% weight=132
     //% index.min=1 index.defl=1
@@ -1010,7 +1122,11 @@ namespace huskylens2 {
         return cachedResultNumByIDInternal(Algorithm.AlgorithmPoseRecognition, index);
     }
 
-    /** Property of pose with specified id */
+    /**
+     * Property of pose with specified id
+     * @param index index (>=1)
+     * @param property property
+     */
     //% block="pose id %index %property"
     //% weight=131
     //% index.min=1 index.defl=1
@@ -1020,7 +1136,12 @@ namespace huskylens2 {
         return getPosePropertyValue(r, property);
     }
 
-    /** Property of No.N pose with specified id */
+    /**
+     * Property of No.N pose with specified id
+     * @param id id (>=1)
+     * @param n n (>=1)
+     * @param property property
+     */
     //% block="pose id %id No. %n %property"
     //% weight=130
     //% id.min=1 id.defl=1
