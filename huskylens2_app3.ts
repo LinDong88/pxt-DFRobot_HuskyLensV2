@@ -20,12 +20,12 @@ namespace huskylens2 {
     /**
      * Get fall detection Property Value (Include id)
      * @param result Result object
-     * @param prop fall detection property
+     * @param property fall detection property
      */
-    export function getFallDetectionPropertyValue(result: ResultVariant, prop: BasePropertyId): any {
+    export function getFallDetectionPropertyValue(result: ResultVariant, property: BasePropertyId): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case BasePropertyId.Id: return res.id;
             case BasePropertyId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyId.XCenter: return res.xCenter;
@@ -58,7 +58,7 @@ namespace huskylens2 {
     }
 
     /**
-     * Closest fall detection %property
+     * Closest fall detection property
      * @param property fall detection property
      */
     //% block="closest fall detection %property"
@@ -80,7 +80,7 @@ namespace huskylens2 {
     }
 
     /**
-     * %property of the [INDEX]th fall detection
+     * property of the [INDEX]th fall detection
      * @param index Index (1-based)
      * @param property fall detection property
      */
@@ -126,13 +126,13 @@ namespace huskylens2 {
     /**
      * Get Face Orientation Detection Property Value (Include id)
      * @param result Result object
-     * @param prop Face orientation detection property
+     * @param property Face orientation detection property
      */
-    export function getFaceOrientationPropertyValue(result: ResultVariant, prop: number): any {
+    export function getFaceOrientationPropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
-        const p = prop | 0; // Ensure it's an integer
-        switch (prop) {
+        const p = property | 0; // Ensure it's an integer
+        switch (property) {
             case FaceOrientationProperty.Id: return res.id || 0;
             case FaceOrientationProperty.Name: return res.name || "";
             case FaceOrientationProperty.Yaw: return res.yaw || 0;
@@ -162,7 +162,7 @@ namespace huskylens2 {
     }
 
     /**
-     * Closest face orientation %property
+     * Closest face orientation property
      * @param property Face orientation detection property
      */
     //% block="closest face orientation %property"
@@ -194,7 +194,7 @@ namespace huskylens2 {
     }
 
     /**
-     * %property of the [INDEX]th face orientation
+     * property of the [INDEX]th face orientation
      * @param index Index (1-based)
      * @param property Face orientation detection property
      */
@@ -233,7 +233,7 @@ namespace huskylens2 {
     }
 
     /**
-     * %property of face orientation with id %id
+     * property of face orientation with id 
      * @param id Face orientation id
      * @param property Face orientation detection property (excluding id)
      */
@@ -247,7 +247,7 @@ namespace huskylens2 {
     }
 
     /**
-     * %property of the [INDEX]th face orientation with id %id
+     * property of the [INDEX]th face orientation with id 
      * @param id Face orientation id
      * @param index Which one (1-based)
      * @param property Face orientation detection property (excluding id)
@@ -270,13 +270,13 @@ namespace huskylens2 {
         Id = 0,
         //% block="name"
         Name,
-        //% block="projected Angle"
+        //% block="projected angle"
         Angle,
-        //% block="projected Length"
+        //% block="projected length"
         Length,
-        //% block="pitch Angle"
+        //% block="pitch angle"
         Pitch,
-        //% block="yaw Angle"
+        //% block="yaw angle"
         Yaw
     }
 
@@ -284,24 +284,24 @@ namespace huskylens2 {
     export enum EyeGazePropertyId {
         //% block="name"
         Name = 1,
-        //% block="projected Angle"
+        //% block="projected angle"
         Angle,
-        //% block="projected Length"
+        //% block="projected length"
         Length,
-        //% block="pitch Angle"
+        //% block="pitch angle"
         Pitch,
-        //% block="yaw Angle"
+        //% block="yaw angle"
         Yaw
     }
     /**
      * Get gaze direction detection Property Value (Include id)
      * @param result Result object
-     * @param prop gaze direction detection property
+     * @param property gaze direction detection property
      */
-    export function getEyeGazePropertyValue(result: ResultVariant, prop: number): any {
+    export function getEyeGazePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case EyeGazeProperty.Id: return res.id;
             case EyeGazeProperty.Name: return res.name || "";
             case EyeGazeProperty.Angle: return res.angle;        // Projected angle
@@ -333,7 +333,7 @@ namespace huskylens2 {
     }
 
     /**
-     * Closest gaze direction %property
+     * Closest gaze direction property
      * @param property gaze direction detection property
      */
     //% block="closest gaze direction %property"
@@ -365,7 +365,7 @@ namespace huskylens2 {
     }
 
     /**
-     * %property of the [INDEX]th gaze direction
+     * property of the [INDEX]th gaze direction
      * @param index Index (1-based)
      * @param property gaze direction detection property
      */
@@ -404,7 +404,7 @@ namespace huskylens2 {
     }
 
     /**
-     * %property of gaze direction with id %id
+     * property of gaze direction with id 
      * @param id Gaze direction id
      * @param property gaze direction detection property (excluding id)
      */
@@ -418,7 +418,7 @@ namespace huskylens2 {
     }
 
     /**
-     * %property of the [INDEX]th gaze direction with id %id
+     * property of the [INDEX]th gaze direction with id 
      * @param id Gaze direction id
      * @param index Which one (1-based)
      * @param property gaze direction detection property (excluding id)

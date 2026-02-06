@@ -48,16 +48,16 @@ namespace huskylens2 {
 
     /**
      * Switch algorithm
-     * @param property select algorithm
+     * @param algorithmType  select algorithm
      */
-    //% block="switch algorithm %property"
+    //% block="switch algorithm %algorithmType "
     //% weight=199
     //% group="algorithm switch"
-    export function switchAlgorithm(property: Algorithm): void {
-        let s = switchAlgorithmInternal(algorithmToID(property));
+    export function switchAlgorithm(algorithmType : Algorithm): void {
+        let s = switchAlgorithmInternal(algorithmToID(algorithmType));
         while (!s) { 
             basic.pause(1000);
-            s = switchAlgorithmInternal(algorithmToID(property));
+            s = switchAlgorithmInternal(algorithmToID(algorithmType));
         }
         basic.pause(5000);// Wait 5 seconds for model loading
     }
@@ -374,9 +374,9 @@ namespace huskylens2 {
     export enum BasePropertyContent {
         //% block="name"
         Name=1,
-        //% block="x Center"
+        //% block="x center"
         XCenter,
-        //% block="y Center"
+        //% block="y center"
         YCenter,
         //% block="width"
         Width,
@@ -404,14 +404,14 @@ namespace huskylens2 {
     }
 
     // Helper export function: Convert Algorithm enum to algorithm id
-    export function algorithmToID(property: Algorithm): number {
-        return property as number;
+    export function algorithmToID(algorithmType : Algorithm): number {
+        return algorithmType  as number;
     }
 
-    export function getBasePropertyValue(result: ResultVariant, prop: number): any {
+    export function getBasePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case BasePropertyId.Id: return res.id;
             case BasePropertyId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyId.XCenter: return res.xCenter;
@@ -543,8 +543,8 @@ namespace huskylens2 {
     }
 
     // ================= color recognition =================
-    export function getColorPropertyValue(result: ResultVariant, prop: number): number {
-        return getBasePropertyValue(result, prop as any);
+    export function getColorPropertyValue(result: ResultVariant, property: number): number {
+        return getBasePropertyValue(result, property as any);
     }
 
     /** Get one-time color recognition result and cache it */
@@ -644,14 +644,14 @@ namespace huskylens2 {
     export enum ObjectClassificationProperty {
         //% block="id"
         Id,
-        //% block="Name"
+        //% block="name"
         Name,
     }
 
-    function getObjectClassificationPropertyValue(result: ResultVariant, prop: ObjectClassificationProperty): any {
+    function getObjectClassificationPropertyValue(result: ResultVariant, property: ObjectClassificationProperty): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case ObjectClassificationProperty.Id: return res.classID;
             case ObjectClassificationProperty.Name: return res.name.length > 0 ? res.name : "";
             default: return 0;
@@ -698,14 +698,14 @@ namespace huskylens2 {
     export enum SelfLearningClassificationProperty {
         //% block="id"
         Id,
-        //% block="Name"
+        //% block="name"
         Name,
     }
 
-    export function getSelfLearningClassificationPropertyValue(result: ResultVariant, prop: SelfLearningClassificationProperty): any {
+    export function getSelfLearningClassificationPropertyValue(result: ResultVariant, property: SelfLearningClassificationProperty): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case SelfLearningClassificationProperty.Id: return res.id;
             case SelfLearningClassificationProperty.Name: return res.name.length > 0 ? res.name : "";
             default: return 0;
@@ -738,12 +738,12 @@ namespace huskylens2 {
     }
 
     // =================================================== instance segmentation ===================================================
-    export function getInstancePropertyValue(result: ResultVariant, prop: BasePropertyId): number {
-        return getBasePropertyValue(result, prop as any);
+    export function getInstancePropertyValue(result: ResultVariant, property: BasePropertyId): number {
+        return getBasePropertyValue(result, property as any);
     }
 
-    export function getInstancePropertyValueID(result: ResultVariant, prop: BaseProperty): number {
-        return getBasePropertyValue(result, prop as any);
+    export function getInstancePropertyValueID(result: ResultVariant, property: BaseProperty): number {
+        return getBasePropertyValue(result, property as any);
     }
 
     /** Get one-time instance segmentation result and cache it */
@@ -838,9 +838,9 @@ namespace huskylens2 {
     }
 
     // ================================== hand recognition ==================================
-    function getGesturePropertyValue(result: ResultVariant, prop: number): any {
+    function getGesturePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
-        return getBasePropertyValue(result, prop as any);
+        return getBasePropertyValue(result, property as any);
     }
 
     /** Get one-time hand recognition result and cache it */
@@ -935,9 +935,9 @@ namespace huskylens2 {
     }
 
     // ================================================================ pose recognition (Human Pose) ========================
-    function getPosePropertyValue(result: ResultVariant, prop: number): any {
+    function getPosePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
-        return getBasePropertyValue(result, prop as any);
+        return getBasePropertyValue(result, property as any);
     }
 
     /** Get one-time pose recognition result and cache it */

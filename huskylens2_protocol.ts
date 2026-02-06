@@ -85,7 +85,7 @@ namespace huskylens2 {
         head55: number;
         headaa: number;
         cmd: number;
-        algo_id: number;
+        algoId: number;
         data_length: number;
         data: Buffer;
         name?: string;
@@ -103,7 +103,7 @@ namespace huskylens2 {
             this.head55 = buffer.length > 0 ? buffer[0] : 0;
             this.headaa = buffer.length > 1 ? buffer[1] : 0;
             this.cmd = buffer.length > 2 ? buffer[2] : 0;
-            this.algo_id = buffer.length > 3 ? buffer[3] : 0;
+            this.algoId = buffer.length > 3 ? buffer[3] : 0;
             this.data_length = buffer.length > 4 ? buffer[4] : 0;
 
             const expectedLength = PacketHead.HEADER_SIZE + this.data_length + 1;
@@ -121,7 +121,7 @@ namespace huskylens2 {
             head55?: number;
             headaa?: number;
             cmd: number;
-            algo_id: number;
+            algoId: number;
             data?: Buffer;
             name?: string;
         }): Buffer {
@@ -138,7 +138,7 @@ namespace huskylens2 {
             buf[0] = fields.head55 !== undefined ? fields.head55 : 0x55;
             buf[1] = fields.headaa !== undefined ? fields.headaa : 0xaa;
             buf[2] = fields.cmd;
-            buf[3] = fields.algo_id;
+            buf[3] = fields.algoId;
             buf[4] = data.length;
             if (name_data.length > 0) {
                 buf[4] += name_data.length + 1;
@@ -164,7 +164,7 @@ namespace huskylens2 {
             buf[0] = this.head55;
             buf[1] = this.headaa;
             buf[2] = this.cmd;
-            buf[3] = this.algo_id;
+            buf[3] = this.algoId;
             buf[4] = this.data_length;
             for (let i = 0; i < this.data.length; i++) {
                 buf[5 + i] = this.data[i];
@@ -609,7 +609,7 @@ namespace huskylens2 {
     function sendCommandAndCheckResponse(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100, expectedRetValue: number = 0): boolean {
         const pkt = PacketHead.fromFields({
             cmd: cmd,
-            algo_id: algoId,
+            algoId: algoId,
             data: data,
         });
         if (waitForResponse(Macro.CommandReturnArgs, retry, pkt, pauseMs)) {
@@ -631,7 +631,7 @@ namespace huskylens2 {
     function sendCommandAndWait(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100): boolean {
         const pkt = PacketHead.fromFields({
             cmd: cmd,
-            algo_id: algoId,
+            algoId: algoId,
             data: data,
         });
         return waitForResponse(Macro.CommandReturnArgs, retry, pkt, pauseMs);
@@ -649,7 +649,7 @@ namespace huskylens2 {
     function sendCommandAndGetResponse(cmd: number, algoId: number, data: Buffer, retry: number = 3, pauseMs: number = 100): PacketData | null {
         const pkt = PacketHead.fromFields({
             cmd: cmd,
-            algo_id: algoId,
+            algoId: algoId,
             data: data,
         });
         if (waitForResponse(Macro.CommandReturnArgs, retry, pkt, pauseMs)) {
@@ -671,7 +671,7 @@ namespace huskylens2 {
     function sendLearnCommand(cmd: number, algoId: number, data: Buffer): number {
         const pkt = PacketHead.fromFields({
             cmd: cmd,
-            algo_id: algoId,
+            algoId: algoId,
             data: data,
         });
         if (waitForResponse(Macro.CommandReturnArgs, 3, pkt, 100)) {
@@ -708,7 +708,7 @@ namespace huskylens2 {
         const dataBuf = createInitializedBuffer(1);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandKnock,
-            algo_id: Algorithm.AlgorithmAny,
+            algoId: Algorithm.AlgorithmAny,
             data: dataBuf,
         });
         return waitForResponse(Macro.CommandReturnArgs, 20, pkt, 100);
@@ -718,7 +718,7 @@ namespace huskylens2 {
         const dataBuf = createInitializedBuffer(algo);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandSetAlgorithm,
-            algo_id: Algorithm.AlgorithmAny,
+            algoId: Algorithm.AlgorithmAny,
             data: dataBuf,
         });
         return waitForResponse(Macro.CommandReturnArgs, 3, pkt, 1000);
@@ -770,7 +770,7 @@ namespace huskylens2 {
         const retry = 3;
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandGetResult,
-            algo_id: algo,
+            algoId: algo,
             data: dataBuf,
         });
 
@@ -999,7 +999,7 @@ namespace huskylens2 {
         const dataBuf = Buffer.create(0);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandActionTakeScreenshot,
-            algo_id: Algorithm.AlgorithmAny,
+            algoId: Algorithm.AlgorithmAny,
             data: dataBuf,
         });
 
@@ -1064,7 +1064,7 @@ namespace huskylens2 {
     }
 
     /** Draw or update an indicator box on the screen */
-    //% block="draw or update indicator box Color%color Line width%lineWidth x%x y%y width%w height%h"
+    //% block="draw or update indicator box color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
     //% weight=90
     //% color.min=0 
@@ -1189,57 +1189,57 @@ namespace huskylens2 {
     }
 
     /** Learn a target at the center of the screen using a built-in model */
-    //% block="built-in model %property learn target at center of screen"
+    //% block="built-in model %algorithmType learn target at center of screen"
     //% weight=95
     //% subcategory="learning /forgetting"
-    //% property.defl=AlgorithmLearnObjectAtCenter.AlgorithmObjectRecognition
-    export function learnObjectAtCenter(property: AlgorithmLearnObjectAtCenter): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearn, property, createInitializedBuffer(0));
+    //% algorithmType.defl=AlgorithmLearnObjectAtCenter.AlgorithmObjectRecognition
+    export function learnObjectAtCenter(algorithmType: AlgorithmLearnObjectAtCenter): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearn, algorithmType, createInitializedBuffer(0));
     }
 
     /** Learn a target at the center of the screen using a self-trained model */
-    //% block="built-in model %property learn target at center of screen"
+    //% block="built-in model %algoId learn target at center of screen"
     //% weight=94
     //% subcategory="learning /forgetting"
-    //% property.defl=128
-    export function learnObjectAtCenterNUM(property: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearn, property, createInitializedBuffer(0));
+    //% algoId.defl=128
+    export function learnObjectAtCenterNUM(algoId: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearn, algoId, createInitializedBuffer(0));
     }
 
     /** Learn a target within a specified box using a built-in model */
-    //% block="built-in model %property learn target in specified box x%x y%y w%w h%h"
+    //% block="built-in model %algorithmType learn target in specified box x%x y%y w%w h%h"
     //% weight=90
     //% subcategory="learning /forgetting"
-    //% property.defl=AlgorithmLearnObjectInBox.AlgorithmFaceRecognition
+    //% algorithmType.defl=AlgorithmLearnObjectInBox.AlgorithmFaceRecognition
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
     //% w.min=10 w.max=100
     //% h.min=10 h.max=100
-    export function learnObjectInBox(property: AlgorithmLearnObjectInBox, x: number, y: number, w: number, h: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(x, y, w, h));
+    export function learnObjectInBox(algorithmType: AlgorithmLearnObjectInBox, x: number, y: number, w: number, h: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, algorithmType, createBoxBuffer(x, y, w, h));
     }
 
     /** Learn a target within a specified box using a self-trained model */
-    //% block="self-trained model %property learn target in specified box x%x y%y w%w h%h"
+    //% block="self-trained model %algorithmType learn target in specified box x%x y%y w%w h%h"
     //% weight=89
     //% subcategory="learning /forgetting"
-    //% property.defl=128
+    //% algorithmType.defl=128
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
     //% w.min=10 w.max=100
     //% h.min=10 h.max=100
-    export function learnObjectInBoxNUM(property: number, x: number, y: number, w: number, h: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, property, createBoxBuffer(x, y, w, h));
+    export function learnObjectInBoxNUM(algorithmType: number, x: number, y: number, w: number, h: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, algorithmType, createBoxBuffer(x, y, w, h));
     }
 
     /** Set the name of a built-in model's ID */
-    //% block="set built-in model %property id%id name to %name"
+    //% block="set built-in model %algorithmType id%id name to %name"
     //% weight=70
     //% subcategory="learning /forgetting"
-    //% property.defl=AlgorithmLearnSetNameOfId.AlgorithmFaceRecognition
+    //% algorithmType.defl=AlgorithmLearnSetNameOfId.AlgorithmFaceRecognition
     //% id.min=1 id.max=100 id.defl=1
     //% name.defl="object"
-    export function setNameOfID(property: AlgorithmLearnSetNameOfId, id: number, name: string): void {
+    export function setNameOfID(algorithmType: AlgorithmLearnSetNameOfId, id: number, name: string): void {
         // Create a Buffer containing id and name
         const nameBuf = Buffer.fromUTF8(name);
         const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10 bytes + 1-byte length + name
@@ -1256,25 +1256,25 @@ namespace huskylens2 {
             dataBuf[11 + i] = nameBuf[i];
         }
 
-        sendCommandAndWait(Macro.CommandSetNameById, property, dataBuf);
+        sendCommandAndWait(Macro.CommandSetNameById, algorithmType, dataBuf);
     }
 
     /** Forget all IDs of a built-in model */
-    //% block="forget built-in model %property all IDs"
+    //% block="forget built-in model %algorithmType all IDs"
     //% weight=80
     //% subcategory="learning /forgetting"
-    //% property.defl=Algorithm.AlgorithmObjectRecognition
-    export function forgetAllIDs(property: Algorithm): void {
-        sendCommandAndWait(Macro.CommandActionForget, property, createInitializedBuffer(property));
+    //% algorithmType.defl=Algorithm.AlgorithmObjectRecognition
+    export function forgetAllIDs(algorithmType: Algorithm): void {
+        sendCommandAndWait(Macro.CommandActionForget, algorithmType, createInitializedBuffer(algorithmType));
     }
 
     /** Forget all IDs of a self-trained model */
-    //% block="forget self-trained model %property all IDs"
+    //% block="forget self-trained model %algorithmType all IDs"
     //% weight=79
     //% subcategory="learning /forgetting"
-    //% property.defl=128
-    export function forgetAllIDsNUM(property: number): void {
-        sendCommandAndWait(Macro.CommandActionForget, property, createInitializedBuffer(property));
+    //% algorithmType.defl=128
+    export function forgetAllIDsNUM(algorithmType: number): void {
+        sendCommandAndWait(Macro.CommandActionForget, algorithmType, createInitializedBuffer(algorithmType));
     }
 
 }

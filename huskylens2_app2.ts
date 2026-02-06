@@ -17,10 +17,10 @@
 namespace huskylens2 {
 
     // ======================================================= license plate recognition ======================================
-    function getPlatePropertyValue(result: ResultVariant, prop: number): any {
+    function getPlatePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.XCenter: return res.xCenter;
@@ -124,11 +124,11 @@ namespace huskylens2 {
     }
 
     // ========================================================== optical char recognition ==============================================
-    function getTextPropertyValue(result: ResultVariant, prop: number): any {
+    function getTextPropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
 
-        switch (prop) {
+        switch (property) {
             case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.Content: return res.content.length > 0 ? res.content : "";
@@ -201,10 +201,10 @@ namespace huskylens2 {
         return val > 32767 ? val - 65536 : val;
     }
 
-    function getLineTrackingPropertyValue(result: ResultVariant, prop: LineTrackingProperty): number {
+    function getLineTrackingPropertyValue(result: ResultVariant, property: LineTrackingProperty): number {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case LineTrackingProperty.XComponent: return toSigned16(res.xCenter);
             case LineTrackingProperty.YComponent: return toSigned16(res.yCenter);
             case LineTrackingProperty.Angle: return toSigned16(res.angle);
@@ -269,12 +269,12 @@ namespace huskylens2 {
     }
 
     // ======================================================== face emotion recognition ==============================================
-    function getEmotionPropertyValue(result: ResultVariant, prop: BasePropertyId): number {
-        return getBasePropertyValue(result, prop as any);
+    function getEmotionPropertyValue(result: ResultVariant, property: BasePropertyId): number {
+        return getBasePropertyValue(result, property as any);
     }
 
-    function getEmotionPropertyValueID(result: ResultVariant, prop: BaseProperty): number {
-        return getBasePropertyValue(result, prop as any);
+    function getEmotionPropertyValueID(result: ResultVariant, property: BaseProperty): number {
+        return getBasePropertyValue(result, property as any);
     }
 
         /** Get one-time face emotion recognition result and cache it */
@@ -370,10 +370,10 @@ namespace huskylens2 {
 
     // =========================================================== tag recognition ====================================================
 
-    function getTagPropertyValue(result: ResultVariant, prop: number): any {
+    function getTagPropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.Content: return res.content.length > 0 ? res.content : "";
@@ -476,10 +476,10 @@ namespace huskylens2 {
     }
 
     // =================================================================== QR code recognition =====================================
-    function getQRCodePropertyValue(result: ResultVariant, prop: number): any {
+    function getQRCodePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.Content: return res.content.length > 0 ? res.content : "";
@@ -586,10 +586,10 @@ namespace huskylens2 {
 
 
 
-    function getBarcodePropertyValue(result: ResultVariant, prop: number): any {
+    function getBarcodePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
-        switch (prop) {
+        switch (property) {
             case BasePropertyContentId.Id: return res.id;
             case BasePropertyContentId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyContentId.Content: return res.content.length > 0 ? res.content : "";
@@ -694,12 +694,12 @@ namespace huskylens2 {
 
     // ================= Custom Model =================
 
-    function getCustomModelPropertyValue(result: ResultVariant, prop: BaseProperty): number {
-        return getBasePropertyValue(result, prop as any);
+    function getCustomModelPropertyValue(result: ResultVariant, property: BaseProperty): number {
+        return getBasePropertyValue(result, property as any);
     }
 
-    function getCustomModelPropertyValueID(result: ResultVariant, prop: BasePropertyId): number {
-        return getBasePropertyValue(result, prop as any);
+    function getCustomModelPropertyValueID(result: ResultVariant, property: BasePropertyId): number {
+        return getBasePropertyValue(result, property as any);
     }
 
 
@@ -811,29 +811,29 @@ namespace huskylens2 {
 
     /** The target attribute of Algorithm id id */
     //% blockHidden=true
-    //% block="algorithm id %algorithmId target id %targetId %alg2"
+    //% block="algorithm id %algorithmId target id %targetId %property"
     //% weight=55
     //% algorithmId.min=1 algorithmId.defl=128
     //% targetId.min=1 targetId.defl=1
     //% subcategory="custom model"
-    export function customModelPropertyByID(algorithmId: number, targetId: number, alg2: BaseProperty): number {
+    export function customModelPropertyByID(algorithmId: number, targetId: number, property: BaseProperty): number {
         const algoId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
         const r = cachedResultByIDInternal(algoId, targetId);
-        return getCustomModelPropertyValue(r, alg2);
+        return getCustomModelPropertyValue(r, property);
     }
 
     /** The attribute of the num-th target of algorithm id id */
     //% blockHidden=true
-    //% block="algorithm %algorithmId id%targetId No.%num %alg2"
+    //% block="algorithm %algorithmId id%targetId No.%num %property"
     //% inlineInputMode=inline
     //% weight=54
     //% algorithmId.min=1 algorithmId.defl=128
     //% targetId.min=1 targetId.defl=1
     //% num.min=1 num.defl=1
     //% subcategory="custom model"
-    export function customModelPropertyByIDNth(algorithmId: number, targetId: number, num: number, alg2: BaseProperty): number {
+    export function customModelPropertyByIDNth(algorithmId: number, targetId: number, num: number, property: BaseProperty): number {
         const algoId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
         const r = cachedIndexResultByIDInternal(algoId, targetId, num - 1);
-        return getCustomModelPropertyValue(r, alg2);
+        return getCustomModelPropertyValue(r, property);
     }
 }

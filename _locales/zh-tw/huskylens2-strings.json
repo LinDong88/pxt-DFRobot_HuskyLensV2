@@ -161,8 +161,8 @@
   "huskylens2.totalLearnedCustomModelIDs|block": "算法ID %algorithmId 已學習的目標ID總數",
   "huskylens2.customModelIdExists|block": "算法ID %algorithmId id %targetId 的目標存在？",
   "huskylens2.totalCustomModelByID|block": "算法ID %algorithmId id %targetId 的目標總數",
-  "huskylens2.customModelPropertyByID|block": "算法ID %algorithmId id %targetId 的目標 %alg2",
-  "huskylens2.customModelPropertyByIDNth|block": "算法%algorithmId id%targetId 第%num個目標 %alg2",
+  "huskylens2.customModelPropertyByID|block": "算法ID %algorithmId id %targetId 的目標 %property",
+  "huskylens2.customModelPropertyByIDNth|block": "算法%algorithmId id%targetId 第%num個目標 %property",
   
   "huskylens2.requestFallDetectionData|block": "請求一次跌倒檢測數據 存入結果",
   "huskylens2.fallDetected|block": "檢測到跌倒？",
