@@ -48,16 +48,16 @@ namespace huskylens2 {
 
     /**
      * Switch algorithm
-     * @param algorithmType  select algorithm
+     * @param algorithmID  select algorithm
      */
-    //% block="switch algorithm %algorithmType "
+    //% block="switch algorithm %algorithmID "
     //% weight=199
     //% group="algorithm switch"
-    export function switchAlgorithm(algorithmType : Algorithm): void {
-        let s = switchAlgorithmInternal(algorithmToID(algorithmType));
+    export function switchAlgorithm(algorithmID : Algorithm): void {
+        let s = switchAlgorithmInternal(algorithmToID(algorithmID));
         while (!s) { 
             basic.pause(1000);
-            s = switchAlgorithmInternal(algorithmToID(algorithmType));
+            s = switchAlgorithmInternal(algorithmToID(algorithmID));
         }
         basic.pause(5000);// Wait 5 seconds for model loading
     }
@@ -131,10 +131,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Whether face with given id exists
-     * @param index face id index (number)
+     * Whether face with given ID exists
+     * @param index face ID index (number)
      */
-    //% block="face id %index exists?"
+    //% block="face ID %index exists?"
     //% weight=192
     //% index.min=1 index.defl=1
     //% subcategory="face recognition"
@@ -144,10 +144,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Get number of faces with a given id
-     * @param index face id index (number)
+     * Get number of faces with a given ID
+     * @param index face ID index (number)
      */
-    //% block="number of faces with id %index"
+    //% block="number of faces with ID %index"
     //% weight=191
     //% index.min=1 index.defl=1
     //% subcategory="face recognition"
@@ -156,11 +156,11 @@ namespace huskylens2 {
     }
 
     /**
-     * Get a property for faces with a given id
-     * @param index face id index (number)
-     * @param property face property (without id)
+     * Get a property for faces with a given ID
+     * @param index face ID index (number)
+     * @param property face property (without ID)
      */
-    //% block="face id %index %property"
+    //% block="face ID %index %property"
     //% weight=190
     //% index.min=1 index.defl=1
     //% subcategory="face recognition"
@@ -170,18 +170,18 @@ namespace huskylens2 {
     }
 
     /**
-     * Get a property for the No.N face of a given id
-     * @param id face id (number)
+     * Get a property for the No.N face of a given ID
+     * @param ID face ID (number)
      * @param n No.N face (1-based)
-     * @param property face property (without id)
+     * @param property face property (without ID)
      */
-    //% block="face id %id No.%n %property"
+    //% block="face ID %ID No.%n %property"
     //% weight=189
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="face recognition"
-    export function facePropertyByIDNth(id: number, n: number, property: BaseProperty): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmFaceRecognition, id, n - 1);
+    export function facePropertyByIDNth(ID: number, n: number, property: BaseProperty): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmFaceRecognition, ID, n - 1);
         return getBasePropertyValue(r, property);
     }
 
@@ -357,8 +357,8 @@ namespace huskylens2 {
         Height
     }
     export enum BasePropertyId {
-        //% block="id"
-        Id,
+        //% block="ID"
+        ID,
         //% block="name"
         Name,
         //% block="x center"
@@ -387,8 +387,8 @@ namespace huskylens2 {
     }
 
     export enum BasePropertyContentId {
-        //% block="id"
-        Id,
+        //% block="ID"
+        ID,
         //% block="name"
         Name,
         //% block="x center"
@@ -403,9 +403,9 @@ namespace huskylens2 {
         Content
     }
 
-    // Helper function: Convert Algorithm enum to algorithm id
-    export function algorithmToID(algorithmType : Algorithm): number {
-        return algorithmType  as number;
+    // Helper function: Convert Algorithm enum to algorithm ID
+    export function algorithmToID(algorithmID : Algorithm): number {
+        return algorithmID  as number;
     }
 
     
@@ -413,7 +413,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
-            case BasePropertyId.Id: return res.id;
+            case BasePropertyId.ID: return res.ID;
             case BasePropertyId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyId.XCenter: return res.xCenter;
             case BasePropertyId.YCenter: return res.yCenter;
@@ -485,10 +485,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Whether object with specified id exists
+     * Whether object with specified ID exists
      * @param index index (>=1)
      */
-    //% block="object id %index exists?"
+    //% block="object ID %index exists?"
     //% weight=182
     //% index.min=1 index.defl=1
     //% subcategory="object recognition"
@@ -498,10 +498,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Number of objects with specified id
+     * Number of objects with specified ID
      * @param index index (>=1)
      */
-    //% block="number of objects with id %index"
+    //% block="number of objects with ID %index"
     //% weight=181
     //% index.min=1 index.defl=1
     //% subcategory="object recognition"
@@ -510,11 +510,11 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of object with specified id
+     * Property of object with specified ID
      * @param index index (>=1)
      * @param property property
      */
-    //% block="object id %index %property"
+    //% block="object ID %index %property"
     //% weight=180
     //% index.min=1 index.defl=1
     //% subcategory="object recognition"
@@ -524,18 +524,18 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of No.N object with specified id
-     * @param id id (>=1)
+     * Property of No.N object with specified ID
+     * @param ID ID (>=1)
      * @param n n (>=1)
      * @param property property
      */
-    //% block="object id %id No. %n %property"
+    //% block="object ID %ID No. %n %property"
     //% weight=179
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="object recognition"
-    export function objectPropertyByIDNth(id: number, n: number, property: BaseProperty): number {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmObjectRecognition, id, n - 1);
+    export function objectPropertyByIDNth(ID: number, n: number, property: BaseProperty): number {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmObjectRecognition, ID, n - 1);
         return getBasePropertyValue(r, property);
     }
 
@@ -632,10 +632,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Whether color block with specified id exists
+     * Whether color block with specified ID exists
      * @param index index (>=1)
      */
-    //% block="color block id %index exists?"
+    //% block="color block ID %index exists?"
     //% weight=169
     //% index.min=1 index.defl=1
     //% subcategory="color recognition"
@@ -645,10 +645,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Number of color blocks with specified id
+     * Number of color blocks with specified ID
      * @param index index (>=1)
      */
-    //% block="number of color blocks with id %index"
+    //% block="number of color blocks with ID %index"
     //% weight=168
     //% index.min=1 index.defl=1
     //% subcategory="color recognition"
@@ -657,11 +657,11 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of color block with specified id
+     * Property of color block with specified ID
      * @param index index (>=1)
      * @param property property
      */
-    //% block="color block id %index %property"
+    //% block="color block ID %index %property"
     //% weight=167
     //% index.min=1 index.defl=1
     //% subcategory="color recognition"
@@ -671,27 +671,27 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of No.N color block with specified id
-     * @param id id (>=1)
+     * Property of No.N color block with specified ID
+     * @param ID ID (>=1)
      * @param n n (>=1)
      * @param property property
      */
-    //% block="color block id %id No. %n %property"
+    //% block="color block ID %ID No. %n %property"
     //% weight=166
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="color recognition"
-    export function colorPropertyByIDNth(id: number, n: number, property: BaseProperty): number {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmColorRecognition, id, n - 1);
+    export function colorPropertyByIDNth(ID: number, n: number, property: BaseProperty): number {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmColorRecognition, ID, n - 1);
         return getColorPropertyValue(r, property);
     }
 
 
     // ============================================== object classification============================================================
-    // object classification properties (only id and Name)
+    // object classification properties (only ID and Name)
     export enum ObjectClassificationProperty {
-        //% block="id"
-        Id,
+        //% block="ID"
+        ID,
         //% block="name"
         Name,
     }
@@ -700,7 +700,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
-            case ObjectClassificationProperty.Id: return res.classID;
+            case ObjectClassificationProperty.ID: return res.classID;
             case ObjectClassificationProperty.Name: return res.name.length > 0 ? res.name : "";
             default: return 0;
         }
@@ -746,10 +746,10 @@ namespace huskylens2 {
 
 
     // ==================================================== self learning classification ========================================
-    // self learning classification properties (only id and Name)
+    // self learning classification properties (only ID and Name)
     export enum SelfLearningClassificationProperty {
-        //% block="id"
-        Id,
+        //% block="ID"
+        ID,
         //% block="name"
         Name,
     }
@@ -758,7 +758,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
-            case SelfLearningClassificationProperty.Id: return res.id;
+            case SelfLearningClassificationProperty.ID: return res.ID;
             case SelfLearningClassificationProperty.Name: return res.name.length > 0 ? res.name : "";
             default: return 0;
         }
@@ -860,10 +860,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Whether instance with specified id exists
+     * Whether instance with specified ID exists
      * @param index index (>=1)
      */
-    //% block="instance id %index exists?"
+    //% block="instance ID %index exists?"
     //% weight=153
     //% index.min=1 index.defl=1
     //% subcategory="instance segmentation"
@@ -873,10 +873,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Number of instances with specified id
+     * Number of instances with specified ID
      * @param index index (>=1)
      */
-    //% block="number of instances with id %index"
+    //% block="number of instances with ID %index"
     //% weight=152
     //% index.min=1 index.defl=1
     //% subcategory="instance segmentation"
@@ -885,11 +885,11 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of instance with specified id
+     * Property of instance with specified ID
      * @param index index (>=1)
      * @param property property
      */
-    //% block="instance id %index %property"
+    //% block="instance ID %index %property"
     //% weight=151
     //% index.min=1 index.defl=1
     //% subcategory="instance segmentation"
@@ -899,18 +899,18 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of No.N instance with specified id
-     * @param id id (>=1)
+     * Property of No.N instance with specified ID
+     * @param ID ID (>=1)
      * @param n n (>=1)
      * @param property property
      */
-    //% block="instance id %id No. %n %property"
+    //% block="instance ID %ID No. %n %property"
     //% weight=150
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="instance segmentation"
-    export function instancePropertyByIDNth(id: number, n: number, property: BaseProperty): number {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmSegment, id, n - 1);
+    export function instancePropertyByIDNth(ID: number, n: number, property: BaseProperty): number {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmSegment, ID, n - 1);
         return getInstancePropertyValueID(r, property);
     }
 
@@ -979,10 +979,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Whether gesture with specified id exists
+     * Whether gesture with specified ID exists
      * @param index index (>=1)
      */
-    //% block="gesture id %index exists?"
+    //% block="gesture ID %index exists?"
     //% weight=143
     //% index.min=1 index.defl=1
     //% subcategory="hand recognition"
@@ -992,10 +992,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Number of gestures with specified id
+     * Number of gestures with specified ID
      * @param index index (>=1)
      */
-    //% block="number of gestures with id %index"
+    //% block="number of gestures with ID %index"
     //% weight=142
     //% index.min=1 index.defl=1
     //% subcategory="hand recognition"
@@ -1004,11 +1004,11 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of gesture with specified id
+     * Property of gesture with specified ID
      * @param index index (>=1)
      * @param property property
      */
-    //% block="gesture id %index %property"
+    //% block="gesture ID %index %property"
     //% weight=141
     //% index.min=1 index.defl=1
     //% subcategory="hand recognition"
@@ -1018,18 +1018,18 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of No.N gesture with specified id
-     * @param id id (>=1)
+     * Property of No.N gesture with specified ID
+     * @param ID ID (>=1)
      * @param n n (>=1)
      * @param property property
      */
-    //% block="gesture id %id No. %n %property"
+    //% block="gesture ID %ID No. %n %property"
     //% weight=140
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="hand recognition"
-    export function gesturePropertyByIDNth(id: number, n: number, property: BaseProperty): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmHandRecognition, id, n - 1);
+    export function gesturePropertyByIDNth(ID: number, n: number, property: BaseProperty): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmHandRecognition, ID, n - 1);
         return getGesturePropertyValue(r, property);
     }
 
@@ -1098,10 +1098,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Whether pose with specified id exists
+     * Whether pose with specified ID exists
      * @param index index (>=1)
      */
-    //% block="pose id %index exists?"
+    //% block="pose ID %index exists?"
     //% weight=133
     //% index.min=1 index.defl=1
     //% subcategory="pose recognition"
@@ -1111,10 +1111,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Number of poses with specified id
+     * Number of poses with specified ID
      * @param index index (>=1)
      */
-    //% block="number of poses with id %index"
+    //% block="number of poses with ID %index"
     //% weight=132
     //% index.min=1 index.defl=1
     //% subcategory="pose recognition"
@@ -1123,11 +1123,11 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of pose with specified id
+     * Property of pose with specified ID
      * @param index index (>=1)
      * @param property property
      */
-    //% block="pose id %index %property"
+    //% block="pose ID %index %property"
     //% weight=131
     //% index.min=1 index.defl=1
     //% subcategory="pose recognition"
@@ -1137,18 +1137,18 @@ namespace huskylens2 {
     }
 
     /**
-     * Property of No.N pose with specified id
-     * @param id id (>=1)
+     * Property of No.N pose with specified ID
+     * @param ID ID (>=1)
      * @param n n (>=1)
      * @param property property
      */
-    //% block="pose id %id No. %n %property"
+    //% block="pose ID %ID No. %n %property"
     //% weight=130
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="pose recognition"
-    export function posePropertyByIDNth(id: number, n: number, property: BaseProperty): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmPoseRecognition, id, n - 1);
+    export function posePropertyByIDNth(ID: number, n: number, property: BaseProperty): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmPoseRecognition, ID, n - 1);
         return getPosePropertyValue(r, property);
     }
 }

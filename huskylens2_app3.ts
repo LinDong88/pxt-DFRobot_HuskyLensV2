@@ -18,7 +18,7 @@ namespace huskylens2 {
 
     // ================================================== fall detection ========================================
     /**
-     * Get fall detection Property Value (Include id)
+     * Get fall detection Property Value (Include ID)
      * @param result Result object
      * @param property fall detection property
      */
@@ -26,7 +26,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
-            case BasePropertyId.Id: return res.id;
+            case BasePropertyId.ID: return res.ID;
             case BasePropertyId.Name: return res.name.length > 0 ? res.name : "";
             case BasePropertyId.XCenter: return res.xCenter;
             case BasePropertyId.YCenter: return res.yCenter;
@@ -97,8 +97,8 @@ namespace huskylens2 {
     // ================================ Face Orientation Detection Related Enums ==================================================
     // Face Orientation Detection Properties
     export enum FaceOrientationProperty {
-        //% block="id"
-        Id = 0,
+        //% block="ID"
+        ID = 0,
         //% block="name"
         Name,
         //% block="roll angle"
@@ -124,7 +124,7 @@ namespace huskylens2 {
 
 
     /**
-     * Get Face Orientation Detection Property Value (Include id)
+     * Get Face Orientation Detection Property Value (Include ID)
      * @param result Result object
      * @param property Face orientation detection property
      */
@@ -133,7 +133,7 @@ namespace huskylens2 {
         const res = result as Result;
         const p = property | 0; // Ensure it's an integer
         switch (property) {
-            case FaceOrientationProperty.Id: return res.id || 0;
+            case FaceOrientationProperty.ID: return res.ID || 0;
             case FaceOrientationProperty.Name: return res.name || "";
             case FaceOrientationProperty.Yaw: return res.yaw || 0;
             case FaceOrientationProperty.Pitch: return res.pitch || 0;
@@ -208,66 +208,66 @@ namespace huskylens2 {
     }
 
     /**
-     * Does face orientation with id %id exist?
-     * @param id Face orientation id
+     * Does face orientation with ID %ID exist?
+     * @param ID Face orientation ID
      */
-    //% block="does face orientation with id %id exist?"
+    //% block="does face orientation with ID %ID exist?"
     //% weight=133
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% subcategory="faceorientation recognition"
-    export function faceOrientationIDExists(id: number): boolean {
-        const r = cachedResultByIDInternal(Algorithm.AlgorithmFaceOrientation, id);
+    export function faceOrientationIDExists(ID: number): boolean {
+        const r = cachedResultByIDInternal(Algorithm.AlgorithmFaceOrientation, ID);
         return r != null;
     }
 
     /**
-     * Total number of face orientations with id %id
-     * @param id Face orientation id
+     * Total number of face orientations with ID %ID
+     * @param ID Face orientation ID
      */
-    //% block="total number of face orientations with id %id"
+    //% block="total number of face orientations with ID %ID"
     //% weight=132
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% subcategory="faceorientation recognition"
-    export function totalFaceOrientationsWithID(id: number): number {
-        return cachedResultNumByIDInternal(Algorithm.AlgorithmFaceOrientation, id);
+    export function totalFaceOrientationsWithID(ID: number): number {
+        return cachedResultNumByIDInternal(Algorithm.AlgorithmFaceOrientation, ID);
     }
 
     /**
-     * property of face orientation with id 
-     * @param id Face orientation id
-     * @param property Face orientation detection property (excluding id)
+     * property of face orientation with ID 
+     * @param ID Face orientation ID
+     * @param property Face orientation detection property (excluding ID)
      */
-    //% block="id %id face orientation %property"
+    //% block="ID %ID face orientation %property"
     //% weight=131
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% subcategory="faceorientation recognition"
-    export function faceOrientationWithID(id: number, property: FaceOrientationPropertyId): any {
-        const r = cachedResultByIDInternal(Algorithm.AlgorithmFaceOrientation, id);
+    export function faceOrientationWithID(ID: number, property: FaceOrientationPropertyId): any {
+        const r = cachedResultByIDInternal(Algorithm.AlgorithmFaceOrientation, ID);
         return getFaceOrientationPropertyValue(r, property);
     }
 
     /**
-     * property of the [INDEX]th face orientation with id 
-     * @param id Face orientation id
+     * property of the [INDEX]th face orientation with ID 
+     * @param ID Face orientation ID
      * @param index Which one (1-based)
-     * @param property Face orientation detection property (excluding id)
+     * @param property Face orientation detection property (excluding ID)
      */
-    //% block="id %id of the %index th face orientation %property "
+    //% block="ID %ID of the %index th face orientation %property "
     //% weight=130
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% index.min=1 index.defl=1
 
     //% subcategory="faceorientation recognition"
-    export function faceOrientationWithIDProperty(id: number, index: number, property: FaceOrientationPropertyId): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmFaceOrientation, id, index - 1);
+    export function faceOrientationWithIDProperty(ID: number, index: number, property: FaceOrientationPropertyId): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmFaceOrientation, ID, index - 1);
         return getFaceOrientationPropertyValue(r, property);
     }
 
     // ==================================== gaze direction detection Related Enums ===============================
-    // gaze direction detection Properties (Include id)
+    // gaze direction detection Properties (Include ID)
     export enum EyeGazeProperty {
-        //% block="id"
-        Id = 0,
+        //% block="ID"
+        ID = 0,
         //% block="name"
         Name,
         //% block="projected angle"
@@ -280,7 +280,7 @@ namespace huskylens2 {
         Yaw
     }
 
-    // gaze direction detection Properties (excluding id)
+    // gaze direction detection Properties (excluding ID)
     export enum EyeGazePropertyId {
         //% block="name"
         Name = 1,
@@ -294,7 +294,7 @@ namespace huskylens2 {
         Yaw
     }
     /**
-     * Get gaze direction detection Property Value (Include id)
+     * Get gaze direction detection Property Value (Include ID)
      * @param result Result object
      * @param property gaze direction detection property
      */
@@ -302,7 +302,7 @@ namespace huskylens2 {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
-            case EyeGazeProperty.Id: return res.id;
+            case EyeGazeProperty.ID: return res.ID;
             case EyeGazeProperty.Name: return res.name || "";
             case EyeGazeProperty.Angle: return res.angle;        // Projected angle
             case EyeGazeProperty.Length: return res.length;      // Projected length
@@ -379,57 +379,57 @@ namespace huskylens2 {
     }
 
     /**
-     * Does gaze direction with id %id exist?
-     * @param id Gaze direction id
+     * Does gaze direction with ID %ID exist?
+     * @param ID Gaze direction ID
      */
-    //% block="does gaze direction with id %id exist?"
+    //% block="does gaze direction with ID %ID exist?"
     //% weight=123
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% subcategory="gaze direction detection"
-    export function gazeIDExists(id: number): boolean {
-        const r = cachedResultByIDInternal(Algorithm.AlgorithmGazeRecognition, id);
+    export function gazeIDExists(ID: number): boolean {
+        const r = cachedResultByIDInternal(Algorithm.AlgorithmGazeRecognition, ID);
         return r != null;
     }
 
     /**
-     * Total number of gaze directions with id %id
-     * @param id Gaze direction id
+     * Total number of gaze directions with ID %ID
+     * @param ID Gaze direction ID
      */
-    //% block="total number of gaze directions with id %id"
+    //% block="total number of gaze directions with ID %ID"
     //% weight=122
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% subcategory="gaze direction detection"
-    export function totalEyeGazesWithID(id: number): number {
-        return cachedResultNumByIDInternal(Algorithm.AlgorithmGazeRecognition, id);
+    export function totalEyeGazesWithID(ID: number): number {
+        return cachedResultNumByIDInternal(Algorithm.AlgorithmGazeRecognition, ID);
     }
 
     /**
-     * property of gaze direction with id 
-     * @param id Gaze direction id
-     * @param property gaze direction detection property (excluding id)
+     * property of gaze direction with ID 
+     * @param ID Gaze direction ID
+     * @param property gaze direction detection property (excluding ID)
      */
-    //% block="id %id gaze direction %property "
+    //% block="ID %ID gaze direction %property "
     //% weight=121
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% subcategory="gaze direction detection"
-    export function gazeWithID(id: number, property: EyeGazePropertyId): any {
-        const r = cachedResultByIDInternal(Algorithm.AlgorithmGazeRecognition, id);
+    export function gazeWithID(ID: number, property: EyeGazePropertyId): any {
+        const r = cachedResultByIDInternal(Algorithm.AlgorithmGazeRecognition, ID);
         return getEyeGazePropertyValue(r, property);
     }
 
     /**
-     * property of the [INDEX]th gaze direction with id 
-     * @param id Gaze direction id
+     * property of the [INDEX]th gaze direction with ID 
+     * @param ID Gaze direction ID
      * @param index Which one (1-based)
-     * @param property gaze direction detection property (excluding id)
+     * @param property gaze direction detection property (excluding ID)
      */
-    //% block="id %id of the %index th gaze direction %property"
+    //% block="ID %ID of the %index th gaze direction %property"
     //% weight=120
-    //% id.min=1 id.defl=1
+    //% ID.min=1 ID.defl=1
     //% index.min=1 index.defl=1
     //% subcategory="gaze direction detection"
-    export function gazeWithIDProperty(id: number, index: number, property: EyeGazePropertyId): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmGazeRecognition, id, index - 1);
+    export function gazeWithIDProperty(ID: number, index: number, property: EyeGazePropertyId): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmGazeRecognition, ID, index - 1);
         return getEyeGazePropertyValue(r, property);
     }
 
@@ -440,7 +440,7 @@ namespace huskylens2 {
      * Switch to a custom-trained model by specifying the model ID.
      * @param num Model ID (range: 128-255, default: 128)
      */
-    //% block="HUSKYLENS 2 switch to custom-trained model, model id%num"
+    //% block="HUSKYLENS 2 switch to custom-trained model, model ID%num"
     //% weight=119
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -454,7 +454,7 @@ namespace huskylens2 {
      * Request data from the specified model ID and save it to the results cache.
      * @param num Model ID (range: 128-255, default: 128)
      */
-    //% block="model id%num request data and save to results"
+    //% block="model ID%num request data and save to results"
     //% weight=118
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -468,7 +468,7 @@ namespace huskylens2 {
      * @param num Model ID (range: 128-255, default: 128)
      * @returns True if a target is detected, false otherwise.
      */
-    //% block="model id%num target detected?"
+    //% block="model ID%num target detected?"
     //% weight=117
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -482,18 +482,18 @@ namespace huskylens2 {
      * @param property Property to retrieve (e.g., ID, Name, XCenter, etc.)
      * @returns The requested property value.
      */
-    //% block="model id%num target closest to center%property"
+    //% block="model ID%num target closest to center%property"
     //% weight=116
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    //% property.defl=BasePropertyId.Id
+    //% property.defl=BasePropertyId.ID
     export function nearest(num: number, property: BasePropertyId): any {
         const res = cachedCenterResultInternal(num);
         const result = res as Result;
         if (!result) return 0;
         
         switch (property) {
-            case BasePropertyId.Id: return result.id || 0;
+            case BasePropertyId.ID: return result.ID || 0;
             case BasePropertyId.Name:return result.name|| "";
             case BasePropertyId.XCenter:return result.xCenter|| 0;
             case BasePropertyId.YCenter:return result.yCenter|| 0;
@@ -510,7 +510,7 @@ namespace huskylens2 {
      * @param num Model ID (range: 128-255, default: 128)
      * @returns Total number of detected targets.
      */
-    //% block="model id%num total number of detected targets"
+    //% block="model ID%num total number of detected targets"
     //% weight=115
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -523,7 +523,7 @@ namespace huskylens2 {
      * @param num Model ID (range: 128-255, default: 128)
      * @returns Total number of learned target IDs.
      */
-    //% block="model id%num total number of learned target IDs"
+    //% block="model ID%num total number of learned target IDs"
     //% weight=114
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
@@ -538,12 +538,12 @@ namespace huskylens2 {
      * @param property Property to retrieve (e.g., ID, Name, XCenter, etc.)
      * @returns The requested property value.
      */
-    //% block="model id%num No.%index target%property"
+    //% block="model ID%num No.%index target%property"
     //% weight=113
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
     //% INDEX.min=1 INDEX.max=6 INDEX.defl=1
-    //% property.defl=BasePropertyId.Id
+    //% property.defl=BasePropertyId.ID
     export function Property(num: number, INDEX: number, property: BasePropertyId): any {
         const res = cachedResultByIndexInternal(num, INDEX - 1);
         const result = res as Result;
@@ -555,7 +555,7 @@ namespace huskylens2 {
         }
         
         switch (property) {
-            case BasePropertyId.Id: return result.id || 0;
+            case BasePropertyId.ID: return result.ID || 0;
             case BasePropertyId.Name:return result.name || "";
             case BasePropertyId.XCenter:return result.xCenter|| 0;
             case BasePropertyId.YCenter:return result.yCenter|| 0;
@@ -569,48 +569,48 @@ namespace huskylens2 {
     /**
      * Check if a target with the specified ID exists for the given model ID.
      * @param num Model ID (range: 128-255, default: 128)
-     * @param id Target ID (range: 1-100, default: 1)
+     * @param ID Target ID (range: 1-100, default: 1)
      * @returns True if the target exists, false otherwise.
      */
-    //% block="model id%num target id%id exists?"
+    //% block="model ID%num target ID%ID exists?"
     //% weight=112
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    //% id.min=1 id.max=100 id.defl=1
-    export function IDExists(num: number, id: number): boolean {
-        return cachedResultByIDInternal(num, id) !== null;
+    //% ID.min=1 ID.max=100 ID.defl=1
+    export function IDExists(num: number, ID: number): boolean {
+        return cachedResultByIDInternal(num, ID) !== null;
     }
 
     /**
      * Get the total number of targets with the specified ID for the given model ID.
      * @param num Model ID (range: 128-255, default: 128)
-     * @param id Target ID (range: 1-100, default: 1)
+     * @param ID Target ID (range: 1-100, default: 1)
      * @returns Total number of targets with the specified ID.
      */
-    //% block="model id%num total number of targets with id%id"
+    //% block="model ID%num total number of targets with ID%ID"
     //% weight=111
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    //% id.min=1 id.max=100 id.defl=1
-    export function totalWithID(num: number, id: number): number {
-        return cachedResultNumByIDInternal(num, id);
+    //% ID.min=1 ID.max=100 ID.defl=1
+    export function totalWithID(num: number, ID: number): number {
+        return cachedResultNumByIDInternal(num, ID);
     }
 
     /**
      * Get the property of a target with the specified ID for the given model ID.
      * @param num Model ID (range: 128-255, default: 128)
-     * @param id Target ID (range: 1-100, default: 1)
+     * @param ID Target ID (range: 1-100, default: 1)
      * @param property Property to retrieve (e.g., Name, XCenter, etc.)
      * @returns The requested property value.
      */
-    //% block="model id%num target with id%id%property"
+    //% block="model ID%num target with ID%ID%property"
     //% weight=110
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    //% id.min=1 id.max=100 id.defl=1
+    //% ID.min=1 ID.max=100 ID.defl=1
     //% property.defl=BaseProperty.Name
-    export function WithID(num: number, id: number, property: BaseProperty): any {
-        const res = cachedResultByIDInternal(num, id);
+    export function WithID(num: number, ID: number, property: BaseProperty): any {
+        const res = cachedResultByIDInternal(num, ID);
         const result = res as Result;
         if (!result) {
             if (property === BaseProperty.Name ) {
@@ -632,20 +632,20 @@ namespace huskylens2 {
     /**
      * Get the property of the Nth target with the specified ID for the given model ID.
      * @param num Model ID (range: 128-255, default: 128)
-     * @param id Target ID (range: 1-100, default: 1)
+     * @param ID Target ID (range: 1-100, default: 1)
      * @param index Index of the target (1-based, range: 1-6, default: 1)
      * @param property Property to retrieve (e.g., Name, XCenter, etc.)
      * @returns The requested property value.
      */
-    //% block="model id %num id %id the %index target of %property""
+    //% block="model ID %num ID %ID the %index target of %property""
     //% weight=109
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    //% id.min=1 id.max=100 id.defl=1
+    //% ID.min=1 ID.max=100 ID.defl=1
     //% index.min=1 index.max=6 index.defl=1
     //% property.defl=BaseProperty.name
-    export function WithIDProperty(num: number, id: number, index: number, property: BaseProperty): any {
-        const res = cachedIndexResultByIDInternal(num, id, index - 1);
+    export function WithIDProperty(num: number, ID: number, index: number, property: BaseProperty): any {
+        const res = cachedIndexResultByIDInternal(num, ID, index - 1);
         const result = res as Result;
        
         if (!result) return 0;
