@@ -18,8 +18,8 @@ HuskyLens 2 offers a very detailed tutorial on using MakeCode.(https://wiki.dfro
 
 ```blocks
     basic.forever(function () {
-        huskylens2.getResultFaceRecogtion()
-        if (huskylens2.availableFaceRecogtion()) {
+        huskylens2.getResultFaceRecognition()
+        if (huskylens2.availableFaceRecognition()) {
             serial.writeLine("ID:" + huskylens2.cachedCenterResult(huskylens2.BasePropertyId.ID))
             serial.writeLine("NAME:" + huskylens2.cachedCenterResult(huskylens2.BasePropertyId.Name))
             serial.writeLine("X:" + huskylens2.cachedCenterResult(huskylens2.BasePropertyId.XCenter))

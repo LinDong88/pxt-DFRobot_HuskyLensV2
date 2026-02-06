@@ -36,7 +36,7 @@ namespace huskylens2 {
     //% block="get license plate recognition result"
     //% weight=129
     //% subcategory="license plate recognition"
-    export function getResultPlateRecogtion(): void {
+    export function getResultPlateRecognition(): void {
         getResultInternal(Algorithm.AlgorithmLicenseRecognition);
     }
 
@@ -44,7 +44,7 @@ namespace huskylens2 {
     //% block="license plate detected?"
     //% weight=128
     //% subcategory="license plate recognition"
-    export function availablePlateRecogtion(): boolean {
+    export function availablePlateRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmLicenseRecognition);
     }
 
@@ -167,7 +167,7 @@ namespace huskylens2 {
     //% block="get optical char recognition result"
     //% weight=119
     //% subcategory="optical char recognition"
-    export function getResultTextRecogtion(): void {
+    export function getResultTextRecognition(): void {
         getResultInternal(Algorithm.AlgorithmOcrRecognition);
     }
 
@@ -175,7 +175,7 @@ namespace huskylens2 {
     //% block="whether text region detected"
     //% weight=118
     //% subcategory="optical char recognition"
-    export function availableTextRecogtion(): boolean {
+    export function availableTextRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmOcrRecognition);
     }
 
@@ -320,7 +320,7 @@ namespace huskylens2 {
     //% block="get face emotion recognition result"
     //% weight=104
     //% subcategory="face emotion recognition"
-    export function getResultEmotionRecogtion(): void {
+    export function getResultEmotionRecognition(): void {
         getResultInternal(Algorithm.AlgorithmEmotionRecognition);
     }
 
@@ -328,7 +328,7 @@ namespace huskylens2 {
     //% block="whether emotion detected"
     //% weight=103
     //% subcategory="face emotion recognition"
-    export function availableEmotionRecogtion(): boolean {
+    export function availableEmotionRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmEmotionRecognition);
     }
 
@@ -450,7 +450,7 @@ namespace huskylens2 {
     //% block="get tag recognition result"
     //% weight=94
     //% subcategory="tag recognition"
-    export function getResultTagRecogtion(): void {
+    export function getResultTagRecognition(): void {
         getResultInternal(Algorithm.AlgorithmTagRecognition);
     }
 
@@ -458,7 +458,7 @@ namespace huskylens2 {
     //% block="whether tag detected"
     //% weight=93
     //% subcategory="tag recognition"
-    export function availableTagRecogtion(): boolean {
+    export function availableTagRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmTagRecognition);
     }
 
@@ -580,7 +580,7 @@ namespace huskylens2 {
     //% block="get QR code recognition result"
     //% weight=84
     //% subcategory="QR code recognition"
-    export function getResultQRCodeRecogtion(): void {
+    export function getResultQRCodeRecognition(): void {
         getResultInternal(Algorithm.AlgorithmQrCodeRecognition);
     }
 
@@ -588,7 +588,7 @@ namespace huskylens2 {
     //% block="whether QR code detected"
     //% weight=83
     //% subcategory="QR code recognition"
-    export function availableQRCodeRecogtion(): boolean {
+    export function availableQRCodeRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmQrCodeRecognition);
     }
 
@@ -713,7 +713,7 @@ namespace huskylens2 {
     //% block="get barcode recognition result"
     //% weight=74
     //% subcategory="barcode recognition"
-    export function getResultBarcodeRecogtion(): void {
+    export function getResultBarcodeRecognition(): void {
         getResultInternal(Algorithm.AlgorithmBarcodeRecognition);
     }
 
@@ -721,7 +721,7 @@ namespace huskylens2 {
     //% block="whether barcode detected"
     //% weight=73
     //% subcategory="barcode recognition"
-    export function availableBarcodeRecogtion(): boolean {
+    export function availableBarcodeRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmBarcodeRecognition);
     }
 

@@ -69,7 +69,7 @@ namespace huskylens2 {
     //% block="get face recognition result"
     //% weight=198
     //% subcategory="face recognition"
-    export function getResultFaceRecogtion(): void {
+    export function getResultFaceRecognition(): void {
         getResultInternal(Algorithm.AlgorithmFaceRecognition);
     }
 
@@ -80,7 +80,7 @@ namespace huskylens2 {
     //% block="available face recogtion"
     //% weight=197
     //% subcategory="face recognition"
-    export function availableFaceRecogtion(): boolean {
+    export function availableFaceRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmFaceRecognition);
     }
 
@@ -430,7 +430,7 @@ namespace huskylens2 {
     //% block="get object recognition result"
     //% weight=188
     //% subcategory="object recognition"
-    export function getResultObjectRecogtion(): void {
+    export function getResultObjectRecognition(): void {
         getResultInternal(Algorithm.AlgorithmObjectRecognition);
     }
 
@@ -438,7 +438,7 @@ namespace huskylens2 {
     //% block="object detected?"
     //% weight=187
     //% subcategory="object recognition"
-    export function availableObjectRecogtion(): boolean {
+    export function availableObjectRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmObjectRecognition);
     }
 
@@ -577,7 +577,7 @@ namespace huskylens2 {
     //% block="get color recognition result"
     //% weight=175
     //% subcategory="color recognition"
-    export function getResultColorRecogtion(): void {
+    export function getResultColorRecognition(): void {
         getResultInternal(Algorithm.AlgorithmColorRecognition);
     }
 
@@ -585,7 +585,7 @@ namespace huskylens2 {
     //% block="color block detected?"
     //% weight=174
     //% subcategory="color recognition"
-    export function availableColorRecogtion(): boolean {
+    export function availableColorRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmColorRecognition);
     }
 
@@ -805,7 +805,7 @@ namespace huskylens2 {
     //% block="get instance segmentation result"
     //% weight=159
     //% subcategory="instance segmentation"
-    export function getResultInstanceRecogtion(): void {
+    export function getResultInstanceRecognition(): void {
         getResultInternal(Algorithm.AlgorithmSegment);
     }
 
@@ -813,7 +813,7 @@ namespace huskylens2 {
     //% block="instance detected?"
     //% weight=158
     //% subcategory="instance segmentation"
-    export function availableInstanceRecogtion(): boolean {
+    export function availableInstanceRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmSegment);
     }
 
@@ -924,7 +924,7 @@ namespace huskylens2 {
     //% block="get hand recognition result"
     //% weight=149
     //% subcategory="hand recognition"
-    export function getResultGestureRecogtion(): void {
+    export function getResultGestureRecognition(): void {
         getResultInternal(Algorithm.AlgorithmHandRecognition);
     }
 
@@ -932,7 +932,7 @@ namespace huskylens2 {
     //% block="gesture detected?"
     //% weight=148
     //% subcategory="hand recognition"
-    export function availableGestureRecogtion(): boolean {
+    export function availableGestureRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmHandRecognition);
     }
 
@@ -1043,7 +1043,7 @@ namespace huskylens2 {
     //% block="get pose recognition result"
     //% weight=139
     //% subcategory="pose recognition"
-    export function getResultPoseRecogtion(): void {
+    export function getResultPoseRecognition(): void {
         getResultInternal(Algorithm.AlgorithmPoseRecognition);
     }
 
@@ -1051,7 +1051,7 @@ namespace huskylens2 {
     //% block="pose detected?"
     //% weight=138
     //% subcategory="pose recognition"
-    export function availablePoseRecogtion(): boolean {
+    export function availablePoseRecognition(): boolean {
         return availableInternal(Algorithm.AlgorithmPoseRecognition);
     }
 
