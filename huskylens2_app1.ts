@@ -19,7 +19,7 @@ namespace huskylens2 {
      *  Init I2C until success
      */
     //% weight=200
-    //%block="initialize via I2C until success"
+    //%block="initialize I2C until success"
     //% group="communication"
     export function I2CInit(): void {
         let res = beginInternal();

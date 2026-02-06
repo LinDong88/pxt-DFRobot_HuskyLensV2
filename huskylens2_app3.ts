@@ -22,7 +22,7 @@ namespace huskylens2 {
      * @param result Result object
      * @param property fall detection property
      */
-    export function getFallDetectionPropertyValue(result: ResultVariant, property: BasePropertyId): any {
+    function getFallDetectionPropertyValue(result: ResultVariant, property: BasePropertyId): any {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
@@ -128,7 +128,7 @@ namespace huskylens2 {
      * @param result Result object
      * @param property Face orientation detection property
      */
-    export function getFaceOrientationPropertyValue(result: ResultVariant, property: number): any {
+    function getFaceOrientationPropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
         const p = property | 0; // Ensure it's an integer
@@ -297,8 +297,9 @@ namespace huskylens2 {
      * Get gaze direction detection Property Value (Include ID)
      * @param result Result object
      * @param property gaze direction detection property
+     * 
      */
-    export function getEyeGazePropertyValue(result: ResultVariant, property: number): any {
+    function getEyeGazePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
