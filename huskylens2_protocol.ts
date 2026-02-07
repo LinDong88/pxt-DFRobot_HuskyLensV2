@@ -720,8 +720,8 @@ namespace huskylens2 {
     /**
      * Internal function: switch the current algorithm on HUSKYLENS 2.
      */
-    export function switchAlgorithmInternal(algo: number): boolean {
-        const dataBuf = createInitializedBuffer(algo);
+    export function switchAlgorithmInternal(algorithmID: number): boolean {
+        const dataBuf = createInitializedBuffer(algorithmID);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandSetAlgorithm,
             algorithmID: Algorithm.AlgorithmAny,
@@ -741,21 +741,21 @@ namespace huskylens2 {
     let customId: number[] = [Algorithm.AlgorithmAny, Algorithm.AlgorithmAny, Algorithm.AlgorithmAny];
 
     function toRealID(ID: number): number {
-        let algo = ID;
+        let algorithmID = ID;
         if (ID >= Algorithm.AlgorithmCustomBegin) {
             for (let i = 0; i < Macro.CustomAlgorithmCount; i++)
-                if (customId[i] == algo) {
-                    algo = (Algorithm.AlgorithmCustom0 + i);
+                if (customId[i] == algorithmID) {
+                    algorithmID = (Algorithm.AlgorithmCustom0 + i);
                     break;
                 }
         }
-        return algo;
+        return algorithmID;
     }
 
     /**
      * Internal function: check whether there is at least one unused cached result.
      */
-    export function availableInternal(algo: number): boolean {
+    export function availableInternal(algorithmID: number): boolean {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
@@ -771,10 +771,10 @@ namespace huskylens2 {
 
     /**
      * Internal function: get the maximum learned ID value from the cache.
-     * @param algo The algorithm ID (normalized internally).
+     * @param algorithmID The algorithm ID (normalized internally).
      * @returns The maximum learned ID; returns 0 if no ID has been learned.
      */
-    export function cachedResultMaxIDInternal(algo: number): number {
+    export function cachedResultMaxIDInternal(algorithmID: number): number {
         const cacheAlgo = 0;
         return maxID[cacheAlgo] || 0;
     }
@@ -782,12 +782,12 @@ namespace huskylens2 {
     /**
      * Internal function: request results from device and update the result cache.
      */
-    export function getResultInternal(algo: number): number {
+    export function getResultInternal(algorithmID: number): number {
         const dataBuf = Buffer.create(0);
         const retry = 3;
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandGetResult,
-            algorithmID: algo,
+            algorithmID: algorithmID,
             data: dataBuf,
         });
 
@@ -838,7 +838,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the cached result that is closest to screen center.
      */
-    export function cachedCenterResultInternal(algo: number): ResultVariant | null {
+    export function cachedCenterResultInternal(algorithmID: number): ResultVariant | null {
         const cacheAlgo = 0;
         let centerIndex = -1;
         let minLen = 0x7FFFFFFF;
@@ -863,7 +863,7 @@ namespace huskylens2 {
     /**
      * Internal function: get a cached result by index.
      */
-    export function cachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
+    export function cachedResultByIndexInternal(algorithmID: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         if (index < 0 || index >= Macro.MaxResultNum) {
             return null;
@@ -874,7 +874,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the first cached result that matches a specific ID.
      */
-    export function cachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
+    export function cachedResultByIDInternal(algorithmID: number, ID: number): ResultVariant | null {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
@@ -891,7 +891,7 @@ namespace huskylens2 {
     /**
      * Internal function: count how many cached results are available.
      */
-    export function cachedResultNumInternal(algo: number): number {
+    export function cachedResultNumInternal(algorithmID: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -905,14 +905,14 @@ namespace huskylens2 {
     /**
      * Internal function: get the number of learned IDs (max ID in cache).
      */
-    export function cachedResultLearnedNumInternal(algo: number): number {
-        return cachedResultMaxIDInternal(algo);
+    export function cachedResultLearnedNumInternal(algorithmID: number): number {
+        return cachedResultMaxIDInternal(algorithmID);
     }
 
     /**
      * Internal function: count how many cached results share the specified ID.
      */
-    export function cachedResultNumByIDInternal(algo: number, ID: number): number {
+    export function cachedResultNumByIDInternal(algorithmID: number, ID: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -930,7 +930,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the nth cached result that matches the specified ID.
      */
-    export function cachedIndexResultByIDInternal(algo: number, ID: number, index: number): ResultVariant | null {
+    export function cachedIndexResultByIDInternal(algorithmID: number, ID: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         let currentIndex = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -951,7 +951,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the current main branch result for line tracking.
      */
-    export function getCurrentBranchInternal(algo: number): ResultVariant | null {
+    export function getCurrentBranchInternal(algorithmID: number): ResultVariant | null {
         const cacheAlgo = 0;
         const item = result[cacheAlgo] && result[cacheAlgo][0];
         return (item && item.level === 1) ? item : null;
@@ -960,7 +960,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the number of upcoming branches in line tracking.
      */
-    export function getUpcomingBranchCountInternal(algo: number): number {
+    export function getUpcomingBranchCountInternal(algorithmID: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -974,7 +974,7 @@ namespace huskylens2 {
     /**
      * Internal function: get a specific branch in line tracking by index.
      */
-    export function getBranchInternal(algo: number, index: number): ResultVariant | null {
+    export function getBranchInternal(algorithmID: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         const targetIndex = index + 1;
         for (let i = 1; i < Macro.MaxResultNum; i++) {
