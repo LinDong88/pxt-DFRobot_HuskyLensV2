@@ -8,7 +8,7 @@
  * @date  2026-2-2
 */
 // line tracking properties
-export enum LineTrackingProperty {
+enum LineTrackingProperty {
     //% block="x component"
     XComponent,
     //% block="y component"
