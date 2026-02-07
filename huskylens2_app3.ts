@@ -644,7 +644,7 @@ namespace huskylens2 {
     //% num.min=128 num.max=255 num.defl=128
     //% ID.min=1 ID.max=100 ID.defl=1
     //% index.min=1 index.max=6 index.defl=1
-    //% property.defl=BaseProperty.name
+    //% property.defl=BaseProperty.Name
     export function WithIDProperty(num: number, ID: number, index: number, property: BaseProperty): any {
         const res = cachedIndexResultByIDInternal(num, ID, index - 1);
         const result = res as Result;
