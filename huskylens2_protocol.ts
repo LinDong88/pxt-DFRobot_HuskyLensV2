@@ -769,7 +769,12 @@ namespace huskylens2 {
         return false;
     }
 
-    function cachedResultMaxIDInternal(algo: number): number {
+    /**
+     * Internal function: get the maximum learned ID value from the cache.
+     * @param algo The algorithm ID (normalized internally).
+     * @returns The maximum learned ID; returns 0 if no ID has been learned.
+     */
+    export function cachedResultMaxIDInternal(algo: number): number {
         const cacheAlgo = 0;
         return maxID[cacheAlgo] || 0;
     }
