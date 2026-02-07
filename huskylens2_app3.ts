@@ -8,6 +8,61 @@
  * @date  2026-2-2
 */
 
+// Face Orientation Detection Properties
+enum FaceOrientationProperty {
+    //% block="ID"
+    ID = 0,
+    //% block="name"
+    Name,
+    //% block="roll angle"
+    Roll,
+    //% block="yaw angle"
+    Yaw,
+    //% block="pitch angle"
+    Pitch,
+
+}
+// Face Orientation Detection Properties
+enum FaceOrientationPropertyId {
+    //% block="name"
+    Name = 1,
+    //% block="roll angle"
+    Roll,
+    //% block="yaw angle"
+    Yaw,
+    //% block="pitch angle"
+    Pitch,
+}
+// gaze direction detection Properties (Include ID)
+enum EyeGazeProperty {
+    //% block="ID"
+    ID = 0,
+    //% block="name"
+    Name,
+    //% block="projected angle"
+    Angle,
+    //% block="projected length"
+    Length,
+    //% block="pitch angle"
+    Pitch,
+    //% block="yaw angle"
+    Yaw
+}
+
+// gaze direction detection Properties (excluding ID)
+enum EyeGazePropertyId {
+    //% block="name"
+    Name = 1,
+    //% block="projected angle"
+    Angle,
+    //% block="projected length"
+    Length,
+    //% block="pitch angle"
+    Pitch,
+    //% block="yaw angle"
+    Yaw
+}
+
 
 /**
  * HuskyLens 2 
@@ -85,7 +140,7 @@ namespace huskylens2 {
      * @param property The fall-detection property to retrieve.
      */
 
-    //% block="fall detection ID %index %property"
+    //% block=" the %index th fall detection %property"
     //% weight=145
     //% index.min=1 index.defl=1
     //% subcategory="fall detection"
@@ -95,31 +150,7 @@ namespace huskylens2 {
     }
 
     // ================================ Face Orientation Detection Related Enums ==================================================
-    // Face Orientation Detection Properties
-    export enum FaceOrientationProperty {
-        //% block="ID"
-        ID = 0,
-        //% block="name"
-        Name,
-        //% block="roll angle"
-        Roll,
-        //% block="yaw angle"
-        Yaw,
-        //% block="pitch angle"
-        Pitch,
 
-    }
-    // Face Orientation Detection Properties
-    export enum FaceOrientationPropertyId {
-        //% block="name"
-        Name = 1,
-        //% block="roll angle"
-        Roll,
-        //% block="yaw angle"
-        Yaw,
-        //% block="pitch angle"
-        Pitch,
-    }
     // ================================= Face Orientation Detection Property Get Function ===========================================
 
 
@@ -264,35 +295,7 @@ namespace huskylens2 {
     }
 
     // ==================================== gaze direction detection Related Enums ===============================
-    // gaze direction detection Properties (Include ID)
-    export enum EyeGazeProperty {
-        //% block="ID"
-        ID = 0,
-        //% block="name"
-        Name,
-        //% block="projected angle"
-        Angle,
-        //% block="projected length"
-        Length,
-        //% block="pitch angle"
-        Pitch,
-        //% block="yaw angle"
-        Yaw
-    }
 
-    // gaze direction detection Properties (excluding ID)
-    export enum EyeGazePropertyId {
-        //% block="name"
-        Name = 1,
-        //% block="projected angle"
-        Angle,
-        //% block="projected length"
-        Length,
-        //% block="pitch angle"
-        Pitch,
-        //% block="yaw angle"
-        Yaw
-    }
     /**
      * Get gaze direction detection Property Value (Include ID)
      * @param result The result object to read from.

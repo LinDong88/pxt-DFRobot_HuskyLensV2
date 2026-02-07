@@ -7,7 +7,17 @@
  * @author [email](rong.li@dfrobot.com)
  * @date  2026-2-2
 */
-
+// line tracking properties
+export enum LineTrackingProperty {
+    //% block="x component"
+    XComponent,
+    //% block="y component"
+    YComponent,
+    //% block="angle"
+    Angle,
+    //% block="length"
+    Length,
+}
 
 /**
  * HuskyLens 2 
@@ -245,17 +255,7 @@ namespace huskylens2 {
         }
     }
 
-    // line tracking properties
-    export enum LineTrackingProperty {
-        //% block="x component"
-        XComponent,
-        //% block="y component"
-        YComponent,
-        //% block="angle"
-        Angle,
-        //% block="length"
-        Length,
-    }
+
 
     /** Request one-time line tracking data and store in result */
     //% block="request line tracking data and store result"
