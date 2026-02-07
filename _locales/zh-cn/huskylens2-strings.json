@@ -15,7 +15,7 @@
   "huskylens2.faceIdExists|block": "ID %index 的人脸存在？",
   "huskylens2.totalFaceByID|block": "ID %index 的人脸总数",
   "huskylens2.facePropertyByID|block": "ID %index 的人脸 %property",
-  "huskylens2.facePropertyByIDNth|block": "ID %ID 的第 %n 张人脸 的 %property",
+  "huskylens2.facePropertyByIDNth|block": "ID %ID 的第 %index 张人脸 的 %property",
   
   "huskylens2.getResultObjectRecognition|block": "获取一次物体识别结果",
   "huskylens2.availableObjectRecognition|block": "检测到物体？",
@@ -26,7 +26,7 @@
   "huskylens2.objectIdExists|block": "ID %index 的物体存在？",
   "huskylens2.totalObjectByID|block": "ID %index 的物体总数",
   "huskylens2.objectPropertyByID|block": "ID %index 的物体 %property",
-  "huskylens2.objectPropertyByIDNth|block": "ID %ID 的第 %n 个物体 的 %property",
+  "huskylens2.objectPropertyByIDNth|block": "ID %ID 的第 %index 个物体 的 %property",
   
   "huskylens2.getResultColorRecognition|block": "获取一次颜色识别结果",
   "huskylens2.availableColorRecognition|block": "检测到色块？",
@@ -37,7 +37,7 @@
   "huskylens2.colorIdExists|block": "ID %index 的色块存在？",
   "huskylens2.totalColorByID|block": "ID %index 的色块总数",
   "huskylens2.colorPropertyByID|block": "ID %index 的色块 %property",
-  "huskylens2.colorPropertyByIDNth|block": "ID %ID 的第 %n 个色块 的 %property",
+  "huskylens2.colorPropertyByIDNth|block": "ID %ID 的第 %index 个色块 的 %property",
   
   "huskylens2.getResultInstanceRecognition|block": "获取一次实例分割结果",
   "huskylens2.availableInstanceRecognition|block": "检测到实例？",
@@ -48,7 +48,7 @@
   "huskylens2.instanceIdExists|block": "ID %index 的实例存在？",
   "huskylens2.totalInstanceByID|block": "ID %index 的实例总数",
   "huskylens2.instancePropertyByID|block": "ID %index 的实例 %property",
-  "huskylens2.instancePropertyByIDNth|block": "ID %ID 的第 %n 个实例 的 %property",
+  "huskylens2.instancePropertyByIDNth|block": "ID %ID 的第 %index 个实例 的 %property",
   
   "huskylens2.getResultGestureRecognition|block": "获取一次手势识别结果",
   "huskylens2.availableGestureRecognition|block": "检测到手势？",
@@ -59,7 +59,7 @@
   "huskylens2.gestureIdExists|block": "ID %index 的手势存在？",
   "huskylens2.totalGestureByID|block": "ID %index 的手势总数",
   "huskylens2.gesturePropertyByID|block": "ID %index 的手势 %property",
-  "huskylens2.gesturePropertyByIDNth|block": "ID %ID 的第 %n 个手势 的 %property",
+  "huskylens2.gesturePropertyByIDNth|block": "ID %ID 的第 %index 个手势 的 %property",
   
   "huskylens2.getResultPoseRecognition|block": "获取一次姿态识别结果",
   "huskylens2.availablePoseRecognition|block": "检测到姿态？",
@@ -70,7 +70,7 @@
   "huskylens2.poseIdExists|block": "ID %index 的姿态存在？",
   "huskylens2.totalPoseByID|block": "ID %index 的姿态总数",
   "huskylens2.posePropertyByID|block": "ID %index 的姿态 %property",
-  "huskylens2.posePropertyByIDNth|block": "ID %ID 的第 %n 个姿态 的 %property",
+  "huskylens2.posePropertyByIDNth|block": "ID %ID 的第 %index 个姿态 的 %property",
   
   "huskylens2.getResultPlateRecognition|block": "获取一次车牌识别结果",
   "huskylens2.availablePlateRecognition|block": "检测到车牌？",
@@ -81,7 +81,7 @@
   "huskylens2.plateIdExists|block": "ID %index 的车牌存在？",
   "huskylens2.totalPlateByID|block": "ID %index 的车牌总数",
   "huskylens2.platePropertyByID|block": "ID %index 的车牌 %property",
-  "huskylens2.platePropertyByIDNth|block": "ID %ID 的第 %n 个车牌 的 %property",
+  "huskylens2.platePropertyByIDNth|block": "ID %ID 的第 %index 个车牌 的 %property",
   
   "huskylens2.getResultTextRecognition|block": "获取一次文字识别结果",
   "huskylens2.availableTextRecognition|block": "检测到文字区域？",
@@ -99,7 +99,7 @@
   "huskylens2.emotionIdExists|block": "ID %index 的表情存在？",
   "huskylens2.totalEmotionByID|block": "ID %index 的表情总数",
   "huskylens2.emotionPropertyByID|block": "ID %index 的表情 %property",
-  "huskylens2.emotionPropertyByIDNth|block": "ID %ID 的第 %n 个表情 的 %property",
+  "huskylens2.emotionPropertyByIDNth|block": "ID %ID 的第 %index 个表情 的 %property",
   
   "huskylens2.getResultTagRecognition|block": "获取一次标签识别结果",
   "huskylens2.availableTagRecognition|block": "检测到标签？",
@@ -110,7 +110,7 @@
   "huskylens2.tagIdExists|block": "ID %index 的标签存在？",
   "huskylens2.totalTagByID|block": "ID %index 的标签总数",
   "huskylens2.tagPropertyByID|block": "ID %index 的标签 %property",
-  "huskylens2.tagPropertyByIDNth|block": "ID %ID 的第 %n 个标签 的 %property",
+  "huskylens2.tagPropertyByIDNth|block": "ID %ID 的第 %index 个标签 的 %property",
   
   "huskylens2.getResultQRCodeRecognition|block": "获取一次二维码识别结果",
   "huskylens2.availableQRCodeRecognition|block": "检测到二维码？",
@@ -121,7 +121,7 @@
   "huskylens2.qrcodeIdExists|block": "ID %index 的二维码存在？",
   "huskylens2.totalQRCodeByID|block": "ID %index 的二维码总数",
   "huskylens2.QRCodePropertyByID|block": "ID %index 的二维码 %property",
-  "huskylens2.QRCodePropertyByIDNth|block": "ID %ID 的第 %n 个二维码 的 %property",
+  "huskylens2.QRCodePropertyByIDNth|block": "ID %ID 的第 %index 个二维码 的 %property",
   
   "huskylens2.getResultBarcodeRecognition|block": "获取一次条形码识别结果",
   "huskylens2.availableBarcodeRecognition|block": "检测到条形码？",
@@ -132,7 +132,7 @@
   "huskylens2.barcodeIdExists|block": "ID %index 的条形码存在？",
   "huskylens2.totalBarcodeByID|block": "ID %index 的条形码总数",
   "huskylens2.barcodePropertyByID|block": "ID %index 的条形码 %property",
-  "huskylens2.barcodePropertyByIDNth|block": "ID %ID 的第 %n 个条形码 的 %property",
+  "huskylens2.barcodePropertyByIDNth|block": "ID %ID 的第 %index 个条形码 的 %property",
   
   "huskylens2.getResultObjectTracking|block": "请求一次物体追踪数据存入结果",
   "huskylens2.availableObjectTracking|block": "检测到追踪物体？",
@@ -140,7 +140,7 @@
   
   "huskylens2.getResultObjectClassification|block": "请求一次物体分类数据存入结果",
   "huskylens2.availableObjectClassification|block": "检测到分类物体？",
-  "huskylens2.cachedObjectClassificationResult|block": "第 %num 个分类物体的 %property",
+  "huskylens2.cachedObjectClassificationResult|block": "第 %index 个分类物体的 %property",
   "huskylens2.cachedResultNumObjectClassification|block": "检测到的分类物体总数",
   
   "huskylens2.getResultSelfLearningClassification|block": "请求一次自学习分类数据存入结果",
@@ -157,7 +157,7 @@
   "huskylens2.availableCustomModel|block": "算法ID %algorithmId 检测到目标？",
   "huskylens2.cachedCenterCustomModelResult|block": "算法ID %algorithmId 靠近中心的目标 %property",
   "huskylens2.cachedResultNumCustomModel|block": "算法ID %algorithmId 检测到的目标总数",
-  "huskylens2.cachedResultCustomModelProperty|block": "算法ID %algorithmId 第 %num 个目标的 %property",
+  "huskylens2.cachedResultCustomModelProperty|block": "算法ID %algorithmId 第 %index 个目标的 %property",
   "huskylens2.totalLearnedCustomModelIDs|block": "算法ID %algorithmId 已学习的目标ID总数",
   "huskylens2.customModelIdExists|block": "算法ID %algorithmId ID %targetId 的目标存在？",
   "huskylens2.totalCustomModelByID|block": "算法ID %algorithmId ID %targetId 的目标总数",

@@ -78,7 +78,7 @@ namespace huskylens2 {
         //===================== Time out ====================
         Timeout = 2000
     }
-
+    
     class PacketHead {
         static readonly HEADER_SIZE = 5;
 
@@ -484,14 +484,14 @@ namespace huskylens2 {
         }
         while (i2c_cached_data.length) {
             const data = i2c_cached_data.shift();
-            if (data != null && husky_lens_protocol_receive(data)) {
+            if (data != null && huskyLensProtocolReceive(data)) {
                 return true;
             }
         }
         return false;
     }
 
-    function husky_lens_protocol_receive(data: number): boolean {
+    function huskyLensProtocolReceive(data: number): boolean {
         switch (receive_index) {
             case Macro.Header0Index:
                 if (data != 0x55) {
@@ -1311,7 +1311,7 @@ namespace huskylens2 {
 
     /**
      * Learn a target at the center of the screen using a self-trained model.
-     * @param algorithmID Self-trained model ID.
+     * @param algorithmID Self-trained model ID.（>=128）
      */
     //% block="built-in model %algorithmID learn target at center of screen"
     //% weight=94

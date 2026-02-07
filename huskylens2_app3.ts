@@ -80,12 +80,12 @@ namespace huskylens2 {
     }
 
     /**
-     * property of the [INDEX]th fall detection
+     * property of the [index]th fall detection
      * @param index The index (1-based).
      * @param property The fall-detection property to retrieve.
      */
 
-    //% block=" the %index th fall detection %property"
+    //% block="fall detection ID %index %property"
     //% weight=145
     //% index.min=1 index.defl=1
     //% subcategory="fall detection"
@@ -194,11 +194,11 @@ namespace huskylens2 {
     }
 
     /**
-     * property of the [INDEX]th face orientation
+     * property of the [index]th face orientation
      * @param index The index (1-based).
      * @param property The face-orientation property to retrieve.
      */
-    //% block="the %index th face orientation %property"
+    //% block="face orientation ID %index %property"
     //% weight=134
     //% index.min=1 index.defl=1
     //% subcategory="faceorientation recognition"
@@ -247,12 +247,12 @@ namespace huskylens2 {
     }
 
     /**
-     * property of the [INDEX]th face orientation with ID 
+     * property of the [index]th face orientation with ID 
      * @param ID The face-orientation ID.
      * @param index The index (1-based).
      * @param property The face-orientation property to retrieve. (excluding ID)
      */
-    //% block="ID %ID of the %index th face orientation %property "
+    //% block="ID %ID No. %index face orientation %property "
     //% weight=130
     //% ID.min=1 ID.defl=1
     //% index.min=1 index.defl=1
@@ -366,11 +366,11 @@ namespace huskylens2 {
     }
 
     /**
-     * property of the [INDEX]th gaze direction
+     * property of the [index]th gaze direction
      * @param index The index (1-based).
      * @param property The eye-gaze property to retrieve.
      */
-    //% block="the %index th gaze direction %property"
+    //% block="gaze direction ID %index %property"
     //% weight=124
     //% index.min=1 index.defl=1
     //% subcategory="gaze direction detection"
@@ -419,12 +419,12 @@ namespace huskylens2 {
     }
 
     /**
-     * property of the [INDEX]th gaze direction with ID 
+     * property of the [index]th gaze direction with ID 
      * @param ID The eye-gaze ID.
      * @param index The index (1-based).
      * @param property The eye-gaze property to retrieve. (excluding ID)
      */
-    //% block="ID %ID of the %index th gaze direction %property"
+    //% block="ID %ID No. %index gaze direction %property"
     //% weight=120
     //% ID.min=1 ID.defl=1
     //% index.min=1 index.defl=1
@@ -535,18 +535,18 @@ namespace huskylens2 {
     /**
      * Get the property of the Nth target for the specified model ID.
      * @param num Model ID (range: 128-255, default: 128)
-     * @param INDEX The target index (1-based, range: 1-6, default: 1).
+     * @param index The target index (1-based, range: 1-6, default: 1).
      * @param property Property to retrieve (e.g., ID, Name, XCenter, etc.)
      * @returns The requested property value.
      */
-    //% block="model ID%num No.%index target%property"
+    //% block="model ID %num No. %index target %property"
     //% weight=113
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    //% INDEX.min=1 INDEX.max=6 INDEX.defl=1
+    //% index.min=1 index.max=6 index.defl=1
     //% property.defl=BasePropertyId.ID
-    export function targetProperty(num: number, INDEX: number, property: BasePropertyId): any {
-        const res = cachedResultByIndexInternal(num, INDEX - 1);
+    export function targetProperty(num: number, index: number, property: BasePropertyId): any {
+        const res = cachedResultByIndexInternal(num, index - 1);
         const result = res as Result;
         if (!result) {
             if (property === BasePropertyId.Name ) {

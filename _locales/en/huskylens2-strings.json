@@ -15,7 +15,7 @@
   "huskylens2.faceIdExists|block": "face with ID %index exists?",
   "huskylens2.totalFaceByID|block": "total number of faces with ID %index",
   "huskylens2.facePropertyByID|block": "the %property of the face with ID %index",
-  "huskylens2.facePropertyByIDNth|block": "the %property of the %n-th face with ID %ID",
+  "huskylens2.facePropertyByIDNth|block": "the %property of the No. %index face with ID %ID",
   
   "huskylens2.getResultObjectRecognition|block": "get one object recognition result",
   "huskylens2.availableObjectRecognition|block": "object detected?",
@@ -26,7 +26,7 @@
   "huskylens2.objectIdExists|block": "object with ID %index exists?",
   "huskylens2.totalObjectByID|block": "total number of objects with ID %index",
   "huskylens2.objectPropertyByID|block": "the %property of the object with ID %index",
-  "huskylens2.objectPropertyByIDNth|block": "the %property of the %n-th object with ID %ID",
+  "huskylens2.objectPropertyByIDNth|block": "the %property of the No. %index object with ID %ID",
   
   "huskylens2.getResultColorRecognition|block": "get one color recognition result",
   "huskylens2.availableColorRecognition|block": "color block detected?",
@@ -37,7 +37,7 @@
   "huskylens2.colorIdExists|block": "color block with ID %index exists?",
   "huskylens2.totalColorByID|block": "total number of color blocks with ID %index",
   "huskylens2.colorPropertyByID|block": "the %property of the color block with ID %index",
-  "huskylens2.colorPropertyByIDNth|block": "the %property of the %n-th color block with ID %ID",
+  "huskylens2.colorPropertyByIDNth|block": "the %property of the No. %index color block with ID %ID",
   
   "huskylens2.getResultInstanceRecognition|block": "get one instance segmentation result",
   "huskylens2.availableInstanceRecognition|block": "instance detected?",
@@ -48,7 +48,7 @@
   "huskylens2.instanceIdExists|block": "instance with ID %index exists?",
   "huskylens2.totalInstanceByID|block": "total number of instances with ID %index",
   "huskylens2.instancePropertyByID|block": "the %property of the instance with ID %index",
-  "huskylens2.instancePropertyByIDNth|block": "the %property of the %n-th instance with ID %ID",
+  "huskylens2.instancePropertyByIDNth|block": "the %property of the No. %index instance with ID %ID",
   
   "huskylens2.getResultGestureRecognition|block": "get one gesture recognition result",
   "huskylens2.availableGestureRecognition|block": "gesture detected?",
@@ -59,7 +59,7 @@
   "huskylens2.gestureIdExists|block": "gesture with ID %index exists?",
   "huskylens2.totalGestureByID|block": "total number of gestures with ID %index",
   "huskylens2.gesturePropertyByID|block": "the %property of the gesture with ID %index",
-  "huskylens2.gesturePropertyByIDNth|block": "the %property of the %n-th gesture with ID %ID",
+  "huskylens2.gesturePropertyByIDNth|block": "the %property of the No. %index gesture with ID %ID",
   
   "huskylens2.getResultPoseRecognition|block": "get one pose recognition result",
   "huskylens2.availablePoseRecognition|block": "pose detected?",
@@ -70,7 +70,7 @@
   "huskylens2.poseIdExists|block": "pose with ID %index exists?",
   "huskylens2.totalPoseByID|block": "total number of poses with ID %index",
   "huskylens2.posePropertyByID|block": "the %property of the pose with ID %index",
-  "huskylens2.posePropertyByIDNth|block": "the %property of the %n-th pose with ID %ID",
+  "huskylens2.posePropertyByIDNth|block": "the %property of the No. %index pose with ID %ID",
   
   "huskylens2.getResultPlateRecognition|block": "get one license plate recognition result",
   "huskylens2.availablePlateRecognition|block": "license plate detected?",
@@ -81,7 +81,7 @@
   "huskylens2.plateIdExists|block": "license plate with ID %index exists?",
   "huskylens2.totalPlateByID|block": "total number of license plates with ID %index",
   "huskylens2.platePropertyByID|block": "the %property of the license plate with ID %index",
-  "huskylens2.platePropertyByIDNth|block": "the %property of the %n-th license plate with ID %ID",
+  "huskylens2.platePropertyByIDNth|block": "the %property of the No. %index license plate with ID %ID",
   
   "huskylens2.getResultTextRecognition|block": "get one text recognition result",
   "huskylens2.availableTextRecognition|block": "text area detected?",
@@ -99,7 +99,7 @@
   "huskylens2.emotionIdExists|block": "emotion with ID %index exists?",
   "huskylens2.totalEmotionByID|block": "total number of emotions with ID %index",
   "huskylens2.emotionPropertyByID|block": "the %property of the emotion with ID %index",
-  "huskylens2.emotionPropertyByIDNth|block": "the %property of the %n-th emotion with ID %ID",
+  "huskylens2.emotionPropertyByIDNth|block": "the %property of the No. %index emotion with ID %ID",
   
   "huskylens2.getResultTagRecognition|block": "get one tag recognition result",
   "huskylens2.availableTagRecognition|block": "tag detected?",
@@ -110,7 +110,7 @@
   "huskylens2.tagIdExists|block": "tag with ID %index exists?",
   "huskylens2.totalTagByID|block": "total number of tags with ID %index",
   "huskylens2.tagPropertyByID|block": "the %property of the tag with ID %index",
-  "huskylens2.tagPropertyByIDNth|block": "the %property of the %n-th tag with ID %ID",
+  "huskylens2.tagPropertyByIDNth|block": "the %property of the No. %index tag with ID %ID",
   
   "huskylens2.getResultQRCodeRecognition|block": "get one QR code recognition result",
   "huskylens2.availableQRCodeRecognition|block": "QR code detected?",
@@ -121,7 +121,7 @@
   "huskylens2.qrcodeIdExists|block": "QR code with ID %index exists?",
   "huskylens2.totalQRCodeByID|block": "total number of QR codes with ID %index",
   "huskylens2.QRCodePropertyByID|block": "the %property of the QR code with ID %index",
-  "huskylens2.QRCodePropertyByIDNth|block": "the %property of the %n-th QR code with ID %ID",
+  "huskylens2.QRCodePropertyByIDNth|block": "the %property of the No. %index QR code with ID %ID",
   
   "huskylens2.getResultBarcodeRecognition|block": "get one barcode recognition result",
   "huskylens2.availableBarcodeRecognition|block": "barcode detected?",
@@ -132,7 +132,7 @@
   "huskylens2.barcodeIdExists|block": "barcode with ID %index exists?",
   "huskylens2.totalBarcodeByID|block": "total number of barcodes with ID %index",
   "huskylens2.barcodePropertyByID|block": "the %property of the barcode with ID %index",
-  "huskylens2.barcodePropertyByIDNth|block": "the %property of the %n-th barcode with ID %ID",
+  "huskylens2.barcodePropertyByIDNth|block": "the %property of the No. %index barcode with ID %ID",
   
   "huskylens2.getResultObjectTracking|block": "request object tracking data once and store in result",
   "huskylens2.availableObjectTracking|block": "tracking object detected?",
@@ -140,7 +140,7 @@
   
   "huskylens2.getResultObjectClassification|block": "request object classification data once and store in result",
   "huskylens2.availableObjectClassification|block": "classification object detected?",
-  "huskylens2.cachedObjectClassificationResult|block": "the %property of the %num-th classified object",
+  "huskylens2.cachedObjectClassificationResult|block": "the %property of the No. %num classified object",
   "huskylens2.cachedResultNumObjectClassification|block": "total number of classified objects detected",
   
   "huskylens2.getResultSelfLearningClassification|block": "request self learning classification data once and store in result",

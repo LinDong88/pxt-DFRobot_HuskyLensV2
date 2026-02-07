@@ -406,13 +406,13 @@ namespace huskylens2 {
      * @param n The nth face (1-based).
      * @param property The property to retrieve (excluding ID).
      */
-    //% block="face ID %ID No.%n %property"
+    //% block="face ID %ID No. %index %property"
     //% weight=189
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="face recognition"
-    export function facePropertyByIDNth(ID: number, n: number, property: BaseProperty): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmFaceRecognition, ID, n - 1);
+    export function facePropertyByIDNth(ID: number, index: number, property: BaseProperty): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmFaceRecognition, ID, index - 1);
         return getBasePropertyValueInternal(r, property);
     }
 
@@ -552,13 +552,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="object ID %ID No. %n %property"
+    //% block="object ID %ID No. %index %property"
     //% weight=179
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="object recognition"
-    export function objectPropertyByIDNth(ID: number, n: number, property: BaseProperty): number {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmObjectRecognition, ID, n - 1);
+    export function objectPropertyByIDNth(ID: number, index: number, property: BaseProperty): number {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmObjectRecognition, ID, index - 1);
         return getBasePropertyValueInternal(r, property);
     }
 
@@ -699,13 +699,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="color block ID %ID No. %n %property"
+    //% block="color block ID %ID No. %index %property"
     //% weight=166
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="color recognition"
-    export function colorPropertyByIDNth(ID: number, n: number, property: BaseProperty): number {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmColorRecognition, ID, n - 1);
+    export function colorPropertyByIDNth(ID: number, index: number, property: BaseProperty): number {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmColorRecognition, ID, index - 1);
         return getColorPropertyValue(r, property);
     }
 
@@ -748,15 +748,15 @@ namespace huskylens2 {
 
     /**
      * Property of No.N classified object
-     * @param num The index (1-based).
+     * @param index The index (1-based).
      * @param property The property to retrieve.
      */
-    //% block="classified object %num %property"
+    //% block="classified object %index %property"
     //% weight=1
-    //% num.min=1 num.defl=1
+    //% index.min=1 index.defl=1
     //% subcategory="object classification"
-    export function cachedObjectClassificationResult(num: number, property: ObjectClassificationProperty): any {
-        const r = cachedResultByIndexInternal(Algorithm.AlgorithmObjectClassification, num - 1);
+    export function cachedObjectClassificationResult(index: number, property: ObjectClassificationProperty): any {
+        const r = cachedResultByIndexInternal(Algorithm.AlgorithmObjectClassification, index - 1);
         return getObjectClassificationPropertyValue(r, property);
     }
 
@@ -915,13 +915,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="instance ID %ID No. %n %property"
+    //% block="instance ID %ID No. %index %property"
     //% weight=150
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="instance segmentation"
-    export function instancePropertyByIDNth(ID: number, n: number, property: BaseProperty): number {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmSegment, ID, n - 1);
+    export function instancePropertyByIDNth(ID: number, index: number, property: BaseProperty): number {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmSegment, ID, index - 1);
         return getInstancePropertyValueID(r, property);
     }
 
@@ -1034,13 +1034,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="gesture ID %ID No. %n %property"
+    //% block="gesture ID %ID No. %index %property"
     //% weight=140
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="hand recognition"
-    export function gesturePropertyByIDNth(ID: number, n: number, property: BaseProperty): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmHandRecognition, ID, n - 1);
+    export function gesturePropertyByIDNth(ID: number, index: number, property: BaseProperty): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmHandRecognition, ID, index - 1);
         return getGesturePropertyValue(r, property);
     }
 
@@ -1153,13 +1153,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="pose ID %ID No. %n %property"
+    //% block="pose ID %ID No. %index %property"
     //% weight=130
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="pose recognition"
-    export function posePropertyByIDNth(ID: number, n: number, property: BaseProperty): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmPoseRecognition, ID, n - 1);
+    export function posePropertyByIDNth(ID: number, index: number, property: BaseProperty): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmPoseRecognition, ID, index - 1);
         return getPosePropertyValue(r, property);
     }}
 

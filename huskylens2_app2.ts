@@ -135,13 +135,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="plate ID %ID No.%n %property"
+    //% block="plate ID %ID No. %index %property"
     //% weight=120
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="license plate recognition"
-    export function platePropertyByIDNth(ID: number, n: number, property: BasePropertyContent): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmLicenseRecognition, ID, n - 1);
+    export function platePropertyByIDNth(ID: number, index: number, property: BasePropertyContent): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmLicenseRecognition, ID, index - 1);
         return getPlatePropertyValue(r, property);
     }
 
@@ -419,13 +419,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="emotion ID %ID No.%n %property"
+    //% block="emotion ID %ID No. %index %property"
     //% weight=95
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="face emotion recognition"
-    export function emotionPropertyByIDNth(ID: number, n: number, property: BaseProperty): number {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmEmotionRecognition, ID, n - 1);
+    export function emotionPropertyByIDNth(ID: number, index: number, property: BaseProperty): number {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmEmotionRecognition, ID, index - 1);
         return getEmotionPropertyValueID(r, property);
     }
 
@@ -549,13 +549,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="tag ID %ID No.%n %property"
+    //% block="tag ID %ID No. %index %property"
     //% weight=85
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="tag recognition"
-    export function tagPropertyByIDNth(ID: number, n: number, property: BasePropertyContent): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmTagRecognition, ID, n - 1);
+    export function tagPropertyByIDNth(ID: number, index: number, property: BasePropertyContent): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmTagRecognition, ID, index - 1);
         return getTagPropertyValue(r, property);
     }
 
@@ -679,13 +679,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="QR code ID %ID No.%n %property"
+    //% block="QR code ID %ID No. %index %property"
     //% weight=75
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="QR code recognition"
-    export function QRCodePropertyByIDNth(ID: number, n: number, property: BasePropertyContent): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmQrCodeRecognition, ID, n - 1);
+    export function QRCodePropertyByIDNth(ID: number, index: number, property: BasePropertyContent): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmQrCodeRecognition, ID, index - 1);
         return getQRCodePropertyValue(r, property);
     }
 
@@ -812,13 +812,13 @@ namespace huskylens2 {
      * @param n The nth item (1-based).
      * @param property The property to retrieve.
      */
-    //% block="barcode ID %ID No.%n %property"
+    //% block="barcode ID %ID No. %index %property"
     //% weight=65
     //% ID.min=1 ID.defl=1
     //% n.min=1 n.defl=1
     //% subcategory="barcode recognition"
-    export function barcodePropertyByIDNth(ID: number, n: number, property: BasePropertyContent): any {
-        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmBarcodeRecognition, ID, n - 1);
+    export function barcodePropertyByIDNth(ID: number, index: number, property: BasePropertyContent): any {
+        const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmBarcodeRecognition, ID, index - 1);
         return getBarcodePropertyValue(r, property);
     }
 
@@ -909,18 +909,18 @@ namespace huskylens2 {
     /**
      * The attribute of the num-th target of the algorithm ID
      * @param algorithmId The custom algorithm ID (1-based).
-     * @param num The index (1-based).
+     * @param index The index (1-based).
      * @param property The property to retrieve.
      */
-    //% block="algorithm ID %algorithmId target %num %property"
+    //% block="algorithm ID %algorithmId target %index %property"
     //% blockHidden=true
     //% weight=59
     //% algorithmId.min=1 algorithmId.defl=128
-    //% num.min=1 num.defl=1
+    //% index.min=1 index.defl=1
     //% subcategory="custom model"
-    export function cachedResultCustomModelProperty(algorithmId: number, num: number, property: BasePropertyId): number {
+    export function cachedResultCustomModelProperty(algorithmId: number, index: number, property: BasePropertyId): number {
         const algorithmID = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        const r = cachedResultByIndexInternal(algorithmID, num - 1);
+        const r = cachedResultByIndexInternal(algorithmID, index - 1);
         return getCustomModelPropertyValueID(r, property);
     }
 
@@ -993,20 +993,20 @@ namespace huskylens2 {
      * The attribute of the num-th target of algorithm ID ID
      * @param algorithmId The custom algorithm ID (1-based).
      * @param targetId The target ID (1-based).
-     * @param num The index (1-based).
+     * @param index The index (1-based).
      * @param property The property to retrieve.
      */
-    //% block="algorithm %algorithmId ID%targetId No.%num %property"
+    //% block="algorithm %algorithmId ID %targetId No. %index %property"
     //% blockHidden=true
     //% inlineInputMode=inline
     //% weight=54
     //% algorithmId.min=1 algorithmId.defl=128
     //% targetId.min=1 targetId.defl=1
-    //% num.min=1 num.defl=1
+    //% index.min=1 index.defl=1
     //% subcategory="custom model"
-    export function customModelPropertyByIDNth(algorithmId: number, targetId: number, num: number, property: BaseProperty): number {
+    export function customModelPropertyByIDNth(algorithmId: number, targetId: number, index: number, property: BaseProperty): number {
         const algorithmID = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        const r = cachedIndexResultByIDInternal(algorithmID, targetId, num - 1);
+        const r = cachedIndexResultByIDInternal(algorithmID, targetId, index - 1);
         return getCustomModelPropertyValue(r, property);
     }
 }
