@@ -421,12 +421,12 @@ namespace huskylens2 {
     
 
     // Helper function: Convert Algorithm enum to algorithm ID
-    export function algorithmToID(algorithmID : Algorithm): number {
+    function algorithmToID(algorithmID : Algorithm): number {
         return algorithmID  as number;
     }
 
     
-    export function getBasePropertyValue(result: ResultVariant, property: number): any {
+    function getBasePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
@@ -586,7 +586,7 @@ namespace huskylens2 {
     }
 
     // ================= color recognition =================
-    export function getColorPropertyValue(result: ResultVariant, property: number): number {
+    function getColorPropertyValue(result: ResultVariant, property: number): number {
         return getBasePropertyValue(result, property as any);
     }
 
@@ -798,11 +798,11 @@ namespace huskylens2 {
     }
 
     // =================================================== instance segmentation ===================================================
-    export function getInstancePropertyValue(result: ResultVariant, property: BasePropertyId): number {
+    function getInstancePropertyValue(result: ResultVariant, property: BasePropertyId): number {
         return getBasePropertyValue(result, property as any);
     }
 
-    export function getInstancePropertyValueID(result: ResultVariant, property: BaseProperty): number {
+    function getInstancePropertyValueID(result: ResultVariant, property: BaseProperty): number {
         return getBasePropertyValue(result, property as any);
     }
 

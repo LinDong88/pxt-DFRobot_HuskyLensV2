@@ -705,7 +705,7 @@ namespace huskylens2 {
     }
 
     
-    export function beginInternal(): boolean {
+    function beginInternal(): boolean {
         const dataBuf = createInitializedBuffer(1);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandKnock,
@@ -716,7 +716,7 @@ namespace huskylens2 {
     }
 
     
-    export function switchAlgorithmInternal(algo: number): boolean {
+    function switchAlgorithmInternal(algo: number): boolean {
         const dataBuf = createInitializedBuffer(algo);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandSetAlgorithm,
@@ -749,7 +749,7 @@ namespace huskylens2 {
     }
 
     
-    export function availableInternal(algo: number): boolean {
+    function availableInternal(algo: number): boolean {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
@@ -764,13 +764,13 @@ namespace huskylens2 {
     }
 
     
-    export function cachedResultMaxID(algo: number): number {
+    function cachedResultMaxID(algo: number): number {
         const cacheAlgo = 0;
         return maxID[cacheAlgo] || 0;
     }
 
     
-    export function getResultInternal(algo: number): number {
+    function getResultInternal(algo: number): number {
         const dataBuf = Buffer.create(0);
         const retry = 3;
         const pkt = PacketHead.fromFields({
@@ -824,7 +824,7 @@ namespace huskylens2 {
     }
 
     
-    export function cachedCenterResultInternal(algo: number): ResultVariant | null {
+    function cachedCenterResultInternal(algo: number): ResultVariant | null {
         const cacheAlgo = 0;
         let centerIndex = -1;
         let minLen = 0x7FFFFFFF;
@@ -847,7 +847,7 @@ namespace huskylens2 {
     }
 
     
-    export function cachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
+    function cachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         if (index < 0 || index >= Macro.MaxResultNum) {
             return null;
@@ -856,7 +856,7 @@ namespace huskylens2 {
     }
 
     
-    export function cachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
+    function cachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
@@ -871,7 +871,7 @@ namespace huskylens2 {
     }
 
     
-    export function cachedResultNumInternal(algo: number): number {
+    function cachedResultNumInternal(algo: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -883,12 +883,12 @@ namespace huskylens2 {
     }
 
     
-    export function cachedResultLearnedNumInternal(algo: number): number {
+    function cachedResultLearnedNumInternal(algo: number): number {
         return cachedResultMaxID(algo);
     }
 
     
-    export function cachedResultNumByIDInternal(algo: number, ID: number): number {
+    function cachedResultNumByIDInternal(algo: number, ID: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -904,7 +904,7 @@ namespace huskylens2 {
     }
 
     
-    export function cachedIndexResultByIDInternal(algo: number, ID: number, index: number): ResultVariant | null {
+    function cachedIndexResultByIDInternal(algo: number, ID: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         let currentIndex = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -923,14 +923,14 @@ namespace huskylens2 {
     }
 
     
-    export function getCurrentBranchInternal(algo: number): ResultVariant | null {
+    function getCurrentBranchInternal(algo: number): ResultVariant | null {
         const cacheAlgo = 0;
         const item = result[cacheAlgo] && result[cacheAlgo][0];
         return (item && item.level === 1) ? item : null;
     }
 
     
-    export function getUpcomingBranchCountInternal(algo: number): number {
+    function getUpcomingBranchCountInternal(algo: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -942,7 +942,7 @@ namespace huskylens2 {
     }
 
     
-    export function getBranchInternal(algo: number, index: number): ResultVariant | null {
+    function getBranchInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         const targetIndex = index + 1;
         for (let i = 1; i < Macro.MaxResultNum; i++) {
