@@ -198,5 +198,5 @@
     "huskylens2.learnObjectInBoxNUM": "自学习模型在指定框内学习目标",
     "huskylens2.setNameOfID": "设置指定ID的名称",
     "huskylens2.forgetAllIDs": "遗忘所有内置模型ID",
-    "huskylens2.forgetAllIDsNUM": "遗忘所有自学习模型ID",
+    "huskylens2.forgetAllIDsNUM": "遗忘所有自学习模型ID"
 }

@@ -155,9 +155,9 @@
   
   "huskylens2.getResultCustomModel|block": "算法ID %algorithmId 请求一次数据存入结果",
   "huskylens2.availableCustomModel|block": "算法ID %algorithmId 检测到目标？",
-  "huskylens2.cachedCenterCustomModelResult|block": "算法ID %algorithmId 靠近中心的目标 %alg1",
+  "huskylens2.cachedCenterCustomModelResult|block": "算法ID %algorithmId 靠近中心的目标 %property",
   "huskylens2.cachedResultNumCustomModel|block": "算法ID %algorithmId 检测到的目标总数",
-  "huskylens2.cachedResultCustomModelProperty|block": "算法ID %algorithmId 第 %num 个目标的 %alg1",
+  "huskylens2.cachedResultCustomModelProperty|block": "算法ID %algorithmId 第 %num 个目标的 %property",
   "huskylens2.totalLearnedCustomModelIDs|block": "算法ID %algorithmId 已学习的目标ID总数",
   "huskylens2.customModelIdExists|block": "算法ID %algorithmId ID %targetId 的目标存在？",
   "huskylens2.totalCustomModelByID|block": "算法ID %algorithmId ID %targetId 的目标总数",

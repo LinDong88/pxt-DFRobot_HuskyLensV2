@@ -704,8 +704,10 @@ namespace huskylens2 {
         return dataBuf;
     }
 
-    
-    function beginInternal(): boolean {
+    /**
+     * Internal function: initialize HUSKYLENS 2 over I2C and wait until it responds.
+     */
+    export function beginInternal(): boolean {
         const dataBuf = createInitializedBuffer(1);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandKnock,
@@ -715,8 +717,10 @@ namespace huskylens2 {
         return waitForResponse(Macro.CommandReturnArgs, 20, pkt, 100);
     }
 
-    
-    function switchAlgorithmInternal(algo: number): boolean {
+    /**
+     * Internal function: switch the current algorithm on HUSKYLENS 2.
+     */
+    export function switchAlgorithmInternal(algo: number): boolean {
         const dataBuf = createInitializedBuffer(algo);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandSetAlgorithm,
@@ -748,8 +752,10 @@ namespace huskylens2 {
         return algo;
     }
 
-    
-    function availableInternal(algo: number): boolean {
+    /**
+     * Internal function: check whether there is at least one unused cached result.
+     */
+    export function availableInternal(algo: number): boolean {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
@@ -763,14 +769,15 @@ namespace huskylens2 {
         return false;
     }
 
-    
-    function cachedResultMaxID(algo: number): number {
+    function cachedResultMaxIDInternal(algo: number): number {
         const cacheAlgo = 0;
         return maxID[cacheAlgo] || 0;
     }
 
-    
-    function getResultInternal(algo: number): number {
+    /**
+     * Internal function: request results from device and update the result cache.
+     */
+    export function getResultInternal(algo: number): number {
         const dataBuf = Buffer.create(0);
         const retry = 3;
         const pkt = PacketHead.fromFields({
@@ -823,8 +830,10 @@ namespace huskylens2 {
         return count;
     }
 
-    
-    function cachedCenterResultInternal(algo: number): ResultVariant | null {
+    /**
+     * Internal function: get the cached result that is closest to screen center.
+     */
+    export function cachedCenterResultInternal(algo: number): ResultVariant | null {
         const cacheAlgo = 0;
         let centerIndex = -1;
         let minLen = 0x7FFFFFFF;
@@ -846,8 +855,10 @@ namespace huskylens2 {
         return centerIndex !== -1 ? result[cacheAlgo][centerIndex] : null;
     }
 
-    
-    function cachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
+    /**
+     * Internal function: get a cached result by index.
+     */
+    export function cachedResultByIndexInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         if (index < 0 || index >= Macro.MaxResultNum) {
             return null;
@@ -855,8 +866,10 @@ namespace huskylens2 {
         return result[cacheAlgo][index];
     }
 
-    
-    function cachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
+    /**
+     * Internal function: get the first cached result that matches a specific ID.
+     */
+    export function cachedResultByIDInternal(algo: number, ID: number): ResultVariant | null {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
@@ -870,8 +883,10 @@ namespace huskylens2 {
         return null;
     }
 
-    
-    function cachedResultNumInternal(algo: number): number {
+    /**
+     * Internal function: count how many cached results are available.
+     */
+    export function cachedResultNumInternal(algo: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -882,13 +897,17 @@ namespace huskylens2 {
         return count;
     }
 
-    
-    function cachedResultLearnedNumInternal(algo: number): number {
-        return cachedResultMaxID(algo);
+    /**
+     * Internal function: get the number of learned IDs (max ID in cache).
+     */
+    export function cachedResultLearnedNumInternal(algo: number): number {
+        return cachedResultMaxIDInternal(algo);
     }
 
-    
-    function cachedResultNumByIDInternal(algo: number, ID: number): number {
+    /**
+     * Internal function: count how many cached results share the specified ID.
+     */
+    export function cachedResultNumByIDInternal(algo: number, ID: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -903,8 +922,10 @@ namespace huskylens2 {
         return count;
     }
 
-    
-    function cachedIndexResultByIDInternal(algo: number, ID: number, index: number): ResultVariant | null {
+    /**
+     * Internal function: get the nth cached result that matches the specified ID.
+     */
+    export function cachedIndexResultByIDInternal(algo: number, ID: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         let currentIndex = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -922,15 +943,19 @@ namespace huskylens2 {
         return null;
     }
 
-    
-    function getCurrentBranchInternal(algo: number): ResultVariant | null {
+    /**
+     * Internal function: get the current main branch result for line tracking.
+     */
+    export function getCurrentBranchInternal(algo: number): ResultVariant | null {
         const cacheAlgo = 0;
         const item = result[cacheAlgo] && result[cacheAlgo][0];
         return (item && item.level === 1) ? item : null;
     }
 
-    
-    function getUpcomingBranchCountInternal(algo: number): number {
+    /**
+     * Internal function: get the number of upcoming branches in line tracking.
+     */
+    export function getUpcomingBranchCountInternal(algo: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -941,8 +966,10 @@ namespace huskylens2 {
         return count > 0 ? count - 1 : 0;
     }
 
-    
-    function getBranchInternal(algo: number, index: number): ResultVariant | null {
+    /**
+     * Internal function: get a specific branch in line tracking by index.
+     */
+    export function getBranchInternal(algo: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         const targetIndex = index + 1;
         for (let i = 1; i < Macro.MaxResultNum; i++) {
@@ -956,9 +983,9 @@ namespace huskylens2 {
     //---------------------------------------------------------------multimedia----------------------------------------
 
     /**
-     * Play music with specified name and volume
-     * @param name name
-     * @param volume volume (0~100)
+     * Play an audio file stored on HUSKYLENS 2.
+     * @param name Audio file name (e.g. "music.mp3").
+     * @param volume Playback volume (0~100).
      */
     //% block="play music %name at volume %volume"
     //% name.shadow="text"
@@ -998,7 +1025,9 @@ namespace huskylens2 {
     }
 
     let photoName: string = "";
-    /** Take a photo */
+    /**
+     * Take a photo on HUSKYLENS 2 and cache the returned file name.
+     */
     //% block="take photo"
     //% weight=118
     //% subcategory="multimedia"
@@ -1010,7 +1039,9 @@ namespace huskylens2 {
         }
     }
     let screenshotName: string = "";
-    /** Take a screenshot */
+    /**
+     * Take a screenshot on HUSKYLENS 2 and cache the returned file name.
+     */
     //% block="take a screenshot"
     //% weight=116
     //% subcategory="multimedia"
@@ -1029,7 +1060,7 @@ namespace huskylens2 {
     }
 
     /**
-     * Obtain the name of the saved screenshot
+     * Get the file name of the last captured screenshot.
      */
     //% block="obtain the name of the saved screenshot"
     //% weight=115
@@ -1039,7 +1070,7 @@ namespace huskylens2 {
     }
 
     /**
-     * Obtain the names of the stored photos
+     * Get the file name of the last captured photo.
      */
     //% block="obtain the names of the stored photos"
     //% weight=117
@@ -1059,7 +1090,7 @@ namespace huskylens2 {
      * @param w Width
      * @param h Height
      */
-    function drawBoxInternal(cmd: number, color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
+    export function drawBoxInternal(cmd: number, color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
         const dataBuf = Buffer.create(16);
         dataBuf[0] = 0;  // Reserved byte
         dataBuf[1] = lineWidth;  // Line width
@@ -1087,13 +1118,13 @@ namespace huskylens2 {
     }
 
     /**
-     * Draw or update an indicator box on the screen
-     * @param color rgb color (>=0)
-     * @param lineWidth line width (1~10)
-     * @param x x-coordinate (0~640)
-     * @param y y-coordinate (0~480)
-     * @param w width (1~640)
-     * @param h height (1~480)
+     * Draw or update an indicator box on the screen.
+     * @param color RGB color value. You can generate it with setRGB(red, green, blue).
+     * @param lineWidth Line width (1~10).
+     * @param x X coordinate in pixels (0~640).
+     * @param y Y coordinate in pixels (0~480).
+     * @param w Box width in pixels (1~640).
+     * @param h Box height in pixels (1~480).
      */
     //% block="draw or update indicator box color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
@@ -1109,13 +1140,13 @@ namespace huskylens2 {
     }
 
     /**
-     * Draw a new rectangle on the screen
-     * @param color rgb color (>=0)
-     * @param lineWidth line width (1~10)
-     * @param x x-coordinate (0~640)
-     * @param y y-coordinate (0~480)
-     * @param w width (1~640)
-     * @param h height (1~480)
+     * Draw a new rectangle box on the screen.
+     * @param color RGB color value. You can generate it with setRGB(red, green, blue).
+     * @param lineWidth Line width (1~10).
+     * @param x X coordinate in pixels (0~640).
+     * @param y Y coordinate in pixels (0~480).
+     * @param w Box width in pixels (1~640).
+     * @param h Box height in pixels (1~480).
      */
     //% block="draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
@@ -1141,12 +1172,12 @@ namespace huskylens2 {
         Font48 = 48,
     }
     /**
-     * Display text on the screen 
-     * @param color rgb color (>=0)
-     * @param fontSize font size
-     * @param x x-coordinate (0~640)
-     * @param y y-coordinate (0~480)
-     * @param content content
+     * Display text on the screen at the specified coordinates.
+     * @param color RGB color value. You can generate it with setRGB(red, green, blue).
+     * @param fontSize Font size (px).
+     * @param x X coordinate in pixels (0~640).
+     * @param y Y coordinate in pixels (0~480).
+     * @param content Text content to display (UTF-8 supported).
      */
     //% block="display text color%color fontSize%fontSize x%x y%y content%content"
     //% subcategory="screen display"
@@ -1194,7 +1225,9 @@ namespace huskylens2 {
         sendCommandAndCheckResponse(Macro.CommandActionDrawText, Algorithm.AlgorithmAny, dataBuf);
     }
 
-    /** Clear all displayed text */
+    /**
+     * Clear all text previously drawn on the screen.
+     */
     //% block="clear text"
     //% subcategory="screen display"
     //% weight=88
@@ -1203,7 +1236,7 @@ namespace huskylens2 {
     }
 
     /**
-     * Clear all indicator boxes and rectangles
+     * Clear all indicator boxes and rectangle boxes previously drawn on the screen.
      */
     //% block="clear indicator boxes and rectangles"
     //% subcategory="screen display"
@@ -1213,10 +1246,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Set RGB color value
-     * @param red red (0~255)
-     * @param green green (0~255)
-     * @param blue blue (0~255)
+     * Generate a 24-bit color value from Red, Green, and Blue components.
+     * @param red Intensity of red (0~255).
+     * @param green Intensity of green (0~255).
+     * @param blue Intensity of blue (0~255).
      */
     //% block="set color red%red green%green blue%blue"
     //% subcategory="screen display"
@@ -1233,7 +1266,9 @@ namespace huskylens2 {
 
     //************************************* learning /forgetting   ********************************* */
     let learn_id = 0;
-    /** Get the learned ID */
+    /**
+     * Get the ID returned by the last "learn" operation.
+     */
     //% block="get learned ID"
     //% weight=100
     //% subcategory="learning /forgetting"
@@ -1242,8 +1277,8 @@ namespace huskylens2 {
     }
 
     /**
-     * Learn a target at the center of the screen using a built-in model
-     * @param algorithmID algorithm type
+     * Learn a target at the center of the screen using a built-in model.
+     * @param algorithmID Built-in model algorithm.
      */
     //% block="built-in model %algorithmID learn target at center of screen"
     //% weight=95
@@ -1254,8 +1289,8 @@ namespace huskylens2 {
     }
 
     /**
-     * Learn a target at the center of the screen using a self-trained model
-     * @param algorithmID algo ID
+     * Learn a target at the center of the screen using a self-trained model.
+     * @param algorithmID Self-trained model ID.
      */
     //% block="built-in model %algorithmID learn target at center of screen"
     //% weight=94
@@ -1266,12 +1301,12 @@ namespace huskylens2 {
     }
 
     /**
-     * Learn a target within a specified box using a built-in model 
-     * @param algorithmID algorithm type
-     * @param x x-coordinate (0~640)
-     * @param y y-coordinate (0~480)
-     * @param w width (10~100)
-     * @param h height (10~100)
+     * Learn a target within a specified box using a built-in model.
+     * @param algorithmID Built-in model algorithm.
+     * @param x X coordinate of the box's top-left corner (0~640).
+     * @param y Y coordinate of the box's top-left corner (0~480).
+     * @param w Width of the box (10~100).
+     * @param h Height of the box (10~100).
      */
     //% block="built-in model %algorithmID learn target in specified box x%x y%y w%w h%h"
     //% weight=90
@@ -1286,12 +1321,12 @@ namespace huskylens2 {
     }
 
     /**
-     * Learn a target within a specified box using a self-trained model
-     * @param algorithmID algorithm type
-     * @param x x-coordinate (0~640)
-     * @param y y-coordinate (0~480)
-     * @param w width (10~100)
-     * @param h height (10~100)
+     * Learn a target within a specified box using a self-trained model.
+     * @param algorithmID Self-trained model ID (128~255).
+     * @param x X coordinate of the box's top-left corner (0~640).
+     * @param y Y coordinate of the box's top-left corner (0~480).
+     * @param w Width of the box (10~100).
+     * @param h Height of the box (10~100).
      */
     //% block="self-trained model %algorithmID learn target in specified box x%x y%y w%w h%h"
     //% weight=89
@@ -1306,10 +1341,10 @@ namespace huskylens2 {
     }
 
     /**
-     * Learn a target within a specified box using a self-trained model
-     * @param algorithmID algorithm type
-     * @param ID ID (1~100)
-     * @param name name
+     * Set a name for a learned ID under a built-in model.
+     * @param algorithmID Built-in model algorithm.
+     * @param ID Target ID (1~100).
+     * @param name Name to set.
      */
     //% block="set built-in model %algorithmID ID%ID name to %name"
     //% weight=70
@@ -1338,8 +1373,8 @@ namespace huskylens2 {
     }
 
     /**
-     * Forget all IDs of a built-in model
-     * @param algorithmID algorithm type
+     * Forget (clear) all learned IDs under the specified built-in model.
+     * @param algorithmID Built-in model algorithm.
      */
     //% block="forget built-in model %algorithmID all IDs"
     //% weight=80
@@ -1350,8 +1385,8 @@ namespace huskylens2 {
     }
 
     /**
-     * Forget all IDs of a self-trained model
-     * @param algorithmID algorithm type
+     * Forget (clear) all learned IDs under the specified self-trained model.
+     * @param algorithmID Self-trained model ID (128~255).
      */
     //% block="forget self-trained model %algorithmID all IDs"
     //% weight=79

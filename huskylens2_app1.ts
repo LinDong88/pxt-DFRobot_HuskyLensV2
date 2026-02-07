@@ -248,7 +248,7 @@ enum SelfLearningClassificationProperty {
 namespace huskylens2 {
     // ================= Block =================
     /**
-     *  Init I2C until success
+     * Initialize I2C and keep trying until the sensor responds.
      */
     //% weight=200
     //%block="initialize I2C until success"
@@ -280,7 +280,7 @@ namespace huskylens2 {
 
     /**
      * Switch algorithm
-     * @param algorithmID  select algorithm
+     * @param algorithmID The algorithm to switch to.
      */
     //% block="switch algorithm %algorithmID "
     //% weight=199
@@ -306,8 +306,7 @@ namespace huskylens2 {
     }
 
     /**
-     * Whether face recognized
-     * Return true if a face is detected
+     * Check if at least one face is currently detected.
      */
     //% block="available face recogtion"
     //% weight=197
@@ -325,7 +324,7 @@ namespace huskylens2 {
     //% subcategory="face recognition"
     export function cachedCenterResult(property: BasePropertyId): any {
         const r = cachedCenterResultInternal(Algorithm.AlgorithmFaceRecognition);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     /**
@@ -340,8 +339,8 @@ namespace huskylens2 {
 
     /**
      * Get a specific face's property by index from cache
-     * @param index face index (1-based)
-     * @param property face property to query
+     * @param index The face index (1-based).
+     * @param property The face property to retrieve.
      */
     //% block="face %index %property"
     //% weight=194
@@ -349,7 +348,7 @@ namespace huskylens2 {
     //% subcategory="face recognition"
     export function cachedResultFaceProperty(index: number, property: BasePropertyId): any {
         const r = cachedResultByIndexInternal(Algorithm.AlgorithmFaceRecognition, index - 1);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     /**
@@ -389,8 +388,8 @@ namespace huskylens2 {
 
     /**
      * Get a property for faces with a given ID
-     * @param index face ID index (number)
-     * @param property face property (without ID)
+     * @param index The index of the learned ID (1-based).
+     * @param property The property to retrieve (excluding ID).
      */
     //% block="face ID %index %property"
     //% weight=190
@@ -398,14 +397,14 @@ namespace huskylens2 {
     //% subcategory="face recognition"
     export function facePropertyByID(index: number, property: BaseProperty): any {
         const r = cachedResultByIDInternal(Algorithm.AlgorithmFaceRecognition, index);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     /**
      * Get a property for the No.N face of a given ID
-     * @param ID face ID (number)
-     * @param n No.N face (1-based)
-     * @param property face property (without ID)
+     * @param ID The face ID.
+     * @param n The nth face (1-based).
+     * @param property The property to retrieve (excluding ID).
      */
     //% block="face ID %ID No.%n %property"
     //% weight=189
@@ -414,7 +413,7 @@ namespace huskylens2 {
     //% subcategory="face recognition"
     export function facePropertyByIDNth(ID: number, n: number, property: BaseProperty): any {
         const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmFaceRecognition, ID, n - 1);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     
@@ -425,8 +424,14 @@ namespace huskylens2 {
         return algorithmID  as number;
     }
 
-    
-    function getBasePropertyValue(result: ResultVariant, property: number): any {
+
+    /**
+     * Internal function: get a property value from a cached result.
+     * @param result The cached result to read from.
+     * @param property The property identifier.
+     * @returns The requested property value; returns 0 (or an empty string for `Name`) when unavailable.
+     */
+    export function getBasePropertyValueInternal(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;
         switch (property) {
@@ -461,14 +466,14 @@ namespace huskylens2 {
 
     /**
      * Object property nearest to center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="object nearest to center %property"
     //% weight=186
     //% subcategory="object recognition"
     export function cachedCenterObjectResult(property: BasePropertyId): number {
         const r = cachedCenterResultInternal(Algorithm.AlgorithmObjectRecognition);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     /** Total number of detected objects */
@@ -481,8 +486,8 @@ namespace huskylens2 {
 
     /**
      * Property of No.N object
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="object %index %property"
     //% weight=184
@@ -490,7 +495,7 @@ namespace huskylens2 {
     //% subcategory="object recognition"
     export function cachedResultObjectProperty(index: number, property: BasePropertyId): number {
         const r = cachedResultByIndexInternal(Algorithm.AlgorithmObjectRecognition, index - 1);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     /** Total number of learned object IDs */
@@ -503,7 +508,7 @@ namespace huskylens2 {
 
     /**
      * Whether object with specified ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="object ID %index exists?"
     //% weight=182
@@ -516,7 +521,7 @@ namespace huskylens2 {
 
     /**
      * Number of objects with specified ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of objects with ID %index"
     //% weight=181
@@ -528,8 +533,8 @@ namespace huskylens2 {
 
     /**
      * Property of object with specified ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="object ID %index %property"
     //% weight=180
@@ -537,14 +542,14 @@ namespace huskylens2 {
     //% subcategory="object recognition"
     export function objectPropertyByID(index: number, property: BaseProperty): number {
         const r = cachedResultByIDInternal(Algorithm.AlgorithmObjectRecognition, index);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     /**
      * Property of No.N object with specified ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="object ID %ID No. %n %property"
     //% weight=179
@@ -553,7 +558,7 @@ namespace huskylens2 {
     //% subcategory="object recognition"
     export function objectPropertyByIDNth(ID: number, n: number, property: BaseProperty): number {
         const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmObjectRecognition, ID, n - 1);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     // =============================================================== object tracking ========================================
@@ -575,19 +580,19 @@ namespace huskylens2 {
 
     /**
      * Property of tracked object
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="tracked object %property"
     //% weight=176
     //% subcategory="object tracking"
     export function cachedObjectTrackingResult(property: BasePropertyId): number {
         const r = cachedCenterResultInternal(Algorithm.AlgorithmObjectTracking);
-        return getBasePropertyValue(r, property);
+        return getBasePropertyValueInternal(r, property);
     }
 
     // ================= color recognition =================
     function getColorPropertyValue(result: ResultVariant, property: number): number {
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
     /** Get one-time color recognition result and cache it */
@@ -608,7 +613,7 @@ namespace huskylens2 {
 
     /**
      * Color block property nearest to center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="color block nearest to center %property"
     //% weight=173
@@ -628,8 +633,8 @@ namespace huskylens2 {
 
     /**
      * Property of No.N color block
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="color block %index %property"
     //% weight=171
@@ -650,7 +655,7 @@ namespace huskylens2 {
 
     /**
      * Whether color block with specified ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="color block ID %index exists?"
     //% weight=169
@@ -663,7 +668,7 @@ namespace huskylens2 {
 
     /**
      * Number of color blocks with specified ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of color blocks with ID %index"
     //% weight=168
@@ -675,8 +680,8 @@ namespace huskylens2 {
 
     /**
      * Property of color block with specified ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="color block ID %index %property"
     //% weight=167
@@ -689,9 +694,9 @@ namespace huskylens2 {
 
     /**
      * Property of No.N color block with specified ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="color block ID %ID No. %n %property"
     //% weight=166
@@ -742,8 +747,8 @@ namespace huskylens2 {
 
     /**
      * Property of No.N classified object
-     * @param num num (>=1)
-     * @param property property
+     * @param num The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="classified object %num %property"
     //% weight=1
@@ -787,7 +792,7 @@ namespace huskylens2 {
 
     /**
      * Property of self learning classification
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="self learning classification %property"
     //% weight=160
@@ -799,11 +804,11 @@ namespace huskylens2 {
 
     // =================================================== instance segmentation ===================================================
     function getInstancePropertyValue(result: ResultVariant, property: BasePropertyId): number {
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
     function getInstancePropertyValueID(result: ResultVariant, property: BaseProperty): number {
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
     /** Get one-time instance segmentation result and cache it */
@@ -824,7 +829,7 @@ namespace huskylens2 {
 
     /**
      * Instance property nearest to center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="instance nearest to center %property"
     //% weight=157
@@ -844,8 +849,8 @@ namespace huskylens2 {
 
     /**
      * Property of No.N instance
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="instance %index %property"
     //% weight=155
@@ -866,7 +871,7 @@ namespace huskylens2 {
 
     /**
      * Whether instance with specified ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="instance ID %index exists?"
     //% weight=153
@@ -879,7 +884,7 @@ namespace huskylens2 {
 
     /**
      * Number of instances with specified ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of instances with ID %index"
     //% weight=152
@@ -891,8 +896,8 @@ namespace huskylens2 {
 
     /**
      * Property of instance with specified ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="instance ID %index %property"
     //% weight=151
@@ -905,9 +910,9 @@ namespace huskylens2 {
 
     /**
      * Property of No.N instance with specified ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="instance ID %ID No. %n %property"
     //% weight=150
@@ -922,7 +927,7 @@ namespace huskylens2 {
     // ================================== hand recognition ==================================
     function getGesturePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
     /** Get one-time hand recognition result and cache it */
@@ -943,7 +948,7 @@ namespace huskylens2 {
 
     /**
      * Gesture property nearest to center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="gesture nearest to center %property"
     //% weight=147
@@ -963,8 +968,8 @@ namespace huskylens2 {
 
     /**
      * Property of No.N gesture
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="gesture %index %property"
     //% weight=145
@@ -985,7 +990,7 @@ namespace huskylens2 {
 
     /**
      * Whether gesture with specified ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="gesture ID %index exists?"
     //% weight=143
@@ -998,7 +1003,7 @@ namespace huskylens2 {
 
     /**
      * Number of gestures with specified ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of gestures with ID %index"
     //% weight=142
@@ -1010,8 +1015,8 @@ namespace huskylens2 {
 
     /**
      * Property of gesture with specified ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="gesture ID %index %property"
     //% weight=141
@@ -1024,9 +1029,9 @@ namespace huskylens2 {
 
     /**
      * Property of No.N gesture with specified ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="gesture ID %ID No. %n %property"
     //% weight=140
@@ -1041,7 +1046,7 @@ namespace huskylens2 {
     // ================================================================ pose recognition (Human Pose) ========================
     function getPosePropertyValue(result: ResultVariant, property: number): any {
         if (!result) return 0;
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
     /** Get one-time pose recognition result and cache it */
@@ -1062,7 +1067,7 @@ namespace huskylens2 {
 
     /**
      * Pose property nearest to center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="pose nearest to center %property"
     //% weight=137
@@ -1082,8 +1087,8 @@ namespace huskylens2 {
 
     /**
      * Property of No.N pose
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="pose %index %property"
     //% weight=135
@@ -1104,7 +1109,7 @@ namespace huskylens2 {
 
     /**
      * Whether pose with specified ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="pose ID %index exists?"
     //% weight=133
@@ -1117,7 +1122,7 @@ namespace huskylens2 {
 
     /**
      * Number of poses with specified ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of poses with ID %index"
     //% weight=132
@@ -1129,8 +1134,8 @@ namespace huskylens2 {
 
     /**
      * Property of pose with specified ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="pose ID %index %property"
     //% weight=131
@@ -1143,9 +1148,9 @@ namespace huskylens2 {
 
     /**
      * Property of No.N pose with specified ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="pose ID %ID No. %n %property"
     //% weight=130
@@ -1155,5 +1160,5 @@ namespace huskylens2 {
     export function posePropertyByIDNth(ID: number, n: number, property: BaseProperty): any {
         const r = cachedIndexResultByIDInternal(Algorithm.AlgorithmPoseRecognition, ID, n - 1);
         return getPosePropertyValue(r, property);
-    }
-}
+    }}
+

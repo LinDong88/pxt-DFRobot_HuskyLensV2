@@ -50,7 +50,7 @@ namespace huskylens2 {
 
     /**
      * The license plate attributes close to the center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="plate near center %property"
     //% weight=127
@@ -70,8 +70,8 @@ namespace huskylens2 {
 
     /**
      * The attributes of the No.N license plate
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="plate %index %property"
     //% weight=125
@@ -92,7 +92,7 @@ namespace huskylens2 {
 
     /**
      * Check if a specific ID's license plate exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="does plate ID %index exist?"
     //% weight=123
@@ -105,7 +105,7 @@ namespace huskylens2 {
 
     /**
      * The number of license plates with the specified ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of plates with ID %index"
     //% weight=122
@@ -117,8 +117,8 @@ namespace huskylens2 {
 
     /**
      * The license plate attribute with the specified ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="plate ID %index %property"
     //% weight=121
@@ -131,9 +131,9 @@ namespace huskylens2 {
 
     /**
      * The attribute of the No.N license plate with the specified ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="plate ID %ID No.%n %property"
     //% weight=120
@@ -181,7 +181,7 @@ namespace huskylens2 {
 
     /**
      * Attributes of the text area close to the center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="text region near center %property"
     //% weight=117
@@ -201,7 +201,7 @@ namespace huskylens2 {
 
     /**
      * Check if the text area with the specified ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="does text region ID %index exist?"
     //% weight=113
@@ -214,8 +214,8 @@ namespace huskylens2 {
 
     /**
      * Text area attribute with specified ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="text region ID %index %property"
     //% weight=111
@@ -275,7 +275,7 @@ namespace huskylens2 {
 
     /**
      * Attributes of the current route
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="current line %property"
     //% weight=107
@@ -295,8 +295,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth branch route counterclockwise
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="branch %index counterclockwise %property"
     //% weight=105
@@ -309,11 +309,11 @@ namespace huskylens2 {
 
     // ======================================================== face emotion recognition ==============================================
     function getEmotionPropertyValue(result: ResultVariant, property: BasePropertyId): number {
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
     function getEmotionPropertyValueID(result: ResultVariant, property: BaseProperty): number {
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
         /** Get one-time face emotion recognition result and cache it */
@@ -334,7 +334,7 @@ namespace huskylens2 {
 
     /**
      * Emotion attributes near the center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="emotion near center %property"
     //% weight=102
@@ -354,8 +354,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth emotion
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="emotion %index %property"
     //% weight=100
@@ -376,7 +376,7 @@ namespace huskylens2 {
 
     /**
      * Check if an emotion with a specific ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="does emotion ID %index exist?"
     //% weight=98
@@ -389,7 +389,7 @@ namespace huskylens2 {
 
     /**
      * Number of emotions with a specific ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of emotions with ID %index"
     //% weight=97
@@ -401,8 +401,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of an emotion with a specific ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="emotion ID %index %property"
     //% weight=96
@@ -415,9 +415,9 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth emotion with a specific ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="emotion ID %ID No.%n %property"
     //% weight=95
@@ -464,7 +464,7 @@ namespace huskylens2 {
 
     /**
      * Tag attributes near the center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="tag near center %property"
     //% weight=92
@@ -484,8 +484,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth tag
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="tag %index %property"
     //% weight=90
@@ -506,7 +506,7 @@ namespace huskylens2 {
 
     /**
      * Check if a tag with a specific ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="does tag ID %index exist?"
     //% weight=88
@@ -519,7 +519,7 @@ namespace huskylens2 {
 
     /**
      * Number of tags with a specific ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of tags with ID %index"
     //% weight=87
@@ -531,8 +531,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of a tag with a specific ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="tag ID %index %property"
     //% weight=86
@@ -545,9 +545,9 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth tag with a specific ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="tag ID %ID No.%n %property"
     //% weight=85
@@ -594,7 +594,7 @@ namespace huskylens2 {
 
     /**
      * QR code attributes near the center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="QR code near center %property"
     //% weight=82
@@ -614,8 +614,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth QR code
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="QR code %index %property"
     //% weight=80
@@ -636,7 +636,7 @@ namespace huskylens2 {
 
     /**
      * Check if a QR code with a specific ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="does QR code ID %index exist?"
     //% weight=78
@@ -649,7 +649,7 @@ namespace huskylens2 {
 
     /**
      * Number of QR codes with a specific ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of QR codes with ID %index"
     //% weight=77
@@ -661,8 +661,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of a QR code with a specific ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="QR code ID %index %property"
     //% weight=76
@@ -675,9 +675,9 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth QR code with a specific ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="QR code ID %ID No.%n %property"
     //% weight=75
@@ -727,7 +727,7 @@ namespace huskylens2 {
 
     /**
      * Barcode attributes near the center
-     * @param property property
+     * @param property The property to retrieve.
      */
     //% block="barcode near center %property"
     //% weight=72
@@ -747,8 +747,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth barcode
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="barcode %index %property"
     //% weight=70
@@ -769,7 +769,7 @@ namespace huskylens2 {
 
     /**
      * Check if a barcode with a specific ID exists
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="does barcode ID %index exist?"
     //% weight=68
@@ -782,7 +782,7 @@ namespace huskylens2 {
 
     /**
      * Number of barcodes with a specific ID
-     * @param index index (>=1)
+     * @param index The index (1-based).
      */
     //% block="number of barcodes with ID %index"
     //% weight=67
@@ -794,8 +794,8 @@ namespace huskylens2 {
 
     /**
      * Attributes of a barcode with a specific ID
-     * @param index index (>=1)
-     * @param property property
+     * @param index The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="barcode ID %index %property"
     //% weight=66
@@ -808,9 +808,9 @@ namespace huskylens2 {
 
     /**
      * Attributes of the Nth barcode with a specific ID
-     * @param ID ID (>=1)
-     * @param n n (>=1)
-     * @param property property
+     * @param ID The ID (1-based).
+     * @param n The nth item (1-based).
+     * @param property The property to retrieve.
      */
     //% block="barcode ID %ID No.%n %property"
     //% weight=65
@@ -825,18 +825,18 @@ namespace huskylens2 {
     // ================= Custom Model =================
 
     function getCustomModelPropertyValue(result: ResultVariant, property: BaseProperty): number {
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
     function getCustomModelPropertyValueID(result: ResultVariant, property: BasePropertyId): number {
-        return getBasePropertyValue(result, property as any);
+        return getBasePropertyValueInternal(result, property as any);
     }
 
 
 
     /**
      * HUSKYLENS 2 switching algorithm ID until successful
-     * @param algorithmId algorithm ID (>=1)
+     * @param algorithmId The custom algorithm ID (1-based).
      */
     //% block="HUSKYLENS 2 switch algorithm ID %algorithmId until success"
     //% blockHidden=true
@@ -850,7 +850,7 @@ namespace huskylens2 {
 
     /**
      * Request for algorithm ID to store data once
-     * @param algorithmId algorithm ID (>=1)
+     * @param algorithmId The custom algorithm ID (1-based).
      */
     //% block="algorithm ID %algorithmId request data and store result"
     //% blockHidden=true
@@ -864,7 +864,7 @@ namespace huskylens2 {
 
     /**
      * Algorithm ID detects the target
-     * @param algorithmId algorithm ID (>=1)
+     * @param algorithmId The custom algorithm ID (1-based).
      */
     //% block="algorithm ID %algorithmId target detected?"
     //% blockHidden=true
@@ -878,23 +878,23 @@ namespace huskylens2 {
 
     /**
      * Target attribute with algorithm ID close to the center
-     * @param algorithmId algorithm ID (>=1)
-     * @param alg1 property
+     * @param algorithmId The custom algorithm ID (1-based).
+     * @param property The property to retrieve.
      */
-    //% block="algorithm ID %algorithmId target near center %alg1"
+    //% block="algorithm ID %algorithmId target near center %property"
     //% blockHidden=true
     //% weight=61
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
-    export function cachedCenterCustomModelResult(algorithmId: number, alg1: BasePropertyId): number {
+    export function cachedCenterCustomModelResult(algorithmId: number, property: BasePropertyId): number {
         const algorithmID = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
         const r = cachedCenterResultInternal(algorithmID);
-        return getCustomModelPropertyValueID(r, alg1);
+        return getCustomModelPropertyValueID(r, property);
     }
 
     /**
      * The total number of targets detected by the algorithm ID
-     * @param algorithmId algorithm ID (>=1)
+     * @param algorithmId The custom algorithm ID (1-based).
      */
     //% block="algorithm ID %algorithmId number of detected targets"
     //% blockHidden=true
@@ -908,25 +908,25 @@ namespace huskylens2 {
 
     /**
      * The attribute of the num-th target of the algorithm ID
-     * @param algorithmId algorithm ID (>=1)
-     * @param num num (>=1)
-     * @param alg1 property
+     * @param algorithmId The custom algorithm ID (1-based).
+     * @param num The index (1-based).
+     * @param property The property to retrieve.
      */
-    //% block="algorithm ID %algorithmId target %num %alg1"
+    //% block="algorithm ID %algorithmId target %num %property"
     //% blockHidden=true
     //% weight=59
     //% algorithmId.min=1 algorithmId.defl=128
     //% num.min=1 num.defl=1
     //% subcategory="custom model"
-    export function cachedResultCustomModelProperty(algorithmId: number, num: number, alg1: BasePropertyId): number {
+    export function cachedResultCustomModelProperty(algorithmId: number, num: number, property: BasePropertyId): number {
         const algorithmID = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
         const r = cachedResultByIndexInternal(algorithmID, num - 1);
-        return getCustomModelPropertyValueID(r, alg1);
+        return getCustomModelPropertyValueID(r, property);
     }
 
     /**
      * The total number of target IDs that the algorithm has learned
-     * @param algorithmId algorithm ID (>=1)
+     * @param algorithmId The custom algorithm ID (1-based).
      */
     //% block="algorithm ID %algorithmId number of learned target IDs"
     //% blockHidden=true
@@ -940,8 +940,8 @@ namespace huskylens2 {
 
     /**
      * The objective of Algorithm ID exists.
-     * @param algorithmId algorithm ID (>=1)
-     * @param targetId target ID (>=1)
+     * @param algorithmId The custom algorithm ID (1-based).
+     * @param targetId The target ID (1-based).
      */
     //% block="algorithm ID %algorithmId target ID %targetId exists?"
     //% blockHidden=true
@@ -957,8 +957,8 @@ namespace huskylens2 {
 
     /**
      * The total target number of Algorithm ID ID
-     * @param algorithmId algorithm ID (>=1)
-     * @param targetId target ID (>=1)
+     * @param algorithmId The custom algorithm ID (1-based).
+     * @param targetId The target ID (1-based).
      */
     //% block="algorithm ID %algorithmId number of targets with ID %targetId"
     //% blockHidden=true
@@ -973,9 +973,9 @@ namespace huskylens2 {
 
     /**
      * The target attribute of Algorithm ID ID
-     * @param algorithmId algorithm ID (>=1)
-     * @param targetId target ID (>=1)
-     * @param property property
+     * @param algorithmId The custom algorithm ID (1-based).
+     * @param targetId The target ID (1-based).
+     * @param property The property to retrieve.
      */
     //% block="algorithm ID %algorithmId target ID %targetId %property"
     //% blockHidden=true
@@ -991,10 +991,10 @@ namespace huskylens2 {
 
     /**
      * The attribute of the num-th target of algorithm ID ID
-     * @param algorithmId algorithm ID (>=1)
-     * @param targetId target ID (>=1)
-     * @param num num (>=1)
-     * @param property property
+     * @param algorithmId The custom algorithm ID (1-based).
+     * @param targetId The target ID (1-based).
+     * @param num The index (1-based).
+     * @param property The property to retrieve.
      */
     //% block="algorithm %algorithmId ID%targetId No.%num %property"
     //% blockHidden=true
