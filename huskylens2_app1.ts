@@ -431,6 +431,7 @@ namespace huskylens2 {
      * @param property The property identifier.
      * @returns The requested property value; returns 0 (or an empty string for `Name`) when unavailable.
      */
+    //% blockHidden=true
     export function getBasePropertyValueInternal(result: ResultVariant, property: number): any {
         if (!result) return 0;
         const res = result as Result;

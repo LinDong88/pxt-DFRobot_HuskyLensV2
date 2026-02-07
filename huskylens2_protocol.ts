@@ -86,7 +86,7 @@ namespace huskylens2 {
         headaa: number;
         cmd: number;
         algorithmID: number;
-        data_length: number;
+        dataLength: number;
         data: Buffer;
         name?: string;
         cs: number;
@@ -104,16 +104,16 @@ namespace huskylens2 {
             this.headaa = buffer.length > 1 ? buffer[1] : 0;
             this.cmd = buffer.length > 2 ? buffer[2] : 0;
             this.algorithmID = buffer.length > 3 ? buffer[3] : 0;
-            this.data_length = buffer.length > 4 ? buffer[4] : 0;
+            this.dataLength = buffer.length > 4 ? buffer[4] : 0;
 
-            const expectedLength = PacketHead.HEADER_SIZE + this.data_length + 1;
+            const expectedLength = PacketHead.HEADER_SIZE + this.dataLength + 1;
             if (buffer.length < expectedLength) {
                 // If buffer is incomplete, use empty Buffer
                 this.data = Buffer.create(0);
                 this.cs = 0;
             } else {
-                this.data = buffer.slice(5, 5 + this.data_length);
-                this.cs = buffer[5 + this.data_length];
+                this.data = buffer.slice(5, 5 + this.dataLength);
+                this.cs = buffer[5 + this.dataLength];
             }
         }
 
@@ -160,12 +160,12 @@ namespace huskylens2 {
         }
 
         verifyChecksum(): boolean {
-            const buf = Buffer.create(PacketHead.HEADER_SIZE + this.data_length);
+            const buf = Buffer.create(PacketHead.HEADER_SIZE + this.dataLength);
             buf[0] = this.head55;
             buf[1] = this.headaa;
             buf[2] = this.cmd;
             buf[3] = this.algorithmID;
-            buf[4] = this.data_length;
+            buf[4] = this.dataLength;
             for (let i = 0; i < this.data.length; i++) {
                 buf[5 + i] = this.data[i];
             }
@@ -707,6 +707,7 @@ namespace huskylens2 {
     /**
      * Internal function: initialize HUSKYLENS 2 over I2C and wait until it responds.
      */
+    //% blockHidden=true
     export function beginInternal(): boolean {
         const dataBuf = createInitializedBuffer(1);
         const pkt = PacketHead.fromFields({
@@ -720,6 +721,7 @@ namespace huskylens2 {
     /**
      * Internal function: switch the current algorithm on HUSKYLENS 2.
      */
+    //% blockHidden=true
     export function switchAlgorithmInternal(algorithmID: number): boolean {
         const dataBuf = createInitializedBuffer(algorithmID);
         const pkt = PacketHead.fromFields({
@@ -755,6 +757,7 @@ namespace huskylens2 {
     /**
      * Internal function: check whether there is at least one unused cached result.
      */
+    //% blockHidden=true
     export function availableInternal(algorithmID: number): boolean {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -774,6 +777,7 @@ namespace huskylens2 {
      * @param algorithmID The algorithm ID (normalized internally).
      * @returns The maximum learned ID; returns 0 if no ID has been learned.
      */
+    //% blockHidden=true
     export function cachedResultMaxIDInternal(algorithmID: number): number {
         const cacheAlgo = 0;
         return maxID[cacheAlgo] || 0;
@@ -782,6 +786,7 @@ namespace huskylens2 {
     /**
      * Internal function: request results from device and update the result cache.
      */
+    //% blockHidden=true
     export function getResultInternal(algorithmID: number): number {
         const dataBuf = Buffer.create(0);
         const retry = 3;
@@ -838,6 +843,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the cached result that is closest to screen center.
      */
+    //% blockHidden=true
     export function cachedCenterResultInternal(algorithmID: number): ResultVariant | null {
         const cacheAlgo = 0;
         let centerIndex = -1;
@@ -863,6 +869,7 @@ namespace huskylens2 {
     /**
      * Internal function: get a cached result by index.
      */
+    //% blockHidden=true
     export function cachedResultByIndexInternal(algorithmID: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         if (index < 0 || index >= Macro.MaxResultNum) {
@@ -874,6 +881,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the first cached result that matches a specific ID.
      */
+    //% blockHidden=true
     export function cachedResultByIDInternal(algorithmID: number, ID: number): ResultVariant | null {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -891,6 +899,7 @@ namespace huskylens2 {
     /**
      * Internal function: count how many cached results are available.
      */
+    //% blockHidden=true
     export function cachedResultNumInternal(algorithmID: number): number {
         const cacheAlgo = 0;
         let count = 0;
@@ -905,6 +914,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the number of learned IDs (max ID in cache).
      */
+    //% blockHidden=true
     export function cachedResultLearnedNumInternal(algorithmID: number): number {
         return cachedResultMaxIDInternal(algorithmID);
     }
@@ -912,6 +922,7 @@ namespace huskylens2 {
     /**
      * Internal function: count how many cached results share the specified ID.
      */
+    //% blockHidden=true
     export function cachedResultNumByIDInternal(algorithmID: number, ID: number): number {
         const cacheAlgo = 0;
         let count = 0;
@@ -930,6 +941,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the nth cached result that matches the specified ID.
      */
+    //% blockHidden=true
     export function cachedIndexResultByIDInternal(algorithmID: number, ID: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         let currentIndex = 0;
@@ -951,6 +963,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the current main branch result for line tracking.
      */
+    //% blockHidden=true
     export function getCurrentBranchInternal(algorithmID: number): ResultVariant | null {
         const cacheAlgo = 0;
         const item = result[cacheAlgo] && result[cacheAlgo][0];
@@ -960,6 +973,7 @@ namespace huskylens2 {
     /**
      * Internal function: get the number of upcoming branches in line tracking.
      */
+    //% blockHidden=true
     export function getUpcomingBranchCountInternal(algorithmID: number): number {
         const cacheAlgo = 0;
         let count = 0;
@@ -974,6 +988,7 @@ namespace huskylens2 {
     /**
      * Internal function: get a specific branch in line tracking by index.
      */
+    //% blockHidden=true
     export function getBranchInternal(algorithmID: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         const targetIndex = index + 1;
@@ -1095,6 +1110,7 @@ namespace huskylens2 {
      * @param w Width
      * @param h Height
      */
+    //% blockHidden=true
     export function drawBoxInternal(cmd: number, color: number, lineWidth: number, x: number, y: number, w: number, h: number): void {
         const dataBuf = Buffer.create(16);
         dataBuf[0] = 0;  // Reserved byte

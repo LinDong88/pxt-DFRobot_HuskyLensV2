@@ -445,7 +445,7 @@ namespace huskylens2 {
     //% weight=119
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    export function selfTrainedModelswitchAlgorithm(num: number): void {
+    export function selfTrainedModelSwitchAlgorithm(num: number): void {
         // Switch to self-trained model
         switchAlgorithmInternal(num);
         basic.pause(5000); // Wait 5 seconds for model loading
@@ -473,7 +473,7 @@ namespace huskylens2 {
     //% weight=117
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    export function Detected(num: number): boolean {
+    export function detected(num: number): boolean {
         return availableInternal(num);
     }
 
@@ -545,7 +545,7 @@ namespace huskylens2 {
     //% num.min=128 num.max=255 num.defl=128
     //% INDEX.min=1 INDEX.max=6 INDEX.defl=1
     //% property.defl=BasePropertyId.ID
-    export function Property(num: number, INDEX: number, property: BasePropertyId): any {
+    export function targetProperty(num: number, INDEX: number, property: BasePropertyId): any {
         const res = cachedResultByIndexInternal(num, INDEX - 1);
         const result = res as Result;
         if (!result) {
@@ -610,7 +610,7 @@ namespace huskylens2 {
     //% num.min=128 num.max=255 num.defl=128
     //% ID.min=1 ID.max=100 ID.defl=1
     //% property.defl=BaseProperty.Name
-    export function WithID(num: number, ID: number, property: BaseProperty): any {
+    export function withID(num: number, ID: number, property: BaseProperty): any {
         const res = cachedResultByIDInternal(num, ID);
         const result = res as Result;
         if (!result) {
@@ -645,7 +645,7 @@ namespace huskylens2 {
     //% ID.min=1 ID.max=100 ID.defl=1
     //% index.min=1 index.max=6 index.defl=1
     //% property.defl=BaseProperty.Name
-    export function WithIDProperty(num: number, ID: number, index: number, property: BaseProperty): any {
+    export function withIDProperty(num: number, ID: number, index: number, property: BaseProperty): any {
         const res = cachedIndexResultByIDInternal(num, ID, index - 1);
         const result = res as Result;
        
