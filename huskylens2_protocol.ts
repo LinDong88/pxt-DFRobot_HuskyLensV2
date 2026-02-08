@@ -15,7 +15,7 @@
 //% weight=100 color=#0fbc11 icon="\uf083" block="huskylens2"
 //% groups='["communication","algorithm switch"]'
 namespace huskylens2 {
-    // MakeCode global types are automatically injected, these declarations are only to suppress IDE warnings
+    // MakeCode global types are automatically injected, these declarations are only to suppress IdE warnings
     // These declarations are not needed in the actual MakeCode compilation environment
     // ==================== Low-level communication Code ====================
     export const enum Macro {
@@ -85,7 +85,7 @@ namespace huskylens2 {
         head55: number;
         headaa: number;
         cmd: number;
-        algorithmID: number;
+        algorithmId: number;
         dataLength: number;
         data: Buffer;
         name?: string;
@@ -103,7 +103,7 @@ namespace huskylens2 {
             this.head55 = buffer.length > 0 ? buffer[0] : 0;
             this.headaa = buffer.length > 1 ? buffer[1] : 0;
             this.cmd = buffer.length > 2 ? buffer[2] : 0;
-            this.algorithmID = buffer.length > 3 ? buffer[3] : 0;
+            this.algorithmId = buffer.length > 3 ? buffer[3] : 0;
             this.dataLength = buffer.length > 4 ? buffer[4] : 0;
 
             const expectedLength = PacketHead.HEADER_SIZE + this.dataLength + 1;
@@ -121,7 +121,7 @@ namespace huskylens2 {
             head55?: number;
             headaa?: number;
             cmd: number;
-            algorithmID: number;
+            algorithmId: number;
             data?: Buffer;
             name?: string;
         }): Buffer {
@@ -138,7 +138,7 @@ namespace huskylens2 {
             buf[0] = fields.head55 !== undefined ? fields.head55 : 0x55;
             buf[1] = fields.headaa !== undefined ? fields.headaa : 0xaa;
             buf[2] = fields.cmd;
-            buf[3] = fields.algorithmID;
+            buf[3] = fields.algorithmId;
             buf[4] = data.length;
             if (name_data.length > 0) {
                 buf[4] += name_data.length + 1;
@@ -164,7 +164,7 @@ namespace huskylens2 {
             buf[0] = this.head55;
             buf[1] = this.headaa;
             buf[2] = this.cmd;
-            buf[3] = this.algorithmID;
+            buf[3] = this.algorithmId;
             buf[4] = this.dataLength;
             for (let i = 0; i < this.data.length; i++) {
                 buf[5 + i] = this.data[i];
@@ -190,11 +190,11 @@ namespace huskylens2 {
         }
 
         // First union - uint8_t type
-        get ID() { return this.buffer[0] }
-        set ID(v: number) { this.buffer[0] = v & 0xff; }
+        get Id() { return this.buffer[0] }
+        set Id(v: number) { this.buffer[0] = v & 0xff; }
 
-        get maxID() { return this.buffer[0] }
-        set maxID(v: number) { this.buffer[0] = v & 0xff; }
+        get maxId() { return this.buffer[0] }
+        set maxId(v: number) { this.buffer[0] = v & 0xff; }
 
         get rfu0() { return this.buffer[0] }
         set rfu0(v: number) { this.buffer[0] = v & 0xff; }
@@ -239,11 +239,11 @@ namespace huskylens2 {
         get duration() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
         set duration(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        get algorithmID() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
-        set algorithmID(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+        get algorithmId() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set algorithmId(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
-        get classID() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
-        set classID(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
+        get classId() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
+        set classId(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
 
         get total_results() { const value = this.buffer[2] + this.buffer[3] * 256; return value > 32767 ? value - 65536 : value; }
         set total_results(v: number) { v = Math.max(-32768, Math.min(32767, v)); if (v < 0) v += 65536; this.buffer[2] = v & 0xff; this.buffer[3] = (v >> 8) & 0xff; }
@@ -431,9 +431,9 @@ namespace huskylens2 {
         }
     }
 
-    let maxID: number[] = [];
+    let maxId: number[] = [];
     for (let i = 0; i < Macro.AlgorithmCount; i++) {
-        maxID.push(0);
+        maxId.push(0);
     }
 
     // Use loop to initialize array to ensure ES5 compatibility
@@ -599,17 +599,17 @@ namespace huskylens2 {
     /**
      * Send command and wait for response, checking return value
      * @param cmd Command type
-     * @param algorithmID Algorithm ID
+     * @param algorithmId Algorithm Id
      * @param data Data buffer
      * @param retry Retry count, default is 3
      * @param pauseMs Pause between retries (ms), default is 100
      * @param expectedRetValue Expected return value, default is 0
      * @returns Whether successful (response received and return value matches)
      */
-    function sendCommandAndCheckResponse(cmd: number, algorithmID: number, data: Buffer, retry: number = 3, pauseMs: number = 100, expectedRetValue: number = 0): boolean {
+    function sendCommandAndCheckResponse(cmd: number, algorithmId: number, data: Buffer, retry: number = 3, pauseMs: number = 100, expectedRetValue: number = 0): boolean {
         const pkt = PacketHead.fromFields({
             cmd: cmd,
-            algorithmID: algorithmID,
+            algorithmId: algorithmId,
             data: data,
         });
         if (waitForResponse(Macro.CommandReturnArgs, retry, pkt, pauseMs)) {
@@ -622,16 +622,16 @@ namespace huskylens2 {
     /**
      * Send command and wait for response (without checking return value)
      * @param cmd Command type
-     * @param algorithmID Algorithm ID
+     * @param algorithmId Algorithm Id
      * @param data Data buffer
      * @param retry Retry count, default is 3
      * @param pauseMs Pause between retries (ms), default is 100
      * @returns Whether a response was received
      */
-    function sendCommandAndWait(cmd: number, algorithmID: number, data: Buffer, retry: number = 3, pauseMs: number = 100): boolean {
+    function sendCommandAndWait(cmd: number, algorithmId: number, data: Buffer, retry: number = 3, pauseMs: number = 100): boolean {
         const pkt = PacketHead.fromFields({
             cmd: cmd,
-            algorithmID: algorithmID,
+            algorithmId: algorithmId,
             data: data,
         });
         return waitForResponse(Macro.CommandReturnArgs, retry, pkt, pauseMs);
@@ -640,16 +640,16 @@ namespace huskylens2 {
     /**
      * Send command and get response data (for cases where payload is needed)
      * @param cmd Command type
-     * @param algorithmID Algorithm ID
+     * @param algorithmId Algorithm Id
      * @param data Data buffer
      * @param retry Retry count, default is 3
      * @param pauseMs Pause between retries (ms), default is 100
      * @returns PacketData object; returns null on failure
      */
-    function sendCommandAndGetResponse(cmd: number, algorithmID: number, data: Buffer, retry: number = 3, pauseMs: number = 100): PacketData | null {
+    function sendCommandAndGetResponse(cmd: number, algorithmId: number, data: Buffer, retry: number = 3, pauseMs: number = 100): PacketData | null {
         const pkt = PacketHead.fromFields({
             cmd: cmd,
-            algorithmID: algorithmID,
+            algorithmId: algorithmId,
             data: data,
         });
         if (waitForResponse(Macro.CommandReturnArgs, retry, pkt, pauseMs)) {
@@ -662,16 +662,16 @@ namespace huskylens2 {
     }
 
     /**
-     * Send learn command and get learned ID
+     * Send learn command and get learned Id
      * @param cmd Command type (CommandActionLearn or CommandActionLearnBlock)
-     * @param algorithmID Algorithm ID
+     * @param algorithmId Algorithm Id
      * @param data Data buffer
-     * @returns Learned ID; returns 0 on failure
+     * @returns Learned Id; returns 0 on failure
      */
-    function sendLearnCommand(cmd: number, algorithmID: number, data: Buffer): number {
+    function sendLearnCommand(cmd: number, algorithmId: number, data: Buffer): number {
         const pkt = PacketHead.fromFields({
             cmd: cmd,
-            algorithmID: algorithmID,
+            algorithmId: algorithmId,
             data: data,
         });
         if (waitForResponse(Macro.CommandReturnArgs, 3, pkt, 100)) {
@@ -712,7 +712,7 @@ namespace huskylens2 {
         const dataBuf = createInitializedBuffer(1);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandKnock,
-            algorithmID: Algorithm.AlgorithmAny,
+            algorithmId: Algorithm.AlgorithmAny,
             data: dataBuf,
         });
         return waitForResponse(Macro.CommandReturnArgs, 20, pkt, 100);
@@ -722,11 +722,11 @@ namespace huskylens2 {
      * Internal function: switch the current algorithm on HUSKYLENS 2.
      */
     //% blockHidden=true
-    export function switchAlgorithmInternal(algorithmID: number): boolean {
-        const dataBuf = createInitializedBuffer(algorithmID);
+    export function switchAlgorithmInternal(algorithmId: number): boolean {
+        const dataBuf = createInitializedBuffer(algorithmId);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandSetAlgorithm,
-            algorithmID: Algorithm.AlgorithmAny,
+            algorithmId: Algorithm.AlgorithmAny,
             data: dataBuf,
         });
         return waitForResponse(Macro.CommandReturnArgs, 3, pkt, 1000);
@@ -742,23 +742,23 @@ namespace huskylens2 {
     }
     let customId: number[] = [Algorithm.AlgorithmAny, Algorithm.AlgorithmAny, Algorithm.AlgorithmAny];
 
-    function toRealID(ID: number): number {
-        let algorithmID = ID;
-        if (ID >= Algorithm.AlgorithmCustomBegin) {
+    function toRealId(Id: number): number {
+        let algorithmId = Id;
+        if (Id >= Algorithm.AlgorithmCustomBegin) {
             for (let i = 0; i < Macro.CustomAlgorithmCount; i++)
-                if (customId[i] == algorithmID) {
-                    algorithmID = (Algorithm.AlgorithmCustom0 + i);
+                if (customId[i] == algorithmId) {
+                    algorithmId = (Algorithm.AlgorithmCustom0 + i);
                     break;
                 }
         }
-        return algorithmID;
+        return algorithmId;
     }
 
     /**
      * Internal function: check whether there is at least one unused cached result.
      */
     //% blockHidden=true
-    export function availableInternal(algorithmID: number): boolean {
+    export function availableInternal(algorithmId: number): boolean {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
@@ -773,30 +773,30 @@ namespace huskylens2 {
     }
 
     /**
-     * Internal function: get the maximum learned ID value from the cache.
-     * @param algorithmID The algorithm ID (normalized internally).
-     * @returns The maximum learned ID; returns 0 if no ID has been learned.
+     * Internal function: get the maximum learned Id value from the cache.
+     * @param algorithmId The algorithm Id (normalized internally).
+     * @returns The maximum learned Id; returns 0 if no Id has been learned.
      */
     //% blockHidden=true
-    export function cachedResultMaxIDInternal(algorithmID: number): number {
+    export function cachedResultMaxIdInternal(algorithmId: number): number {
         const cacheAlgo = 0;
-        return maxID[cacheAlgo] || 0;
+        return maxId[cacheAlgo] || 0;
     }
 
     /**
      * Internal function: request results from device and update the result cache.
      */
     //% blockHidden=true
-    export function getResultInternal(algorithmID: number): number {
+    export function getResultInternal(algorithmId: number): number {
         const dataBuf = Buffer.create(0);
         const retry = 3;
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandGetResult,
-            algorithmID: algorithmID,
+            algorithmId: algorithmId,
             data: dataBuf,
         });
 
-        // Normalize algorithm ID to 0 for caching
+        // Normalize algorithm Id to 0 for caching
         const cacheAlgo = 0;
 
         // Clear previous results
@@ -808,7 +808,7 @@ namespace huskylens2 {
         let info: PacketData | null = null;
         if (waitForResponse(Macro.CommandReturnInfo, retry, pkt, 0)) {
             info = getPacketDataFromResponse();
-            maxID[cacheAlgo] = info.maxID;
+            maxId[cacheAlgo] = info.maxId;
             if (info.total_blocks > Macro.MaxResultNum) {
                 info.total_blocks = Macro.MaxResultNum;
             }
@@ -844,7 +844,7 @@ namespace huskylens2 {
      * Internal function: get the cached result that is closest to screen center.
      */
     //% blockHidden=true
-    export function cachedCenterResultInternal(algorithmID: number): ResultVariant | null {
+    export function cachedCenterResultInternal(algorithmId: number): ResultVariant | null {
         const cacheAlgo = 0;
         let centerIndex = -1;
         let minLen = 0x7FFFFFFF;
@@ -870,7 +870,7 @@ namespace huskylens2 {
      * Internal function: get a cached result by index.
      */
     //% blockHidden=true
-    export function cachedResultByIndexInternal(algorithmID: number, index: number): ResultVariant | null {
+    export function cachedResultByIndexInternal(algorithmId: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         if (index < 0 || index >= Macro.MaxResultNum) {
             return null;
@@ -879,16 +879,16 @@ namespace huskylens2 {
     }
 
     /**
-     * Internal function: get the first cached result that matches a specific ID.
+     * Internal function: get the first cached result that matches a specific Id.
      */
     //% blockHidden=true
-    export function cachedResultByIDInternal(algorithmID: number, ID: number): ResultVariant | null {
+    export function cachedResultByIdInternal(algorithmId: number, Id: number): ResultVariant | null {
         const cacheAlgo = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
             if (r != null) {
                 const res = r as Result;
-                if (res.ID === ID) {
+                if (res.Id === Id) {
                     return r;
                 }
             }
@@ -900,7 +900,7 @@ namespace huskylens2 {
      * Internal function: count how many cached results are available.
      */
     //% blockHidden=true
-    export function cachedResultNumInternal(algorithmID: number): number {
+    export function cachedResultNumInternal(algorithmId: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -912,25 +912,25 @@ namespace huskylens2 {
     }
 
     /**
-     * Internal function: get the number of learned IDs (max ID in cache).
+     * Internal function: get the number of learned Ids (max Id in cache).
      */
     //% blockHidden=true
-    export function cachedResultLearnedNumInternal(algorithmID: number): number {
-        return cachedResultMaxIDInternal(algorithmID);
+    export function cachedResultLearnedNumInternal(algorithmId: number): number {
+        return cachedResultMaxIdInternal(algorithmId);
     }
 
     /**
-     * Internal function: count how many cached results share the specified ID.
+     * Internal function: count how many cached results share the specified Id.
      */
     //% blockHidden=true
-    export function cachedResultNumByIDInternal(algorithmID: number, ID: number): number {
+    export function cachedResultNumByIdInternal(algorithmId: number, Id: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
             if (r) {
                 const res = r as Result;
-                if (ID === res.ID) {
+                if (Id === res.Id) {
                     count++;
                 }
             }
@@ -939,17 +939,17 @@ namespace huskylens2 {
     }
 
     /**
-     * Internal function: get the nth cached result that matches the specified ID.
+     * Internal function: get the nth cached result that matches the specified Id.
      */
     //% blockHidden=true
-    export function cachedIndexResultByIDInternal(algorithmID: number, ID: number, index: number): ResultVariant | null {
+    export function cachedIndexResultByIdInternal(algorithmId: number, Id: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         let currentIndex = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
             const r = result[cacheAlgo][i];
             if (r) {
                 const res = r as Result;
-                if (ID === res.ID) {
+                if (Id === res.Id) {
                     if (currentIndex === index) {
                         return r;
                     }
@@ -964,7 +964,7 @@ namespace huskylens2 {
      * Internal function: get the current main branch result for line tracking.
      */
     //% blockHidden=true
-    export function getCurrentBranchInternal(algorithmID: number): ResultVariant | null {
+    export function getCurrentBranchInternal(algorithmId: number): ResultVariant | null {
         const cacheAlgo = 0;
         const item = result[cacheAlgo] && result[cacheAlgo][0];
         return (item && item.level === 1) ? item : null;
@@ -974,7 +974,7 @@ namespace huskylens2 {
      * Internal function: get the number of upcoming branches in line tracking.
      */
     //% blockHidden=true
-    export function getUpcomingBranchCountInternal(algorithmID: number): number {
+    export function getUpcomingBranchCountInternal(algorithmId: number): number {
         const cacheAlgo = 0;
         let count = 0;
         for (let i = 0; i < Macro.MaxResultNum; i++) {
@@ -989,7 +989,7 @@ namespace huskylens2 {
      * Internal function: get a specific branch in line tracking by index.
      */
     //% blockHidden=true
-    export function getBranchInternal(algorithmID: number, index: number): ResultVariant | null {
+    export function getBranchInternal(algorithmId: number, index: number): ResultVariant | null {
         const cacheAlgo = 0;
         const targetIndex = index + 1;
         for (let i = 1; i < Macro.MaxResultNum; i++) {
@@ -1069,7 +1069,7 @@ namespace huskylens2 {
         const dataBuf = Buffer.create(0);
         const pkt = PacketHead.fromFields({
             cmd: Macro.CommandActionTakeScreenshot,
-            algorithmID: Algorithm.AlgorithmAny,
+            algorithmId: Algorithm.AlgorithmAny,
             data: dataBuf,
         });
 
@@ -1288,97 +1288,97 @@ namespace huskylens2 {
     //************************************* learning /forgetting   ********************************* */
     let learn_id = 0;
     /**
-     * Get the ID returned by the last "learn" operation.
+     * Get the Id returned by the last "learn" operation.
      */
-    //% block="get learned ID"
+    //% block="get learned Id"
     //% weight=100
     //% subcategory="learning /forgetting"
-    export function getLearnedID(): number {
+    export function getLearnedId(): number {
         return learn_id || 0;
     }
 
     /**
      * Learn a target at the center of the screen using a built-in model.
-     * @param algorithmID Built-in model algorithm.
+     * @param algorithmId Built-in model algorithm.
      */
-    //% block="built-in model %algorithmID learn target at center of screen"
+    //% block="built-in model %algorithmId learn target at center of screen"
     //% weight=95
     //% subcategory="learning /forgetting"
-    //% algorithmID.defl=AlgorithmLearnObjectAtCenter.AlgorithmObjectRecognition
-    export function learnObjectAtCenter(algorithmID: AlgorithmLearnObjectAtCenter): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearn, algorithmID, createInitializedBuffer(0));
+    //% algorithmId.defl=AlgorithmLearnObjectAtCenter.AlgorithmObjectRecognition
+    export function learnObjectAtCenter(algorithmId: AlgorithmLearnObjectAtCenter): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearn, algorithmId, createInitializedBuffer(0));
     }
 
     /**
      * Learn a target at the center of the screen using a self-trained model.
-     * @param algorithmID Self-trained model ID.（>=128）
+     * @param algorithmId Self-trained model Id.（>=128）
      */
-    //% block="built-in model %algorithmID learn target at center of screen"
+    //% block="built-in model %algorithmId learn target at center of screen"
     //% weight=94
     //% subcategory="learning /forgetting"
-    //% algorithmID.defl=128
-    export function learnObjectAtCenterNUM(algorithmID: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearn, algorithmID, createInitializedBuffer(0));
+    //% algorithmId.defl=128
+    export function learnObjectAtCenterNUM(algorithmId: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearn, algorithmId, createInitializedBuffer(0));
     }
 
     /**
      * Learn a target within a specified box using a built-in model.
-     * @param algorithmID Built-in model algorithm.
+     * @param algorithmId Built-in model algorithm.
      * @param x X coordinate of the box's top-left corner (0~640).
      * @param y Y coordinate of the box's top-left corner (0~480).
      * @param w Width of the box (10~100).
      * @param h Height of the box (10~100).
      */
-    //% block="built-in model %algorithmID learn target in specified box x%x y%y w%w h%h"
+    //% block="built-in model %algorithmId learn target in specified box x%x y%y w%w h%h"
     //% weight=90
     //% subcategory="learning /forgetting"
-    //% algorithmID.defl=AlgorithmLearnObjectInBox.AlgorithmFaceRecognition
+    //% algorithmId.defl=AlgorithmLearnObjectInBox.AlgorithmFaceRecognition
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
     //% w.min=10 w.max=100
     //% h.min=10 h.max=100
-    export function learnObjectInBox(algorithmID: AlgorithmLearnObjectInBox, x: number, y: number, w: number, h: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, algorithmID, createBoxBuffer(x, y, w, h));
+    export function learnObjectInBox(algorithmId: AlgorithmLearnObjectInBox, x: number, y: number, w: number, h: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, algorithmId, createBoxBuffer(x, y, w, h));
     }
 
     /**
      * Learn a target within a specified box using a self-trained model.
-     * @param algorithmID Self-trained model ID (128~255).
+     * @param algorithmId Self-trained model Id (128~255).
      * @param x X coordinate of the box's top-left corner (0~640).
      * @param y Y coordinate of the box's top-left corner (0~480).
      * @param w Width of the box (10~100).
      * @param h Height of the box (10~100).
      */
-    //% block="self-trained model %algorithmID learn target in specified box x%x y%y w%w h%h"
+    //% block="self-trained model %algorithmId learn target in specified box x%x y%y w%w h%h"
     //% weight=89
     //% subcategory="learning /forgetting"
-    //% algorithmID.defl=128
+    //% algorithmId.defl=128
     //% x.min=0 x.max=640
     //% y.min=0 y.max=480
     //% w.min=10 w.max=100
     //% h.min=10 h.max=100
-    export function learnObjectInBoxNUM(algorithmID: number, x: number, y: number, w: number, h: number): void {
-        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, algorithmID, createBoxBuffer(x, y, w, h));
+    export function learnObjectInBoxNUM(algorithmId: number, x: number, y: number, w: number, h: number): void {
+        learn_id = sendLearnCommand(Macro.CommandActionLearnBlock, algorithmId, createBoxBuffer(x, y, w, h));
     }
 
     /**
-     * Set a name for a learned ID under a built-in model.
-     * @param algorithmID Built-in model algorithm.
-     * @param ID Target ID (1~100).
+     * Set a name for a learned Id under a built-in model.
+     * @param algorithmId Built-in model algorithm.
+     * @param Id Target Id (1~100).
      * @param name Name to set.
      */
-    //% block="set built-in model %algorithmID ID%ID name to %name"
+    //% block="set built-in model %algorithmId Id%Id name to %name"
     //% weight=70
     //% subcategory="learning /forgetting"
-    //% algorithmID.defl=AlgorithmLearnSetNameOfId.AlgorithmFaceRecognition
-    //% ID.min=1 ID.max=100 ID.defl=1
+    //% algorithmId.defl=AlgorithmLearnSetNameOfId.AlgorithmFaceRecognition
+    //% Id.min=1 Id.max=100 Id.defl=1
     //% name.defl="object"
-    export function setNameOfID(algorithmID: AlgorithmLearnSetNameOfId, ID: number, name: string): void {
-        // Create a Buffer containing ID and name
+    export function setNameOfId(algorithmId: AlgorithmLearnSetNameOfId, Id: number, name: string): void {
+        // Create a Buffer containing Id and name
         const nameBuf = Buffer.fromUTF8(name);
         const dataBuf = Buffer.create(10 + 1 + nameBuf.length); // 10 bytes + 1-byte length + name
 
-        dataBuf[0] = ID; // ID
+        dataBuf[0] = Id; // Id
         // Fill the remaining 9 bytes with 0
         for (let i = 1; i < 10; i++) {
             dataBuf[i] = 0;
@@ -1390,31 +1390,31 @@ namespace huskylens2 {
             dataBuf[11 + i] = nameBuf[i];
         }
 
-        sendCommandAndWait(Macro.CommandSetNameById, algorithmID, dataBuf);
+        sendCommandAndWait(Macro.CommandSetNameById, algorithmId, dataBuf);
     }
 
     /**
-     * Forget (clear) all learned IDs under the specified built-in model.
-     * @param algorithmID Built-in model algorithm.
+     * Forget (clear) all learned Ids under the specified built-in model.
+     * @param algorithmId Built-in model algorithm.
      */
-    //% block="forget built-in model %algorithmID all IDs"
+    //% block="forget built-in model %algorithmId all Ids"
     //% weight=80
     //% subcategory="learning /forgetting"
-    //% algorithmID.defl=Algorithm.AlgorithmObjectRecognition
-    export function forgetAllIDs(algorithmID: Algorithm): void {
-        sendCommandAndWait(Macro.CommandActionForget, algorithmID, createInitializedBuffer(algorithmID));
+    //% algorithmId.defl=Algorithm.AlgorithmObjectRecognition
+    export function forgetAllIds(algorithmId: Algorithm): void {
+        sendCommandAndWait(Macro.CommandActionForget, algorithmId, createInitializedBuffer(algorithmId));
     }
 
     /**
-     * Forget (clear) all learned IDs under the specified self-trained model.
-     * @param algorithmID Self-trained model ID (128~255).
+     * Forget (clear) all learned Ids under the specified self-trained model.
+     * @param algorithmId Self-trained model Id (128~255).
      */
-    //% block="forget self-trained model %algorithmID all IDs"
+    //% block="forget self-trained model %algorithmId all Ids"
     //% weight=79
     //% subcategory="learning /forgetting"
-    //% algorithmID.defl=128
-    export function forgetAllIDsNUM(algorithmID: number): void {
-        sendCommandAndWait(Macro.CommandActionForget, algorithmID, createInitializedBuffer(algorithmID));
+    //% algorithmId.defl=128
+    export function forgetAllIdsNUM(algorithmId: number): void {
+        sendCommandAndWait(Macro.CommandActionForget, algorithmId, createInitializedBuffer(algorithmId));
     }
 
 }
