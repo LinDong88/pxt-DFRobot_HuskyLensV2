@@ -844,8 +844,8 @@ namespace huskylens2 {
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
     export function switchCustomModelAlgorithm(algorithmId: number): void {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        switchAlgorithmInternal(algorithmId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        switchAlgorithmInternal(tempAlgorithmId);
     }
 
     /**
@@ -858,8 +858,8 @@ namespace huskylens2 {
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
     export function getResultCustomModel(algorithmId: number): void {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        getResultInternal(algorithmId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        getResultInternal(tempAlgorithmId);
     }
 
     /**
@@ -872,8 +872,8 @@ namespace huskylens2 {
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
     export function availableCustomModel(algorithmId: number): boolean {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        return availableInternal(algorithmId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        return availableInternal(tempAlgorithmId);
     }
 
     /**
@@ -887,8 +887,8 @@ namespace huskylens2 {
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
     export function cachedCenterCustomModelResult(algorithmId: number, property: BasePropertyId): number {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        const r = cachedCenterResultInternal(algorithmId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        const r = cachedCenterResultInternal(tempAlgorithmId);
         return getCustomModelPropertyValueId(r, property);
     }
 
@@ -902,8 +902,8 @@ namespace huskylens2 {
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
     export function cachedResultNumCustomModel(algorithmId: number): number {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        return cachedResultNumInternal(algorithmId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        return cachedResultNumInternal(tempAlgorithmId);
     }
 
     /**
@@ -919,8 +919,8 @@ namespace huskylens2 {
     //% index.min=1 index.defl=1
     //% subcategory="custom model"
     export function cachedResultCustomModelProperty(algorithmId: number, index: number, property: BasePropertyId): number {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        const r = cachedResultByIndexInternal(algorithmId, index - 1);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        const r = cachedResultByIndexInternal(tempAlgorithmId, index - 1);
         return getCustomModelPropertyValueId(r, property);
     }
 
@@ -934,8 +934,8 @@ namespace huskylens2 {
     //% algorithmId.min=1 algorithmId.defl=128
     //% subcategory="custom model"
     export function totalLearnedCustomModelIds(algorithmId: number): number {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        return cachedResultLearnedNumInternal(algorithmId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        return cachedResultLearnedNumInternal(tempAlgorithmId);
     }
 
     /**
@@ -950,8 +950,8 @@ namespace huskylens2 {
     //% targetId.min=1 targetId.defl=1
     //% subcategory="custom model"
     export function customModelIdExists(algorithmId: number, targetId: number): boolean {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        const r = cachedResultByIdInternal(algorithmId, targetId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        const r = cachedResultByIdInternal(tempAlgorithmId, targetId);
         return r != null;
     }
 
@@ -967,8 +967,8 @@ namespace huskylens2 {
     //% targetId.min=1 targetId.defl=1
     //% subcategory="custom model"
     export function totalCustomModelById(algorithmId: number, targetId: number): number {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        return cachedResultNumByIdInternal(algorithmId, targetId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        return cachedResultNumByIdInternal(tempAlgorithmId, targetId);
     }
 
     /**
@@ -984,8 +984,8 @@ namespace huskylens2 {
     //% targetId.min=1 targetId.defl=1
     //% subcategory="custom model"
     export function customModelPropertyById(algorithmId: number, targetId: number, property: BaseProperty): number {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        const r = cachedResultByIdInternal(algorithmId, targetId);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        const r = cachedResultByIdInternal(tempAlgorithmId, targetId);
         return getCustomModelPropertyValue(r, property);
     }
 
@@ -1005,8 +1005,8 @@ namespace huskylens2 {
     //% index.min=1 index.defl=1
     //% subcategory="custom model"
     export function customModelPropertyByIdNth(algorithmId: number, targetId: number, index: number, property: BaseProperty): number {
-        const algorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
-        const r = cachedIndexResultByIdInternal(algorithmId, targetId, index - 1);
+        const tempAlgorithmId = Algorithm.AlgorithmCustomBegin + (algorithmId - 1);
+        const r = cachedIndexResultByIdInternal(tempAlgorithmId, targetId, index - 1);
         return getCustomModelPropertyValue(r, property);
     }
 }
