@@ -1304,7 +1304,7 @@ namespace huskylens2 {
     //% block="built-in model %algorithmId learn target at center of screen"
     //% weight=95
     //% subcategory="learning /forgetting"
-    //% algorithmId.defl=AlgorithmLearnObjectAtCenter.AlgorithmObjectRecognition
+    //% algorithmId.defl=AlgorithmLearnObjectAtCenter.AlgorithmFaceRecognition
     export function learnObjectAtCenter(algorithmId: AlgorithmLearnObjectAtCenter): void {
         learn_id = sendLearnCommand(Macro.CommandActionLearn, algorithmId, createInitializedBuffer(0));
     }
@@ -1400,7 +1400,7 @@ namespace huskylens2 {
     //% block="forget built-in model %algorithmId all Ids"
     //% weight=80
     //% subcategory="learning /forgetting"
-    //% algorithmId.defl=Algorithm.AlgorithmObjectRecognition
+    //% algorithmId.defl=Algorithm.AlgorithmFaceRecognition
     export function forgetAllIds(algorithmId: Algorithm): void {
         sendCommandAndWait(Macro.CommandActionForget, algorithmId, createInitializedBuffer(algorithmId));
     }
