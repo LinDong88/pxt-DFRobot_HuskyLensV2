@@ -838,7 +838,7 @@ namespace huskylens2 {
      * HUSKYLENS 2 switching algorithm Id until successful
      * @param algorithmId The custom algorithm Id (1-based).
      */
-    //% block="HUSKYLENS 2 switch algorithm Id %algorithmId until success"
+    //% block="switch algorithm Id %algorithmId until success"
     //% blockHidden=true
     //% weight=64
     //% algorithmId.min=1 algorithmId.defl=128

@@ -683,8 +683,8 @@ namespace huskylens2 {
 
     /**
      * Create a 10-byte Buffer with coordinates and size (for CommandActionLearnBlock)
-     * @param x x coordinate
-     * @param y y coordinate
+     * @param x x Coordinate
+     * @param y y Coordinate
      * @param w Width
      * @param h Height
      * @returns Initialized Buffer
@@ -1105,8 +1105,8 @@ namespace huskylens2 {
      * @param cmd Command type (CommandActionDrawRect or CommandActionDrawUniqueRect)
      * @param color Color value
      * @param lineWidth Line width
-     * @param x x coordinate
-     * @param y y coordinate
+     * @param x x Coordinate
+     * @param y y Coordinate
      * @param w Width
      * @param h Height
      */
@@ -1142,12 +1142,12 @@ namespace huskylens2 {
      * Draw or update an indicator box on the screen.
      * @param color RGB color value. You can generate it with setRGB(red, green, blue).
      * @param lineWidth Line width (1~10).
-     * @param x X coordinate in pixels (0~640).
-     * @param y Y coordinate in pixels (0~480).
+     * @param x X Coordinate in pixels (0~640).
+     * @param y Y Coordinate in pixels (0~480).
      * @param w Box width in pixels (1~640).
      * @param h Box height in pixels (1~480).
      */
-    //% block="draw or update indicator box color%color Line width%lineWidth x%x y%y width%w height%h"
+    //% block="draw or update indicator box color%color line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
     //% weight=90
     //% color.min=0 
@@ -1164,12 +1164,12 @@ namespace huskylens2 {
      * Draw a new rectangle box on the screen.
      * @param color RGB color value. You can generate it with setRGB(red, green, blue).
      * @param lineWidth Line width (1~10).
-     * @param x X coordinate in pixels (0~640).
-     * @param y Y coordinate in pixels (0~480).
+     * @param x X Coordinate in pixels (0~640).
+     * @param y Y Coordinate in pixels (0~480).
      * @param w Box width in pixels (1~640).
      * @param h Box height in pixels (1~480).
      */
-    //% block="draw new rectangle color%color Line width%lineWidth x%x y%y width%w height%h"
+    //% block="draw new rectangle color%color line width%lineWidth x%x y%y width%w height%h"
     //% subcategory="screen display"
     //% weight=89
     //% color.min=0 
@@ -1196,8 +1196,8 @@ namespace huskylens2 {
      * Display text on the screen at the specified coordinates.
      * @param color RGB color value. You can generate it with setRGB(red, green, blue).
      * @param fontSize Font size (px).
-     * @param x X coordinate in pixels (0~640).
-     * @param y Y coordinate in pixels (0~480).
+     * @param x X Coordinate in pixels (0~640).
+     * @param y Y Coordinate in pixels (0~480).
      * @param content Text content to display (UTF-8 supported).
      */
     //% block="display text color%color fontSize%fontSize x%x y%y content%content"
@@ -1324,8 +1324,8 @@ namespace huskylens2 {
     /**
      * Learn a target within a specified box using a built-in model.
      * @param algorithmId Built-in model algorithm.
-     * @param x X coordinate of the box's top-left corner (0~640).
-     * @param y Y coordinate of the box's top-left corner (0~480).
+     * @param x X Coordinate of the box's top-left corner (0~640).
+     * @param y Y Coordinate of the box's top-left corner (0~480).
      * @param w Width of the box (10~100).
      * @param h Height of the box (10~100).
      */
@@ -1344,8 +1344,8 @@ namespace huskylens2 {
     /**
      * Learn a target within a specified box using a self-trained model.
      * @param algorithmId Self-trained model Id (128~255).
-     * @param x X coordinate of the box's top-left corner (0~640).
-     * @param y Y coordinate of the box's top-left corner (0~480).
+     * @param x X Coordinate of the box's top-left corner (0~640).
+     * @param y Y Coordinate of the box's top-left corner (0~480).
      * @param w Width of the box (10~100).
      * @param h Height of the box (10~100).
      */

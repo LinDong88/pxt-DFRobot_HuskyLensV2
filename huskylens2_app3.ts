@@ -444,7 +444,7 @@ namespace huskylens2 {
      * Switch to a custom-trained model by specifying the model Id.
      * @param num Model Id (range: 128-255, default: 128)
      */
-    //% block="HUSKYLENS 2 switch to custom-trained model, model Id%num"
+    //% block="switch to custom-trained model, model Id%num"
     //% weight=119
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
