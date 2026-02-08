@@ -15,9 +15,9 @@
 //% weight=100 color=#0fbc11 icon="\uf083" block="huskylens2"
 //% groups='["communication","algorithm switch"]'
 namespace huskylens2 {
-    // MakeCode global types are automatically injected, these declarations are only to suppress IdE warnings
-    // These declarations are not needed in the actual MakeCode compilation environment
     // ==================== Low-level communication Code ====================
+    
+    //For internal use only
     export const enum Macro {
         I2cAddr = 0x50,
         // ===================== Commands ====================
@@ -390,7 +390,7 @@ namespace huskylens2 {
         }
         return "";
     }
-
+    //For internal use only
     export class Result extends PacketData {
         used: number = 0;
         name: string = "";
@@ -731,7 +731,7 @@ namespace huskylens2 {
         });
         return waitForResponse(Macro.CommandReturnArgs, 3, pkt, 1000);
     }
-
+    //For internal use only
     export type ResultVariant = Result |  null;
     let result: ResultVariant[][] = [];
     for (let i = 0; i < Macro.AlgorithmCount; i++) {
