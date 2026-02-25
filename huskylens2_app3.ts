@@ -8,60 +8,7 @@
  * @date  2026-2-2
 */
 
-// Face Orientation Detection Properties
-enum FaceOrientationProperty {
-    //% block="Id"
-    Id = 0,
-    //% block="name"
-    Name,
-    //% block="roll angle"
-    Roll,
-    //% block="yaw angle"
-    Yaw,
-    //% block="pitch angle"
-    Pitch,
 
-}
-// Face Orientation Detection Properties
-enum FaceOrientationPropertyId {
-    //% block="name"
-    Name = 1,
-    //% block="roll angle"
-    Roll,
-    //% block="yaw angle"
-    Yaw,
-    //% block="pitch angle"
-    Pitch,
-}
-// gaze direction detection Properties (Include Id)
-enum EyeGazeProperty {
-    //% block="Id"
-    Id = 0,
-    //% block="name"
-    Name,
-    //% block="projected angle"
-    Angle,
-    //% block="projected length"
-    Length,
-    //% block="pitch angle"
-    Pitch,
-    //% block="yaw angle"
-    Yaw
-}
-
-// gaze direction detection Properties (excluding Id)
-enum EyeGazePropertyId {
-    //% block="name"
-    Name = 1,
-    //% block="projected angle"
-    Angle,
-    //% block="projected length"
-    Length,
-    //% block="pitch angle"
-    Pitch,
-    //% block="yaw angle"
-    Yaw
-}
 
 
 /**
@@ -70,6 +17,61 @@ enum EyeGazePropertyId {
 //% weight=100 color=#0fbc11 icon="\uf083" block="huskylens2"
 //% groups='["communication","algorithm switch"]'
 namespace huskylens2 {
+
+    // Face Orientation Detection Properties
+    export enum  FaceOrientationProperty {
+        //% block="Id"
+        Id = 0,
+        //% block="name"
+        Name,
+        //% block="roll angle"
+        Roll,
+        //% block="yaw angle"
+        Yaw,
+        //% block="pitch angle"
+        Pitch,
+
+    }
+    // Face Orientation Detection Properties
+    export enum  FaceOrientationPropertyId {
+        //% block="name"
+        Name = 1,
+        //% block="roll angle"
+        Roll,
+        //% block="yaw angle"
+        Yaw,
+        //% block="pitch angle"
+        Pitch,
+    }
+    // gaze direction detection Properties (Include Id)
+    export enum  EyeGazeProperty {
+        //% block="Id"
+        Id = 0,
+        //% block="name"
+        Name,
+        //% block="projected angle"
+        Angle,
+        //% block="projected length"
+        Length,
+        //% block="pitch angle"
+        Pitch,
+        //% block="yaw angle"
+        Yaw
+    }
+
+    // gaze direction detection Properties (excluding Id)
+    export enum  EyeGazePropertyId {
+        //% block="name"
+        Name = 1,
+        //% block="projected angle"
+        Angle,
+        //% block="projected length"
+        Length,
+        //% block="pitch angle"
+        Pitch,
+        //% block="yaw angle"
+        Yaw
+    }
 
     // ================================================== fall detection ========================================
     /**
