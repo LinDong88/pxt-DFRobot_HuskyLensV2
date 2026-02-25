@@ -490,7 +490,7 @@ namespace huskylens2 {
     //% weight=116
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
-    //% property.defl=BasePropertyId.Id
+    //% property.defl=huskylens2.BasePropertyId.Id
     export function nearest(num: number, property: BasePropertyId): any {
         const res = cachedCenterResultInternal(num);
         const result = res as Result;
@@ -544,7 +544,7 @@ namespace huskylens2 {
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
     //% index.min=1 index.max=6 index.defl=1
-    //% property.defl=BasePropertyId.Id
+    //% property.defl=huskylens2.BasePropertyId.Id
     export function targetProperty(num: number, index: number, property: BasePropertyId): any {
         const res = cachedResultByIndexInternal(num, index - 1);
         const result = res as Result;
@@ -606,7 +606,7 @@ namespace huskylens2 {
     //% subcategory="self training"
     //% num.min=128 num.max=255 num.defl=128
     //% Id.min=1 Id.max=100 Id.defl=1
-    //% property.defl=BaseProperty.Name
+    //% property.defl=huskylens2.BaseProperty.Name
     export function withId(num: number, Id: number, property: BaseProperty): any {
         const res = cachedResultByIdInternal(num, Id);
         const result = res as Result;
@@ -640,7 +640,7 @@ namespace huskylens2 {
     //% num.min=128 num.max=255 num.defl=128
     //% Id.min=1 Id.max=100 Id.defl=1
     //% index.min=1 index.max=6 index.defl=1
-    //% property.defl=BaseProperty.Name
+    //% property.defl=huskylens2.BaseProperty.Name
     export function withIdProperty(num: number, Id: number, index: number, property: BaseProperty): any {
         const res = cachedIndexResultByIdInternal(num, Id, index - 1);
         const result = res as Result;
